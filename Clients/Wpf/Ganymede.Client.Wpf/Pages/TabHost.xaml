@@ -6,11 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     mc:Ignorable="d"
     xmlns:vc ="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF"
-    xmlns:vm2="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede"    
+    xmlns:vm2="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede" xmlns:controls="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
     d:DataContext="{d:DesignInstance vm2:PageViewModel}"
     BorderBrush="{x:Null}">
     <TabItem.Resources>
         <vc:McartColorConverter x:Key="McartColorConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolVis"/>
     </TabItem.Resources>
     <TabItem.Header>
         <Border BorderThickness="0,0,0,1" BorderBrush="{Binding AccentColor, Converter={StaticResource McartColorConverter}}">
@@ -21,7 +22,13 @@
                     BorderThickness="0" 
                     Background="Transparent"
                     DockPanel.Dock="Right"
-                    Command="{Binding CloseCommand, Mode=OneWay}">x</Button>
+                    Command="{Binding CloseCommand, Mode=OneWay}">❌</Button>
+                <controls:BusyIndicator
+                    Radius="5"
+                    Thickness="2"
+                    Margin="0,0,3,0"
+                    Stroke="{Binding AccentColor, Converter={StaticResource McartColorConverter}}"
+                    Visibility="{Binding IsBusy, Converter={StaticResource BoolVis}}"/>
                 <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding Title}"/>
             </DockPanel>
         </Border>

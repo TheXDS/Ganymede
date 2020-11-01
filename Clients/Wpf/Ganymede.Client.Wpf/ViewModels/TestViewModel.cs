@@ -1,4 +1,5 @@
 ﻿using System.Net.PeerToPeer;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TheXDS.MCART.ViewModel;
 
@@ -26,6 +27,7 @@ namespace TheXDS.Ganymede.ViewModels
             AccentColor = MCART.Resources.Colors.Pick();
             SumCommand = new SimpleCommand(OnSum);
             OkTkxByeCommand = new SimpleCommand(Close);
+            BusyOpCommand = new SimpleCommand(OnBusyOp);
         }
 
         /// <summary>
@@ -80,6 +82,12 @@ namespace TheXDS.Ganymede.ViewModels
         }
 
         /// <summary>
+        ///     Obtiene el comando relacionado a la acción BusyOp.
+        /// </summary>
+        /// <returns>El comando BusyOp.</returns>
+        public ICommand BusyOpCommand { get; }
+
+        /// <summary>
         /// Obtiene el comando relacionado a la acción Sum.
         /// </summary>
         /// <returns>El comando Sum.</returns>
@@ -93,6 +101,14 @@ namespace TheXDS.Ganymede.ViewModels
         private void OnSum()
         {
             Result = NumberOne + NumberTwo;
+        }
+
+
+        private async void OnBusyOp()
+        {
+            IsBusy = true;
+            await Task.Delay(5000);
+            IsBusy = false;
         }
     }
 }
