@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F4DB00CD-9492-4922-8D8E-9DBE03D07B79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ganymede", "Core\Ganymede\Ganymede.csproj", "{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{F2598D6B-FB98-41E0-88C2-0CBAC6075F70}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{ACC222C7-EC89-46DF-9E58-4BA72D23B584}"
+	ProjectSection(SolutionItems) = preProject
+		Targets\BuildPaths.props = Targets\BuildPaths.props
+		Targets\CompileOptions.targets = Targets\CompileOptions.targets
+		Targets\Components.targets = Targets\Components.targets
+		Targets\GlobalDirectives.targets = Targets\GlobalDirectives.targets
+		Targets\PackageInfo.props = Targets\PackageInfo.props
+		Targets\Packages.targets = Targets\Packages.targets
+		Targets\PackageVersion.props = Targets\PackageVersion.props
+		Targets\Publish.targets = Targets\Publish.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{EB94F0DA-E794-486F-9876-1CDEA2DB7FD6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wpf", "Wpf", "{0DA36F44-8E92-4041-81FA-5D60EB30288E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ganymede.Client.Wpf", "Clients\Wpf\Ganymede.Client.Wpf\Ganymede.Client.Wpf.csproj", "{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Build-Release|Any CPU = Build-Release|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Debug-Publish|Any CPU = Debug-Publish|Any CPU
+		Debug-PublishLocal|Any CPU = Debug-PublishLocal|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Build-Release|Any CPU.ActiveCfg = Build-Release|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Build-Release|Any CPU.Build.0 = Build-Release|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Debug-Publish|Any CPU.ActiveCfg = Debug-Publish|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Debug-Publish|Any CPU.Build.0 = Debug-Publish|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Debug-PublishLocal|Any CPU.ActiveCfg = Debug-PublishLocal|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Debug-PublishLocal|Any CPU.Build.0 = Debug-PublishLocal|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Build-Release|Any CPU.ActiveCfg = Build-Release|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Build-Release|Any CPU.Build.0 = Build-Release|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Debug-Publish|Any CPU.ActiveCfg = Debug-Publish|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Debug-Publish|Any CPU.Build.0 = Debug-Publish|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Debug-PublishLocal|Any CPU.ActiveCfg = Debug-PublishLocal|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Debug-PublishLocal|Any CPU.Build.0 = Debug-PublishLocal|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C644B261-7F2D-4891-A8F3-03A8C87F5CA6} = {F4DB00CD-9492-4922-8D8E-9DBE03D07B79}
+		{ACC222C7-EC89-46DF-9E58-4BA72D23B584} = {F2598D6B-FB98-41E0-88C2-0CBAC6075F70}
+		{0DA36F44-8E92-4041-81FA-5D60EB30288E} = {EB94F0DA-E794-486F-9876-1CDEA2DB7FD6}
+		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F} = {0DA36F44-8E92-4041-81FA-5D60EB30288E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1EB96DB2-E4F3-4CC7-83F6-B51D086408DE}
+	EndGlobalSection
+EndGlobal

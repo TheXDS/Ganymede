@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
+  <!--ItemGroup Condition="'$(TritonComponent)'=='transport'">
+    <ProjectReference Include="$(SolutionDir)Core\Triton\Triton.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TritonComponent)'=='ui'">
+    <ProjectReference Include="$(SolutionDir)Core\Ganymede\Ganymede.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TritonComponent)'=='service'">
+    <ProjectReference Include="$(SolutionDir)Core\Triton\Triton.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TritonComponent)'=='models'">
+    <ProjectReference Include="$(SolutionDir)Core\Triton.Models\Triton.Models.csproj" />
+  </ItemGroup-->
+  
+</Project>

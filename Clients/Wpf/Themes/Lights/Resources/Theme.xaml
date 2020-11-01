@@ -1,0 +1,68 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vc ="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF"
+    xmlns:trt="clr-namespace:TheXDS.Triton.Pages;assembly=TritonWorkstation"
+    xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF">
+    <vc:McartColorConverter x:Key="McartColorConverter"/>    
+    <Style TargetType="trt:TabHost">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                        <Border
+                            x:Name="mainBorder"
+                            Opacity="0.5"
+                            Background="{Binding AccentColor, Converter={StaticResource McartColorConverter}}">
+                            <Border.OpacityMask>
+                                <RadialGradientBrush RadiusX="0.548" RadiusY="0.548" GradientOrigin="0.504,1.638">
+                                    <GradientStop Offset="0.744">
+                                    </GradientStop>
+                                    <GradientStop Offset="0.363" Color="White"/>
+                                </RadialGradientBrush>
+                            </Border.OpacityMask>
+                        </Border>
+                        <Border
+                            x:Name="innerBorder"
+                            Background="{Binding AccentColor, Converter={StaticResource McartColorConverter}}"
+                            Opacity="0">
+                            <Border.OpacityMask>
+                                <LinearGradientBrush EndPoint="0,1.5">
+                                    <GradientStop Offset="0"/>
+                                    <GradientStop Offset="1" Color="White"/>
+                                </LinearGradientBrush>
+                            </Border.OpacityMask>
+                        </Border>
+                        <DockPanel Margin="2" x:Name="contentPresenter">
+                            <Button 
+                                Width="16"
+                                VerticalAlignment="Center"
+                                BorderThickness="0" 
+                                Background="Transparent"
+                                DockPanel.Dock="Right"
+                                Command="{Binding CloseCommand, Mode=OneWay}">x</Button>
+                            <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="{Binding Title}"/>
+                        </DockPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True">
+                            <Setter Property="Opacity" TargetName="mainBorder" Value="1"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5"/>
+                            <Setter Property="Opacity" TargetName="mainBorder" Value="0"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true">
+                            <Setter Property="Panel.ZIndex" Value="1"/>
+                            <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ws:MainWindow">
+        <Setter Property="fw:AcrylicWindow.Enabled" Value="True"/>
+    </Style>
+</ResourceDictionary>

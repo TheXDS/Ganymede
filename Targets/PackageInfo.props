@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)'=='.csproj'">
+    <Company>TheXDS! non-Corp.</Company>
+    <Product>Ganymede Framework</Product>
+    <AssemblyTitle>$(Description)</AssemblyTitle>
+    <Authors>César Andrés Morgan</Authors>
+    <Copyright>Copyright © $([System.DateTime]::Today.Year) $(Authors)</Copyright>
+    <!--<PackageProjectUrl>https://thexds.github.io/MCART</PackageProjectUrl>-->
+    <!--<PackageIconUrl>https://raw.githubusercontent.com/TheXDS/MCART/master/CoreComponents/Core-GUI/Resources/Icons/MCART.png</PackageIconUrl>-->
+    <PackageTags>ganymede ui wpf mvvm entity triton mcart</PackageTags>
+    <RepositoryUrl>https://github.com/TheXDS/Ganymede/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>Ganymede Framework es una herramienta de generación dinámica de UI para proyectos basados en TheXDS.Tritón.</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(VersionSuffix)'==''">
+    <ActualPkgVersion>$(VersionPrefix)</ActualPkgVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(VersionSuffix)'!=''">
+    <ActualPkgVersion>$(VersionPrefix)-$(VersionSuffix)</ActualPkgVersion>
+    <PackageReleaseNotes>Este paquete es una versión Pre-Release de Ganymede, por lo que se recomienda que su uso se limite a pruebas y demostraciones de la API, ya que no se puede garantizar la estabilidad de la misma. Para más detalles, vea la documentación que acompaña a Ganymede.</PackageReleaseNotes>
+  </PropertyGroup>
+</Project>
