@@ -172,27 +172,27 @@ namespace TheXDS.Ganymede.Mvvm
         }
 
         /// <inheritdoc/>
-        public async Task RunBusyAsync(Action<IProgress<int?>> action)
+        public async Task RunBusyAsync(Action<IProgress<ProgressInfo>> action)
         {
             IsBusy = true;
-            var progress = new Progress<int?>(ReportProgress);
+            var progress = new Progress<ProgressInfo>(ReportProgress);
             await Task.Run(() => action(progress));
             IsBusy = false;
         }
 
         /// <inheritdoc/>
-        public async Task<T> RunBusyAsync<T>(Func<IProgress<int?>, T> function)
+        public async Task<T> RunBusyAsync<T>(Func<IProgress<ProgressInfo>, T> function)
         {
             IsBusy = true;
-            var progress = new Progress<int?>(ReportProgress);
+            var progress = new Progress<ProgressInfo>(ReportProgress);
             var r = await Task.Run(() => function(progress));
             IsBusy = false;
             return r;
         }
 
-        private void ReportProgress(int? value)
+        private void ReportProgress(ProgressInfo progress)
         {
-            Progress = value;
+            Progress = progress.Progress;
         }
 
         /// <inheritdoc/>

@@ -30,6 +30,8 @@ namespace TheXDS.Ganymede.ViewModels
             Status = status;
 
         }
+
+        public static ProgressInfo Indeterminate => new ProgressInfo();
     }
 
     /// <summary>

@@ -29,10 +29,10 @@ namespace TheXDS.Ganymede.ViewModels
             BusyOpCommand = new SimpleCommand(async () => await Host.RunBusyAsync(OnBusyOp));
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
         }
-        protected override void UiInit(IUiConfigurator host, IProgress<int?> progress)
+        protected override void UiInit(IUiConfigurator host, IProgress<ProgressInfo> progress)
         {
             host.SetTitle($"Prueba # {_count}");
-            progress.Report(null);
+            progress.Report(new ProgressInfo());
             Thread.Sleep(3000);
             host.SetAccentColor(MCART.Resources.Colors.Pick());
         }
@@ -101,14 +101,14 @@ namespace TheXDS.Ganymede.ViewModels
             Result = NumberOne + NumberTwo;
         }
 
-        private void OnBusyOp(IProgress<int?> progress)
+        private void OnBusyOp(IProgress<ProgressInfo> progress)
         {
-            progress.Report(null);
+            progress.Report(new ProgressInfo("Esperando 3 segundos..."));
             Thread.Sleep(3000);
             for (var j = 0; j <=100; j++)
             {
                 Thread.Sleep(50);
-                progress.Report(j);
+                progress.Report(new ProgressInfo(j, $"Paso {j} de 100"));
             }
         }
 
