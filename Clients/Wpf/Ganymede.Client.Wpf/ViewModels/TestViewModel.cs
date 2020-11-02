@@ -1,6 +1,7 @@
-﻿using System.Net.PeerToPeer;
-using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
 using System.Windows.Input;
+using TheXDS.Ganymede.Component;
 using TheXDS.MCART.ViewModel;
 
 namespace TheXDS.Ganymede.ViewModels
@@ -23,22 +24,17 @@ namespace TheXDS.Ganymede.ViewModels
         public TestViewModel()
         {
             _count++;
-            Title = $"Prueba # {_count}";
-            AccentColor = MCART.Resources.Colors.Pick();
             SumCommand = new SimpleCommand(OnSum);
-            OkTkxByeCommand = new SimpleCommand(Close);
-            BusyOpCommand = new SimpleCommand(OnBusyOp);
+            OkTkxByeCommand = new SimpleCommand(() => Host.Close(this));
+            BusyOpCommand = new SimpleCommand(async () => await Host.RunBusyAsync(OnBusyOp));
+            SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
         }
-
-        /// <summary>
-        /// Expone de manera pública el valor
-        /// <see cref="PageViewModel.Closeable"/>.
-        /// </summary>
-        /// <value>El valor de <see cref="PageViewModel.Closeable"/>.</value>
-        public bool CloseableToggle
+        protected override void UiInit(IUiConfigurator host, IProgress<int?> progress)
         {
-            get => Closeable;
-            set => Closeable = value;
+            host.SetTitle($"Prueba # {_count}");
+            progress.Report(null);
+            Thread.Sleep(3000);
+            host.SetAccentColor(MCART.Resources.Colors.Pick());
         }
 
         /// <summary>
@@ -98,17 +94,27 @@ namespace TheXDS.Ganymede.ViewModels
         /// </summary>
         public ICommand OkTkxByeCommand { get; }
 
+        public ICommand SpawnSiblingCommand { get; }
+
         private void OnSum()
         {
             Result = NumberOne + NumberTwo;
         }
 
-
-        private async void OnBusyOp()
+        private void OnBusyOp(IProgress<int?> progress)
         {
-            IsBusy = true;
-            await Task.Delay(5000);
-            IsBusy = false;
+            progress.Report(null);
+            Thread.Sleep(3000);
+            for (var j = 0; j <=100; j++)
+            {
+                Thread.Sleep(50);
+                progress.Report(j);
+            }
+        }
+
+        private void OnSpawnSibling()
+        {
+            Host.OpenAsync<TestViewModel>();
         }
     }
 }

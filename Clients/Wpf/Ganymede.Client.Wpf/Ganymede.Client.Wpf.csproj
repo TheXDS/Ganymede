@@ -13,6 +13,6 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Ganymede\Ganymede.csproj" />
+    <ProjectReference Include="..\..\..\Core\Ganymede.Mvvm\Ganymede.Mvvm.csproj" />
   </ItemGroup>
 </Project>

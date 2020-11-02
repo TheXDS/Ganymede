@@ -117,43 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AreYouSureRunOp" xml:space="preserve">
-    <value>¿Está seguro que desea ejecutar esta acción?</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Cerrar</value>
-  </data>
-  <data name="Critical" xml:space="preserve">
-    <value>Error crítico</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="Info" xml:space="preserve">
-    <value>Información</value>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Mensaje</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="Ok" xml:space="preserve">
-    <value>Aceptar</value>
-  </data>
-  <data name="Stop" xml:space="preserve">
-    <value>Alto</value>
-  </data>
-  <data name="UntitledPage" xml:space="preserve">
-    <value>Página sin título</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>Advertencia</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Sí</value>
+  <data name="UiHostAccessException" xml:space="preserve">
+    <value>El Host de esta página no está disponible. Realice todas sus inicializaciones de UI reemplazando el método 'UiInitAsync()'</value>
   </data>
 </root>

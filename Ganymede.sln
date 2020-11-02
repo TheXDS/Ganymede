@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wpf", "Wpf", "{0DA36F44-8E9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ganymede.Client.Wpf", "Clients\Wpf\Ganymede.Client.Wpf\Ganymede.Client.Wpf.csproj", "{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ganymede.Mvvm", "Core\Ganymede.Mvvm\Ganymede.Mvvm.csproj", "{3D879733-D324-49C1-85E4-061DEC51BDB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Build-Release|Any CPU = Build-Release|Any CPU
@@ -60,6 +62,16 @@ Global
 		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Debug-PublishLocal|Any CPU.Build.0 = Debug-PublishLocal|Any CPU
 		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Build-Release|Any CPU.ActiveCfg = Build-Release|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Build-Release|Any CPU.Build.0 = Build-Release|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Debug-Publish|Any CPU.ActiveCfg = Debug-Publish|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Debug-Publish|Any CPU.Build.0 = Debug-Publish|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Debug-PublishLocal|Any CPU.ActiveCfg = Debug-PublishLocal|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Debug-PublishLocal|Any CPU.Build.0 = Debug-PublishLocal|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D879733-D324-49C1-85E4-061DEC51BDB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +81,7 @@ Global
 		{ACC222C7-EC89-46DF-9E58-4BA72D23B584} = {F2598D6B-FB98-41E0-88C2-0CBAC6075F70}
 		{0DA36F44-8E92-4041-81FA-5D60EB30288E} = {EB94F0DA-E794-486F-9876-1CDEA2DB7FD6}
 		{98CAA1D9-49CE-4057-8C94-E74A494C7B2F} = {0DA36F44-8E92-4041-81FA-5D60EB30288E}
+		{3D879733-D324-49C1-85E4-061DEC51BDB7} = {F4DB00CD-9492-4922-8D8E-9DBE03D07B79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1EB96DB2-E4F3-4CC7-83F6-B51D086408DE}

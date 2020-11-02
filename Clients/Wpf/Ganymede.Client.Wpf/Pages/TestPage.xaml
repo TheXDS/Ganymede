@@ -15,7 +15,7 @@
     <Grid>
         <Border
             x:Name="innerBorder"
-            Background="{Binding AccentColor, Converter={StaticResource McartColorConverter}}">
+            Background="{Binding Host.AccentColor, Converter={StaticResource McartColorConverter}}">
             <Border.OpacityMask>
                 <LinearGradientBrush EndPoint="0,1">
                     <GradientStop Offset="0" Color="#80000000"/>
@@ -25,7 +25,7 @@
         </Border>
         <Viewbox>
             <StackPanel Margin="50">
-                <TextBlock FontSize="24" Text="{Binding Title}"/>
+                <TextBlock FontSize="24" Text="{Binding Host.Title}"/>
                 <Separator/>
                 <TextBox Text="{Binding Name}"/>
                 <TextBlock>Hola, <Run Text="{Binding Name, Mode=OneWay}"/>. Esto es una página de prueba.</TextBlock>
@@ -41,8 +41,8 @@
                     Resultado: <Run Text="{Binding Result, Mode=OneWay}"/>
                 </TextBlock>
                 <Separator Margin="0,10"/>
-                <CheckBox Margin="0,10" IsChecked="{Binding CloseableToggle}">Página cerrable</CheckBox>
                 <Button Command="{Binding BusyOpCommand, Mode=OneWay}">Ejecutar BusyOp</Button>
+                <Button Command="{Binding SpawnSiblingCommand, Mode=OneWay}">Spawn Sibling</Button>
                 <Button Command="{Binding OkTkxByeCommand, Mode=OneWay}">OkThxBye!</Button>
             </StackPanel>
         </Viewbox>

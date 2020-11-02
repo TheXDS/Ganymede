@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using TheXDS.Ganymede.Component;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Events;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.MCART.ViewModel;
-using TheXDS.Ganymede.Component;
 
 namespace TheXDS.Ganymede.ViewModels
 {
@@ -16,6 +17,7 @@ namespace TheXDS.Ganymede.ViewModels
     public class HostViewModel : ViewModelBase
     {
         private protected readonly ObservableCollection<PageViewModel> _pages = new ObservableCollection<PageViewModel>();
+        private readonly IUiServiceBrokerFactory _serviceFactory;
         
         /// <summary>
         /// Se produce cuando se ha agregado una página a la colección de
@@ -40,10 +42,10 @@ namespace TheXDS.Ganymede.ViewModels
         /// <param name="page">
         /// Página a agregar.
         /// </param>
-        public virtual void AddPage(PageViewModel page)
+        public virtual async Task AddPage(PageViewModel page)
         {
-            page.PushInto(_pages).Host = this;
-            PageAdded?.Invoke(this,page);
+            PushPage(page);
+            await InitPageAsync(page).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -54,9 +56,44 @@ namespace TheXDS.Ganymede.ViewModels
         /// </param>
         public virtual void ClosePage(PageViewModel page)
         {
-            page.Host = null;
+            page.Host = null!;
             _pages.Remove(page);
             PageClosed?.Invoke(this,page);
+        }
+
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase
+        /// <see cref="HostViewModel"/>.
+        /// </summary>
+        /// <param name="serviceFactory">
+        /// Fábrica de proveedor de servicios de UI a utilizar al agregar un
+        /// <see cref="PageViewModel"/> a este Host.
+        /// </param>
+        public HostViewModel(IUiServiceBrokerFactory serviceFactory)
+        {
+            _serviceFactory = serviceFactory;
+        }
+
+        /// <summary>
+        /// Ejecuta la inicialización de la página de forma asíncrona.
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        protected async Task InitPageAsync(PageViewModel page)
+        {
+            await page.Host.RunBusyAsync(p => page.UiInit(page.Host, p)).ConfigureAwait(false);
+            PageAdded?.Invoke(this, page);
+        }
+
+        /// <summary>
+        /// Envía la página a la colección de páginas abiertas.
+        /// </summary>
+        /// <param name="page">
+        /// Página a agregar.
+        /// </param>
+        protected void PushPage(PageViewModel page)
+        {
+            page.PushInto(_pages).Host = _serviceFactory.Create(page, this);
         }
     }
 
@@ -80,7 +117,11 @@ namespace TheXDS.Ganymede.ViewModels
         /// Constructor de contenedores visuales a utilizar para presentar
         /// las páginas.
         /// </param>
-        public HostViewModel(IVisualBuilder<T> visualBuilder)
+        /// <param name="serviceFactory">
+        /// Fábrica de proveedor de servicios de UI a utilizar al instanciar un
+        /// <see cref="PageViewModel"/>.
+        /// </param>
+        public HostViewModel(IVisualBuilder<T> visualBuilder, IUiServiceBrokerFactory serviceFactory) : base(serviceFactory)
         {
             _visualBuilder = visualBuilder;
         }
@@ -91,10 +132,11 @@ namespace TheXDS.Ganymede.ViewModels
         /// <param name="page">
         /// Página a agregar.
         /// </param>
-        public override void AddPage(PageViewModel page)
+        public override async Task AddPage(PageViewModel page)
         {
-            base.AddPage(page);
+            PushPage(page);
             Notify(nameof(Children));
+            await InitPageAsync(page).ConfigureAwait(false);
         }
 
         /// <summary>

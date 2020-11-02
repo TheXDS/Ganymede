@@ -5,17 +5,21 @@ using TheXDS.Ganymede.Pages;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.Ganymede.Client.Pages;
+using TheXDS.Ganymede.Mvvm;
+using System.Threading.Tasks;
 
 namespace TheXDS.Ganymede.Client.ViewModels
 {
     public class MainWindowViewModel : HostViewModel<TabHost>
     {
-        public MainWindowViewModel() : base(CreateBuilder())
+        public MainWindowViewModel() : base(CreateBuilder(), new MvvmServiceBrokerFactory())
         {
-            AddPage(new TestViewModel());
-            AddPage(new TestViewModel());
-            AddPage(new TestViewModel());
-            
+            Task.WhenAll(new[]
+            {
+                Task.Run(() => AddPage(new TestViewModel())),
+                //Task.Run(() => AddPage(new TestViewModel())),
+                //Task.Run(() => AddPage(new TestViewModel()))
+            });            
         }
 
         private static IVisualBuilder<TabHost> CreateBuilder()
