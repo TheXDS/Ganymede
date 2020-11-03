@@ -16,6 +16,21 @@ namespace TheXDS.Ganymede.Component
     public interface IUiServiceBroker : IUiConfigurator
     {
         /// <summary>
+        /// Obtiene el título de la página.
+        /// </summary>
+        string Title { get; }
+
+        /// <summary>
+        /// Obtiene un valor que define si es posible cerrar la página.
+        /// </summary>
+        bool Closeable { get; }
+
+        /// <summary>
+        /// Obtiene una referencia al color de acento definido para la página.
+        /// </summary>
+        Color? AccentColor { get; }
+
+        /// <summary>
         /// Solicita el cierre de una página.
         /// </summary>
         /// <param name="page"></param>
@@ -61,6 +76,19 @@ namespace TheXDS.Ganymede.Component
         /// </returns>
         Task<int> Message(string message, params string[] options);
 
+        /// <summary>
+        /// Permite selecionar un valor de una enumeración por medio del 
+        /// servicio de UI.
+        /// </summary>
+        /// <typeparam name="T">
+        /// Enumeración desde la cual obtener un valor.
+        /// </typeparam>
+        /// <param name="prompt">
+        /// Mensaje a desplegar al usuario.
+        /// </param>
+        /// <returns>
+        /// El valor de enumeración seleccionado por el usuario.
+        /// </returns>
         async Task<T> Select<T>(string prompt) where T : struct, Enum
         {
             var v = NamedObject<T>.FromEnum().ToArray();

@@ -16,6 +16,7 @@ namespace TheXDS.Ganymede.ViewModels
         private int _numberOne;
         private int _numberTwo;
         private int _result;
+        private int _pgnum;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase
@@ -23,7 +24,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// </summary>
         public TestViewModel()
         {
-            _count++;
+            _pgnum = ++_count;
             SumCommand = new SimpleCommand(OnSum);
             OkTkxByeCommand = new SimpleCommand(() => Host.Close(this));
             BusyOpCommand = new SimpleCommand(async () => await Host.RunBusyAsync(OnBusyOp));
@@ -34,8 +35,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// <inheritdoc/>
         protected override void UiInit(IUiConfigurator host, IProgress<ProgressInfo> progress)
         {
-            host.SetTitle($"Prueba # {_count}");
-            progress.Report(new ProgressInfo());
+            host.SetTitle($"Prueba # {_pgnum}");            
             Thread.Sleep(3000);
             host.SetAccentColor(MCART.Resources.Colors.Pick());
         }

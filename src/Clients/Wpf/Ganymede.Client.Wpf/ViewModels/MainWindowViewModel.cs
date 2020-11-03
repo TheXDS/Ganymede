@@ -16,9 +16,7 @@ namespace TheXDS.Ganymede.Client.ViewModels
         {
             Task.WhenAll(new[]
             {
-                Task.Run(() => AddPage(new TestViewModel())),
-                //Task.Run(() => AddPage(new TestViewModel())),
-                //Task.Run(() => AddPage(new TestViewModel()))
+                Task.Run(() => AddPage(new TestViewModel()))
             });            
         }
 
