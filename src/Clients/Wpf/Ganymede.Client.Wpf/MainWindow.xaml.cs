@@ -7,6 +7,10 @@ namespace TheXDS.Ganymede.Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase
+        /// <see cref="MainWindow"/>.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();

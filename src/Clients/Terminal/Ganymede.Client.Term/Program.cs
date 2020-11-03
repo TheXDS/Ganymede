@@ -76,6 +76,10 @@ namespace TermClient
         }
     }
 
+
+
+
+
     class Screen : HostViewModel
     {
         private readonly List<IInputReader> _keyHandlers = new List<IInputReader>();

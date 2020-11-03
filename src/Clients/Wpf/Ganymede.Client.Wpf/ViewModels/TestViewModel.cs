@@ -30,6 +30,8 @@ namespace TheXDS.Ganymede.ViewModels
             SaluteCommand = new SimpleCommand(OnSalute);
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
         }
+
+        /// <inheritdoc/>
         protected override void UiInit(IUiConfigurator host, IProgress<ProgressInfo> progress)
         {
             host.SetTitle($"Prueba # {_count}");
@@ -95,7 +97,14 @@ namespace TheXDS.Ganymede.ViewModels
         /// </summary>
         public ICommand OkTkxByeCommand { get; }
 
+        /// <summary>
+        /// Comando que muestra un saludo al usuario.
+        /// </summary>
         public ICommand SaluteCommand { get; }
+
+        /// <summary>
+        /// Comando que abrirá una página hermana.
+        /// </summary>
         public ICommand SpawnSiblingCommand { get; }
 
         private void OnSum()

@@ -14,13 +14,6 @@ using TheXDS.MCART.ViewModel;
 
 namespace TheXDS.Ganymede.Mvvm
 {
-    public enum MvvmContent
-    {
-        Default,
-        Message,
-        Progress
-    }
-
     /// <summary>
     /// Procura servicios de UI para instancias de <see cref="PageViewModel"/>,
     /// implementando algunos de los servicios por medio del paradigma MVVM.
@@ -35,7 +28,6 @@ namespace TheXDS.Ganymede.Mvvm
         private Color? _accentColor;
         private IEnumerable<Launcher>? _actions;
         private MvvmContent _Content;
-
 
         /// <summary>
         /// Obtiene la instancia cliente del servicio de UI.
@@ -207,7 +199,6 @@ namespace TheXDS.Ganymede.Mvvm
             return r;
         }
 
-
         /// <inheritdoc/>
         public async Task RunBusyAsync(Action<IProgress<ProgressInfo>> action)
         {
@@ -227,11 +218,6 @@ namespace TheXDS.Ganymede.Mvvm
             return r;
         }
 
-        private void ReportProgress(ProgressInfo progress)
-        {
-            Progress = progress.Progress ?? double.NaN;
-        }
-
         /// <inheritdoc/>
         public void SetTitle(string value)
         {
@@ -249,13 +235,11 @@ namespace TheXDS.Ganymede.Mvvm
         {
             AccentColor = value;
         }
-    }
 
-    public class MvvmServiceBrokerFactory : IUiServiceBrokerFactory
-    {
-        public IUiServiceBroker Create(PageViewModel page, HostViewModel host)
+        private void ReportProgress(ProgressInfo progress)
         {
-            return new MvvmServiceBroker(page, host);
+            Progress = progress.Progress ?? double.NaN;
+            MessageText = progress.Status;
         }
     }
 }
