@@ -16,7 +16,7 @@ namespace TheXDS.Ganymede.ViewModels
         private int _numberOne;
         private int _numberTwo;
         private int _result;
-        private int _pgnum;
+        private readonly int _pgnum;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase
@@ -119,7 +119,7 @@ namespace TheXDS.Ganymede.ViewModels
             for (var j = 0; j <=100; j++)
             {
                 Thread.Sleep(50);
-                progress.Report(new ProgressInfo(j, $"Paso {j} de 100"));
+                progress.Report(new ProgressInfo(j, $"Paso {(j / 20) + 1} de 5"));
             }
         }
 

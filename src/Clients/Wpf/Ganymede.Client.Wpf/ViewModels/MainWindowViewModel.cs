@@ -28,8 +28,20 @@ namespace TheXDS.Ganymede.Client.ViewModels
         }
     }
 
+    /// <summary>
+    /// <see cref="FallbackVisualResolver{TVisual}"/> que genera una página de
+    /// error cuando no se puede resolver el contenedor visual de un
+    /// <see cref="PageViewModel"/>.
+    /// </summary>
     public class TestFvr : FallbackVisualResolver<Page>
     {
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="TestFvr"/>.
+        /// </summary>
+        /// <param name="resolver">
+        /// <see cref="IVisualResolver{T}"/> a envolver en un generador con
+        /// Fallback.
+        /// </param>
         public TestFvr(IVisualResolver<Page> resolver) : base(resolver)
         {
         }
