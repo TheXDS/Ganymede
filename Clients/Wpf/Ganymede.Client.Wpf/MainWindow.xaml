@@ -5,10 +5,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.Client.ViewModels"
-    xmlns:controls="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
+    xmlns:controls="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF" 
+    xmlns:mcartui="clr-namespace:TheXDS.MCART.UI;assembly=MCART.UI" 
+    xmlns:component="clr-namespace:Ganymede.Client.Wpf.Component"
+    xmlns:mvvm="clr-namespace:TheXDS.Ganymede.Mvvm;assembly=Ganymede.Mvvm"
+    xmlns:valueconverters="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF"
     mc:Ignorable="d"    
     Title="MainWindow" Height="450" Width="600">
     <Window.Resources>
+        <component:MvvmContentVisibilityConverter x:Key="MvvmCvc"/>
+        <valueconverters:NullToVisibilityConverter x:Key="n2vc"/>
+        <valueconverters:NotNullToVisibilityConverter x:Key="nn2vc"/>
+        
         <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF"/>
         <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC"/>
         <Style x:Key="TabControlStyle1" TargetType="{x:Type TabControl}">
@@ -33,9 +41,66 @@
                             </Grid.RowDefinitions>
                             <TabPanel x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
                             <Border x:Name="contentPanel" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="2">
-                                <controls:BusyContainer IsBusy="{Binding SelectedContent.Content.DataContext.Host.IsBusy, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
-                                    <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                </controls:BusyContainer>
+                                <Grid>
+                                    <ContentPresenter
+                                        Visibility="{Binding SelectedContent, Converter={StaticResource n2vc}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                        Content="{Binding (component:Props.AltContent), RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                        Margin="{TemplateBinding Padding}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                                    <Grid
+                                        Visibility="{Binding SelectedContent, Converter={StaticResource nn2vc}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                        <StackPanel
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Visibility="{Binding SelectedContent.Content.DataContext.Host.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Progress}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                            <controls:ProgressRing  Width="250"
+                                                Value="{Binding SelectedContent.Content.DataContext.Host.Progress, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                            <TextBlock Text="{Binding SelectedContent.Content.DataContext.Host.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                        </StackPanel>
+
+                                        <StackPanel
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Visibility="{Binding SelectedContent.Content.DataContext.Host.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Message}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                            <TextBlock Text="{Binding SelectedContent.Content.DataContext.Host.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                            <ListView
+                                                BorderBrush="{x:Null}"
+                                                BorderThickness="0"
+                                                ItemsSource="{Binding SelectedContent.Content.DataContext.Host.Actions, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate DataType="{x:Type mcartui:Launcher}">
+                                                        <Button MinWidth="64" Margin="5,10" Content="{Binding Name, Mode=OneWay}" Command="{Binding Command, Mode=OneWay}"/>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                                <ListView.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <controls:StretchyWrapPanel/>
+                                                    </ItemsPanelTemplate>
+                                                </ListView.ItemsPanel>
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="{x:Type ListViewItem}">
+                                                        <Setter Property="Background" Value="Transparent" />
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                                    <ContentPresenter />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                            </ListView>
+                                        </StackPanel>
+
+                                        <ContentPresenter
+                                            Visibility="{Binding SelectedContent.Content.DataContext.Host.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Default}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                            x:Name="PART_SelectedContentHost"
+                                            ContentSource="SelectedContent"
+                                            Margin="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </Grid>
+                                </Grid>
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -80,5 +145,9 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <TabControl Style="{DynamicResource TabControlStyle1}" Background="Transparent" BorderThickness="0" Padding="0" ItemsSource="{Binding Children, Mode=OneWay}"/>
+    <TabControl Style="{DynamicResource TabControlStyle1}" Background="Transparent" BorderThickness="0" Padding="0" ItemsSource="{Binding Children, Mode=OneWay}">
+        <component:Props.AltContent>
+            <TextBlock>El puta</TextBlock>
+        </component:Props.AltContent>
+    </TabControl>
 </Window>

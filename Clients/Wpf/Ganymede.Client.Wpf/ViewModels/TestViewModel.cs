@@ -27,6 +27,7 @@ namespace TheXDS.Ganymede.ViewModels
             SumCommand = new SimpleCommand(OnSum);
             OkTkxByeCommand = new SimpleCommand(() => Host.Close(this));
             BusyOpCommand = new SimpleCommand(async () => await Host.RunBusyAsync(OnBusyOp));
+            SaluteCommand = new SimpleCommand(OnSalute);
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
         }
         protected override void UiInit(IUiConfigurator host, IProgress<ProgressInfo> progress)
@@ -94,6 +95,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// </summary>
         public ICommand OkTkxByeCommand { get; }
 
+        public ICommand SaluteCommand { get; }
         public ICommand SpawnSiblingCommand { get; }
 
         private void OnSum()
@@ -115,6 +117,19 @@ namespace TheXDS.Ganymede.ViewModels
         private void OnSpawnSibling()
         {
             Host.OpenAsync<TestViewModel>();
+        }
+
+        private async void OnSalute()
+        {
+            switch (await Host.AskYnc("Saludar?"))
+            {
+                case true:
+                    await Host.Message($"Hello {Name}!");
+                    break;
+                case false:
+                    await Host.Message($"Goodbye {Name}");
+                    break;                
+            }
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Math;
 using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Base;
 using TheXDS.MCART.Types.Extensions;
@@ -12,13 +14,19 @@ using TheXDS.MCART.ViewModel;
 
 namespace TheXDS.Ganymede.Mvvm
 {
+    public enum MvvmContent
+    {
+        Default,
+        Message,
+        Progress
+    }
+
     /// <summary>
     /// Procura servicios de UI para instancias de <see cref="PageViewModel"/>,
     /// implementando algunos de los servicios por medio del paradigma MVVM.
     /// </summary>
     public class MvvmServiceBroker : NotifyPropertyChanged, IUiServiceBroker
     {
-        private bool _IsBusy;
         private int? _Progress;
         private string? _DialogIcon;
         private string? _Message;
@@ -26,6 +34,8 @@ namespace TheXDS.Ganymede.Mvvm
         private bool _closeable = true;
         private Color? _accentColor;
         private IEnumerable<Launcher>? _actions;
+        private MvvmContent _Content;
+
 
         /// <summary>
         /// Obtiene la instancia cliente del servicio de UI.
@@ -82,18 +92,30 @@ namespace TheXDS.Ganymede.Mvvm
         /// <value>El valor de IsBusy.</value>
         public bool IsBusy
         {
-            get => _IsBusy;
-            private set => Change(ref _IsBusy, value);
+            get => ContentSelection == MvvmContent.Progress;
+        }
+
+        /// <summary>
+        ///     Obtiene o establece el valor Content.
+        /// </summary>
+        /// <value>El valor de Content.</value>
+        public MvvmContent ContentSelection
+        {
+            get => _Content;
+            set => Change(ref _Content, value);
         }
 
         /// <summary>
         ///     Obtiene o establece el valor Progress.
         /// </summary>
         /// <value>El valor de Progress.</value>
-        public int? Progress
+        public double Progress
         {
-            get => _Progress;
-            set => Change(ref _Progress, value);
+            get => _Progress ?? double.NaN;
+            set
+            {
+                Change(ref _Progress, value.IsValid() ? (int?)value : null);
+            }
         }
 
         /// <summary>
@@ -123,7 +145,7 @@ namespace TheXDS.Ganymede.Mvvm
         public IEnumerable<Launcher> Actions
         {
             get => _actions ?? Array.Empty<Launcher>();
-            set => Change(ref _actions, value);
+            private set => Change(ref _actions, value);
         }
 
         /// <summary>
@@ -136,6 +158,7 @@ namespace TheXDS.Ganymede.Mvvm
         /// </param>
         public MvvmServiceBroker(PageViewModel guest, HostViewModel host)
         {
+            RegisterPropertyChangeBroadcast(nameof(ContentSelection), nameof(IsBusy));
             Guest = guest;
             Host = host;
             CloseCommand = new ObservingCommand(this, () => Host.ClosePage(Guest))
@@ -165,34 +188,48 @@ namespace TheXDS.Ganymede.Mvvm
         }
 
         /// <inheritdoc/>
-        public int Message(string message, params string[] options)
+        public async Task<int> Message(string message, params string[] options)
         {
+            var result = new TaskCompletionSource<int>();
+            var actions = new List<Launcher>();
+
             MessageText = message;
-            return 0;
+            ContentSelection = MvvmContent.Message;
+
+            for (var j = 0; j < options.Length; j++)
+            {
+                int jj = j;
+                actions.Add(new Launcher(options[j], () => result.SetResult(jj)));
+            }
+            Actions = actions;
+            var r = await result.Task;
+            ContentSelection = MvvmContent.Default;
+            return r;
         }
+
 
         /// <inheritdoc/>
         public async Task RunBusyAsync(Action<IProgress<ProgressInfo>> action)
         {
-            IsBusy = true;
+            ContentSelection = MvvmContent.Progress;            
             var progress = new Progress<ProgressInfo>(ReportProgress);
             await Task.Run(() => action(progress));
-            IsBusy = false;
+            ContentSelection = MvvmContent.Default;
         }
 
         /// <inheritdoc/>
         public async Task<T> RunBusyAsync<T>(Func<IProgress<ProgressInfo>, T> function)
         {
-            IsBusy = true;
+            ContentSelection = MvvmContent.Progress;
             var progress = new Progress<ProgressInfo>(ReportProgress);
             var r = await Task.Run(() => function(progress));
-            IsBusy = false;
+            ContentSelection = MvvmContent.Default;
             return r;
         }
 
         private void ReportProgress(ProgressInfo progress)
         {
-            Progress = progress.Progress;
+            Progress = progress.Progress ?? double.NaN;
         }
 
         /// <inheritdoc/>

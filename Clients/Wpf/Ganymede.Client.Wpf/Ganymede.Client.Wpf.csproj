@@ -9,7 +9,6 @@
     <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a011" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Component\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>

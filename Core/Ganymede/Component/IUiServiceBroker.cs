@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Types;
 using TheXDS.MCART.UI;
 using St = TheXDS.Ganymede.Resources.Strings;
 
@@ -58,7 +59,14 @@ namespace TheXDS.Ganymede.Component
         /// El índice de base cero de la opción activada por el usuario al
         /// interactuar con el diálogo.
         /// </returns>
-        int Message(string message, params string[] options);
+        Task<int> Message(string message, params string[] options);
+
+        async Task<T> Select<T>(string prompt) where T : struct, Enum
+        {
+            var v = NamedObject<T>.FromEnum().ToArray();
+            var r = await Message(prompt, v.Select(p => p.Name).ToArray());
+            return v[r].Value;
+        }
 
         /// <summary>
         /// Envía un mensaje de diálogo al servicio de UI.
@@ -68,16 +76,16 @@ namespace TheXDS.Ganymede.Component
         /// Opciones de interacción. Se ejecutará el comando asociado a la
         /// opción activada por el usuario.
         /// </param>
-        void Message(string message, IList<Launcher> options)
+        Task Message(string message, IList<Launcher> options)
         {
-            options[Message(message, options.Select(p => p.Name).ToArray())].Command.Execute(null);
+            return Task.Run(async () => options[await Message(message, options.Select(p => p.Name).ToArray())].Command.Execute(null));
         }
 
         /// <summary>
         /// Envía un mensaje de diálogo simple al servicio de UI.
         /// </summary>
         /// <param name="message">Mensaje a desplegar.</param>
-        void Message(string message) => Message(message, St.Ok);
+        Task Message(string message) => Message(message, St.Ok);
 
         /// <summary>
         /// Envía un mensaje de diálogo con respuesta de "si/no" al servicio de UI.
@@ -87,7 +95,7 @@ namespace TheXDS.Ganymede.Component
         /// <see langword="true"/> si el usuario ha activado la opción de "Sí",
         /// <see langword="false"/> en caso contrario.
         /// </returns>
-        bool AskYn(string question) => Message(question, St.Yes, St.No) == 0;
+        async Task<bool> AskYn(string question) => await Message(question, St.Yes, St.No) == 0;
 
         /// <summary>
         /// Envía un mensaje de diálogo con respuesta de "si/no/cancelar" al servicio de UI.
@@ -99,9 +107,9 @@ namespace TheXDS.Ganymede.Component
         /// "No", o <see langword="null"/> si el usuario ha activado la opción
         /// de "Cancelar"
         /// </returns>
-        bool? AskYnc(string question)
+        async Task<bool?> AskYnc(string question)
         {
-            return Message(question, St.Yes, St.No, St.Cancel) switch
+            return await Message(question, St.Yes, St.No, St.Cancel) switch
             {
                 0 => true,
                 1 => false,
