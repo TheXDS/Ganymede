@@ -1,13 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>GanymedeWorkstation</AssemblyName>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a011" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
