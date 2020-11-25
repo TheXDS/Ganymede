@@ -69,7 +69,7 @@ namespace TheXDS.Ganymede.Interactivity
         /// <see langword="true"/> si el usuario contesta la pregunta y provee 
         /// de un valor, <see langword="false"/> en caso contrario.
         /// </returns>
-        bool Get<T>(string title, string question, [MaybeNullWhen(false)] out T value) => Get(title, question, default, out value);
+        bool Get<T>(string title, string question, [MaybeNullWhen(false)] out T value) => Get(title, question, default, out value!);
 
         /// <summary>
         /// Obtiene del usuario un valor del tipo especificado.

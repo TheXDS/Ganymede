@@ -6,6 +6,7 @@ using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Base;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.ViewModels;
+using System.Threading.Tasks;
 
 namespace TermClient
 {
@@ -14,9 +15,9 @@ namespace TermClient
         static void Main(string[] args)
         {
             var s = new Screen();
-            s.AddPage(new TestViewModel());
-            s.AddPage(new TestViewModel());
-            s.AddPage(new TestViewModel());
+            //s.AddPage(new TestViewModel());
+            //s.AddPage(new TestViewModel());
+            //s.AddPage(new TestViewModel());
 
             while (true)
             {
@@ -99,7 +100,7 @@ namespace TermClient
 
         public PageViewModel? ActivePage => _activeTab != -1 ? Pages.ToArray()[_activeTab] : null;
 
-        public Screen() : base(factory)
+        public Screen() : base(null!)
         {
             Console.BufferWidth = Console.WindowWidth;
             Console.BufferHeight = Console.WindowHeight;
@@ -136,7 +137,7 @@ namespace TermClient
             Console.CursorLeft = 0;
             foreach (var j in Pages.Take(Console.WindowWidth / 4))
             {
-                Console.BackgroundColor = j.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.AccentColor.Value) & 15) : ConsoleColor.Black;
+                Console.BackgroundColor = j.Host.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.Host.AccentColor.Value) & 15) : ConsoleColor.Black;
                 Console.Write(t++.ToString().PadLeft(4));
             }
         }
@@ -148,10 +149,10 @@ namespace TermClient
                 ClearTabView();
                 return;
             }
-            Console.BackgroundColor = j.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.AccentColor.Value) & 15) : ConsoleColor.Black;
+            Console.BackgroundColor = j.Host.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.Host.AccentColor.Value) & 15) : ConsoleColor.Black;
             Console.CursorTop = 2;
             Console.CursorLeft = 0;
-            Console.Write(j.Title.PadRight(Console.WindowWidth));
+            Console.Write(j.Host.Title.PadRight(Console.WindowWidth));
         }
 
         private void ClearTabView()
@@ -166,9 +167,9 @@ namespace TermClient
             }
         }
 
-        public override void AddPage(PageViewModel page)
+        public override async Task AddPage(PageViewModel page)
         {
-            base.AddPage(page);
+            await base.AddPage(page);
             DrawTabs();
         }
         public override void ClosePage(PageViewModel page)
