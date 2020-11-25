@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TheXDS.MCART.Ext.PrismLike" Version="0.13.0-a011" />
-    <PackageReference Include="TheXDS.MCART.UI" Version="0.13.0-a011" />
+    <PackageReference Include="TheXDS.MCART.Ext.PrismLike" Version="0.13.0-a012" />
+    <PackageReference Include="TheXDS.MCART.UI" Version="0.13.0-a012" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\ErrorStrings.Designer.cs">
