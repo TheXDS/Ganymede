@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Resources;
 using TheXDS.MCART.Types.Base;
@@ -7,33 +8,6 @@ using St = TheXDS.Ganymede.Resources.Strings;
 
 namespace TheXDS.Ganymede.ViewModels
 {
-    public struct ProgressInfo
-    {
-        public int? Progress { get; }
-        public string? Status { get; }
-
-        public ProgressInfo(int progress, string status)
-        {
-            Progress = progress;
-            Status = status;
-        }
-
-        public ProgressInfo(int progress)
-        {
-            Progress = progress;
-            Status = null;
-        }
-
-        public ProgressInfo(string status)
-        {
-            Progress = null;
-            Status = status;
-
-        }
-
-        public static ProgressInfo Indeterminate => new ProgressInfo();
-    }
-
     /// <summary>
     /// ViewModel que describe una página visual.
     /// </summary>
@@ -60,6 +34,40 @@ namespace TheXDS.Ganymede.ViewModels
         protected internal virtual void UiInit(IUiConfigurator host, IProgress<ProgressInfo> progress)
         {
             host.SetTitle(St.UntitledPage);
+        }
+
+        /// <summary>
+        /// Construye un nuevo <see cref="SimpleCommand"/> que ejecutará un
+        /// método de forma asíncrona.
+        /// </summary>
+        /// <param name="action">
+        /// Acción a ejecutar. No es necesario que la misma sea asíncrona (no
+        /// debe declararse utilizando <see langword="async"/>)
+        /// </param>
+        /// <returns>
+        /// Una nueva instancia de la clase <see cref="SimpleCommand"/> que
+        /// ejecutará la acción en un contexto asíncrono.
+        /// </returns>
+        protected SimpleCommand BuildBusyCommand(Action<IProgress<ProgressInfo>> action)
+        {
+            return BuildBusyCommand(() => Host.RunBusyAsync(action));
+        }
+
+        /// <summary>
+        /// Construye un nuevo <see cref="SimpleCommand"/> que ejecutará un
+        /// método de forma asíncrona.
+        /// </summary>
+        /// <param name="task">
+        /// Tarea a ejecutar. Considere proveer de un mecanismo para reportar
+        /// el progreso de la operación.
+        /// </param>
+        /// <returns>
+        /// Una nueva instancia de la clase <see cref="SimpleCommand"/> que
+        /// ejecutará la acción en un contexto asíncrono.
+        /// </returns>
+        protected SimpleCommand BuildBusyCommand(Func<Task> task)
+        {
+            return new SimpleCommand(async () => await task());
         }
     }
 }

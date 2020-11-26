@@ -174,6 +174,6 @@ namespace TheXDS.Ganymede.Component
         /// Una tarea con valor devuelto de tipo <typeparamref name="T"/> que
         /// puede utilizarse para monitorear la operación asíncrona.
         /// </returns>
-        Task<T> RunBusyAsync<T>(Func<IProgress<ProgressInfo>,T> progress);
+        Task<T> RunBusyAsync<T>(Func<IProgress<ProgressInfo>, T> progress);
     }
 }

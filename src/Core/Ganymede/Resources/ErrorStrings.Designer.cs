@@ -68,5 +68,14 @@ namespace TheXDS.Ganymede.Resources {
                 return ResourceManager.GetString("UiHostAccessException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se ha encontrado un host visual para alojar a la página &apos;{0}&apos;..
+        /// </summary>
+        internal static string VisualHostNotFound {
+            get {
+                return ResourceManager.GetString("VisualHostNotFound", resourceCulture);
+            }
+        }
     }
 }

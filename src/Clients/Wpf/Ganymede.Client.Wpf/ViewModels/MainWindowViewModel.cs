@@ -10,8 +10,15 @@ using System.Threading.Tasks;
 
 namespace TheXDS.Ganymede.Client.ViewModels
 {
+    /// <summary>
+    /// ViewModel Host principal de la aplicación.
+    /// </summary>
     public class MainWindowViewModel : HostViewModel<TabHost>
     {
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase
+        /// <see cref="MainWindowViewModel"/>.
+        /// </summary>
         public MainWindowViewModel() : base(CreateBuilder(), new MvvmServiceBrokerFactory())
         {
             Task.WhenAll(new[]
@@ -22,34 +29,17 @@ namespace TheXDS.Ganymede.Client.ViewModels
 
         private static IVisualBuilder<TabHost> CreateBuilder()
         {
-            var r = new DictionaryVisualResolver<Page>();
-            r.RegisterVisual<TestViewModel, TestPage>();
-            return new TabBuilder(new TestFvr(r));
-        }
-    }
-
-    /// <summary>
-    /// <see cref="FallbackVisualResolver{TVisual}"/> que genera una página de
-    /// error cuando no se puede resolver el contenedor visual de un
-    /// <see cref="PageViewModel"/>.
-    /// </summary>
-    public class TestFvr : FallbackVisualResolver<Page>
-    {
-        /// <summary>
-        /// Inicializa una nueva instancia de la clase <see cref="TestFvr"/>.
-        /// </summary>
-        /// <param name="resolver">
-        /// <see cref="IVisualResolver{T}"/> a envolver en un generador con
-        /// Fallback.
-        /// </param>
-        public TestFvr(IVisualResolver<Page> resolver) : base(resolver)
-        {
+            var c = new VisualResolverCollection<Page>
+            {
+                new DictionaryVisualResolver<Page>().RegisterVisual<TestViewModel, TestPage>(),
+                new ConventionVisualResolver<Page>()
+            };
+            return new TabBuilder(new FallbackVisualResolver<Page>(c, BuildErrorPage));
         }
 
-        /// <inheritdoc/>
-        protected override Page FallbackResolve(PageViewModel viewModel, Exception ex)
+        private static Page BuildErrorPage(PageViewModel vm, Exception ex)
         {
-            return new FallbackErrorPage { Message = $"{ex.GetType().Name}{ex.Message.OrNull(": {0}")}" };
+            return new FallbackErrorPage(ex);
         }
     }
 }

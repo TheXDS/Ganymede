@@ -1,6 +1,7 @@
 ﻿using System;
 using TheXDS.MCART.Exceptions;
 using TheXDS.Ganymede.ViewModels;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TheXDS.Ganymede.Component
 {
@@ -12,13 +13,20 @@ namespace TheXDS.Ganymede.Component
     /// <typeparam name="TVisual">
     /// Tipo de contenedor visual a implementar.
     /// </typeparam>
-    public abstract class FallbackVisualResolver<TVisual> : IVisualResolver<TVisual> where TVisual : notnull
+    public class FallbackVisualResolver<TVisual> : IVisualResolver<TVisual> where TVisual : notnull
     {
         /// <summary>
         /// <see cref="IVisualResolver{T}"/> para el cual esta instancia es una
         /// envoltura segura.
         /// </summary>
         public IVisualResolver<TVisual> Resolver { get; }
+
+        /// <summary>
+        /// Función que genera un contenedor visual en vaso de un error al
+        /// intentar resolver un contenedor visual para un
+        /// <see cref="PageViewModel"/>.
+        /// </summary>
+        public Func<PageViewModel, Exception, TVisual> FallbackResolver { get; }
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase
@@ -28,9 +36,15 @@ namespace TheXDS.Ganymede.Component
         /// <see cref="IVisualResolver{T}"/> para el cual esta instancia es una
         /// envoltura segura.
         /// </param>
-        public FallbackVisualResolver(IVisualResolver<TVisual> resolver)
+        /// <param name="fallbackResolver">
+        /// Función que genera un contenedor visual en vaso de un error al
+        /// intentar resolver un contenedor visual para un
+        /// <see cref="PageViewModel"/>.
+        /// </param>
+        public FallbackVisualResolver(IVisualResolver<TVisual> resolver, Func<PageViewModel, Exception, TVisual> fallbackResolver)
         {
             Resolver = resolver;
+            FallbackResolver = fallbackResolver;
         }
 
         /// <inheritdoc/>
@@ -42,24 +56,28 @@ namespace TheXDS.Ganymede.Component
             }
             catch (Exception ex)
             {
-                return FallbackResolve(viewModel, ex) ?? throw new InvalidReturnValueException((Func<PageViewModel, Exception, TVisual>)FallbackResolve);
+                return FallbackResolver(viewModel, ex) ?? throw new InvalidReturnValueException(FallbackResolver);
             }
         }
 
         /// <summary>
-        /// Inicia la resolución del contenido visual en caso de un error.
+        /// Intenta resolver un contenedor visual utilizando el 
+        /// <see cref="IVisualResolver{T}"/> subyacente.
         /// </summary>
         /// <param name="viewModel">
-        /// <see cref="PageViewModel"/> que no ha podido ser resuelto.
+        /// <see cref="PageViewModel"/> que va a alojarse.
         /// </param>
-        /// <param name="ex">
-        /// Excepción producida durante la resolución normal del contenedor
-        /// visual.
+        /// <param name="visual">
+        /// Contenedor visual para el <see cref="PageViewModel"/> especificado.
         /// </param>
         /// <returns>
-        /// Un contenido visual resuelto a partir de la excepción producida.
+        /// <see langword="true"/> si el contenedor visual pudo ser resuelto
+        /// por esta instancia, <see langword="false"/> en caso contrario.
         /// </returns>
-        protected abstract TVisual FallbackResolve(PageViewModel viewModel, Exception ex);
+        public bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)] out TVisual? visual)
+        {
+            return Resolver.TryResolveVisual(viewModel, out visual);
+        }
     }
 
     /// <summary>
@@ -84,14 +102,8 @@ namespace TheXDS.Ganymede.Component
         /// <see cref="IVisualResolver{T}"/> para el cual esta instancia es una
         /// envoltura segura.
         /// </param>
-        public FallbackVisualResolver(IVisualResolver<TVisual> resolver) : base(resolver)
+        public FallbackVisualResolver(IVisualResolver<TVisual> resolver) : base(resolver, (_, __) => new TFallback())
         {
-        }
-
-        /// <inheritdoc/>
-        protected override TVisual FallbackResolve(PageViewModel viewModel, Exception ex)
-        {
-            return new TFallback();
         }
     }
 }

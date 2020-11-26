@@ -27,7 +27,7 @@ namespace TheXDS.Ganymede.ViewModels
             _pgnum = ++_count;
             SumCommand = new SimpleCommand(OnSum);
             OkTkxByeCommand = new SimpleCommand(() => Host.Close(this));
-            BusyOpCommand = new SimpleCommand(async () => await Host.RunBusyAsync(OnBusyOp));
+            BusyOpCommand = BuildBusyCommand(OnBusyOp);
             SaluteCommand = new SimpleCommand(OnSalute);
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
         }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using TheXDS.MCART.Types.Extensions;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Types.Extensions;
 
 namespace TheXDS.Ganymede.Component
 {
@@ -15,7 +17,7 @@ namespace TheXDS.Ganymede.Component
     /// <typeparam name="T">
     /// Tipo de contenedor visual a implementar.
     /// </typeparam>
-    public class DictionaryVisualResolver<T> : IVisualResolver<T> where T : notnull
+    public class DictionaryVisualResolver<T> : IVisualResolver<T>, IEnumerable<KeyValuePair<Type, Type>> where T : notnull
     {
         private readonly Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
 
@@ -91,6 +93,28 @@ namespace TheXDS.Ganymede.Component
         }
 
         /// <summary>
+        /// Intenta resolver un contenedor visual a utilizar para alojar al
+        /// <see cref="PageViewModel"/> especificado.
+        /// </summary>
+        /// <param name="viewModel">
+        /// <see cref="PageViewModel"/> que va a alojarse.
+        /// </param>
+        /// <param name="visual">
+        /// Contenedor visual para el <see cref="PageViewModel"/> especificado.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> si el contenedor visual pudo ser resuelto
+        /// por esta instancia, <see langword="false"/> en caso contrario.
+        /// </returns>
+        public bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)] out T? visual)
+        {
+            bool r; var t = viewModel.GetType();
+            visual = (r = _mappings.ContainsKey(t))
+                ? ResolveVisual(t) : default!;
+            return r;
+        }
+
+        /// <summary>
         /// Registra la resolución de un <see cref="PageViewModel"/> a un tipo
         /// de contenedor visual a utilizar para presentarlo.
         /// </summary>
@@ -98,11 +122,26 @@ namespace TheXDS.Ganymede.Component
         /// Tipo de <see cref="PageViewModel"/> que va a alojarse.
         /// </typeparam>
         /// <typeparam name="TVisual">
-        /// Tipo de contenedor visual a utilizar para mostrar el <see cref="PageViewModel"/> a registrar.
+        /// Tipo de contenedor visual a utilizar para mostrar el 
+        /// <see cref="PageViewModel"/> a registrar.
         /// </typeparam>
-        public void RegisterVisual<TViewModel, TVisual>() where TViewModel : PageViewModel where TVisual : notnull, T, new()
+        /// <returns>
+        /// Esta misma instancia, permitiendo el uso de sintaxis Fluent.
+        /// </returns>
+        public DictionaryVisualResolver<T> RegisterVisual<TViewModel, TVisual>() where TViewModel : PageViewModel where TVisual : notnull, T, new()
         {
             _mappings.Add(typeof(TViewModel), typeof(TVisual));
+            return this;
+        }
+
+        IEnumerator<KeyValuePair<Type, Type>> IEnumerable<KeyValuePair<Type, Type>>.GetEnumerator()
+        {
+            return ((IEnumerable<KeyValuePair<Type, Type>>)_mappings).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)_mappings).GetEnumerator();
         }
     }
 }

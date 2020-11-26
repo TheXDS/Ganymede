@@ -8,15 +8,15 @@
     xmlns:vc ="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede"    
     mc:Ignorable="d" 
+    x:Name="ThisPage"
     d:DesignHeight="450" d:DesignWidth="728.78"
-    Title="FallbackErrorPage"
     d:DataContext="{d:DesignInstance vm:PageViewModel}">
     <Page.Resources>
         <vc:McartColorConverter x:Key="McartColorConverter"/>
     </Page.Resources>
     <Grid>
         <Border
-            Background="{Binding AccentColor, Converter={StaticResource McartColorConverter}}">
+            Background="{Binding Host.AccentColor, Converter={StaticResource McartColorConverter}}">
             <Border.OpacityMask>
                 <LinearGradientBrush EndPoint="0,1">
                     <GradientStop Offset="0" Color="#80000000"/>
@@ -28,8 +28,10 @@
             <Viewbox MaxWidth="200">
                 <TextBlock Foreground="Orange">⚠</TextBlock>
             </Viewbox>
-            <StackPanel MaxWidth="384">
-                <TextBlock Text="{Binding Title}" Margin="0,20,0,0"/>
+            <StackPanel MaxWidth="400" VerticalAlignment="Center">
+                <TextBlock
+                    Text="{Binding Title, ElementName=ThisPage, Mode=OneWay}"
+                    Margin="0,20,0,0" FontSize="24"/>
                 <Separator/>
                 <TextBlock TextWrapping="WrapWithOverflow" x:Name="LblMessage"/>
             </StackPanel>

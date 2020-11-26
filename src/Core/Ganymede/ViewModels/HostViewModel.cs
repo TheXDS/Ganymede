@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using TheXDS.Ganymede.Component;
@@ -24,12 +25,30 @@ namespace TheXDS.Ganymede.ViewModels
         /// páginas de este host.
         /// </summary>
         public event EventHandler<ValueEventArgs<PageViewModel>>? PageAdded;
-        
+
+        /// <summary>
+        /// Se produce cuando una página ha sido agregada e inicializada, y
+        /// está lista para interactuar.
+        /// </summary>
+        public event EventHandler<ValueEventArgs<PageViewModel>>? PageReady;
+
         /// <summary>
         /// Se produce cuando se ha cerrado una página en la colección de
         /// páginas de este host.
         /// </summary>
         public event EventHandler<ValueEventArgs<PageViewModel>>? PageClosed;
+
+        /// <summary>
+        /// Se produce cuando se agregará una página a la colección de
+        /// páginas de este host.
+        /// </summary>
+        public event EventHandler<CancelValueEventArgs<PageViewModel>>? PageAdding;
+
+        /// <summary>
+        /// Se produce cuando se cerrará una página en la colección de
+        /// páginas de este host.
+        /// </summary>
+        public event EventHandler<CancelValueEventArgs<PageViewModel>>? PageClosing;
 
         /// <summary>
         /// Enumera las páginas abiertas activas de esta instancia.
@@ -44,8 +63,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// </param>
         public virtual async Task AddPage(PageViewModel page)
         {
-            PushPage(page);
-            await InitPageAsync(page).ConfigureAwait(false);
+            if (PushPage(page)) await InitPageAsync(page).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -56,9 +74,10 @@ namespace TheXDS.Ganymede.ViewModels
         /// </param>
         public virtual void ClosePage(PageViewModel page)
         {
+            if (CancelEv(PageClosing, page)) return;
             page.Host = null!;
             _pages.Remove(page);
-            PageClosed?.Invoke(this,page);
+            PageClosed?.Invoke(this, page);
         }
 
         /// <summary>
@@ -82,7 +101,7 @@ namespace TheXDS.Ganymede.ViewModels
         protected async Task InitPageAsync(PageViewModel page)
         {
             await page.Host.RunBusyAsync(p => page.UiInit(page.Host, p)).ConfigureAwait(false);
-            PageAdded?.Invoke(this, page);
+            PageReady?.Invoke(this, page);
         }
 
         /// <summary>
@@ -91,9 +110,24 @@ namespace TheXDS.Ganymede.ViewModels
         /// <param name="page">
         /// Página a agregar.
         /// </param>
-        protected void PushPage(PageViewModel page)
+        /// <returns>
+        /// <see langword="true"/> si la página se agregó correctamente a la
+        /// colección de páginas abiertas, <see langword="false"/> en caso
+        /// contrario.
+        /// </returns>
+        protected bool PushPage(PageViewModel page)
         {
+            if (CancelEv(PageAdding, page)) return false;
             page.PushInto(_pages).Host = _serviceFactory.Create(page, this);
+            PageAdded?.Invoke(this, page);
+            return true;
+        }
+
+        private bool CancelEv(EventHandler<CancelValueEventArgs<PageViewModel>>? handler, PageViewModel page)
+        {
+            var ev = new CancelValueEventArgs<PageViewModel>(page);
+            handler?.Invoke(this, ev);
+            return ev.Cancel;
         }
     }
 
@@ -134,7 +168,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// </param>
         public override async Task AddPage(PageViewModel page)
         {
-            PushPage(page);
+            if (!PushPage(page)) return;
             Notify(nameof(Children));
             await InitPageAsync(page).ConfigureAwait(false);
         }

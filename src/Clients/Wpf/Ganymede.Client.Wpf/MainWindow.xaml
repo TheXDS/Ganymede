@@ -161,9 +161,15 @@
         </Style>
     </Window.Resources>
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel x:Name="_vm"/>
     </Window.DataContext>
-    <TabControl Style="{DynamicResource TabControlStyle1}" Background="Transparent" BorderThickness="0" Padding="0" ItemsSource="{Binding Children, Mode=OneWay}">
+    <TabControl
+        x:Name="_tabRoot"
+        Style="{DynamicResource TabControlStyle1}" 
+        Background="Transparent"
+        BorderThickness="0"
+        Padding="0"
+        ItemsSource="{Binding Children, Mode=OneWay}">
         <component:Props.AltContent>
             <TextBlock TextWrapping="Wrap">Dummy - Contenido de prueba (Idealmente este bloque de UI no se mostraría, o aquí aparecería una imagen de fondo, un menú o un mensaje de error)</TextBlock>
         </component:Props.AltContent>

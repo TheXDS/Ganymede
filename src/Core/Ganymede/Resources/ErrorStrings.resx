@@ -120,4 +120,7 @@
   <data name="UiHostAccessException" xml:space="preserve">
     <value>El Host de esta página no está disponible. Realice todas sus inicializaciones de UI reemplazando el método 'UiInitAsync()'</value>
   </data>
+  <data name="VisualHostNotFound" xml:space="preserve">
+    <value>No se ha encontrado un host visual para alojar a la página '{0}'.</value>
+  </data>
 </root>
