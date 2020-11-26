@@ -74,5 +74,5 @@ jobs:
         dotnet-version: 5.0.100
 
     # Build the solution
-    - name: Execute unit tests
+    - name: Build the solution
       run: dotnet build $env:Solution_Name
