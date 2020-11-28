@@ -2,6 +2,7 @@
 using TheXDS.Ganymede.Pages;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.ViewModels;
+using System.Windows;
 
 namespace TheXDS.Ganymede.Client.ViewModels
 {
@@ -32,7 +33,8 @@ namespace TheXDS.Ganymede.Client.ViewModels
         /// <inheritdoc/>
         public TabHost Build(PageViewModel viewModel)
         {
-            return new TabHost(viewModel, _resolver.ResolveVisual(viewModel));
+            return Application.Current.Dispatcher.Invoke(() =>
+                new TabHost(viewModel, _resolver.ResolveVisual(viewModel)));
         }
     }
 }

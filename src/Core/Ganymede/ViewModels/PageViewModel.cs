@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using TheXDS.Ganymede.Component;
+using TheXDS.Ganymede.Exceptions;
 using TheXDS.Ganymede.Resources;
 using TheXDS.MCART.Types.Base;
 using TheXDS.MCART.ViewModel;
@@ -25,13 +26,23 @@ namespace TheXDS.Ganymede.ViewModels
         }
 
         /// <summary>
-        /// Permite establecer propiedades básicas de UI de la página, como ser el título, estado, etc.
+        /// Permite establecer propiedades básicas de UI de la página, como ser
+        /// el título, estado, etc.
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="host">
+        /// Configurador del host visual que alojará a la página.
+        /// </param>
         /// <param name="progress">
         /// Objeto que permite reportar el progreso de la operación.
         /// </param>
-        protected internal virtual void UiInit(IUiConfigurator host, IProgress<ProgressInfo> progress)
+        /// <remarks>Considere comprobar si <paramref name="host"/> es
+        /// <see langword="null"/> cada vez que desee configurar una propiedad
+        /// del host visual, ya que existe la posibilidad de que el usuario
+        /// decida cerrar la página antes de completar las inicializaciones. Si
+        /// no realiza las comprobaciones, podría producirse un
+        /// <see cref="UiHostAccessException"/>.
+        /// </remarks>
+        protected internal virtual void UiInit(IUiConfigurator? host, IProgress<ProgressInfo> progress)
         {
             host.SetTitle(St.UntitledPage);
         }

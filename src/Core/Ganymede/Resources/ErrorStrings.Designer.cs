@@ -61,7 +61,7 @@ namespace TheXDS.Ganymede.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El Host de esta página no está disponible. Realice todas sus inicializaciones de UI reemplazando el método &apos;UiInitAsync()&apos;.
+        ///   Busca una cadena traducida similar a El Host de esta página no está disponible. Realice todas sus inicializaciones de UI reemplazando el método &apos;UiInitAsync()&apos;. Tampoco permita que la página sea cerrada durante la inicialización..
         /// </summary>
         internal static string UiHostAccessException {
             get {

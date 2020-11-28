@@ -219,27 +219,87 @@ namespace TheXDS.Ganymede.Mvvm
         }
 
         /// <inheritdoc/>
-        public void SetTitle(string value)
+        public virtual void SetTitle(string value)
         {
             Title = value;
         }
 
         /// <inheritdoc/>
-        public void SetCloseable(bool value)
+        public virtual void SetCloseable(bool value)
         {
             Closeable = value;
         }
 
         /// <inheritdoc/>
-        public void SetAccentColor(Color? value)
+        public virtual void SetAccentColor(Color? value)
         {
             AccentColor = value;
         }
 
-        private void ReportProgress(ProgressInfo progress)
+        /// <summary>
+        /// Permite establecer el valor de reporte de progreso en esta
+        /// instancia.
+        /// </summary>
+        /// <param name="progress">
+        /// Progreso a reportar.
+        /// </param>
+        protected virtual void ReportProgress(ProgressInfo progress)
         {
             Progress = progress.Progress ?? double.NaN;
             MessageText = progress.Status;
+        }
+    }
+
+    /// <summary>
+    /// <see cref="MvvmServiceBroker"/> que permite ejecutar acciones que
+    /// afectan a la UI en el hilo principal de la UI de la aplicación.
+    /// </summary>
+    public class STAMvvmServiceBroker : MvvmServiceBroker
+    {
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase
+        /// <see cref="STAMvvmServiceBroker"/>.
+        /// </summary>
+        /// <param name="guest">Página cliente del servicio de UI.</param>
+        /// <param name="host">
+        /// Host de la página cliente del servicio de UI.
+        /// </param>
+        /// <param name="uiDispatcher">
+        /// Delegado que permite ejecutar llamadas en el hilo de UI.
+        /// </param>
+        public STAMvvmServiceBroker(PageViewModel guest, HostViewModel host, Action<Action> uiDispatcher) : base(guest, host)
+        {
+            UiDispatcher = uiDispatcher;
+        }
+
+        /// <summary>
+        /// Delegado que permite ejecutar llamadas en el hilo de UI
+        /// especificado.
+        /// </summary>
+        public Action<Action> UiDispatcher { get; }
+
+        /// <inheritdoc/>
+        public override void SetTitle(string value)
+        {
+            UiDispatcher(() => base.SetTitle(value));
+        }
+
+        /// <inheritdoc/>
+        public override void SetCloseable(bool value)
+        {
+            UiDispatcher(() => base.SetCloseable(value));
+        }
+
+        /// <inheritdoc/>
+        public override void SetAccentColor(Color? value)
+        {
+            UiDispatcher(() => base.SetAccentColor(value));
+        }
+
+        /// <inheritdoc/>
+        protected override void ReportProgress(ProgressInfo progress)
+        {
+            UiDispatcher(() => base.ReportProgress(progress));
         }
     }
 }

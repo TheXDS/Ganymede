@@ -167,10 +167,11 @@ namespace TermClient
             }
         }
 
-        public override async Task AddPage(PageViewModel page)
+        public override async Task<bool> AddPage(PageViewModel page)
         {
             await base.AddPage(page);
             DrawTabs();
+            return true;
         }
         public override void ClosePage(PageViewModel page)
         {            

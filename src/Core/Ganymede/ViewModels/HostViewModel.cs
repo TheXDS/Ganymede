@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using TheXDS.Ganymede.Component;
@@ -61,9 +60,11 @@ namespace TheXDS.Ganymede.ViewModels
         /// <param name="page">
         /// Página a agregar.
         /// </param>
-        public virtual async Task AddPage(PageViewModel page)
+        public virtual async Task<bool> AddPage(PageViewModel page)
         {
-            if (PushPage(page)) await InitPageAsync(page).ConfigureAwait(false);
+            var r = PushPage(page);
+            if (r) await InitPageAsync(page).ConfigureAwait(false);
+            return r;
         }
 
         /// <summary>
@@ -141,7 +142,20 @@ namespace TheXDS.Ganymede.ViewModels
     /// </typeparam>
     public class HostViewModel<T> : HostViewModel where T : notnull
     {
+        private readonly Dictionary<PageViewModel, T> _visuals = new Dictionary<PageViewModel, T>();
         private readonly IVisualBuilder<T> _visualBuilder;
+
+        /// <summary>
+        /// Se produce cuando un contenedor visual ha sido agregado a la 
+        /// colección de visuales abiertos.
+        /// </summary>
+        public event EventHandler<ValueEventArgs<T>>? VisualAdded;
+
+        /// <summary>
+        /// Se produce cuando un contenedor visual es quitado de la colección
+        /// de visuales abiertos.
+        /// </summary>
+        public event EventHandler<ValueEventArgs<T>>? VisualRemoved;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase
@@ -166,11 +180,15 @@ namespace TheXDS.Ganymede.ViewModels
         /// <param name="page">
         /// Página a agregar.
         /// </param>
-        public override async Task AddPage(PageViewModel page)
+        public override async Task<bool> AddPage(PageViewModel page)
         {
-            if (!PushPage(page)) return;
-            Notify(nameof(Children));
-            await InitPageAsync(page).ConfigureAwait(false);
+            T v;
+            if (!PushPage(page)) return false;
+            _visuals.Add(page, v = _visualBuilder.Build(page));
+            Notify(nameof(Visuals));
+            VisualAdded?.Invoke(this, new ValueEventArgs<T>(v));
+            await InitPageAsync(page);
+            return true;
         }
 
         /// <summary>
@@ -181,14 +199,18 @@ namespace TheXDS.Ganymede.ViewModels
         /// </param>
         public override void ClosePage(PageViewModel page)
         {
+            T v;
             base.ClosePage(page);
-            Notify(nameof(Children));
+            v = _visuals[page];
+            _visuals.Remove(page);
+            Notify(nameof(Visuals));
+            VisualRemoved?.Invoke(this, new ValueEventArgs<T>(v));
         }
 
         /// <summary>
         /// Enumera los contenedores visuales de los
         /// <see cref="PageViewModel"/> abiertos dentro de esta instancia.
         /// </summary>
-        public IEnumerable<T> Children => _pages.Select(_visualBuilder.Build);
+        public virtual IEnumerable<T> Visuals => _visuals.Select(p => p.Value);
     }
 }

@@ -169,7 +169,7 @@
         Background="Transparent"
         BorderThickness="0"
         Padding="0"
-        ItemsSource="{Binding Children, Mode=OneWay}">
+        ItemsSource="{Binding Visuals, Mode=OneWay}">
         <component:Props.AltContent>
             <TextBlock TextWrapping="Wrap">Dummy - Contenido de prueba (Idealmente este bloque de UI no se mostraría, o aquí aparecería una imagen de fondo, un menú o un mensaje de error)</TextBlock>
         </component:Props.AltContent>

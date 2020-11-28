@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows.Input;
 using TheXDS.Ganymede.Component;
@@ -33,11 +34,16 @@ namespace TheXDS.Ganymede.ViewModels
         }
 
         /// <inheritdoc/>
-        protected override void UiInit(IUiConfigurator host, IProgress<ProgressInfo> progress)
+        protected override void UiInit(IUiConfigurator? host, IProgress<ProgressInfo> progress)
         {
-            host.SetTitle($"Prueba # {_pgnum}");            
+            host?.SetCloseable(false);
+
+            host?.SetTitle($"Prueba # {_pgnum}");            
+            host?.SetAccentColor(MCART.Resources.Colors.Pick());
+
             Thread.Sleep(3000);
-            host.SetAccentColor(MCART.Resources.Colors.Pick());
+
+            host?.SetCloseable(true);
         }
 
         /// <summary>

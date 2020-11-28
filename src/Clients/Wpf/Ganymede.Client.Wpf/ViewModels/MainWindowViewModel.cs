@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Windows.Controls;
-using TheXDS.MCART.Types.Extensions;
-using TheXDS.Ganymede.Pages;
-using TheXDS.Ganymede.Component;
-using TheXDS.Ganymede.ViewModels;
-using TheXDS.Ganymede.Client.Pages;
-using TheXDS.Ganymede.Mvvm;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using TheXDS.Ganymede.Client.Pages;
+using TheXDS.Ganymede.Component;
+using TheXDS.Ganymede.Mvvm;
+using TheXDS.Ganymede.Pages;
+using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.Client.ViewModels
 {
@@ -19,7 +19,7 @@ namespace TheXDS.Ganymede.Client.ViewModels
         /// Inicializa una nueva instancia de la clase
         /// <see cref="MainWindowViewModel"/>.
         /// </summary>
-        public MainWindowViewModel() : base(CreateBuilder(), new MvvmServiceBrokerFactory())
+        public MainWindowViewModel() : base(CreateBuilder(), new STAMvvmServiceBrokerFactory())
         {
             Task.WhenAll(new[]
             {
@@ -40,6 +40,16 @@ namespace TheXDS.Ganymede.Client.ViewModels
         private static Page BuildErrorPage(PageViewModel vm, Exception ex)
         {
             return new FallbackErrorPage(ex);
+        }
+    }
+
+
+    public class STAMvvmServiceBrokerFactory : IUiServiceBrokerFactory
+    {
+        /// <inheritdoc/>
+        public IUiServiceBroker Create(PageViewModel page, HostViewModel host)
+        {
+            return new STAMvvmServiceBroker(page, host, Application.Current.Dispatcher.Invoke);
         }
     }
 }
