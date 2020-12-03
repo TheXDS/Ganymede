@@ -15,7 +15,7 @@
         <BooleanToVisibilityConverter x:Key="BoolVis"/>
     </TabItem.Resources>
     <TabItem.Header>
-        <Border BorderThickness="0,0,0,1" BorderBrush="{Binding Host.AccentColor, Converter={StaticResource McartColorConverter}}">
+        <Border BorderThickness="0,0,0,1" BorderBrush="{Binding UiServices.AccentColor, Converter={StaticResource McartColorConverter}}">
             <DockPanel>
                 <Button 
                     Width="16"
@@ -23,14 +23,14 @@
                     BorderThickness="0" 
                     Background="Transparent"
                     DockPanel.Dock="Right"
-                    Visibility="{Binding Host.Closeable, Converter={StaticResource BoolVis}}"
-                    Command="{Binding Host.CloseCommand, Mode=OneWay}">❌</Button>
+                    Visibility="{Binding UiServices.Closeable, Converter={StaticResource BoolVis}}"
+                    Command="{Binding UiServices.CloseCommand, Mode=OneWay}">❌</Button>
                 <controls:BusyIndicator
                     Radius="5"
                     Thickness="2"
                     Margin="0,0,3,0"
-                    Visibility="{Binding Host.IsBusy, Converter={StaticResource BoolVis}}"/>
-                <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding Host.Title}"/>
+                    Visibility="{Binding UiServices.IsBusy, Converter={StaticResource BoolVis}}"/>
+                <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding UiServices.Title}"/>
             </DockPanel>
         </Border>
     </TabItem.Header>

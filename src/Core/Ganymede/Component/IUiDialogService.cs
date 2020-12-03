@@ -1,70 +1,27 @@
-﻿using System;
+﻿using TheXDS.MCART.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART.Types;
 using TheXDS.MCART.UI;
 using St = TheXDS.Ganymede.Resources.Strings;
 
 namespace TheXDS.Ganymede.Component
 {
-    /// <summary>
-    /// Define una serie de miembros a implementar por un tipo que exponga
-    /// servicios de UI a una página de Ganymede.
-    /// </summary>
-    public interface IUiServiceBroker : IUiConfigurator
+    public interface IUiServiceBroker
     {
-        /// <summary>
-        /// Obtiene el título de la página.
-        /// </summary>
-        string Title { get; }
+        IUiDialogService Dialogs { get; }
+        IUiHostService Host { get; }
+        IUiPropertyDescriptor Properties { get; }
+        IUiSiblingControl Siblings { get; }
+    }
 
-        /// <summary>
-        /// Obtiene un valor que define si es posible cerrar la página.
-        /// </summary>
-        bool Closeable { get; }
-
-        /// <summary>
-        /// Obtiene una referencia al color de acento definido para la página.
-        /// </summary>
-        Color? AccentColor { get; }
-
-        /// <summary>
-        /// Solicita el cierre de una página.
-        /// </summary>
-        /// <param name="page"></param>
-        /// <returns>
-        /// <see langword="true"/> si este método ha cerrado la página 
-        /// especificada o si la misma no esta abaierta, 
-        /// <see langword="false"/> en caso que la página no se haya cerrado.
-        /// </returns>
-        bool Close(PageViewModel page);
-
-        /// <summary>
-        /// Solicita la apertura de una página.
-        /// </summary>
-        /// <param name="page">Página a abrir o activar.</param>
-        /// <returns>
-        /// <see langword="true"/> si la página solicitada ha sido abierta 
-        /// exitosamente o si la misma ya se encontraba abierta, 
-        /// <see langword="false"/> en caso contrario.
-        /// </returns>
-        Task<bool> OpenAsync(PageViewModel page);
-
-        /// <summary>
-        /// Solicita la apertura de una nueva página.
-        /// </summary>
-        /// <typeparam name="TPage">
-        /// Tipo de la página a instanciar y abrir.
-        /// </typeparam>
-        /// <returns>
-        /// <see langword="true"/> si la página solicitada ha sido abierta 
-        /// exitosamente o si la misma ya se encontraba abierta, 
-        /// <see langword="false"/> en caso contrario.
-        /// </returns>
-        Task<bool> OpenAsync<TPage>() where TPage : PageViewModel, new() => OpenAsync(new TPage());
-
+    /// <summary>
+    /// Define una serie de miembros a implementar por un tipo que provea de 
+    /// servicios de diálogo de UI a una página.
+    /// </summary>
+    public interface IUiDialogService
+    {
         /// <summary>
         /// Envía un mensaje de diálogo al servicio de UI.
         /// </summary>
@@ -144,36 +101,5 @@ namespace TheXDS.Ganymede.Component
                 _ => null
             };
         }
-
-        /// <summary>
-        /// Envía una acción como un trabajador de fondo al servicio de UI,
-        /// permitiendo reportar el estado de la acción y cambiando el estado
-        /// de presentación de la página a "Ocupado".
-        /// </summary>
-        /// <param name="progress">
-        /// Objeto que permite reportar el progreso de una tarea.
-        /// </param>
-        /// <returns>
-        /// Una tarea que puede utilizarse para monitorear la operación
-        /// asíncrona.
-        /// </returns>
-        Task RunBusyAsync(Action<IProgress<ProgressInfo>> progress);
-
-        /// <summary>
-        /// Envía una función como un trabajador de fondo al servicio de UI,
-        /// permitiendo reportar el estado de la función y cambiando el estado
-        /// de presentación de la página a "Ocupado".
-        /// </summary>
-        /// <typeparam name="T">
-        /// Tipo de valor devuelto por la función.
-        /// </typeparam>
-        /// <param name="progress">
-        /// Objeto que permite reportar el progreso de una tarea.
-        /// </param>
-        /// <returns>
-        /// Una tarea con valor devuelto de tipo <typeparamref name="T"/> que
-        /// puede utilizarse para monitorear la operación asíncrona.
-        /// </returns>
-        Task<T> RunBusyAsync<T>(Func<IProgress<ProgressInfo>, T> progress);
     }
 }

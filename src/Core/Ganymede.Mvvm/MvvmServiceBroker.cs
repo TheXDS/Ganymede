@@ -18,7 +18,7 @@ namespace TheXDS.Ganymede.Mvvm
     /// Procura servicios de UI para instancias de <see cref="PageViewModel"/>,
     /// implementando algunos de los servicios por medio del paradigma MVVM.
     /// </summary>
-    public class MvvmServiceBroker : NotifyPropertyChanged, IUiServiceBroker
+    public class MvvmServiceBroker : NotifyPropertyChanged, IUiServiceBroker, IUiHostService, IUiSiblingControl, IUiDialogService
     {
         private int? _Progress;
         private string? _DialogIcon;
@@ -28,6 +28,7 @@ namespace TheXDS.Ganymede.Mvvm
         private Color? _accentColor;
         private IEnumerable<Launcher>? _actions;
         private MvvmContent _Content;
+        private bool _modal;
 
         /// <summary>
         /// Obtiene la instancia cliente del servicio de UI.
@@ -45,50 +46,7 @@ namespace TheXDS.Ganymede.Mvvm
         public ICommand CloseCommand { get; }
 
         /// <summary>
-        /// Obtiene o establece el título de la página.
-        /// </summary>
-        /// <value>El título de la página.</value>
-        public string Title
-        {
-            get => _title ?? string.Empty;
-            private set => Change(ref _title, value);
-        }
-
-        /// <summary>
-        /// Obtiene o establece un valor que indica si esta página puede ser
-        /// cerrada.
-        /// </summary>
-        /// <value>
-        /// <see langword="true"/> para indicar que la página puede ser
-        /// cerrada, <see langword="false"/> en caso contrario.
-        /// </value>
-        public bool Closeable
-        {
-            get => _closeable;
-            private set => Change(ref _closeable, value);
-        }
-
-        /// <summary>
-        /// Obtiene o establece un color decorativo a utilizar para la página.
-        /// </summary>
-        /// <value>El color decorativo a utilizar.</value>
-        public Color? AccentColor
-        {
-            get => _accentColor;
-            private set => Change(ref _accentColor, value);
-        }
-
-        /// <summary>
-        ///     Obtiene o establece el valor IsBusy.
-        /// </summary>
-        /// <value>El valor de IsBusy.</value>
-        public bool IsBusy
-        {
-            get => ContentSelection == MvvmContent.Progress;
-        }
-
-        /// <summary>
-        ///     Obtiene o establece el valor Content.
+        /// Obtiene o establece el valor Content.
         /// </summary>
         /// <value>El valor de Content.</value>
         public MvvmContent ContentSelection
@@ -98,7 +56,7 @@ namespace TheXDS.Ganymede.Mvvm
         }
 
         /// <summary>
-        ///     Obtiene o establece el valor Progress.
+        /// Obtiene o establece el valor Progress.
         /// </summary>
         /// <value>El valor de Progress.</value>
         public double Progress
@@ -111,7 +69,7 @@ namespace TheXDS.Ganymede.Mvvm
         }
 
         /// <summary>
-        ///     Obtiene o establece el valor DialogIcon.
+        /// Obtiene o establece el valor DialogIcon.
         /// </summary>
         /// <value>El valor de DialogIcon.</value>
         public string? DialogIcon
@@ -121,7 +79,7 @@ namespace TheXDS.Ganymede.Mvvm
         }
 
         /// <summary>
-        ///     Obtiene o establece el valor Message.
+        /// Obtiene o establece el valor Message.
         /// </summary>
         /// <value>El valor de Message.</value>
         public string? MessageText
@@ -131,7 +89,7 @@ namespace TheXDS.Ganymede.Mvvm
         }
 
         /// <summary>
-        ///     Obtiene o establece el valor MyProperty.
+        /// Obtiene o establece el valor Actions.
         /// </summary>
         /// <value>El valor de MyProperty.</value>
         public IEnumerable<Launcher> Actions
@@ -139,6 +97,12 @@ namespace TheXDS.Ganymede.Mvvm
             get => _actions ?? Array.Empty<Launcher>();
             private set => Change(ref _actions, value);
         }
+
+        /// <summary>
+        /// Obtiene o establece el valor IsBusy.
+        /// </summary>
+        /// <value>El valor de IsBusy.</value>
+        public bool IsBusy => ContentSelection == MvvmContent.Progress;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase 
@@ -153,34 +117,93 @@ namespace TheXDS.Ganymede.Mvvm
             RegisterPropertyChangeBroadcast(nameof(ContentSelection), nameof(IsBusy));
             Guest = guest;
             Host = host;
-            CloseCommand = new ObservingCommand(this, () => Host.ClosePage(Guest))
-                .ListensToCanExecute(() => Closeable);
+            CloseCommand = new ObservingCommand(this, ((IUiServiceBroker)this).Host.Close)
+                .ListensToCanExecute(() => ((IUiServiceBroker)this).Properties.Closeable);
+        }
+
+        /// <summary>
+        /// Permite establecer el valor de reporte de progreso en esta
+        /// instancia.
+        /// </summary>
+        /// <param name="progress">
+        /// Progreso a reportar.
+        /// </param>
+        protected virtual void ReportProgress(ProgressInfo progress)
+        {
+            Progress = progress.Progress ?? double.NaN;
+            MessageText = progress.Status;
+        }
+
+        /// <summary>
+        /// Establece el títlo de la página.
+        /// </summary>
+        /// <param name="value">
+        /// Título a establecer en la página.
+        /// </param>
+        protected void SetTitle(string value) => ((IUiPropertyDescriptor)this).Title = value;
+
+        /// <summary>
+        /// Establece un valor que indica si la página puede ser cerrada.
+        /// </summary>
+        /// <param name="value">
+        /// Valor a establecer que define el la posibilidad de cerrar la
+        /// página.
+        /// </param>
+        protected void SetCloseable(bool value) => ((IUiPropertyDescriptor)this).Closeable = value;
+
+        /// <summary>
+        /// Establece el color a utilizar para decorar la página.
+        /// </summary>
+        /// <param name="value">
+        /// Color a utilizar para decorar la página.
+        /// </param>
+        protected void SetAccentColor(Color? value) => ((IUiPropertyDescriptor)this).AccentColor = value;
+        protected void SetModal(bool value) => ((IUiPropertyDescriptor)this).Modal = value;
+
+        /// <inheritdoc/>
+        public Color? AccentColor
+        {
+            get => _accentColor;
+            set => Change(ref _accentColor, value);
         }
 
         /// <inheritdoc/>
-        public bool Close(PageViewModel page)
+        public bool Closeable
+        { 
+            get => _closeable;
+            set => Change(ref _closeable, value);
+        }
+
+        /// <inheritdoc/>
+        public string Title
+        { 
+            get => _title ?? string.Empty;
+            set => Change(ref _title, value);
+        }
+
+        /// <inheritdoc/>
+        public bool Modal
+        {
+            get => _modal;
+            set => Change(ref _modal, value);
+        }
+
+        IUiDialogService IUiServiceBroker.Dialogs => this;
+
+        IUiHostService IUiServiceBroker.Host => this;
+
+        IUiPropertyDescriptor IUiServiceBroker.Properties => this;
+
+        IUiSiblingControl IUiServiceBroker.Siblings => this;
+
+        void IUiHostControl.Close() => ((IUiSiblingControl)this).Close(Guest);
+        bool IUiSiblingControl.Close(PageViewModel page)
         {
             var retval = Host.Pages.Contains(page);
             Host.ClosePage(page);
             return retval;
         }
-
-        /// <inheritdoc/>
-        public async Task<bool> OpenAsync(PageViewModel page)
-        {
-            try
-            {
-                await Host.AddPage(page);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <inheritdoc/>
-        public async Task<int> Message(string message, params string[] options)
+        async Task<int> IUiDialogService.Message(string message, params string[] options)
         {
             var result = new TaskCompletionSource<int>();
             var actions = new List<Launcher>();
@@ -198,108 +221,42 @@ namespace TheXDS.Ganymede.Mvvm
             ContentSelection = MvvmContent.Default;
             return r;
         }
-
-        /// <inheritdoc/>
-        public async Task RunBusyAsync(Action<IProgress<ProgressInfo>> action)
+        async Task<bool> IUiSiblingControl.OpenAsync(PageViewModel page)
         {
-            ContentSelection = MvvmContent.Progress;            
-            var progress = new Progress<ProgressInfo>(ReportProgress);
-            await Task.Run(() => action(progress));
-            ContentSelection = MvvmContent.Default;
+            try
+            {
+                await Host.AddPage(page);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
-
-        /// <inheritdoc/>
-        public async Task<T> RunBusyAsync<T>(Func<IProgress<ProgressInfo>, T> function)
+        async Task IUiHostService.RunBusyAsync(Func<IProgress<ProgressInfo>, Task> task)
         {
             ContentSelection = MvvmContent.Progress;
             var progress = new Progress<ProgressInfo>(ReportProgress);
-            var r = await Task.Run(() => function(progress));
+            await task(progress);
+            ContentSelection = MvvmContent.Default;
+        }
+        async Task<T> IUiHostService.RunBusyAsync<T>(Func<IProgress<ProgressInfo>, Task<T>> task)
+        {
+            ContentSelection = MvvmContent.Progress;
+            var progress = new Progress<ProgressInfo>(ReportProgress);
+            var r = await task(progress);
             ContentSelection = MvvmContent.Default;
             return r;
         }
 
-        /// <inheritdoc/>
-        public virtual void SetTitle(string value)
+        void IUiHostControl.Activate()
         {
-            Title = value;
+            throw new NotImplementedException();
         }
 
-        /// <inheritdoc/>
-        public virtual void SetCloseable(bool value)
+        void IUiHostControl.Deactivate()
         {
-            Closeable = value;
-        }
-
-        /// <inheritdoc/>
-        public virtual void SetAccentColor(Color? value)
-        {
-            AccentColor = value;
-        }
-
-        /// <summary>
-        /// Permite establecer el valor de reporte de progreso en esta
-        /// instancia.
-        /// </summary>
-        /// <param name="progress">
-        /// Progreso a reportar.
-        /// </param>
-        protected virtual void ReportProgress(ProgressInfo progress)
-        {
-            Progress = progress.Progress ?? double.NaN;
-            MessageText = progress.Status;
-        }
-    }
-
-    /// <summary>
-    /// <see cref="MvvmServiceBroker"/> que permite ejecutar acciones que
-    /// afectan a la UI en el hilo principal de la UI de la aplicación.
-    /// </summary>
-    public class STAMvvmServiceBroker : MvvmServiceBroker
-    {
-        /// <summary>
-        /// Inicializa una nueva instancia de la clase
-        /// <see cref="STAMvvmServiceBroker"/>.
-        /// </summary>
-        /// <param name="guest">Página cliente del servicio de UI.</param>
-        /// <param name="host">
-        /// Host de la página cliente del servicio de UI.
-        /// </param>
-        /// <param name="uiDispatcher">
-        /// Delegado que permite ejecutar llamadas en el hilo de UI.
-        /// </param>
-        public STAMvvmServiceBroker(PageViewModel guest, HostViewModel host, Action<Action> uiDispatcher) : base(guest, host)
-        {
-            UiDispatcher = uiDispatcher;
-        }
-
-        /// <summary>
-        /// Delegado que permite ejecutar llamadas en el hilo de UI
-        /// especificado.
-        /// </summary>
-        public Action<Action> UiDispatcher { get; }
-
-        /// <inheritdoc/>
-        public override void SetTitle(string value)
-        {
-            UiDispatcher(() => base.SetTitle(value));
-        }
-
-        /// <inheritdoc/>
-        public override void SetCloseable(bool value)
-        {
-            UiDispatcher(() => base.SetCloseable(value));
-        }
-
-        /// <inheritdoc/>
-        public override void SetAccentColor(Color? value)
-        {
-            UiDispatcher(() => base.SetAccentColor(value));
-        }
-
-        /// <inheritdoc/>
-        protected override void ReportProgress(ProgressInfo progress)
-        {
-            UiDispatcher(() => base.ReportProgress(progress));
+            throw new NotImplementedException();
         }
     }
 }

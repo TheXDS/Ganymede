@@ -15,7 +15,7 @@
     <Grid>
         <Border
             x:Name="innerBorder"
-            Background="{Binding Host.AccentColor, Converter={StaticResource McartColorConverter}}">
+            Background="{Binding UiServices.AccentColor, Converter={StaticResource McartColorConverter}}">
             <Border.OpacityMask>
                 <LinearGradientBrush EndPoint="0,1">
                     <GradientStop Offset="0" Color="#80000000"/>
@@ -25,7 +25,7 @@
         </Border>
         <Viewbox>
             <StackPanel Margin="50">
-                <TextBlock FontSize="24" Text="{Binding Host.Title}"/>
+                <TextBlock FontSize="24" Text="{Binding UiServices.Title}"/>
                 <Separator/>
                 <TextBox Text="{Binding Name}"/>
                 <TextBlock>Hola, <Run Text="{Binding Name, Mode=OneWay}"/>. Esto es una página de prueba.</TextBlock>

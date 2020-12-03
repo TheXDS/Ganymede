@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TheXDS.Ganymede.Component;
 using TheXDS.MCART.ViewModel;
@@ -27,23 +28,23 @@ namespace TheXDS.Ganymede.ViewModels
         {
             _pgnum = ++_count;
             SumCommand = new SimpleCommand(OnSum);
-            OkTkxByeCommand = new SimpleCommand(() => Host.Close(this));
             BusyOpCommand = BuildBusyCommand(OnBusyOp);
             SaluteCommand = new SimpleCommand(OnSalute);
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
         }
 
         /// <inheritdoc/>
-        protected override void UiInit(IUiConfigurator? host, IProgress<ProgressInfo> progress)
+        protected override async Task InitializeAsync(IUiHostControl host, IProgress<ProgressInfo> progress)
         {
-            host?.SetCloseable(false);
+            OkTkxByeCommand = new SimpleCommand(UiServices.Host.Close);
+            host.Closeable = false;
+            host.Title = $"Cargando...";
 
-            host?.SetTitle($"Prueba # {_pgnum}");            
-            host?.SetAccentColor(MCART.Resources.Colors.Pick());
+            await Task.Delay(3000);
 
-            Thread.Sleep(3000);
-
-            host?.SetCloseable(true);
+            host.Title = $"Prueba # {_pgnum}";
+            host.AccentColor = MCART.Resources.Colors.Pick();
+            host.Closeable = true;
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// <summary>
         /// Okay, Thanks, Bye.
         /// </summary>
-        public ICommand OkTkxByeCommand { get; }
+        public ICommand OkTkxByeCommand { get; private set; }
 
         /// <summary>
         /// Comando que muestra un saludo al usuario.
@@ -129,20 +130,20 @@ namespace TheXDS.Ganymede.ViewModels
             }
         }
 
-        private void OnSpawnSibling()
+        private async void OnSpawnSibling()
         {
-            Host.OpenAsync<TestViewModel>();
+            await UiServices.Siblings.OpenAsync<TestViewModel>();
         }
 
         private async void OnSalute()
         {
-            switch (await Host.AskYnc("Saludar?"))
+            switch (await UiServices.Dialogs.AskYnc("Saludar?"))
             {
                 case true:
-                    await Host.Message($"Hello {Name}!");
+                    await UiServices.Dialogs.Message($"Hello {Name}!");
                     break;
                 case false:
-                    await Host.Message($"Goodbye {Name}");
+                    await UiServices.Dialogs.Message($"Goodbye {Name}");
                     break;                
             }
         }

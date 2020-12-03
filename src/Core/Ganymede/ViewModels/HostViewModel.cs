@@ -76,7 +76,7 @@ namespace TheXDS.Ganymede.ViewModels
         public virtual void ClosePage(PageViewModel page)
         {
             if (CancelEv(PageClosing, page)) return;
-            page.Host = null!;
+            page.UiServices = null!;
             _pages.Remove(page);
             PageClosed?.Invoke(this, page);
         }
@@ -101,7 +101,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// <returns></returns>
         protected async Task InitPageAsync(PageViewModel page)
         {
-            await page.Host.RunBusyAsync(p => page.UiInit(page.Host, p)).ConfigureAwait(false);
+            await page.UiServices.Host.RunBusyAsync(p => page.InitializeAsync(page.UiServices.Host, p)).ConfigureAwait(false);
             PageReady?.Invoke(this, page);
         }
 
@@ -119,7 +119,7 @@ namespace TheXDS.Ganymede.ViewModels
         protected bool PushPage(PageViewModel page)
         {
             if (CancelEv(PageAdding, page)) return false;
-            page.PushInto(_pages).Host = _serviceFactory.Create(page, this);
+            page.PushInto(_pages).UiServices = _serviceFactory.Create(page, this);
             PageAdded?.Invoke(this, page);
             return true;
         }

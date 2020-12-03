@@ -137,7 +137,7 @@ namespace TermClient
             Console.CursorLeft = 0;
             foreach (var j in Pages.Take(Console.WindowWidth / 4))
             {
-                Console.BackgroundColor = j.Host.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.Host.AccentColor.Value) & 15) : ConsoleColor.Black;
+                Console.BackgroundColor = j.UiServices.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.UiServices.AccentColor.Value) & 15) : ConsoleColor.Black;
                 Console.Write(t++.ToString().PadLeft(4));
             }
         }
@@ -149,10 +149,10 @@ namespace TermClient
                 ClearTabView();
                 return;
             }
-            Console.BackgroundColor = j.Host.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.Host.AccentColor.Value) & 15) : ConsoleColor.Black;
+            Console.BackgroundColor = j.UiServices.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.UiServices.AccentColor.Value) & 15) : ConsoleColor.Black;
             Console.CursorTop = 2;
             Console.CursorLeft = 0;
-            Console.Write(j.Host.Title.PadRight(Console.WindowWidth));
+            Console.Write(j.UiServices.Title.PadRight(Console.WindowWidth));
         }
 
         private void ClearTabView()

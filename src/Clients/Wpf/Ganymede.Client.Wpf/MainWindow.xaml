@@ -51,7 +51,7 @@
                                     <!--Contenido interactivo-->
                                     <Grid Visibility="{Binding SelectedContent, Converter={StaticResource nn2vc}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
                                         <!--Progreso-->
-                                        <Grid Visibility="{Binding SelectedContent.Content.DataContext.Host.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Progress}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                        <Grid Visibility="{Binding SelectedContent.Content.DataContext.UiServices.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Progress}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition Width="2*"/>
@@ -66,25 +66,25 @@
                                             <Viewbox
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center"
-                                                Grid.Column="1" Grid.Row="1">                                                    
-                                                <controls:ProgressRing Value="{Binding SelectedContent.Content.DataContext.Host.Progress, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                                Grid.Column="1" Grid.Row="1">
+                                                <controls:ProgressRing Value="{Binding SelectedContent.Content.DataContext.UiServices.Progress, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
                                             </Viewbox>
                                             <TextBlock 
                                                 Grid.Row="2" Grid.Column="1" Margin="0,20,0,0" HorizontalAlignment="Center"
                                                 FontSize="16" TextWrapping="Wrap" TextAlignment="Center"
-                                                Text="{Binding SelectedContent.Content.DataContext.Host.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                                Text="{Binding SelectedContent.Content.DataContext.UiServices.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
                                         </Grid>
                                         
                                         <!--Diálogo interactivo-->
                                         <StackPanel
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Center"
-                                            Visibility="{Binding SelectedContent.Content.DataContext.Host.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Message}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
-                                            <TextBlock Text="{Binding SelectedContent.Content.DataContext.Host.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                            Visibility="{Binding SelectedContent.Content.DataContext.UiServices.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Message}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                            <TextBlock Text="{Binding SelectedContent.Content.DataContext.UiServices.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
                                             <ListView
                                                 BorderBrush="{x:Null}"
                                                 BorderThickness="0"
-                                                ItemsSource="{Binding SelectedContent.Content.DataContext.Host.Actions, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                                ItemsSource="{Binding SelectedContent.Content.DataContext.UiServices.Actions, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate DataType="{x:Type mcartui:Launcher}">
                                                         <Button MinWidth="64" Margin="5,10" Content="{Binding Name, Mode=OneWay}" Command="{Binding Command, Mode=OneWay}"/>
@@ -112,7 +112,7 @@
                                         
                                         <!--Contenido normal-->
                                         <ContentPresenter
-                                            Visibility="{Binding SelectedContent.Content.DataContext.Host.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Default}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                            Visibility="{Binding SelectedContent.Content.DataContext.UiServices.ContentSelection, Converter={StaticResource MvvmCvc}, ConverterParameter={x:Static mvvm:MvvmContent.Default}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                             x:Name="PART_SelectedContentHost"
                                             ContentSource="SelectedContent"
                                             Margin="{TemplateBinding Padding}"
