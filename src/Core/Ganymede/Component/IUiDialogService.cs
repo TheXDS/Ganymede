@@ -11,7 +11,7 @@ namespace TheXDS.Ganymede.Component
     public interface IUiServiceBroker
     {
         IUiDialogService Dialogs { get; }
-        IUiHostService Host { get; }
+        IUiHostService VisualHost { get; }
         IUiPropertyDescriptor Properties { get; }
         IUiSiblingControl Siblings { get; }
     }

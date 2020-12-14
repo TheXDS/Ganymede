@@ -36,7 +36,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// <inheritdoc/>
         protected override async Task InitializeAsync(IUiHostControl host, IProgress<ProgressInfo> progress)
         {
-            OkTkxByeCommand = new SimpleCommand(UiServices.Host.Close);
+            OkTkxByeCommand = new SimpleCommand(UiServices.VisualHost.Close);
             host.Closeable = false;
             host.Title = $"Cargando...";
 

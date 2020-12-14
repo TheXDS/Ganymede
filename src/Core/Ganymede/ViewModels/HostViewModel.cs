@@ -101,7 +101,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// <returns></returns>
         protected async Task InitPageAsync(PageViewModel page)
         {
-            await page.UiServices.Host.RunBusyAsync(p => page.InitializeAsync(page.UiServices.Host, p)).ConfigureAwait(false);
+            await page.UiServices.VisualHost.RunBusyAsync(p => page.InitializeAsync(page.UiServices.VisualHost, p)).ConfigureAwait(false);
             PageReady?.Invoke(this, page);
         }
 

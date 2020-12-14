@@ -23,6 +23,7 @@ namespace TheXDS.Ganymede.Client
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _vm.VisualAdded += MainWindowViewModel_VisualAdded;
+            _tabRoot.SelectedIndex = 0;
         }
 
         private void MainWindowViewModel_VisualAdded(object? sender, ValueEventArgs<TabHost> e)

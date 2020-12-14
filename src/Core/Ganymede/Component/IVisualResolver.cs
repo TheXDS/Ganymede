@@ -58,7 +58,7 @@ namespace TheXDS.Ganymede.Component
         /// <see langword="true"/> si el contenedor visual pudo ser resuelto
         /// por esta instancia, <see langword="false"/> en caso contrario.
         /// </returns>
-        bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)] out T? visual)
+        bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)][MaybeNullWhen(false)] out T? visual)
         {
             try
             {

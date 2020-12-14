@@ -10,24 +10,37 @@ namespace TheXDS.Ganymede.Client
     /// </summary>
     public class TransparentColor : DependencyObject
     {
+        private static readonly DependencyPropertyKey WpfColorPropertyKey = DependencyProperty.RegisterReadOnly(nameof(WpfColor), typeof(MC), typeof(TransparentColor),
+            new PropertyMetadata(null));
+
         /// <summary>
         /// Identifica a la propiedad de dependencia <see cref="BaseColor"/>.
         /// </summary>
         public static readonly DependencyProperty BaseColorProperty = 
-            DependencyProperty.Register(nameof(BaseColor), typeof(Color?), typeof(TransparentColor), new FrameworkPropertyMetadata(null));
+            DependencyProperty.Register(nameof(BaseColor), typeof(Color?), typeof(TransparentColor), new FrameworkPropertyMetadata(null, OnChangeColor));
 
         /// <summary>
         /// Identifica a la propiedad de dependencia
         /// <see cref="Transparency"/>.
         /// </summary>
         public static readonly DependencyProperty TransparencyProperty = 
-            DependencyProperty.Register(nameof(Transparency), typeof(float), typeof(TransparentColor), new FrameworkPropertyMetadata(1f, (o, d) => { }, (d, v) => ((float)v).Clamp(0f, 1f)));
+            DependencyProperty.Register(nameof(Transparency), typeof(float), typeof(TransparentColor), new FrameworkPropertyMetadata(1f, OnChangeColor, (d, v) => ((float)v).Clamp(0f, 1f)));
 
         /// <summary>
         /// Identifica a la propiedad de dependencia <see cref="UseAlpha"/>.
         /// </summary>
         public static readonly DependencyProperty UseAlphaProperty =
             DependencyProperty.Register(nameof(UseAlpha), typeof(bool), typeof(TransparentColor), new FrameworkPropertyMetadata(true));
+
+        private static void OnChangeColor(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetValue(WpfColorPropertyKey, (MC)(TransparentColor)d);
+        }
+        
+        /// <summary>
+        /// Identifica a la propiedad de dependencia <see cref="WpfColor"/>.
+        /// </summary>
+        public static readonly DependencyProperty WpfColorProperty = WpfColorPropertyKey.DependencyProperty;
 
         /// <summary>
         /// Obtiene o establece el color base a devolver.
@@ -39,7 +52,8 @@ namespace TheXDS.Ganymede.Client
         }
 
         /// <summary>
-        /// Obtiene o establece el nivel de transparencia a devolver para el color base.
+        /// Obtiene o establece el nivel de transparencia a devolver para el
+        /// color base.
         /// </summary>
         public float Transparency
         {
@@ -48,7 +62,8 @@ namespace TheXDS.Ganymede.Client
         }
 
         /// <summary>
-        /// Obtiene o establece un valor que indica si se tomará en cuenta el Alpha del color base para calcular la transparencia.
+        /// Obtiene o establece un valor que indica si se tomará en cuenta el 
+        /// Alpha del color base para calcular la transparencia.
         /// </summary>
         public bool UseAlpha
         {
@@ -57,9 +72,16 @@ namespace TheXDS.Ganymede.Client
         }
 
         /// <summary>
-        /// Convierte implícitamente un <see cref="TransparentColor"/> en un <see cref="MC"/>.
+        /// Obtiene un <see cref="MC"/> equivalente al color representado por
+        /// esta instancia.
         /// </summary>
-        /// <param name="color"></param>
+        public MC WpfColor => (MC)GetValue(WpfColorProperty);
+
+        /// <summary>
+        /// Convierte implícitamente un <see cref="TransparentColor"/> en un 
+        /// <see cref="MC"/>.
+        /// </summary>
+        /// <param name="color">Valor a convertir.</param>
         public static implicit operator MC(TransparentColor color)
         {
             var bc = color.BaseColor;

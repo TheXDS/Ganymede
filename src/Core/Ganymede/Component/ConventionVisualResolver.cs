@@ -55,7 +55,7 @@ namespace TheXDS.Ganymede.Component
         /// <see langword="true"/> si el contenedor visual pudo ser resuelto
         /// por esta instancia, <see langword="false"/> en caso contrario.
         /// </returns>
-        public bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)] out T? visual)
+        public bool TryResolveVisual(PageViewModel viewModel, [MaybeNullWhen(false)] out T visual)
         {
             var name = GetName(viewModel);
             visual = Objects.GetTypes<T>(true).FirstOrDefault(p => p.Name == name) is Type t ? t.New<T>() : default;

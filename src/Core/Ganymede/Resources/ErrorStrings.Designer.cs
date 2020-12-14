@@ -61,6 +61,15 @@ namespace TheXDS.Ganymede.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El tipo de vista especificado no corresponde con el tipo requerido para los hosts visuales de esta aplicación..
+        /// </summary>
+        internal static string InvalidViewType {
+            get {
+                return ResourceManager.GetString("InvalidViewType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El Host de esta página no está disponible. Realice todas sus inicializaciones de UI reemplazando el método &apos;UiInitAsync()&apos;. Tampoco permita que la página sea cerrada durante la inicialización..
         /// </summary>
         internal static string UiHostAccessException {

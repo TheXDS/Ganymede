@@ -38,7 +38,7 @@ namespace TheXDS.Ganymede.Mvvm
         /// <summary>
         /// Obtiene el Host de la página cliente de servicios.
         /// </summary>
-        public HostViewModel Host { get; }
+        public HostViewModel HostVm { get; }
 
         /// <summary>
         /// Obtiene el comando a ejecutar para cerrar esta página.
@@ -116,8 +116,8 @@ namespace TheXDS.Ganymede.Mvvm
         {
             RegisterPropertyChangeBroadcast(nameof(ContentSelection), nameof(IsBusy));
             Guest = guest;
-            Host = host;
-            CloseCommand = new ObservingCommand(this, ((IUiServiceBroker)this).Host.Close)
+            HostVm = host;
+            CloseCommand = new ObservingCommand(this, ((IUiServiceBroker)this).VisualHost.Close)
                 .ListensToCanExecute(() => ((IUiServiceBroker)this).Properties.Closeable);
         }
 
@@ -190,7 +190,7 @@ namespace TheXDS.Ganymede.Mvvm
 
         IUiDialogService IUiServiceBroker.Dialogs => this;
 
-        IUiHostService IUiServiceBroker.Host => this;
+        IUiHostService IUiServiceBroker.VisualHost => this;
 
         IUiPropertyDescriptor IUiServiceBroker.Properties => this;
 
@@ -199,8 +199,8 @@ namespace TheXDS.Ganymede.Mvvm
         void IUiHostControl.Close() => ((IUiSiblingControl)this).Close(Guest);
         bool IUiSiblingControl.Close(PageViewModel page)
         {
-            var retval = Host.Pages.Contains(page);
-            Host.ClosePage(page);
+            var retval = HostVm.Pages.Contains(page);
+            HostVm.ClosePage(page);
             return retval;
         }
         async Task<int> IUiDialogService.Message(string message, params string[] options)
@@ -225,7 +225,7 @@ namespace TheXDS.Ganymede.Mvvm
         {
             try
             {
-                await Host.AddPage(page);
+                await HostVm.AddPage(page);
                 return true;
             }
             catch

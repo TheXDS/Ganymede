@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="InvalidViewType" xml:space="preserve">
+    <value>El tipo de vista especificado no corresponde con el tipo requerido para los hosts visuales de esta aplicación.</value>
+  </data>
   <data name="UiHostAccessException" xml:space="preserve">
     <value>El Host de esta página no está disponible. Realice todas sus inicializaciones de UI reemplazando el método 'UiInitAsync()'. Tampoco permita que la página sea cerrada durante la inicialización.</value>
   </data>

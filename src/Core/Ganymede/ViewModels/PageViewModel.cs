@@ -67,7 +67,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// </returns>
         protected SimpleCommand BuildBusyCommand(Action<IProgress<ProgressInfo>> action)
         {
-            return BuildBusyCommand(() => UiServices.Host.RunBusyAsync(action));
+            return BuildBusyCommand(() => UiServices.VisualHost.RunBusyAsync(action));
         }
 
         /// <summary>

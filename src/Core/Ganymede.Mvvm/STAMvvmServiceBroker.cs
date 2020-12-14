@@ -29,10 +29,26 @@ namespace TheXDS.Ganymede.Mvvm
             _uiInvoker = uiInvoker;
         }
 
-        string IUiPropertyDescriptor.Title { get => Title; set => _uiInvoker(() => Title = value); }
-        bool IUiPropertyDescriptor.Closeable { get => Closeable; set => _uiInvoker(() => Closeable = value); }
-        Color? IUiPropertyDescriptor.AccentColor { get => AccentColor; set => _uiInvoker(() => AccentColor = value); }
-        bool IUiPropertyDescriptor.Modal { get => Modal; set => _uiInvoker(() => Modal = value); }
+        string IUiPropertyDescriptor.Title
+        { 
+            get => Title;
+            set => _uiInvoker(() => Title = value);
+        }
+        bool IUiPropertyDescriptor.Closeable 
+        { 
+            get => Closeable;
+            set => _uiInvoker(() => Closeable = value);
+        }
+        Color? IUiPropertyDescriptor.AccentColor 
+        { 
+            get => AccentColor;
+            set => _uiInvoker(() => AccentColor = value);
+        }
+        bool IUiPropertyDescriptor.Modal
+        { 
+            get => Modal;
+            set => _uiInvoker(() => Modal = value);
+        }
 
         /// <inheritdoc/>
         protected override void ReportProgress(ProgressInfo progress)

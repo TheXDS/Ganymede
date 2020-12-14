@@ -17,5 +17,10 @@ namespace TheXDS.Ganymede.Resources
                 vm.UiServices?.Properties.Title.OrNull() ??
                 vm.GetType().NameOf()));
         }
+
+        public static Exception InvalidViewTypeException(Type type)
+        {
+            return new InvalidTypeException(St.InvalidViewType, type);
+        }
     }
 }
