@@ -8,44 +8,58 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <IncludeSymbols>true</IncludeSymbols>
+    <PublishLocalSymbols>false</PublishLocalSymbols>
+    <PublishToNuGet>false</PublishToNuGet>
+    <PublishToGitHub>false</PublishToGitHub>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug-Publish'">
     <IncludeSymbols>true</IncludeSymbols>
     <PublishLocalSymbols>true</PublishLocalSymbols>
     <PublishToNuGet>true</PublishToNuGet>    
+    <PublishToGitHub>true</PublishToGitHub>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug-PublishLocal'">
     <IncludeSymbols>true</IncludeSymbols>
     <PublishLocalSymbols>true</PublishLocalSymbols>
     <PublishToNuGet>false</PublishToNuGet>
+    <PublishToGitHub>false</PublishToGitHub>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <IncludeSymbols>false</IncludeSymbols>
     <PublishLocalSymbols>false</PublishLocalSymbols>
-    <PublishToNuGet>true</PublishToNuGet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Build-Release'">
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <IncludeSymbols>false</IncludeSymbols>
-    <PublishLocalSymbols>false</PublishLocalSymbols>
     <PublishToNuGet>false</PublishToNuGet>
+    <PublishToGitHub>false</PublishToGitHub>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release-Publish'">
+    <IncludeSymbols>false</IncludeSymbols>
+    <PublishLocalSymbols>true</PublishLocalSymbols>
+    <PublishToNuGet>true</PublishToNuGet>
+    <PublishToGitHub>true</PublishToGitHub>
   </PropertyGroup>
   <PropertyGroup Condition="'$(GeneratePackageOnBuild)'=='true'">
-    <NuGetRoot>$(Root)Publish</NuGetRoot>
     <ActualPackage>$(PackageOutputPath)$(PackageId).$(ActualPkgVersion)</ActualPackage>
     <ActualPackageFile>$(ActualPackage).nupkg</ActualPackageFile>
     <ActualPackageSymbols>$(ActualPackage).symbols.nupkg</ActualPackageSymbols>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(NugetRoot)'==''">
+    <NugetRoot>$(Root)Publish</NugetRoot>
+  </PropertyGroup>  
   <Target 
-    Name="PostPackageSymbols"
+    Name="PublishLocal"
     Condition="'$(PublishLocalSymbols)'=='true' And '$(GeneratePackageOnBuild)'=='true' And '$(IsPackable)'=='true'"
     AfterTargets="Pack">
-    <Exec Command="nuget add $(ActualPackageSymbols) -Source $(NuGetRoot)" />
+    <Exec Command="nuget add $(ActualPackageSymbols) -Source $(NugetRoot)" />
   </Target>
   <Target
-    Name="PostPackage"
+    Name="PublishToNuGet"
     Condition="'$(PublishToNuGet)'=='true' And '$(GeneratePackageOnBuild)'=='true' And '$(IsPackable)'=='true'"
     AfterTargets="Pack">
-    <Exec Command="nuget push $(ActualPackageFile) -Source https://nuget.org" />
+    <Exec Command="nuget push $(ActualPackageFile) -Source nuget.org -SkipDuplicate" />
+  </Target>
+  <Target
+    Name="PublishToGitHub"
+    Condition="'$(PublishToGitHub)'=='true' And '$(GeneratePackageOnBuild)'=='true' And '$(IsPackable)'=='true'"
+    AfterTargets="Pack">
+    <Exec Command="nuget push $(ActualPackageFile) -Source GitHub -SkipDuplicate" />
   </Target>
 </Project>
