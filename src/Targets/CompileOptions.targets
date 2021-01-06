@@ -1,36 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(MSBuildProjectExtension)'=='.csproj'">
-    <Configurations>Debug;Release;Debug-Publish;Debug-PublishLocal;Build-Release</Configurations>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Configurations>Debug;Debug-Publish;Debug-PublishLocal;Release;Release-Publish</Configurations>
+    <RootNamespace>TheXDS.Ganymede</RootNamespace>
     <Deterministic>true</Deterministic>
     <DocumentationFile>$(OutDir)$(AssemblyName).xml</DocumentationFile>
     <PackageId>TheXDS.$(AssemblyName)</PackageId>
     <Title>$(AssemblyTitle)</Title>
-    <PackageDescription>$(Description)</PackageDescription>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Nullable>enable</Nullable>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(RootNamespace)'=='$(AssemblyName)'">
-    <RootNamespace>TheXDS.$(AssemblyName)</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug-Publish'">
-    <DebugType>embedded</DebugType>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug-PublishLocal'">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug-Publish' OR '$(Configuration)'=='Debug-PublishLocal'">
     <DebugType>portable</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+  <PropertyGroup Condition="'$(Configuration)'=='Release' OR '$(Configuration)'=='Release-Publish'">
     <DebugSymbols>false</DebugSymbols>    
   </PropertyGroup>
 </Project>
