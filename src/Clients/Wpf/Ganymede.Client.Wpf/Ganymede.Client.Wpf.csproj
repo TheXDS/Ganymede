@@ -9,7 +9,7 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a015" />
+    <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a016" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\Ganymede.Mvvm\Ganymede.Mvvm.csproj" />
