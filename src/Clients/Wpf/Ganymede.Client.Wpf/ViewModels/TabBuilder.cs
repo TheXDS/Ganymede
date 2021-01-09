@@ -3,6 +3,7 @@ using TheXDS.Ganymede.Pages;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.ViewModels;
 using System.Windows;
+using TheXDS.Ganymede.Client.Wpf.Widgets;
 
 namespace TheXDS.Ganymede.Client.ViewModels
 {

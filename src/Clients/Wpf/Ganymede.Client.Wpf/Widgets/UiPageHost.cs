@@ -12,43 +12,52 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Controls;
 
 namespace TheXDS.Ganymede.Client.Wpf.Widgets
 {
     /// <summary>
-    ///  Realice los pasos 1a o 1b y luego 2 para usar este control personalizado en un archivo XAML.
-    ///
-    /// Paso 1a) Usar este control personalizado en un archivo XAML existente en el proyecto actual.
-    /// Agregue este atributo XmlNamespace al elemento raíz del archivo de marcado en el que 
-    /// se va a utilizar:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:Ganymede.Client.Wpf.Widgets"
-    ///
-    ///
-    /// Paso 1b) Usar este control personalizado en un archivo XAML existente en otro proyecto.
-    /// Agregue este atributo XmlNamespace al elemento raíz del archivo de marcado en el que 
-    /// se va a utilizar:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:Ganymede.Client.Wpf.Widgets;assembly=Ganymede.Client.Wpf.Widgets"
-    ///
-    /// Tendrá también que agregar una referencia de proyecto desde el proyecto en el que reside el archivo XAML
-    /// hasta este proyecto y recompilar para evitar errores de compilación:
-    ///
-    ///     Haga clic con el botón secundario del mouse en el proyecto de destino en el Explorador de soluciones y seleccione
-    ///     "Agregar referencia"->"Proyectos"->[Busque y seleccione este proyecto]
-    ///
-    ///
-    /// Paso 2)
-    /// Prosiga y utilice el control en el archivo XAML.
-    ///
-    ///     <MyNamespace:UiPageHost/>
-    ///
+    /// Host principal para el contenido visual resuelto para un
+    /// <see cref="PageViewModel"/>. Contiene además distintos servicios
+    /// básicos de UI.
     /// </summary>
-    public class UiPageHost : ContentControl
+    public class UiPageHost : Control
     {
+        public static readonly DependencyProperty PageProperty = DependencyProperty.Register(nameof(Page), typeof(Page), typeof(UiPageHost), new PropertyMetadata(null, OnSetPage));
+
+        private static void OnSetPage(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((UiPageHost)d)._content?.Navigate(e.NewValue);
+        }
+
         static UiPageHost()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UiPageHost), new FrameworkPropertyMetadata(typeof(UiPageHost)));
+        }
+
+
+
+        public override void OnApplyTemplate()
+        {
+            (_content = Get<Frame>(nameof(_content)))?.Navigate(Page);
+            _selector = Get<SelectorPanel>(nameof(_selector));
+            
+            base.OnApplyTemplate();
+        }
+
+        private T? Get<T>(string element) where T : FrameworkElement
+        {
+            return GetTemplateChild($"PART{nameof(_content)}") as T;
+        }
+
+        private Frame? _content;
+        private SelectorPanel? _selector;
+
+        public Page? Page
+        {
+            get => (Page?)GetValue(PageProperty);
+            set => SetValue(PageProperty, value);
         }
     }
 }

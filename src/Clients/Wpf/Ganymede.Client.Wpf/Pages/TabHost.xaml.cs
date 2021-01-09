@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Navigation;
+using TheXDS.Ganymede.Client.Wpf.Widgets;
 using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.Pages
@@ -24,12 +25,19 @@ namespace TheXDS.Ganymede.Pages
         {
             InitializeComponent();
             DataContext = viewModel;
-            var f = new Frame()
+
+            //var f = new Frame()
+            //{
+            //    NavigationUIVisibility = NavigationUIVisibility.Hidden
+            //};
+            //f.Navigate(content);
+            //Content = f;
+
+            Content = new UiPageHost()
             {
-                NavigationUIVisibility = NavigationUIVisibility.Hidden
+                Page = content,
             };
-            f.Navigate(content);
-            Content = f;
+
             content.DataContext = DataContext;
         }
     }
