@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART.Controls;
 
 namespace TheXDS.Ganymede.Client.Wpf.Widgets
 {
@@ -24,6 +11,9 @@ namespace TheXDS.Ganymede.Client.Wpf.Widgets
     /// </summary>
     public class UiPageHost : Control
     {
+        /// <summary>
+        /// Identifica a la propiedad de dependencia <see cref="Page"/>.
+        /// </summary>
         public static readonly DependencyProperty PageProperty = DependencyProperty.Register(nameof(Page), typeof(Page), typeof(UiPageHost), new PropertyMetadata(null, OnSetPage));
 
         private static void OnSetPage(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -36,28 +26,23 @@ namespace TheXDS.Ganymede.Client.Wpf.Widgets
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UiPageHost), new FrameworkPropertyMetadata(typeof(UiPageHost)));
         }
 
-
-
-        public override void OnApplyTemplate()
-        {
-            (_content = Get<Frame>(nameof(_content)))?.Navigate(Page);
-            _selector = Get<SelectorPanel>(nameof(_selector));
-            
-            base.OnApplyTemplate();
-        }
-
-        private T? Get<T>(string element) where T : FrameworkElement
-        {
-            return GetTemplateChild($"PART{nameof(_content)}") as T;
-        }
-
         private Frame? _content;
-        private SelectorPanel? _selector;
 
+        /// <summary>
+        /// Obtiene o establece la página a mostrar en este control.
+        /// </summary>
         public Page? Page
         {
             get => (Page?)GetValue(PageProperty);
             set => SetValue(PageProperty, value);
+        }
+
+        /// <inheritdoc/>
+        public override void OnApplyTemplate()
+        {
+            (_content = GetTemplateChild($"PART{nameof(_content)}") as Frame)?.Navigate(Page);
+            
+            base.OnApplyTemplate();
         }
     }
 }

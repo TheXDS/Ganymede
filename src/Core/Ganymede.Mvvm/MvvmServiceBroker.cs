@@ -118,7 +118,7 @@ namespace TheXDS.Ganymede.Mvvm
             Guest = guest;
             HostVm = host;
             CloseCommand = new ObservingCommand(this, ((IUiServiceBroker)this).VisualHost.Close)
-                .ListensToCanExecute(() => ((IUiServiceBroker)this).Properties.Closeable);
+                .ListensToCanExecute(() => ((IUiServiceBroker)this).VisualHost.Closeable);
         }
 
         /// <summary>
@@ -158,6 +158,14 @@ namespace TheXDS.Ganymede.Mvvm
         /// Color a utilizar para decorar la página.
         /// </param>
         protected void SetAccentColor(Color? value) => ((IUiPropertyDescriptor)this).AccentColor = value;
+
+        /// <summary>
+        /// Establece un valor que marca la página activa como modal.
+        /// </summary>
+        /// <param name="value">
+        /// <see langword="true"/> para indicar que la página será presentada
+        /// de forma modal, <see langword="false"/> en caso contrario.
+        /// </param>
         protected void SetModal(bool value) => ((IUiPropertyDescriptor)this).Modal = value;
 
         /// <inheritdoc/>
@@ -191,8 +199,6 @@ namespace TheXDS.Ganymede.Mvvm
         IUiDialogService IUiServiceBroker.Dialogs => this;
 
         IUiHostService IUiServiceBroker.VisualHost => this;
-
-        IUiPropertyDescriptor IUiServiceBroker.Properties => this;
 
         IUiSiblingControl IUiServiceBroker.Siblings => this;
 
@@ -251,12 +257,23 @@ namespace TheXDS.Ganymede.Mvvm
 
         void IUiHostControl.Activate()
         {
-            throw new NotImplementedException();
+            HostVm.ActivePage = Guest;
         }
 
         void IUiHostControl.Deactivate()
         {
             throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public async Task<T?> Get<T>(string prompt, T? @default) where T : notnull
+        {
+            var result = new TaskCompletionSource<T>();
+            ContentSelection = MvvmContent.Entry;
+
+            var r = await result.Task;
+            ContentSelection = MvvmContent.Default;
+            return r;
         }
     }
 }

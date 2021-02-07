@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="TheXDS.Proteus.Slim.Pages.TestPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:vm="clr-namespace:TheXDS.Proteus.Slim.ViewModels"    
+    mc:Ignorable="d"
+    Title="TestPage">
+    <!--d:DataContext="{d:DesignInstance vm:TestViewModel}"-->
+    <Grid>
+        <Border
+            x:Name="innerBorder"
+            >
+            <!--Background="{Binding UiServices.AccentColor, Converter={DynamicResource McartColorConverter}}"-->
+            <Border.OpacityMask>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Offset="0" Color="#80000000"/>
+                    <GradientStop Offset="0.15" Color="#0f000000"/>
+                </LinearGradientBrush>
+            </Border.OpacityMask>
+        </Border>
+        <Viewbox>
+            <StackPanel Margin="50">
+                <TextBlock FontSize="24" Text="{Binding UiServices.Title}"/>
+                <Separator/>
+                <TextBox Text="{Binding Name}"/>
+                <TextBlock>Hola, <Run Text="{Binding Name, Mode=OneWay}"/>. Esto es una página de prueba.</TextBlock>
+                <Separator Margin="0,20"/>
+                <UniformGrid Columns="2">                    
+                    <Slider Minimum="-10" Maximum="10" Value="{Binding NumberOne}"/>
+                    <Slider Minimum="-10" Maximum="10" Value="{Binding NumberTwo}"/>
+                    <TextBlock Text="{Binding NumberOne, Mode=OneWay}"/>
+                    <TextBlock Text="{Binding NumberTwo, Mode=OneWay}"/>
+                </UniformGrid>
+                <Button Grid.Row="2" Command="{Binding SumCommand, Mode=OneWay}">Sumar</Button>
+                <TextBlock Grid.Row="3">
+                    Resultado: <Run Text="{Binding Result, Mode=OneWay}"/>
+                </TextBlock>
+                <Separator Margin="0,10"/>
+                <Button Command="{Binding SaluteCommand, Mode=OneWay}">Saludar</Button>
+                <Button Command="{Binding BusyOpCommand, Mode=OneWay}">Ejecutar BusyOp</Button>
+                <Button Command="{Binding SpawnSiblingCommand, Mode=OneWay}">Spawn Sibling</Button>
+                <Button Command="{Binding OkTkxByeCommand, Mode=OneWay}">OkThxBye!</Button>
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</Page>

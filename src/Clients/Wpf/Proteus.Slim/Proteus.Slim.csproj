@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Proteus.Slim</AssemblyName>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a019" />
+    <PackageReference Include="FluentWPF" Version="0.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\UiBrokers\Ganymede.WpfBroker\Ganymede.WpfBroker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Themes\**\*.xaml" />
+    <Resource Include="Themes\**\*.xaml" />
+  </ItemGroup>
+
+</Project>

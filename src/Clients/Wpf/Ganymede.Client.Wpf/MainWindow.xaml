@@ -13,7 +13,6 @@
     mc:Ignorable="d"    
     Title="MainWindow" Height="450" Width="600">
     <Window.Resources>
-        <component:MvvmContentVisibilityConverter x:Key="MvvmCvc"/>
         <valueconverters:NullToVisibilityConverter x:Key="n2vc"/>
         <valueconverters:NotNullToVisibilityConverter x:Key="nn2vc"/>
         <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF"/>

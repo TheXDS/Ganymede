@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using TheXDS.Ganymede.Component;
+using TheXDS.MCART;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Events;
+using TheXDS.MCART.Math;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.MCART.ViewModel;
 
@@ -18,6 +20,7 @@ namespace TheXDS.Ganymede.ViewModels
     {
         private protected readonly ObservableCollection<PageViewModel> _pages = new ObservableCollection<PageViewModel>();
         private readonly IUiServiceBrokerFactory _serviceFactory;
+        private PageViewModel? _activePage;
         
         /// <summary>
         /// Se produce cuando se ha agregado una página a la colección de
@@ -55,6 +58,25 @@ namespace TheXDS.Ganymede.ViewModels
         public IEnumerable<PageViewModel> Pages => _pages;
 
         /// <summary>
+        /// Obtiene o establece el índice de la página visual activa.
+        /// </summary>
+        public int ActiveIndex
+        {
+            get => Pages.FindIndexOf(ActivePage);
+            set => SetActivePage(value);
+        }
+
+        /// <summary>
+        ///     Obtiene o establece el valor ActivePage.
+        /// </summary>
+        /// <value>El valor de ActivePage.</value>
+        public virtual PageViewModel? ActivePage
+        {
+            get => _activePage;
+            set => Change(ref _activePage, value);
+        }
+
+        /// <summary>
         /// Agrega una página a esta instancia.
         /// </summary>
         /// <param name="page">
@@ -63,7 +85,7 @@ namespace TheXDS.Ganymede.ViewModels
         public virtual async Task<bool> AddPage(PageViewModel page)
         {
             var r = PushPage(page);
-            if (r) await InitPageAsync(page).ConfigureAwait(false);
+            if (r)  await InitPageAsync(ActivePage = page).ConfigureAwait(false);
             return r;
         }
 
@@ -76,8 +98,10 @@ namespace TheXDS.Ganymede.ViewModels
         public virtual void ClosePage(PageViewModel page)
         {
             if (CancelEv(PageClosing, page)) return;
+            var i = ActiveIndex;
             page.UiServices = null!;
             _pages.Remove(page);
+            SetActivePage(i);
             PageClosed?.Invoke(this, page);
         }
 
@@ -92,6 +116,7 @@ namespace TheXDS.Ganymede.ViewModels
         public HostViewModel(IUiServiceBrokerFactory serviceFactory)
         {
             _serviceFactory = serviceFactory;
+            RegisterPropertyChangeBroadcast(nameof(ActivePage), nameof(ActiveIndex));
         }
 
         /// <summary>
@@ -130,6 +155,22 @@ namespace TheXDS.Ganymede.ViewModels
             handler?.Invoke(this, ev);
             return ev.Cancel;
         }
+
+        /// <summary>
+        /// Establece el índice de la página activa.
+        /// </summary>
+        /// <param name="index">Índice de la págia activa.</param>
+        protected void SetActivePage(int index)
+        {
+            if (index > -1 && Pages.Any())
+            {
+                ActivePage = Pages.ElementAt(index.Clamp(0, Pages.Count() - 1));
+            }
+            else
+            {
+                ActivePage = null;
+            }
+        }
     }
 
     /// <summary>
@@ -158,6 +199,12 @@ namespace TheXDS.Ganymede.ViewModels
         public event EventHandler<ValueEventArgs<T>>? VisualRemoved;
 
         /// <summary>
+        /// Obtiene una referencia al constructor de contenedores visuales 
+        /// activo para esta instancia.
+        /// </summary>
+        protected IVisualBuilder<T> VisualBuilder => _visualBuilder;
+
+        /// <summary>
         /// Inicializa una nueva instancia de la clase
         /// <see cref="HostViewModel{T}"/>.
         /// </summary>
@@ -172,21 +219,30 @@ namespace TheXDS.Ganymede.ViewModels
         public HostViewModel(IVisualBuilder<T> visualBuilder, IUiServiceBrokerFactory serviceFactory) : base(serviceFactory)
         {
             _visualBuilder = visualBuilder;
+            RegisterPropertyChangeBroadcast(nameof(ActivePage), nameof(ActiveVisual));
         }
 
         /// <summary>
         /// Agrega una página a esta instancia.
         /// </summary>
-        /// <param name="page">
-        /// Página a agregar.
-        /// </param>
-        public override async Task<bool> AddPage(PageViewModel page)
+        /// <param name="page">Página a agregar.</param>
+        public override Task<bool> AddPage(PageViewModel page)
         {
-            T v;
+            return AddVisualDirect(page, _visualBuilder.Build(page));
+        }
+
+        /// <summary>
+        /// Agrega directamente un <see cref="PageViewModel"/> asociado al
+        /// contenedor visual especificado.
+        /// </summary>
+        /// <param name="page">Página a agregar.</param>
+        /// <param name="visual">Contenedor visual para la página.</param>
+        protected async Task<bool> AddVisualDirect(PageViewModel page, T visual)
+        {
             if (!PushPage(page)) return false;
-            _visuals.Add(page, v = _visualBuilder.Build(page));
+            _visuals.Add(ActivePage = page, visual);
             Notify(nameof(Visuals));
-            VisualAdded?.Invoke(this, new ValueEventArgs<T>(v));
+            VisualAdded?.Invoke(this, new ValueEventArgs<T>(visual));
             await InitPageAsync(page);
             return true;
         }
@@ -200,11 +256,13 @@ namespace TheXDS.Ganymede.ViewModels
         public override void ClosePage(PageViewModel page)
         {
             T v;
+            var i = ActiveIndex;
             base.ClosePage(page);
             v = _visuals[page];
             _visuals.Remove(page);
             Notify(nameof(Visuals));
             VisualRemoved?.Invoke(this, new ValueEventArgs<T>(v));
+            SetActivePage(i);
         }
 
         /// <summary>
@@ -212,5 +270,10 @@ namespace TheXDS.Ganymede.ViewModels
         /// <see cref="PageViewModel"/> abiertos dentro de esta instancia.
         /// </summary>
         public virtual IEnumerable<T> Visuals => _visuals.Select(p => p.Value);
+
+        /// <summary>
+        /// Obtiene una referencia al contenedor visual para la página activa.
+        /// </summary>
+        public T? ActiveVisual => ActivePage is not null && _visuals.TryGetValue(ActivePage, out var t) ? t : default;
     }
 }

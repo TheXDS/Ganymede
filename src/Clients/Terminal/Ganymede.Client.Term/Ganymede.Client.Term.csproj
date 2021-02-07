@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="TheXDS.MCART" Version="0.13.0-a014" />
+    <PackageReference Include="TheXDS.MCART" Version="0.13.0-a019" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\Ganymede\Ganymede.csproj" />

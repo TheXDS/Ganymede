@@ -1,0 +1,26 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:dialogs="clr-namespace:TheXDS.MCART.Dialogs;assembly=MCART.WPF"
+    xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="Window">
+        <Setter Property="fw:PointerTracker.Enabled" Value="True"/>
+        <Setter Property="fw:AcrylicWindow.Enabled" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource SystemBaseLowColorBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemBaseHighColorBrush}"/>
+    </Style>
+    <Style TargetType="dialogs:AboutBox">
+        <Setter Property="fw:AcrylicWindow.Enabled" Value="True"/>
+        <Setter Property="fw:PointerTracker.Enabled" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource SystemBaseLowColorBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemBaseHighColorBrush}"/>
+    </Style>
+    <Style TargetType="dialogs:PasswordDialog">
+        <Setter Property="fw:AcrylicWindow.Enabled" Value="True"/>
+        <Setter Property="fw:PointerTracker.Enabled" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource SystemBaseLowColorBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemBaseHighColorBrush}"/>
+    </Style>
+</ResourceDictionary>

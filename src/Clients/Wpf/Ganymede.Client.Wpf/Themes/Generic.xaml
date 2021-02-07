@@ -4,21 +4,19 @@
     xmlns:mcartui="clr-namespace:TheXDS.MCART.UI;assembly=MCART.UI" 
     xmlns:valueconverters="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF"
     xmlns:component="clr-namespace:Ganymede.Client.Wpf.Component"
-    xmlns:mvvm="clr-namespace:TheXDS.Ganymede.Mvvm;assembly=Ganymede.Mvvm"
     xmlns:mcart="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
     xmlns:local="clr-namespace:TheXDS.Ganymede.Client.Wpf.Widgets">
 
-    <component:MvvmContentVisibilityConverter x:Key="MvvmCvc"/>
     <component:MvvmContentIntConverter x:Key="MvvmIntC"/>
     <valueconverters:NullToVisibilityConverter x:Key="n2vc"/>
     <valueconverters:NotNullToVisibilityConverter x:Key="nn2vc"/>
-
 
     <Style TargetType="{x:Type local:UiPageHost}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:UiPageHost}">
                     <mcart:SelectorPanel x:Name="PART_selector" SelectedContentIndex="{Binding DataContext.UiServices.ContentSelection, Converter={StaticResource MvvmIntC}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                        
                         <!--Contenido predeterminado-->
                         <Frame x:Name="PART_content"/>
 
@@ -82,6 +80,8 @@
                                 TextAlignment="Center"
                                 Text="{Binding DataContext.UiServices.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
                         </Grid>
+                        
+                        
 
                     </mcart:SelectorPanel>
                 </ControlTemplate>

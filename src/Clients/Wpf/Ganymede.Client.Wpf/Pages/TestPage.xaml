@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    mc:Ignorable="d"
     xmlns:vc ="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels"    
     d:DataContext="{d:DesignInstance vm:TestViewModel}"
+    mc:Ignorable="d"
     Title="TestPage">
     <Page.Resources>
         <vc:McartColorConverter x:Key="McartColorConverter"/>

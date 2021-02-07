@@ -19,6 +19,11 @@
         /// <summary>
         /// Presentación de un bloque de progreso.
         /// </summary>
-        Progress
+        Progress,
+
+        /// <summary>
+        /// Presentación de un cuadro de entrada de texto.
+        /// </summary>
+        Entry
     }
 }

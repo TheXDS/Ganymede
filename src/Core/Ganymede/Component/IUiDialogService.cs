@@ -8,14 +8,6 @@ using St = TheXDS.Ganymede.Resources.Strings;
 
 namespace TheXDS.Ganymede.Component
 {
-    public interface IUiServiceBroker
-    {
-        IUiDialogService Dialogs { get; }
-        IUiHostService VisualHost { get; }
-        IUiPropertyDescriptor Properties { get; }
-        IUiSiblingControl Siblings { get; }
-    }
-
     /// <summary>
     /// Define una serie de miembros a implementar por un tipo que provea de 
     /// servicios de diálogo de UI a una página.
@@ -75,6 +67,15 @@ namespace TheXDS.Ganymede.Component
         /// <summary>
         /// Envía un mensaje de diálogo con respuesta de "si/no" al servicio de UI.
         /// </summary>
+        /// <returns>
+        /// <see langword="true"/> si el usuario ha activado la opción de "Sí",
+        /// <see langword="false"/> en caso contrario.
+        /// </returns>
+        Task<bool> AskYn() => AskYn(St.AreYouSureRunOp);
+
+        /// <summary>
+        /// Envía un mensaje de diálogo con respuesta de "si/no" al servicio de UI.
+        /// </summary>
         /// <param name="question">mensaje a desplegar al usuario.</param>
         /// <returns>
         /// <see langword="true"/> si el usuario ha activado la opción de "Sí",
@@ -101,5 +102,36 @@ namespace TheXDS.Ganymede.Component
                 _ => null
             };
         }
+
+        /// <summary>
+        /// Obtiene un nuevo valor provisto por el usuario.
+        /// </summary>
+        /// <typeparam name="T">Tipo de valor a obtener.</typeparam>
+        /// <param name="prompt">
+        /// Mensaje a mostrar en el cuadro de diálogo.
+        /// </param>
+        /// <param name="default">
+        /// Valor predeterminado del cuadro de diálogo.
+        /// </param>
+        /// <returns>
+        /// El valor obtenido por parte del usuario, o
+        /// <paramref name="default"/> si el usuario no ha proporcionado un
+        /// valor o ha cancelado el cuadro de diálogo.
+        /// </returns>
+        Task<T?> Get<T>(string prompt, T? @default) where T : notnull;
+
+        /// <summary>
+        /// Obtiene un nuevo valor provisto por el usuario.
+        /// </summary>
+        /// <typeparam name="T">Tipo de valor a obtener.</typeparam>
+        /// <param name="prompt">
+        /// Mensaje a mostrar en el cuadro de diálogo.
+        /// </param>
+        /// <returns>
+        /// El valor obtenido por parte del usuario, o el valor predeterminado
+        /// para el tipo de valor solicitado si el usuario no ha proporcionado
+        /// un valor o ha cancelado el cuadro de diálogo.
+        /// </returns>
+        Task<T?> Get<T>(string prompt) where T : notnull => Get<T>(prompt, default);
     }
 }

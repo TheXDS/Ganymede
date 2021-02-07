@@ -1,0 +1,26 @@
+﻿<fw:AcrylicWindow 
+    x:Class="TheXDS.Proteus.Slim.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:TheXDS.Proteus.Slim.ViewModels"
+    xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+    TintOpacity="{Binding TintOpacity, Mode=OneWay}"
+    Title="{Binding Title, Mode=OneWay}"
+    NoiseOpacity="{Binding NoiseOpacity, Mode=OneWay}"
+    mc:Ignorable="d" Background="{x:Null}"
+    d:DesignHeight="450" d:DesignWidth="600">
+    <Window.DataContext>
+        <vm:MainWindowViewModel x:Name="_vm"/>
+    </Window.DataContext>
+    <TabControl
+        Style="{StaticResource TabControlHost}"
+        x:Name="_tabRoot"
+        ItemsSource="{Binding Visuals, Mode=OneWay}"
+        Background="Transparent"
+        SelectedIndex="{Binding ActiveIndex}"
+        BorderThickness="0"
+        Padding="0">
+    </TabControl>
+</fw:AcrylicWindow>

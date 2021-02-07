@@ -102,8 +102,15 @@ namespace TheXDS.Ganymede.Component
         /// <see cref="IVisualResolver{T}"/> para el cual esta instancia es una
         /// envoltura segura.
         /// </param>
-        public FallbackVisualResolver(IVisualResolver<TVisual> resolver) : base(resolver, (_, __) => new TFallback())
+        public FallbackVisualResolver(IVisualResolver<TVisual> resolver) : base(resolver, BuildFallback)
         {
+        }
+
+        private static TVisual BuildFallback(PageViewModel vm, Exception ex)
+        {
+            var f = new TFallback();
+            if (f is IDataContext dc) dc.DataContext = vm;
+            return f;
         }
     }
 }

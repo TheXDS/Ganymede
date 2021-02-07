@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a019" />
+    <ProjectReference Include="..\..\Core\Ganymede.Mvvm\Ganymede.Mvvm.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Remove="Resources\**\*.xaml" />
+    <Resource Include="Resources\**\*.xaml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Remove="Themes\Generic.xaml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Resource Include="Themes\Generic.xaml" />
+  </ItemGroup>
+
+</Project>

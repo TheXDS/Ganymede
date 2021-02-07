@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Ganymede.WpfBroker;component/Resources/Templates/TabControl/TabControlHost.xaml" />
+        <ResourceDictionary Source="/Ganymede.WpfBroker;component/Resources/Templates/UiPageHost/UiPageHost.xaml" />
+        <ResourceDictionary Source="/Ganymede.WpfBroker;component/Resources/CommonValueConverters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

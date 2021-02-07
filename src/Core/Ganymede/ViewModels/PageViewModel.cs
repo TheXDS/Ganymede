@@ -5,7 +5,6 @@ using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Exceptions;
 using TheXDS.Ganymede.Resources;
 using TheXDS.MCART;
-using TheXDS.MCART.Types.Base;
 using TheXDS.MCART.ViewModel;
 using St = TheXDS.Ganymede.Resources.Strings;
 
@@ -14,7 +13,7 @@ namespace TheXDS.Ganymede.ViewModels
     /// <summary>
     /// ViewModel que describe una página visual.
     /// </summary>
-    public class PageViewModel : NotifyPropertyChanged, IViewModel
+    public class PageViewModel : ViewModelBase
     {
         private IUiServiceBroker? _ui = null;
 
@@ -58,8 +57,8 @@ namespace TheXDS.Ganymede.ViewModels
         /// método de forma asíncrona.
         /// </summary>
         /// <param name="action">
-        /// Acción a ejecutar. No es necesario que la misma sea asíncrona (no
-        /// debe declararse utilizando <see langword="async"/>)
+        /// Acción a ejecutar. No es necesario que la misma sea asíncrona
+        /// (declarada utilizando <see langword="async"/>)
         /// </param>
         /// <returns>
         /// Una nueva instancia de la clase <see cref="SimpleCommand"/> que
@@ -67,7 +66,21 @@ namespace TheXDS.Ganymede.ViewModels
         /// </returns>
         protected SimpleCommand BuildBusyCommand(Action<IProgress<ProgressInfo>> action)
         {
-            return BuildBusyCommand(() => UiServices.VisualHost.RunBusyAsync(action));
+            return new SimpleCommand(() => UiServices.VisualHost.RunBusyAsync(action));
+        }
+
+        /// <summary>
+        /// Construye un nuevo <see cref="SimpleCommand"/> que ejecutará un
+        /// método de forma asíncrona.
+        /// </summary>
+        /// <param name="task">Tarea a ejecutar.</param>
+        /// <returns>
+        /// Una nueva instancia de la clase <see cref="SimpleCommand"/> que
+        /// ejecutará la acción en un contexto asíncrono.
+        /// </returns>
+        protected SimpleCommand BuildBusyCommand(Func<IProgress<ProgressInfo>, Task> task)
+        {
+            return new SimpleCommand(() => UiServices.VisualHost.RunBusyAsync(task));
         }
 
         /// <summary>
@@ -82,9 +95,34 @@ namespace TheXDS.Ganymede.ViewModels
         /// Una nueva instancia de la clase <see cref="SimpleCommand"/> que
         /// ejecutará la acción en un contexto asíncrono.
         /// </returns>
-        protected static SimpleCommand BuildBusyCommand(Func<Task> task)
+        protected SimpleCommand BuildBusyCommand(Func<Task> task)
         {
-            return new SimpleCommand(async () => await task());
+            return new SimpleCommand(() => UiServices.VisualHost.RunBusyAsync(p =>
+            {
+                p.Report(ProgressInfo.Unknwon);
+                return task();
+            }));
+        }
+
+        /// <summary>
+        /// Construye un nuevo <see cref="SimpleCommand"/> que ejecutará un
+        /// método de forma asíncrona.
+        /// </summary>
+        /// <param name="action">
+        /// Acción a ejecutar. Considere proveer de un mecanismo para reportar
+        /// el progreso de la operación.
+        /// </param>
+        /// <returns>
+        /// Una nueva instancia de la clase <see cref="SimpleCommand"/> que
+        /// ejecutará la acción en un contexto asíncrono.
+        /// </returns>
+        protected SimpleCommand BuildBusyCommand(Action action)
+        {
+            return new SimpleCommand(() => UiServices.VisualHost.RunBusyAsync(p =>
+            {
+                p.Report(ProgressInfo.Unknwon);
+                action();
+            }));
         }
     }
 }
