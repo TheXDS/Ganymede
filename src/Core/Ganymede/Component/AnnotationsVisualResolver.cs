@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using TheXDS.Ganymede.Attributes;
 using TheXDS.Ganymede.Resources;
 using TheXDS.Ganymede.ViewModels;

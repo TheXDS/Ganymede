@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"     
     xmlns:controls="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
-    xmlns:vc ="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede"    
     mc:Ignorable="d" 
     x:Name="ThisPage"
@@ -16,7 +15,7 @@
     </Page.Resources>
     <Grid>
         <Border
-            Background="{Binding Host.AccentColor, Converter={StaticResource McartColorConverter}}">
+            Background="{Binding Host.AccentColor, Converter={StaticResource mc2cc}}">
             <Border.OpacityMask>
                 <LinearGradientBrush EndPoint="0,1">
                     <GradientStop Offset="0" Color="#80000000"/>

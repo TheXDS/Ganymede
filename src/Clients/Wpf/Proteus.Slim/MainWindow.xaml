@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:TheXDS.Proteus.Slim.ViewModels"
+    xmlns:gnmd="http://schemas.thexds.com/ganymede/wpf"
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     TintOpacity="{Binding TintOpacity, Mode=OneWay}"
     Title="{Binding Title, Mode=OneWay}"
@@ -14,13 +15,5 @@
     <Window.DataContext>
         <vm:MainWindowViewModel x:Name="_vm"/>
     </Window.DataContext>
-    <TabControl
-        Style="{StaticResource TabControlHost}"
-        x:Name="_tabRoot"
-        ItemsSource="{Binding Visuals, Mode=OneWay}"
-        Background="Transparent"
-        SelectedIndex="{Binding ActiveIndex}"
-        BorderThickness="0"
-        Padding="0">
-    </TabControl>
+    <gnmd:TabHostControl/>
 </fw:AcrylicWindow>

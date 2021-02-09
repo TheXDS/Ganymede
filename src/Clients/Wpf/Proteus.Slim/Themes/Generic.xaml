@@ -2,9 +2,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Themes/Colors.xaml" />
         <ResourceDictionary Source="/Themes/Button/Button.xaml" />
-        <ResourceDictionary Source="/Themes/TabControl/TabControlHost.xaml" />
         <ResourceDictionary Source="/Themes/TabControl/TabControl.xaml" />
-        <ResourceDictionary Source="/Themes/UiPageHost/UiPageHost.xaml" />
         <ResourceDictionary Source="/Themes/GridSplitter/GridSplitter.xaml" />
         <ResourceDictionary Source="/Themes/ToolTip/ToolTip.xaml" />
         <ResourceDictionary Source="/Themes/GroupBox/GroupBox.xaml" />

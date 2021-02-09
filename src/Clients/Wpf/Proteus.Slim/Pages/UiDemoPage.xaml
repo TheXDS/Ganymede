@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mcart="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
-    xmlns:p="http://schemas.thexds.com/ganymede/wpf"
+    xmlns:p="clr-namespace:TheXDS.Proteus.Slim.Component"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="600">
     <TabControl>

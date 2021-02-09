@@ -239,6 +239,7 @@ namespace TheXDS.Ganymede.Mvvm
                 return false;
             }
         }
+
         async Task IUiHostService.RunBusyAsync(Func<IProgress<ProgressInfo>, Task> task)
         {
             ContentSelection = MvvmContent.Progress;
@@ -246,6 +247,7 @@ namespace TheXDS.Ganymede.Mvvm
             await task(progress);
             ContentSelection = MvvmContent.Default;
         }
+
         async Task<T> IUiHostService.RunBusyAsync<T>(Func<IProgress<ProgressInfo>, Task<T>> task)
         {
             ContentSelection = MvvmContent.Progress;

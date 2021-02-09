@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace TheXDS.Ganymede.WpfBroker.Component
+namespace TheXDS.Proteus.Slim.Component
 {
     /// <summary>
     /// Define una serie de propiedades de dependencia adjuntas que auxilian en la definición de UI de un cliente Ganymede.
@@ -15,19 +15,6 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         /// soporten.
         /// </summary>
         public static readonly DependencyProperty AccentProperty = DependencyProperty.RegisterAttached("Accent", typeof(Brush), typeof(Props), new FrameworkPropertyMetadata(SystemColors.HighlightBrush, FrameworkPropertyMetadataOptions.AffectsRender));
-        
-        /// <summary>
-        /// Propiedad de dependencia adjunta que permite establecer un
-        /// contenido alterno para los controles que lo soporten.
-        /// </summary>
-        public static readonly DependencyProperty AltContentProperty = DependencyProperty.RegisterAttached("AltContent", typeof(FrameworkElement), typeof(Props), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsArrange));
-
-        /// <summary>
-        /// Propiedad de dependencia adjunta que permite establecer un
-        /// contenido alterno para los controles que lo soporten.
-        /// </summary>
-        public static readonly DependencyProperty TabHeaderAltContentProperty = DependencyProperty.RegisterAttached("TabHeaderAltContent", typeof(FrameworkElement), typeof(Props), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsArrange));
-
 
         /// <summary>
         /// Propiedad de dependencia adjunta que permite definir un estado de
@@ -45,8 +32,12 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         /// </summary>
         public static readonly DependencyProperty IconProperty = DependencyProperty.RegisterAttached("Icon", typeof(string), typeof(Props), new PropertyMetadata(string.Empty));
 
+        /// <summary>
+        /// Propiedad de dependencia que permite establecer un
+        /// <see cref="Brush"/> a utilizar para dibujar el ícono que se muestra
+        /// como decoración de los controles soportados.
+        /// </summary>
         public static readonly DependencyProperty IconBrushProperty = DependencyProperty.RegisterAttached("IconBrush", typeof(Brush), typeof(Props), new PropertyMetadata((object)null!));
-
 
         /// <summary>
         /// Propiedad de dependencia adjunta que permite definir un color de
@@ -63,7 +54,7 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         public static readonly DependencyProperty TextPressAccentProperty = DependencyProperty.RegisterAttached("TextPressAccent", typeof(Brush), typeof(Props), new PropertyMetadata(Brushes.Black));
 
         public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.RegisterAttached("VerticalOffset", typeof(double), typeof(Props), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnVerticalOffsetPropertyChanged));
-        
+
         public static readonly DependencyProperty VerticalScrollBindingProperty = DependencyProperty.RegisterAttached("VerticalScrollBinding", typeof(bool?), typeof(Props));
 
         /// <summary>
@@ -77,17 +68,20 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         /// soporta marca de agua mostrarla de forma permanente.
         /// </summary>
         public static readonly DependencyProperty WatermarkAlwaysVisibleProperty = DependencyProperty.RegisterAttached("WatermarkAlwaysVisible", typeof(bool), typeof(Props), new PropertyMetadata(false));
-        
+
         /// <summary>
         /// Propiedad de dependencia adjunta que permite definir un texto a
         /// utilizar como una marca de agua para decorar los controles cuyas
         /// plantillas lo soporten.
         /// </summary>
         public static readonly DependencyProperty WatermarkProperty = DependencyProperty.RegisterAttached("Watermark", typeof(string), typeof(Props), new PropertyMetadata(string.Empty));
-        
+
+        /// <summary>
+        /// Propiedad de dependencia que permite establecer un
+        /// <see cref="Brush"/> a utilizar para dibujar el texto de marca de
+        /// agua que se muestra como decoración en los controles soportados.
+        /// </summary>
         public static readonly DependencyProperty WatermarkBrushProperty = DependencyProperty.RegisterAttached("WatermarkBrush", typeof(Brush), typeof(Props), new PropertyMetadata((object)null!));
-        
-        public static readonly DependencyProperty TabStripVisibleProperty = DependencyProperty.RegisterAttached("TabStripVisible", typeof(bool), typeof(Props), new PropertyMetadata(true));
 
         public static void BindVerticalOffset(ScrollViewer scrollViewer)
         {
@@ -111,8 +105,6 @@ namespace TheXDS.Ganymede.WpfBroker.Component
             };
         }
 
-
-
         /// <summary>
         /// Obtiene el valor de la propiedad de dependencia adjunta
         /// <see cref="AccentProperty"/>.
@@ -129,41 +121,6 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         {
             return (Brush)obj.GetValue(AccentProperty);
         }
-
-        /// <summary>
-        /// Obtiene el valor de la propiedad de dependencia adjunta
-        /// <see cref="AltContentProperty"/>.
-        /// </summary>
-        /// <param name="obj">
-        /// Objeto desde el cual obtener el valor de la propiedad de
-        /// dependencia adjunta.
-        /// </param>
-        /// <returns>
-        /// El valor de la propiedad de dependencia adjunta
-        /// <see cref="AltContentProperty"/>.
-        /// </returns>
-        public static FrameworkElement? GetAltContent(DependencyObject obj)
-        {
-            return (FrameworkElement?)obj.GetValue(AltContentProperty);
-        }
-
-        /// <summary>
-        /// Obtiene el valor de la propiedad de dependencia adjunta
-        /// <see cref="TabHeaderAltContentProperty"/>.
-        /// </summary>
-        /// <param name="obj">
-        /// Objeto desde el cual obtener el valor de la propiedad de
-        /// dependencia adjunta.
-        /// </param>
-        /// <returns>
-        /// El valor de la propiedad de dependencia adjunta
-        /// <see cref="TabHeaderAltContentProperty"/>.
-        /// </returns>
-        public static FrameworkElement? GetTabHeaderAltContent(DependencyObject obj)
-        {
-            return (FrameworkElement?)obj.GetValue(TabHeaderAltContentProperty);
-        }
-
 
         /// <summary>
         /// Obtiene el valor de la propiedad de dependencia adjunta
@@ -231,6 +188,23 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         public static string GetIcon(UIElement obj)
         {
             return (string)obj.GetValue(IconProperty);
+        }
+
+        /// <summary>
+        /// Obtiene el valor de la propiedad de dependencia adjunta
+        /// <see cref="IconBrushProperty"/>.
+        /// </summary>
+        /// <param name="obj">
+        /// Objeto desde el cual obtener el valor de la propiedad de
+        /// dependencia adjunta.
+        /// </param>
+        /// <returns>
+        /// El valor de la propiedad de dependencia adjunta
+        /// <see cref="IconBrushProperty"/>.
+        /// </returns>
+        public static Brush? GetIconBrush(DependencyObject obj)
+        {
+            return (Brush?)obj.GetValue(IconBrushProperty);
         }
 
         /// <summary>
@@ -353,6 +327,23 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         }
 
         /// <summary>
+        /// Obtiene el valor de la propiedad de dependencia adjunta
+        /// <see cref="WatermarkBrushProperty"/>.
+        /// </summary>
+        /// <param name="obj">
+        /// Objeto desde el cual obtener el valor de la propiedad de
+        /// dependencia adjunta.
+        /// </param>
+        /// <returns>
+        /// El valor de la propiedad de dependencia adjunta
+        /// <see cref="WatermarkBrushProperty"/>.
+        /// </returns>
+        public static Brush? GetWatermarkBrush(DependencyObject obj)
+        {
+            return (Brush?)obj.GetValue(WatermarkBrushProperty);
+        }
+
+        /// <summary>
         /// Establece el valor de la propiedad de dependencia adjunta
         /// <see cref="AccentProperty"/>.
         /// </summary>
@@ -365,35 +356,6 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         {
             obj.SetValue(AccentProperty, value);
         }
-
-        /// <summary>
-        /// Establece el valor de la propiedad de dependencia adjunta
-        /// <see cref="AltContentProperty"/>.
-        /// </summary>
-        /// <param name="obj">
-        /// Objeto para el cual establecer el valor de la propiedad de
-        /// dependencia adjunta.
-        /// </param>
-        /// <param name="value">Valor a establecer en la propiedad.</param>
-        public static void SetAltContent(DependencyObject obj, FrameworkElement? value)
-        {
-            obj.SetValue(AltContentProperty, value);
-        }
-
-        /// <summary>
-        /// Establece el valor de la propiedad de dependencia adjunta
-        /// <see cref="TabHeaderAltContentProperty"/>.
-        /// </summary>
-        /// <param name="obj">
-        /// Objeto para el cual establecer el valor de la propiedad de
-        /// dependencia adjunta.
-        /// </param>
-        /// <param name="value">Valor a establecer en la propiedad.</param>
-        public static void SetTabHeaderAltContent(DependencyObject obj, FrameworkElement? value)
-        {
-            obj.SetValue(TabHeaderAltContentProperty, value);
-        }
-
 
         /// <summary>
         /// Establece el valor de la propiedad de dependencia adjunta
@@ -449,6 +411,20 @@ namespace TheXDS.Ganymede.WpfBroker.Component
         public static void SetIcon(UIElement obj, string value)
         {
             obj.SetValue(IconProperty, value);
+        }
+
+        /// <summary>
+        /// Establece el valor de la propiedad de dependencia adjunta
+        /// <see cref="IconBrushProperty"/>.
+        /// </summary>
+        /// <param name="obj">
+        /// Objeto para el cual establecer el valor de la propiedad de
+        /// dependencia adjunta.
+        /// </param>
+        /// <param name="value">Valor a establecer en la propiedad.</param>
+        public static void SetIconBrush(DependencyObject obj, Brush? value)
+        {
+            obj.SetValue(IconBrushProperty, value);
         }
 
         /// <summary>
@@ -523,6 +499,20 @@ namespace TheXDS.Ganymede.WpfBroker.Component
 
         /// <summary>
         /// Establece el valor de la propiedad de dependencia adjunta
+        /// <see cref="WatermarkProperty"/>.
+        /// </summary>
+        /// <param name="obj">
+        /// Objeto para el cual establecer el valor de la propiedad de
+        /// dependencia adjunta.
+        /// </param>
+        /// <param name="value">Valor a establecer en la propiedad.</param>
+        public static void SetWatermark(DependencyObject obj, string value)
+        {
+            obj.SetValue(WatermarkProperty, value);
+        }
+
+        /// <summary>
+        /// Establece el valor de la propiedad de dependencia adjunta
         /// <see cref="WatermarkAlwaysVisibleProperty"/>.
         /// </summary>
         /// <param name="obj">
@@ -537,49 +527,17 @@ namespace TheXDS.Ganymede.WpfBroker.Component
 
         /// <summary>
         /// Establece el valor de la propiedad de dependencia adjunta
-        /// <see cref="WatermarkProperty"/>.
+        /// <see cref="WatermarkBrushProperty"/>.
         /// </summary>
         /// <param name="obj">
         /// Objeto para el cual establecer el valor de la propiedad de
         /// dependencia adjunta.
         /// </param>
         /// <param name="value">Valor a establecer en la propiedad.</param>
-        public static void SetWatermark(DependencyObject obj, string value)
-        {
-            obj.SetValue(WatermarkProperty, value);
-        }
-
-        public static Brush? GetIconBrush(DependencyObject obj)
-        {
-            return (Brush?)obj.GetValue(IconBrushProperty);
-        }
-
-        public static void SetIconBrush(DependencyObject obj, Brush? value)
-        {
-            obj.SetValue(IconBrushProperty, value);
-        }
-
-        public static Brush? GetWatermarkBrush(DependencyObject obj)
-        {
-            return (Brush?)obj.GetValue(WatermarkBrushProperty);
-        }
-
         public static void SetWatermarkBrush(DependencyObject obj, Brush? value)
         {
             obj.SetValue(WatermarkBrushProperty, value);
         }
-
-        public static bool GetTabStripVisible(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(TabStripVisibleProperty);
-        }
-
-        public static void SetTabStripVisible(DependencyObject obj, bool value)
-        {
-            obj.SetValue(TabStripVisibleProperty, value);
-        }
-
-
 
         private static void OnHorizontalOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -608,6 +566,5 @@ namespace TheXDS.Ganymede.WpfBroker.Component
                     break;
             }
         }
-
     }
 }

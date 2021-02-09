@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a019" />
+    <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a021" />
     <ProjectReference Include="..\..\Core\Ganymede.Mvvm\Ganymede.Mvvm.csproj" />
   </ItemGroup>
   
@@ -21,6 +21,15 @@
   
   <ItemGroup>
     <Resource Include="Themes\Generic.xaml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Resource Update="Resources\Templates\GanymedeDialogs\GanymedeMessageBoxDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Update="Resources\Templates\GanymedeDialogs\GanymedeProgressDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
   </ItemGroup>
 
 </Project>

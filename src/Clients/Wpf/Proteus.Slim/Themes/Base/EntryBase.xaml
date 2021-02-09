@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:p="http://schemas.thexds.com/ganymede/wpf">
+    xmlns:mcart="clr-namespace:TheXDS.MCART.Wpf.Component;assembly=MCART.WPF"
+    xmlns:prt="clr-namespace:TheXDS.Proteus.Slim.Component;assembly=Proteus.Slim">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Proteus.Slim;component/Themes/Colors.xaml" />
@@ -9,7 +10,7 @@
     <Style x:Key="EntryBase">
         <Setter Property="Control.Foreground" Value="{DynamicResource SystemBaseMediumHighColorBrush}" />
         <Setter Property="Control.Background" Value="{DynamicResource SystemAltHighColorBrush}" />
-        <Setter Property="p:Props.Accent" Value="{DynamicResource SystemHighColorBrush}"/>
+        <Setter Property="prt:Props.Accent" Value="{DynamicResource SystemHighColorBrush}"/>
         <Setter Property="Control.BorderBrush" Value="DarkGray"/>
         <Setter Property="ContentControl.VerticalContentAlignment" Value="Center"/>
         <Setter Property="Control.BorderThickness" Value="1"/>
@@ -27,11 +28,11 @@
                             <TextBlock
                                 x:Name="symbol"
                                 Margin="5,0,0,0"
-                                Text="{TemplateBinding p:Props.Icon}"
+                                Text="{TemplateBinding prt:Props.Icon}"
                                 TextAlignment="Center"
                                 IsHitTestVisible="True"
                                 VerticalAlignment="Center"
-                                ToolTip="{TemplateBinding p:Props.Watermark}"
+                                ToolTip="{TemplateBinding prt:Props.Watermark}"
                                 Foreground="Gray" />
                             <TextBlock
                                 x:Name="watermark"
@@ -40,7 +41,7 @@
                                 HorizontalAlignment="Left"
                                 IsHitTestVisible="False"
                                 Visibility="Collapsed"
-                                Text="{TemplateBinding p:Props.Watermark}"
+                                Text="{TemplateBinding prt:Props.Watermark}"
                                 Foreground="{TemplateBinding Foreground}"
                                 Opacity="0.3"
                                 FontStyle="Italic" />
@@ -59,19 +60,19 @@
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="p:PasswordBoxMonitor.IsMonitoring" Value="False"/>
+                                <Condition Property="mcart:PasswordBoxMonitor.IsMonitoring" Value="False"/>
                                 <Condition Property="TextBox.Text" Value=""/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Visibility" TargetName="watermark" Value="Visible" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="p:PasswordBoxMonitor.IsMonitoring" Value="True"/>
-                                <Condition Property="p:PasswordBoxMonitor.PasswordLength" Value="0"/>
+                                <Condition Property="mcart:PasswordBoxMonitor.IsMonitoring" Value="True"/>
+                                <Condition Property="mcart:PasswordBoxMonitor.PasswordLength" Value="0"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Visibility" TargetName="watermark" Value="Visible" />
                         </MultiTrigger>
-                        <Trigger Property="p:Props.WatermarkAlwaysVisible" Value="True">
+                        <Trigger Property="prt:Props.WatermarkAlwaysVisible" Value="True">
                             <Setter Property="Visibility" TargetName="watermark" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -82,11 +83,11 @@
                             <Setter Property="Foreground" TargetName="symbol"
                                     Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Foreground" TargetName="symbol" Value="{Binding (p:Props.Accent), RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Trigger Property="IsKeyboardFocused" Value="False">
+                            <Setter Property="Foreground" TargetName="symbol" Value="{Binding (prt:Props.Accent), RelativeSource={RelativeSource TemplatedParent}}" />
                             <Setter Property="Visibility" TargetName="watermark" Value="Collapsed" />
                         </Trigger>
-                        <Trigger Property="p:Props.Warned" Value="True">
+                        <Trigger Property="prt:Props.Warned" Value="True">
                             <Setter Property="Foreground" TargetName="symbol" Value="{StaticResource RedFg}" />
                             <Setter Property="Background" TargetName="border" Value="{StaticResource RedBg}" />
                         </Trigger>
@@ -96,14 +97,14 @@
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="p:Props.Warned" Value="True" />
+                                <Condition Property="prt:Props.Warned" Value="True" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground" TargetName="symbol" Value="Red" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="p:Props.Warned" Value="True" />
+                                <Condition Property="prt:Props.Warned" Value="True" />
                                 <Condition Property="IsKeyboardFocused" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground" TargetName="symbol" Value="Red" />
