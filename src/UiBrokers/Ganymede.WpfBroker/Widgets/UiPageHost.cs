@@ -35,6 +35,16 @@ namespace TheXDS.Ganymede.WpfBroker.Widgets
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifica a la propiedad de dependencia <see cref="InputContent"/>.
+        /// </summary>
+        public static readonly DependencyProperty InputContentProperty = DependencyProperty.Register(
+            nameof(InputContent),
+            typeof(FrameworkElement),
+            typeof(UiPageHost),
+            new PropertyMetadata(null));
+
+
+        /// <summary>
         /// Identifica a la propiedad de dependencia <see cref="Page"/>.
         /// </summary>
         public static readonly DependencyProperty PageProperty = DependencyProperty.Register(
@@ -66,6 +76,15 @@ namespace TheXDS.Ganymede.WpfBroker.Widgets
         {
             get => (FrameworkElement?)GetValue(MessageBoxContentProperty);
             set => SetValue(MessageBoxContentProperty, value);
+        }
+
+        /// <summary>
+        /// Obtiene o establece el contenido a mostrar en el estado de mensaje de entrada del host visual.
+        /// </summary>
+        public FrameworkElement? InputContent
+        {
+            get => (FrameworkElement?)GetValue(InputContentProperty);
+            set => SetValue(InputContentProperty, value);
         }
 
         /// <summary>

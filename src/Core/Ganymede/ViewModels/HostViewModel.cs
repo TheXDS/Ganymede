@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using TheXDS.Ganymede.Component;
-using TheXDS.MCART;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Events;
 using TheXDS.MCART.Math;

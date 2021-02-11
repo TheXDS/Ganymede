@@ -4,6 +4,7 @@
         <ResourceDictionary Source="/Ganymede.WpfBroker;component/Resources/Templates/UiPageHost/UiPageHost.xaml" />
         <ResourceDictionary Source="/Ganymede.WpfBroker;component/Resources/Templates/GanymedeDialogs/GanymedeMessageBoxDialog.xaml" />
         <ResourceDictionary Source="/Ganymede.WpfBroker;component/Resources/Templates/GanymedeDialogs/GanymedeProgressDialog.xaml" />
+        <ResourceDictionary Source="/Ganymede.WpfBroker;component/Resources/Templates/GanymedeDialogs/GanymedeInputDialog.xaml" />
         <ResourceDictionary Source="/Ganymede.WpfBroker;component/Resources/CommonValueConverters.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

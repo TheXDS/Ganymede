@@ -24,6 +24,9 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Resource Update="Resources\Templates\GanymedeDialogs\GanymedeInputDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Resource Update="Resources\Templates\GanymedeDialogs\GanymedeMessageBoxDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>

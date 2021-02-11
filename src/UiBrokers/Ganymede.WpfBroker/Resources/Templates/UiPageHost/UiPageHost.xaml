@@ -15,6 +15,11 @@
                 <gnmd:GanymedeMessageBoxDialog/>
             </Setter.Value>
         </Setter>
+        <Setter Property="InputContent">
+            <Setter.Value>
+                <gnmd:GanymedeInputDialog/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type gnmd:UiPageHost}">
@@ -24,6 +29,7 @@
                         <Frame x:Name="PART_content"/>
                         <ContentPresenter Content="{TemplateBinding MessageBoxContent}"/>
                         <ContentPresenter Content="{TemplateBinding ProgressContent}"/>
+                        <ContentPresenter Content="{TemplateBinding InputContent}"/>
                     </mcart:SelectorPanel>
                 </ControlTemplate>
             </Setter.Value>

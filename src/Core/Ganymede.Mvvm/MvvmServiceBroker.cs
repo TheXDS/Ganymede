@@ -29,6 +29,11 @@ namespace TheXDS.Ganymede.Mvvm
         private IEnumerable<Launcher>? _actions;
         private MvvmContent _Content;
         private bool _modal;
+        private IEnumerable<NamedObject<Enum>>? _InputEnums;
+        private Type? _dataType;
+        private object? _inputValue;
+        private ICommand? _AcceptInputCommand;
+        private ICommand? _CancelInputCommand;
 
         /// <summary>
         /// Obtiene la instancia cliente del servicio de UI.
@@ -92,10 +97,60 @@ namespace TheXDS.Ganymede.Mvvm
         /// Obtiene o establece el valor Actions.
         /// </summary>
         /// <value>El valor de MyProperty.</value>
-        public IEnumerable<Launcher> Actions
+        public IEnumerable<Launcher>? Actions
         {
             get => _actions ?? Array.Empty<Launcher>();
             private set => Change(ref _actions, value);
+        }
+
+        /// <summary>
+        /// Obtiene un comando que acepta la entrada en el modo de diálogo de
+        /// entrada.
+        /// </summary>
+        public ICommand? AcceptInputCommand
+        {
+            get => _AcceptInputCommand;
+            set => Change(ref _AcceptInputCommand, value);
+        }
+
+        /// <summary>
+        /// Obtiene un comando que cancela la entrada en el modo de diálogo de
+        /// entrada.
+        /// </summary>
+        public ICommand? CancelInputCommand
+        {
+            get => _CancelInputCommand;
+            set => Change(ref _CancelInputCommand, value);
+        }
+
+        /// <summary>
+        /// Enumeración auxiliar que permite obtener una colección de valores
+        /// de enumeración disponibles para seleccionar.
+        /// </summary>
+        public IEnumerable<NamedObject<Enum>>? InputEnums
+        {
+            get => _InputEnums;
+            set => Change(ref _InputEnums, value);
+        }
+
+        /// <summary>
+        /// Obtiene o establece el valor DataType.
+        /// </summary>
+        /// <value>El valor de DataType.</value>
+        public Type? DataType
+        {
+            get => _dataType;
+            set => Change(ref _dataType, value);
+        }
+
+        /// <summary>
+        /// Obtiene o establece el valor InputValue.
+        /// </summary>
+        /// <value>El valor de InputValue.</value>
+        public object? InputValue
+        {
+            get => _inputValue;
+            set => Change(ref _inputValue, value);
         }
 
         /// <summary>
@@ -220,10 +275,11 @@ namespace TheXDS.Ganymede.Mvvm
             for (var j = 0; j < options.Length; j++)
             {
                 int jj = j;
-                actions.Add(new Launcher(options[j], () => result.SetResult(jj)));
+                actions.Add(new Launcher(options[j], () => result.TrySetResult(jj)));
             }
             Actions = actions;
             var r = await result.Task;
+            Actions = null;
             ContentSelection = MvvmContent.Default;
             return r;
         }
@@ -238,6 +294,24 @@ namespace TheXDS.Ganymede.Mvvm
             {
                 return false;
             }
+        }
+
+        /// <inheritdoc/>
+        public async Task<T?> Get<T>(string prompt, T? @default) where T : notnull
+        {
+            var result = new TaskCompletionSource<T?>();
+            MessageText = prompt;
+            DataType = typeof(T);
+            InputEnums = typeof(T).IsEnum ? typeof(T).ToNamedEnum() : null;
+            InputValue = @default;
+            ContentSelection = MvvmContent.Entry;
+            AcceptInputCommand = new SimpleCommand(() => result.TrySetResult((T?)InputValue));
+            CancelInputCommand = new SimpleCommand(() => result.TrySetResult(@default));
+            var r = await result.Task;
+            AcceptInputCommand = null;
+            CancelInputCommand = null;
+            ContentSelection = MvvmContent.Default;
+            return r;
         }
 
         async Task IUiHostService.RunBusyAsync(Func<IProgress<ProgressInfo>, Task> task)
@@ -265,17 +339,6 @@ namespace TheXDS.Ganymede.Mvvm
         void IUiHostControl.Deactivate()
         {
             throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public async Task<T?> Get<T>(string prompt, T? @default) where T : notnull
-        {
-            var result = new TaskCompletionSource<T>();
-            ContentSelection = MvvmContent.Entry;
-
-            var r = await result.Task;
-            ContentSelection = MvvmContent.Default;
-            return r;
         }
     }
 }

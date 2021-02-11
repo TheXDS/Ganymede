@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TheXDS.Ganymede.WpfBroker.ViewModels;
 
 namespace TheXDS.Ganymede.WpfBroker.Widgets
 {
@@ -22,6 +23,15 @@ namespace TheXDS.Ganymede.WpfBroker.Widgets
             typeof(TabHostControl),
             new PropertyMetadata(null));
 
+
+        /// <summary>
+        /// Identifica a la propiedad de dependencia <see cref="EmptyContent"/>.
+        /// </summary>
+        public static readonly DependencyProperty HostContextProperty = DependencyProperty.Register(
+            nameof(HostContext),
+            typeof(MainHostViewModel),
+            typeof(TabHostControl),
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Identifica a la propiedad de dependencia <see cref="PreHeaderContent"/>.
@@ -59,6 +69,17 @@ namespace TheXDS.Ganymede.WpfBroker.Widgets
             get => (FrameworkElement?)GetValue(EmptyContentProperty);
             set => SetValue(EmptyContentProperty, value);
         }
+
+        /// <summary>
+        /// Obtiene o establece el contexto de host a gestionar por medio de
+        /// este control.
+        /// </summary>
+        public MainHostViewModel? HostContext
+        {
+            get => (MainHostViewModel?)GetValue(HostContextProperty);
+            set => SetValue(HostContextProperty, value);
+        }
+
 
         /// <summary>
         /// Obtiene o establece el contenido a mostrar antes del encabezado de

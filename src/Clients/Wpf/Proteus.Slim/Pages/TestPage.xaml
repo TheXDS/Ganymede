@@ -39,6 +39,7 @@
                 </TextBlock>
                 <Separator Margin="0,10"/>
                 <Button Command="{Binding SaluteCommand, Mode=OneWay}">Saludar</Button>
+                <Button Command="{Binding InputNameCommand, Mode=OneWay}">Input</Button>
                 <Button Command="{Binding BusyOpCommand, Mode=OneWay}">Ejecutar BusyOp</Button>
                 <Button Command="{Binding SpawnSiblingCommand, Mode=OneWay}">Spawn Sibling</Button>
                 <Button Command="{Binding OkTkxByeCommand, Mode=OneWay}">OkThxBye!</Button>

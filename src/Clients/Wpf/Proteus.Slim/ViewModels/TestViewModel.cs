@@ -31,6 +31,7 @@ namespace TheXDS.Proteus.Slim.ViewModels
             BusyOpCommand = BuildBusyCommand(OnBusyOp);
             SaluteCommand = new SimpleCommand(OnSalute);
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
+            InputNameCommand = new SimpleCommand(OnInputName);
         }
 
         /// <inheritdoc/>
@@ -114,6 +115,8 @@ namespace TheXDS.Proteus.Slim.ViewModels
         /// </summary>
         public ICommand SpawnSiblingCommand { get; }
 
+        public ICommand InputNameCommand { get; }
+
         private void OnSum()
         {
             Result = NumberOne + NumberTwo;
@@ -146,6 +149,18 @@ namespace TheXDS.Proteus.Slim.ViewModels
                     await UiServices.Dialogs.Message($"Goodbye {Name}");
                     break;                
             }
+        }
+
+        private async void OnInputName()
+        {
+            async Task Get<T>(T? d = default) where T : notnull => await UiServices.Dialogs.Message($"Valor {typeof(T)}: {await UiServices.Dialogs.Get<T>($"Valor {typeof(T)}?", d)}");
+
+            await Get<bool>();
+            await Get("Test");
+            await Get<double>();
+            await Get(DateTime.Now);
+            await Get(DayOfWeek.Wednesday);
+
         }
     }
 }
