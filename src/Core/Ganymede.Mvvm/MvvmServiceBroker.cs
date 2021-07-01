@@ -232,14 +232,14 @@ namespace TheXDS.Ganymede.Mvvm
 
         /// <inheritdoc/>
         public bool Closeable
-        { 
+        {
             get => _closeable;
             set => Change(ref _closeable, value);
         }
 
         /// <inheritdoc/>
         public string Title
-        { 
+        {
             get => _title ?? string.Empty;
             set => Change(ref _title, value);
         }
@@ -260,25 +260,25 @@ namespace TheXDS.Ganymede.Mvvm
         void IUiHostControl.Close() => ((IUiSiblingControl)this).Close(Guest);
         bool IUiSiblingControl.Close(PageViewModel page)
         {
-            var retval = HostVm.Pages.Contains(page);
+            bool retval = HostVm.Pages.Contains(page);
             HostVm.ClosePage(page);
             return retval;
         }
         async Task<int> IUiDialogService.Message(string message, params string[] options)
         {
-            var result = new TaskCompletionSource<int>();
-            var actions = new List<Launcher>();
+            TaskCompletionSource<int>? result = new TaskCompletionSource<int>();
+            List<Launcher>? actions = new List<Launcher>();
 
             MessageText = message;
             ContentSelection = MvvmContent.Message;
 
-            for (var j = 0; j < options.Length; j++)
+            for (int j = 0; j < options.Length; j++)
             {
                 int jj = j;
                 actions.Add(new Launcher(options[j], () => result.TrySetResult(jj)));
             }
             Actions = actions;
-            var r = await result.Task;
+            int r = await result.Task;
             Actions = null;
             ContentSelection = MvvmContent.Default;
             return r;
@@ -299,7 +299,7 @@ namespace TheXDS.Ganymede.Mvvm
         /// <inheritdoc/>
         public async Task<T?> Get<T>(string prompt, T? @default) where T : notnull
         {
-            var result = new TaskCompletionSource<T?>();
+            TaskCompletionSource<T?>? result = new TaskCompletionSource<T?>();
             MessageText = prompt;
             DataType = typeof(T);
             InputEnums = typeof(T).IsEnum ? typeof(T).ToNamedEnum() : null;
@@ -307,7 +307,7 @@ namespace TheXDS.Ganymede.Mvvm
             ContentSelection = MvvmContent.Entry;
             AcceptInputCommand = new SimpleCommand(() => result.TrySetResult((T?)InputValue));
             CancelInputCommand = new SimpleCommand(() => result.TrySetResult(@default));
-            var r = await result.Task;
+            T? r = await result.Task;
             AcceptInputCommand = null;
             CancelInputCommand = null;
             ContentSelection = MvvmContent.Default;
@@ -317,7 +317,7 @@ namespace TheXDS.Ganymede.Mvvm
         async Task IUiHostService.RunBusyAsync(Func<IProgress<ProgressInfo>, Task> task)
         {
             ContentSelection = MvvmContent.Progress;
-            var progress = new Progress<ProgressInfo>(ReportProgress);
+            Progress<ProgressInfo>? progress = new Progress<ProgressInfo>(ReportProgress);
             await task(progress);
             ContentSelection = MvvmContent.Default;
         }
@@ -325,8 +325,8 @@ namespace TheXDS.Ganymede.Mvvm
         async Task<T> IUiHostService.RunBusyAsync<T>(Func<IProgress<ProgressInfo>, Task<T>> task)
         {
             ContentSelection = MvvmContent.Progress;
-            var progress = new Progress<ProgressInfo>(ReportProgress);
-            var r = await task(progress);
+            Progress<ProgressInfo>? progress = new Progress<ProgressInfo>(ReportProgress);
+            T? r = await task(progress);
             ContentSelection = MvvmContent.Default;
             return r;
         }

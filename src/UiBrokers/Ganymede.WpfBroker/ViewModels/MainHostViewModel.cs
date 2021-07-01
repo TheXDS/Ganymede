@@ -22,7 +22,7 @@ namespace TheXDS.Ganymede.WpfBroker.ViewModels
         /// Inicializa una nueva isntancia de la clase
         /// <see cref="MainHostViewModel"/>.
         /// </summary>
-        public MainHostViewModel() : this(CreateBuilder(out var m))
+        public MainHostViewModel() : this(CreateBuilder(out DictionaryVisualResolver<Page>? m))
         {
             PageRegistry = m;
         }
@@ -38,7 +38,7 @@ namespace TheXDS.Ganymede.WpfBroker.ViewModels
 
         private static IVisualBuilder<TabHost> CreateBuilder(out DictionaryVisualResolver<Page> dict)
         {
-            var c = new VisualResolverCollection<Page>
+            VisualResolverCollection<Page>? c = new VisualResolverCollection<Page>
             {
                 (dict = new DictionaryVisualResolver<Page>()),
                 new AnnotationsVisualResolver<Page>(),

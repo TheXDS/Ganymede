@@ -108,7 +108,7 @@ namespace TheXDS.Ganymede.Component
 
         private static TVisual BuildFallback(PageViewModel vm, Exception ex)
         {
-            var f = new TFallback();
+            TFallback f = new TFallback();
             if (f is IDataContext dc) dc.DataContext = vm;
             return f;
         }

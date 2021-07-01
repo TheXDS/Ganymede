@@ -29,7 +29,7 @@ namespace TheXDS.Ganymede.WpfBroker.ViewModels
         {
             _resolver = resolver;
         }
-        
+
         /// <inheritdoc/>
         public TabHost Build(PageViewModel viewModel)
         {

@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART;
+using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types.Extensions;
 
 namespace TheXDS.Ganymede.Component
@@ -37,7 +37,7 @@ namespace TheXDS.Ganymede.Component
         /// </exception>
         public T ResolveVisual(PageViewModel viewModel)
         {
-            var name = GetName(viewModel);
+            string? name = GetName(viewModel);
             return Objects.GetTypes<T>(true).First(p => p.Name == name).New<T>();
         }
 
@@ -57,7 +57,7 @@ namespace TheXDS.Ganymede.Component
         /// </returns>
         public bool TryResolveVisual(PageViewModel viewModel, [MaybeNullWhen(false)] out T visual)
         {
-            var name = GetName(viewModel);
+            string? name = GetName(viewModel);
             visual = Objects.GetTypes<T>(true).FirstOrDefault(p => p.Name == name) is Type t ? t.New<T>() : default;
             return visual is { };
         }

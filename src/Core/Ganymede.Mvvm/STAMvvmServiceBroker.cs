@@ -30,22 +30,22 @@ namespace TheXDS.Ganymede.Mvvm
         }
 
         string IUiPropertyDescriptor.Title
-        { 
+        {
             get => Title;
             set => _uiInvoker(() => Title = value);
         }
-        bool IUiPropertyDescriptor.Closeable 
-        { 
+        bool IUiPropertyDescriptor.Closeable
+        {
             get => Closeable;
             set => _uiInvoker(() => Closeable = value);
         }
-        Color? IUiPropertyDescriptor.AccentColor 
-        { 
+        Color? IUiPropertyDescriptor.AccentColor
+        {
             get => AccentColor;
             set => _uiInvoker(() => AccentColor = value);
         }
         bool IUiPropertyDescriptor.Modal
-        { 
+        {
             get => Modal;
             set => _uiInvoker(() => Modal = value);
         }

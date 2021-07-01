@@ -28,7 +28,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// </summary>
         /// <param name="status">Mensaje de estado de la operación.</param>
         public ProgressInfo(string status) : this(null, status ?? throw new ArgumentNullException(nameof(status))) { }
-        
+
         private ProgressInfo() : this(null, null) { }
     }
 }

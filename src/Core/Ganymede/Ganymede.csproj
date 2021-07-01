@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
-    <PackageReference Include="TheXDS.MCART.Ext.PrismLike" Version="0.13.0-a021" />
-    <PackageReference Include="TheXDS.MCART.UI" Version="0.13.0-a021" />
+    <PackageReference Include="TheXDS.MCART.Ext.PrismLike" Version="0.14.2-a001" />
+    <PackageReference Include="TheXDS.MCART.UI" Version="0.14.2-a001" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\ErrorStrings.Designer.cs">

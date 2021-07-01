@@ -6,8 +6,8 @@
     <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="TheXDS.MCART.WPF" Version="0.13.0-a021" />
-    <PackageReference Include="FluentWPF" Version="0.8.0" />
+    <PackageReference Include="TheXDS.MCART.WPF" Version="0.14.2-a001" />
+    <PackageReference Include="FluentWPF" Version="0.9.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\UiBrokers\Ganymede.WpfBroker\Ganymede.WpfBroker.csproj" />

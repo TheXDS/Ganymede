@@ -18,9 +18,9 @@ namespace TheXDS.Ganymede.Component
         /// <inheritdoc/>
         public T ResolveVisual(PageViewModel viewModel)
         {
-            foreach (var j in this)
+            foreach (IVisualResolver<T>? j in this)
             {
-                if (j.TryResolveVisual(viewModel, out var v)) return v;
+                if (j.TryResolveVisual(viewModel, out T? v)) return v;
             }
             throw Errors.VisualHostNotFound(viewModel);
         }
@@ -28,7 +28,7 @@ namespace TheXDS.Ganymede.Component
         /// <inheritdoc/>
         public bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)] out T? visual)
         {
-            foreach (var j in this)
+            foreach (IVisualResolver<T>? j in this)
             {
                 if (j.TryResolveVisual(viewModel, out visual)) return true;
             }

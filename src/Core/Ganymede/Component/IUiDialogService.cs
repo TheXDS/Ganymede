@@ -40,8 +40,8 @@ namespace TheXDS.Ganymede.Component
         /// </returns>
         async Task<T> Select<T>(string prompt) where T : struct, Enum
         {
-            var v = NamedObject<T>.FromEnum().ToArray();
-            var r = await Message(prompt, v.Select(p => p.Name).ToArray());
+            NamedObject<T>[]? v = NamedObject<T>.FromEnum().ToArray();
+            int r = await Message(prompt, v.Select(p => p.Name).ToArray());
             return v[r].Value;
         }
 

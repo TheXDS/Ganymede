@@ -10,9 +10,6 @@
     x:Name="ThisPage"
     d:DesignHeight="450" d:DesignWidth="728.78"
     d:DataContext="{d:DesignInstance vm:PageViewModel}">
-    <Page.Resources>
-        <ResourceDictionary Source="/Themes/Generic.xaml" />
-    </Page.Resources>
     <Grid>
         <Border
             Background="{Binding Host.AccentColor, Converter={StaticResource mc2cc}}">

@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using TheXDS.Ganymede.Attributes;
 using TheXDS.Ganymede.Resources;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART;
+using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types.Extensions;
 
 namespace TheXDS.Ganymede.Component
@@ -27,7 +27,7 @@ namespace TheXDS.Ganymede.Component
         /// <inheritdoc/>
         public bool TryResolveVisual(PageViewModel viewModel, [MaybeNullWhen(false)] out T visual)
         {
-            var t = AnnotationsVisualResolver<T>.GetViewType(viewModel);
+            Type? t = AnnotationsVisualResolver<T>.GetViewType(viewModel);
             if (t is not null)
             {
                 visual = t.New<T>();
@@ -42,8 +42,8 @@ namespace TheXDS.Ganymede.Component
 
         private static Type? GetViewType(PageViewModel vm)
         {
-            var t = vm.GetType();
-            foreach (var j in Objects.GetTypes<T>(true))
+            Type? t = vm.GetType();
+            foreach (Type? j in Objects.GetTypes<T>(true))
             {
                 if (j.GetAttr<PageViewModelAttribute>()?.ViewType == t) return j;
             }

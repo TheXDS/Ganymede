@@ -43,7 +43,7 @@ namespace TheXDS.Ganymede.Component
         /// especificado.
         /// </returns>
         new T Build(PageViewModel viewModel);
-        
+
         object IVisualBuilder.Build(PageViewModel viewModel) => Build(viewModel);
     }
 }

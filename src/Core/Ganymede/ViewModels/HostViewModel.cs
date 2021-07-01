@@ -20,7 +20,7 @@ namespace TheXDS.Ganymede.ViewModels
         private protected readonly ObservableCollection<PageViewModel> _pages = new ObservableCollection<PageViewModel>();
         private readonly IUiServiceBrokerFactory _serviceFactory;
         private PageViewModel? _activePage;
-        
+
         /// <summary>
         /// Se produce cuando se ha agregado una página a la colección de
         /// páginas de este host.
@@ -83,8 +83,8 @@ namespace TheXDS.Ganymede.ViewModels
         /// </param>
         public virtual async Task<bool> AddPage(PageViewModel page)
         {
-            var r = PushPage(page);
-            if (r)  await InitPageAsync(ActivePage = page).ConfigureAwait(false);
+            bool r = PushPage(page);
+            if (r) await InitPageAsync(ActivePage = page).ConfigureAwait(false);
             return r;
         }
 
@@ -97,7 +97,7 @@ namespace TheXDS.Ganymede.ViewModels
         public virtual void ClosePage(PageViewModel page)
         {
             if (CancelEv(PageClosing, page)) return;
-            var i = ActiveIndex;
+            int i = ActiveIndex;
             page.UiServices = null!;
             _pages.Remove(page);
             SetActivePage(i);
@@ -150,7 +150,7 @@ namespace TheXDS.Ganymede.ViewModels
 
         private bool CancelEv(EventHandler<CancelValueEventArgs<PageViewModel>>? handler, PageViewModel page)
         {
-            var ev = new CancelValueEventArgs<PageViewModel>(page);
+            CancelValueEventArgs<PageViewModel>? ev = new CancelValueEventArgs<PageViewModel>(page);
             handler?.Invoke(this, ev);
             return ev.Cancel;
         }
@@ -255,7 +255,7 @@ namespace TheXDS.Ganymede.ViewModels
         public override void ClosePage(PageViewModel page)
         {
             T v;
-            var i = ActiveIndex;
+            int i = ActiveIndex;
             base.ClosePage(page);
             v = _visuals[page];
             _visuals.Remove(page);
@@ -273,6 +273,6 @@ namespace TheXDS.Ganymede.ViewModels
         /// <summary>
         /// Obtiene una referencia al contenedor visual para la página activa.
         /// </summary>
-        public T? ActiveVisual => ActivePage is not null && _visuals.TryGetValue(ActivePage, out var t) ? t : default;
+        public T? ActiveVisual => ActivePage is not null && _visuals.TryGetValue(ActivePage, out T? t) ? t : default;
     }
 }

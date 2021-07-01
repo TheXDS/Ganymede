@@ -32,12 +32,12 @@ namespace TheXDS.Proteus.Slim.ViewModels
             SaluteCommand = new SimpleCommand(OnSalute);
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
             InputNameCommand = new SimpleCommand(OnInputName);
+            OkTkxByeCommand = new SimpleCommand(UiServices.VisualHost.Close);
         }
 
         /// <inheritdoc/>
         protected override async Task InitializeAsync(IUiHostControl host, IProgress<ProgressInfo> progress)
         {
-            OkTkxByeCommand = new SimpleCommand(UiServices.VisualHost.Close);
             host.Closeable = false;
             host.Title = $"Cargando...";
 
@@ -103,7 +103,7 @@ namespace TheXDS.Proteus.Slim.ViewModels
         /// <summary>
         /// Okay, Thanks, Bye.
         /// </summary>
-        public ICommand OkTkxByeCommand { get; private set; }
+        public ICommand OkTkxByeCommand { get; }
 
         /// <summary>
         /// Comando que muestra un saludo al usuario.
@@ -115,6 +115,9 @@ namespace TheXDS.Proteus.Slim.ViewModels
         /// </summary>
         public ICommand SpawnSiblingCommand { get; }
 
+        /// <summary>
+        /// Comando que permite la introducción de texto.
+        /// </summary>
         public ICommand InputNameCommand { get; }
 
         private void OnSum()
@@ -126,7 +129,7 @@ namespace TheXDS.Proteus.Slim.ViewModels
         {
             progress.Report(new ProgressInfo("Esperando 3 segundos..."));
             Thread.Sleep(3000);
-            for (var j = 0; j <=100; j++)
+            for (int j = 0; j <= 100; j++)
             {
                 Thread.Sleep(50);
                 progress.Report(new ProgressInfo(j, $"Paso {(j / 20) + 1} de 5"));
@@ -147,7 +150,7 @@ namespace TheXDS.Proteus.Slim.ViewModels
                     break;
                 case false:
                     await UiServices.Dialogs.Message($"Goodbye {Name}");
-                    break;                
+                    break;
             }
         }
 
@@ -160,7 +163,6 @@ namespace TheXDS.Proteus.Slim.ViewModels
             await Get<double>();
             await Get(DateTime.Now);
             await Get(DayOfWeek.Wednesday);
-
         }
     }
 }

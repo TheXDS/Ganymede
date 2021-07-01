@@ -21,7 +21,7 @@ namespace TheXDS.Ganymede.Component
         /// Un contenedor visual para el <see cref="PageViewModel"/>
         /// especificado.
         /// </returns>
-        object ResolveVisual(PageViewModel viewModel);        
+        object ResolveVisual(PageViewModel viewModel);
     }
 
     /// <summary>

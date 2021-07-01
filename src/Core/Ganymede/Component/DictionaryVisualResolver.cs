@@ -42,7 +42,7 @@ namespace TheXDS.Ganymede.Component
         /// </exception>
         [DebuggerNonUserCode]
         public T ResolveVisual(PageViewModel viewModel)
-        {            
+        {
             return ResolveVisual(viewModel.GetType());
         }
 
@@ -108,7 +108,7 @@ namespace TheXDS.Ganymede.Component
         /// </returns>
         public bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)] out T? visual)
         {
-            bool r; var t = viewModel.GetType();
+            bool r; Type? t = viewModel.GetType();
             visual = (r = _mappings.ContainsKey(t))
                 ? ResolveVisual(t) : default!;
             return r;

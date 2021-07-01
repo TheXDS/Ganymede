@@ -4,7 +4,7 @@ using TheXDS.Ganymede.Attributes;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Exceptions;
 using TheXDS.Ganymede.Resources;
-using TheXDS.MCART;
+using TheXDS.MCART.Helpers;
 using TheXDS.MCART.ViewModel;
 using St = TheXDS.Ganymede.Resources.Strings;
 
