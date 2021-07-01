@@ -22,8 +22,14 @@ namespace TheXDS.Proteus.Slim.Component
         /// </summary>
         public static readonly DependencyProperty BusyProperty = DependencyProperty.RegisterAttached("Busy", typeof(bool), typeof(Props), new PropertyMetadata(false));
 
+        /// <summary>
+        /// Propiedad de dependencia que representa un valor de Offset horizontal a aplicar al diseño de un control soportado.
+        /// </summary>
         public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.RegisterAttached("HorizontalOffset", typeof(double), typeof(Props), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnHorizontalOffsetPropertyChanged));
 
+        /// <summary>
+        /// Propiedad de dependencia que indica si el desplazamiento horizontal será enlazado en un control soportado.
+        /// </summary>
         public static readonly DependencyProperty HorizontalScrollBindingProperty = DependencyProperty.RegisterAttached("HorizontalScrollBinding", typeof(bool?), typeof(Props));
 
         /// <summary>
@@ -53,8 +59,14 @@ namespace TheXDS.Proteus.Slim.Component
         /// </summary>
         public static readonly DependencyProperty TextPressAccentProperty = DependencyProperty.RegisterAttached("TextPressAccent", typeof(Brush), typeof(Props), new PropertyMetadata(Brushes.Black));
 
+        /// <summary>
+        /// Propiedad de dependencia que representa un valor de Offset vertical a aplicar al diseño de un control soportado.
+        /// </summary>
         public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.RegisterAttached("VerticalOffset", typeof(double), typeof(Props), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnVerticalOffsetPropertyChanged));
 
+        /// <summary>
+        /// Propiedad de dependencia que indica si el desplazamiento vertical será enlazado en un control soportado.
+        /// </summary>
         public static readonly DependencyProperty VerticalScrollBindingProperty = DependencyProperty.RegisterAttached("VerticalScrollBinding", typeof(bool?), typeof(Props));
 
         /// <summary>
@@ -83,6 +95,10 @@ namespace TheXDS.Proteus.Slim.Component
         /// </summary>
         public static readonly DependencyProperty WatermarkBrushProperty = DependencyProperty.RegisterAttached("WatermarkBrush", typeof(Brush), typeof(Props), new PropertyMetadata((object)null!));
 
+        /// <summary>
+        /// ENlaza el desplazamiento vertical de un <see cref="ScrollViewer"/>.
+        /// </summary>
+        /// <param name="scrollViewer">Control a procesar.</param>
         public static void BindVerticalOffset(ScrollViewer scrollViewer)
         {
             if (scrollViewer.GetValue(VerticalScrollBindingProperty) is not null) return;
@@ -94,6 +110,10 @@ namespace TheXDS.Proteus.Slim.Component
             };
         }
 
+        /// <summary>
+        /// ENlaza el desplazamiento horizontal de un <see cref="ScrollViewer"/>.
+        /// </summary>
+        /// <param name="scrollViewer">Control a procesar.</param>
         public static void BindHorizontalOffset(ScrollViewer scrollViewer)
         {
             if (scrollViewer.GetValue(HorizontalScrollBindingProperty) is not null) return;

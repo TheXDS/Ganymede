@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TheXDS.Ganymede.Component;
+using TheXDS.Ganymede.Resources;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.ViewModel;
 
@@ -32,7 +33,7 @@ namespace TheXDS.Proteus.Slim.ViewModels
             SaluteCommand = new SimpleCommand(OnSalute);
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
             InputNameCommand = new SimpleCommand(OnInputName);
-            OkTkxByeCommand = new SimpleCommand(UiServices.VisualHost.Close);
+            OkTkxByeCommand = new SimpleCommand(() => (UiServices ?? throw Errors.UiHostAccess).VisualHost.Close());
         }
 
         /// <inheritdoc/>
@@ -138,12 +139,12 @@ namespace TheXDS.Proteus.Slim.ViewModels
 
         private async void OnSpawnSibling()
         {
-            await UiServices.Siblings.OpenAsync<TestViewModel>();
+            await (UiServices ?? throw Errors.UiHostAccess).Siblings.OpenAsync<TestViewModel>();
         }
 
         private async void OnSalute()
         {
-            switch (await UiServices.Dialogs.AskYnc("Saludar?"))
+            switch (await (UiServices ?? throw Errors.UiHostAccess).Dialogs.AskYnc("Saludar?"))
             {
                 case true:
                     await UiServices.Dialogs.Message($"Hello {Name}!");
@@ -156,7 +157,7 @@ namespace TheXDS.Proteus.Slim.ViewModels
 
         private async void OnInputName()
         {
-            async Task Get<T>(T? d = default) where T : notnull => await UiServices.Dialogs.Message($"Valor {typeof(T)}: {await UiServices.Dialogs.Get<T>($"Valor {typeof(T)}?", d)}");
+            async Task Get<T>(T? d = default) where T : notnull => await (UiServices ?? throw Errors.UiHostAccess).Dialogs.Message($"Valor {typeof(T)}: {await UiServices.Dialogs.Get<T>($"Valor {typeof(T)}?", d)}");
 
             await Get<bool>();
             await Get("Test");

@@ -34,7 +34,7 @@ namespace TheXDS.Ganymede.Resources
         public static Exception VisualHostNotFound(PageViewModel vm)
         {
             return new MissingTypeException(string.Format(St.VisualHostNotFound,
-                vm.UiServices.VisualHost.Title.OrNull() ??
+                vm.UiServices?.VisualHost.Title.OrNull() ??
                 vm.GetType().NameOf()));
         }
 

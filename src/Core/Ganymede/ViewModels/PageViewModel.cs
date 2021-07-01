@@ -5,6 +5,7 @@ using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Exceptions;
 using TheXDS.Ganymede.Resources;
 using TheXDS.MCART.Helpers;
+using TheXDS.MCART.Types.Extensions;
 using TheXDS.MCART.ViewModel;
 using St = TheXDS.Ganymede.Resources.Strings;
 
@@ -15,16 +16,10 @@ namespace TheXDS.Ganymede.ViewModels
     /// </summary>
     public class PageViewModel : ViewModelBase
     {
-        private IUiServiceBroker? _ui = null;
-
         /// <summary>
         /// Obtiene una referencia al proveedor de servicios de UI al cual este ViewModel tiene acceso.
         /// </summary>
-        public IUiServiceBroker UiServices
-        {
-            get => _ui ?? throw Errors.UiHostAccess;
-            internal set => _ui = value;
-        }
+        public IUiServiceBroker? UiServices { get; internal set; } = null;
 
         /// <summary>
         /// Permite establecer propiedades básicas de UI de la página, como ser
@@ -45,8 +40,12 @@ namespace TheXDS.Ganymede.ViewModels
         /// </remarks>
         protected internal virtual Task InitializeAsync(IUiHostControl host, IProgress<ProgressInfo> progress)
         {
-            host.Title = this.GetAttr<TitleAttribute>()?.Title ?? St.UntitledPage;
-            host.AccentColor = this.GetAttr<AccentColorAttribute>()?.Value;
+            if (host.Title.IsEmpty())
+            {
+                host.Title = this.GetAttr<TitleAttribute>()?.Title ?? St.UntitledPage;
+            }
+
+            host.AccentColor ??= this.GetAttr<AccentColorAttribute>()?.Value;
             host.Closeable = this.GetAttr<CloseableAttribute>()?.Closeable ?? true;
             host.Modal = this.HasAttr<ModalAttribute>();
             return Task.CompletedTask;
@@ -66,7 +65,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// </returns>
         protected SimpleCommand BuildBusyCommand(Action<IProgress<ProgressInfo>> action)
         {
-            return new SimpleCommand(() => UiServices.VisualHost.RunBusyAsync(action));
+            return new SimpleCommand(() => UiServices?.VisualHost.RunBusyAsync(action) ?? Task.CompletedTask);
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// </returns>
         protected SimpleCommand BuildBusyCommand(Func<IProgress<ProgressInfo>, Task> task)
         {
-            return new SimpleCommand(() => UiServices.VisualHost.RunBusyAsync(task));
+            return new SimpleCommand(() => UiServices?.VisualHost.RunBusyAsync(task) ?? Task.CompletedTask);
         }
 
         /// <summary>
@@ -97,11 +96,11 @@ namespace TheXDS.Ganymede.ViewModels
         /// </returns>
         protected SimpleCommand BuildBusyCommand(Func<Task> task)
         {
-            return new SimpleCommand(() => UiServices.VisualHost.RunBusyAsync(p =>
+            return new SimpleCommand(() => UiServices?.VisualHost.RunBusyAsync(p =>
             {
                 p.Report(ProgressInfo.Unknwon);
                 return task();
-            }));
+            }) ?? Task.CompletedTask);
         }
 
         /// <summary>
@@ -118,11 +117,11 @@ namespace TheXDS.Ganymede.ViewModels
         /// </returns>
         protected SimpleCommand BuildBusyCommand(Action action)
         {
-            return new SimpleCommand(() => UiServices.VisualHost.RunBusyAsync(p =>
+            return new SimpleCommand(() => UiServices?.VisualHost.RunBusyAsync(p =>
             {
                 p.Report(ProgressInfo.Unknwon);
                 action();
-            }));
+            }) ?? Task.CompletedTask);
         }
     }
 }

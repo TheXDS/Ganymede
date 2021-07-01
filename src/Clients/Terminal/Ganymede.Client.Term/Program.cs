@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TheXDS.MCART.Resources;
+using System.Threading.Tasks;
+using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Base;
-using TheXDS.Ganymede.Component;
-using TheXDS.Ganymede.ViewModels;
-using System.Threading.Tasks;
 
 namespace TermClient
 {
@@ -137,7 +135,7 @@ namespace TermClient
             Console.CursorLeft = 0;
             foreach (var j in Pages.Take(Console.WindowWidth / 4))
             {
-                Console.BackgroundColor = j.UiServices.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.UiServices.AccentColor.Value) & 15) : ConsoleColor.Black;
+                Console.BackgroundColor = j.UiServices.VisualHost.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VgaAttributeByteColorParser>(j.UiServices.VisualHost.AccentColor.Value) & 15) : ConsoleColor.Black;
                 Console.Write(t++.ToString().PadLeft(4));
             }
         }
@@ -149,10 +147,10 @@ namespace TermClient
                 ClearTabView();
                 return;
             }
-            Console.BackgroundColor = j.UiServices.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VGAAttributeByte>(j.UiServices.AccentColor.Value) & 15) : ConsoleColor.Black;
+            Console.BackgroundColor = j.UiServices.VisualHost.AccentColor.HasValue ? (ConsoleColor)(Color.To<byte, VgaAttributeByteColorParser>(j.UiServices.VisualHost.AccentColor.Value) & 15) : ConsoleColor.Black;
             Console.CursorTop = 2;
             Console.CursorLeft = 0;
-            Console.Write(j.UiServices.Title.PadRight(Console.WindowWidth));
+            Console.Write(j.UiServices.VisualHost.Title.PadRight(Console.WindowWidth));
         }
 
         private void ClearTabView()

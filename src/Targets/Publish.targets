@@ -12,31 +12,13 @@
     <PublishToNuGet>false</PublishToNuGet>
     <PublishToGitHub>false</PublishToGitHub>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug-Publish'">
-    <IncludeSymbols>true</IncludeSymbols>
-    <PublishLocalSymbols>true</PublishLocalSymbols>
-    <PublishToNuGet>true</PublishToNuGet>    
-    <PublishToGitHub>true</PublishToGitHub>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug-PublishLocal'">
-    <IncludeSymbols>true</IncludeSymbols>
-    <PublishLocalSymbols>true</PublishLocalSymbols>
-    <PublishToNuGet>false</PublishToNuGet>
-    <PublishToGitHub>false</PublishToGitHub>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <IncludeSymbols>false</IncludeSymbols>
     <PublishLocalSymbols>false</PublishLocalSymbols>
     <PublishToNuGet>false</PublishToNuGet>
     <PublishToGitHub>false</PublishToGitHub>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release-Publish'">
-    <IncludeSymbols>false</IncludeSymbols>
-    <PublishLocalSymbols>true</PublishLocalSymbols>
-    <PublishToNuGet>true</PublishToNuGet>
-    <PublishToGitHub>true</PublishToGitHub>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(ActualPkgVersion)'=='' AND '$(VersionSuffix)'=='' OR '$(Configuration)'=='Release'">
+  <PropertyGroup Condition="('$(ActualPkgVersion)'=='' AND '$(VersionSuffix)'=='') OR '$(Configuration)'=='Release'">
     <ActualPkgVersion>$(VersionPrefix)</ActualPkgVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(ActualPkgVersion)'=='' AND '$(VersionSuffix)'!='' AND '$(Configuration)'!='Release'">
@@ -48,25 +30,4 @@
     <ActualPackageFile>$(ActualPackage).nupkg</ActualPackageFile>
     <ActualPackageSymbols>$(ActualPackage).symbols.nupkg</ActualPackageSymbols>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(NugetRoot)'==''">
-    <NugetRoot>$(Root)Publish</NugetRoot>
-  </PropertyGroup>  
-  <Target 
-    Name="PublishLocal"
-    Condition="'$(PublishLocalSymbols)'=='true' And '$(GeneratePackageOnBuild)'=='true' And '$(IsPackable)'=='true'"
-    AfterTargets="Pack">
-    <Exec Command="nuget add $(ActualPackageSymbols) -Source $(NugetRoot)" />
-  </Target>
-  <Target
-    Name="PublishToNuGet"
-    Condition="'$(PublishToNuGet)'=='true' And '$(GeneratePackageOnBuild)'=='true' And '$(IsPackable)'=='true'"
-    AfterTargets="Pack">
-    <Exec Command="nuget push $(ActualPackageFile) -Source nuget.org -SkipDuplicate" />
-  </Target>
-  <Target
-    Name="PublishToGitHub"
-    Condition="'$(PublishToGitHub)'=='true' And '$(GeneratePackageOnBuild)'=='true' And '$(IsPackable)'=='true'"
-    AfterTargets="Pack">
-    <Exec Command="nuget push $(ActualPackageFile) -Source GitHub -SkipDuplicate" />
-  </Target>
 </Project>
