@@ -30,5 +30,13 @@ namespace TheXDS.Ganymede.ViewModels
         public ProgressInfo(string status) : this(null, status ?? throw new ArgumentNullException(nameof(status))) { }
 
         private ProgressInfo() : this(null, null) { }
+
+        /// <summary>
+        /// Convierte implícitamente un <see cref="string"/> en un
+        /// <see cref="ProgressInfo"/> que representa un estado de progreso
+        /// indeterminado con un mensaje.
+        /// </summary>
+        /// <param name="status">Mensaje de estado de la operación.</param>
+        public static implicit operator ProgressInfo(string status) => new (null, status);
     }
 }
