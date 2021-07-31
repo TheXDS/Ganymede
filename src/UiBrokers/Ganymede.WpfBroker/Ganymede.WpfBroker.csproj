@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TheXDS.MCART.WPF" Version="0.14.2-a001" />
+    <PackageReference Include="TheXDS.MCART.WPF" Version="0.14.2-a002" />
     <ProjectReference Include="..\..\Core\Ganymede.Mvvm\Ganymede.Mvvm.csproj" />
   </ItemGroup>
   
