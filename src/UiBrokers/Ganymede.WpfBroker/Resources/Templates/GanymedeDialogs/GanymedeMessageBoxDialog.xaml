@@ -3,47 +3,61 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mcart="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
     xmlns:mcartui="clr-namespace:TheXDS.MCART.UI;assembly=MCART.UI" 
-    xmlns:gnmd="http://schemas.thexds.com/ganymede/wpf">
+    xmlns:gnmd="http://schemas.thexds.com/ganymede/wpf" xmlns:valueconverters="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF">
     <Style TargetType="{x:Type gnmd:GanymedeMessageBoxDialog}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type gnmd:GanymedeMessageBoxDialog}">
-                    <StackPanel
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center">
-                        <TextBlock 
-                            FontSize="16"
-                            Foreground="{TemplateBinding Foreground}"
-                            Text="{Binding DataContext.UiServices.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
-                        <ListView
-                            BorderBrush="{x:Null}"
-                            Background="{x:Null}"
-                            BorderThickness="0"
-                            ItemsSource="{Binding DataContext.UiServices.Actions, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate DataType="{x:Type mcartui:Launcher}">
-                                    <Button MinWidth="64" Margin="5,10" Content="{Binding Name, Mode=OneWay}" Command="{Binding Command, Mode=OneWay}"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <mcart:StretchyWrapPanel/>
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListViewItem}">
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                                <ContentPresenter />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
-                    </StackPanel>
+                    <DockPanel
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                        <DockPanel.Resources>
+                            <valueconverters:NotNullToVisibilityConverter x:Key="nnc"/>
+                        </DockPanel.Resources>
+                        <TextBlock
+                            Margin="10"
+                            FontSize="48"                            
+                            Text="{Binding DataContext.UiServices.DialogIcon, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                            Visibility="{Binding DataContext.UiServices.DialogIcon, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource nnc}}"/>
+                        <StackPanel>
+                            <TextBlock 
+                                FontSize="16"
+                                Text="{Binding DataContext.UiServices.MessageTitle, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                Visibility="{Binding DataContext.UiServices.MessageTitle, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource nnc}}"/>
+                            <Separator Visibility="{Binding DataContext.UiServices.MessageTitle, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource nnc}}"/>
+                            <TextBlock 
+                                FontSize="16"
+                                Text="{Binding DataContext.UiServices.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                            <ListView
+                                BorderBrush="{x:Null}"
+                                Background="{x:Null}"
+                                BorderThickness="0"
+                                ItemsSource="{Binding DataContext.UiServices.Actions, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type mcartui:Launcher}">
+                                        <Button MinWidth="64" Margin="5,10" Content="{Binding Name, Mode=OneWay}" Command="{Binding Command, Mode=OneWay}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <mcart:StretchyWrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                    <ContentPresenter />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </StackPanel>
+                    </DockPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

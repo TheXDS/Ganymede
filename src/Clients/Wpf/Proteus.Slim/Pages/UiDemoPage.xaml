@@ -16,11 +16,9 @@
                 <TextBox p:Props.Watermark="Watermark persistente" p:Props.WatermarkAlwaysVisible="True" Margin="10" Text="test"/>
                 <TextBox IsEnabled="False" p:Props.Watermark="Texto desactivado" Margin="10" />
                 <TextBox p:Props.Warned="True" p:Props.Watermark="Texto Error" Margin="10" />
-                
                 <PasswordBox p:Props.Watermark="Contraseña" Margin="10" />
                 <PasswordBox p:Props.Watermark="Contraseña Wmp" p:Props.WatermarkAlwaysVisible="True" Margin="10" />
                 <PasswordBox p:Props.Watermark="Contraseña dis" IsEnabled="False" Margin="10" />
-                
                 <TextBox p:Props.Watermark="Texto con ícono" p:Props.Icon="@" Margin="10" />
             </UniformGrid>
         </TabItem>
@@ -28,7 +26,6 @@
             <UniformGrid VerticalAlignment="Center">
                 <DatePicker p:Props.Watermark="Test" />
                 <ToggleButton p:Props.Watermark="Test" />
-
             </UniformGrid>
         </TabItem>
         <TabItem Header="Botones">

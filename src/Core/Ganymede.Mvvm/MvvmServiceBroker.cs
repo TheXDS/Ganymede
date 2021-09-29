@@ -83,6 +83,19 @@ namespace TheXDS.Ganymede.Mvvm
             set => Change(ref _DialogIcon, value);
         }
 
+
+        private string? _MessageTitle;
+
+        /// <summary>
+        /// Obtiene o establece el valor MessageTitle.
+        /// </summary>
+        /// <value>El valor de MessageTitle.</value>
+        public string? MessageTitle
+        {
+            get => _MessageTitle;
+            set => Change(ref _MessageTitle, value);
+        }
+
         /// <summary>
         /// Obtiene o establece el valor Message.
         /// </summary>
@@ -264,13 +277,25 @@ namespace TheXDS.Ganymede.Mvvm
             HostVm.ClosePage(page);
             return retval;
         }
-        async Task<int> IUiDialogService.Message(string message, params string[] options)
-        {
-            TaskCompletionSource<int>? result = new TaskCompletionSource<int>();
-            List<Launcher>? actions = new List<Launcher>();
 
+        async Task<int> IUiDialogService.Message(MessageDialogType type, string? title, string message, string[] options)
+        {
+            TaskCompletionSource<int>? result = new();
+            List<Launcher>? actions = new();
+
+            MessageTitle = title;
             MessageText = message;
             ContentSelection = MvvmContent.Message;
+            DialogIcon = type switch
+            {
+                MessageDialogType.Information => "ℹ",
+                MessageDialogType.Warning => "⚠",
+                MessageDialogType.Error => "❌",
+                MessageDialogType.Critical => "🔥",
+                MessageDialogType.Question => "❓",
+                MessageDialogType.Input => "✏",
+                _ => string.Empty
+            };
 
             for (int j = 0; j < options.Length; j++)
             {
@@ -283,6 +308,7 @@ namespace TheXDS.Ganymede.Mvvm
             ContentSelection = MvvmContent.Default;
             return r;
         }
+
         async Task<bool> IUiSiblingControl.OpenAsync(PageViewModel page)
         {
             try
@@ -299,7 +325,7 @@ namespace TheXDS.Ganymede.Mvvm
         /// <inheritdoc/>
         public async Task<T?> Get<T>(string prompt, T? @default) where T : notnull
         {
-            TaskCompletionSource<T?>? result = new TaskCompletionSource<T?>();
+            TaskCompletionSource<T?>? result = new();
             MessageText = prompt;
             DataType = typeof(T);
             InputEnums = typeof(T).IsEnum ? typeof(T).ToNamedEnum() : null;
@@ -317,7 +343,7 @@ namespace TheXDS.Ganymede.Mvvm
         async Task IUiHostService.RunBusyAsync(Func<IProgress<ProgressInfo>, Task> task)
         {
             ContentSelection = MvvmContent.Progress;
-            Progress<ProgressInfo>? progress = new Progress<ProgressInfo>(ReportProgress);
+            Progress<ProgressInfo>? progress = new(ReportProgress);
             await task(progress);
             ContentSelection = MvvmContent.Default;
         }
@@ -325,7 +351,7 @@ namespace TheXDS.Ganymede.Mvvm
         async Task<T> IUiHostService.RunBusyAsync<T>(Func<IProgress<ProgressInfo>, Task<T>> task)
         {
             ContentSelection = MvvmContent.Progress;
-            Progress<ProgressInfo>? progress = new Progress<ProgressInfo>(ReportProgress);
+            Progress<ProgressInfo>? progress = new(ReportProgress);
             T? r = await task(progress);
             ContentSelection = MvvmContent.Default;
             return r;

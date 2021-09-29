@@ -6,13 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:vm="clr-namespace:TheXDS.Proteus.Slim.ViewModels"    
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance vm:TestViewModel}"
     Title="TestPage">
-    <!--d:DataContext="{d:DesignInstance vm:TestViewModel}"-->
     <Grid>
-        <Border
-            x:Name="innerBorder"
-            >
-            <!--Background="{Binding UiServices.AccentColor, Converter={DynamicResource McartColorConverter}}"-->
+        <Border x:Name="innerBorder">
             <Border.OpacityMask>
                 <LinearGradientBrush EndPoint="0,1">
                     <GradientStop Offset="0" Color="#80000000"/>
@@ -42,6 +39,7 @@
                 <Button Command="{Binding InputNameCommand, Mode=OneWay}">Input</Button>
                 <Button Command="{Binding BusyOpCommand, Mode=OneWay}">Ejecutar BusyOp</Button>
                 <Button Command="{Binding SpawnSiblingCommand, Mode=OneWay}">Spawn Sibling</Button>
+                <Button Command="{Binding TestMessagesCommand, Mode=OneWay}">Test de mensajes</Button>
                 <Button Command="{Binding OkTkxByeCommand, Mode=OneWay}">OkThxBye!</Button>
             </StackPanel>
         </Viewbox>

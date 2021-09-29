@@ -5,6 +5,7 @@ using System.Windows.Input;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Resources;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.UI;
 using TheXDS.MCART.ViewModel;
 
 namespace TheXDS.Proteus.Slim.ViewModels
@@ -34,6 +35,7 @@ namespace TheXDS.Proteus.Slim.ViewModels
             SpawnSiblingCommand = new SimpleCommand(OnSpawnSibling);
             InputNameCommand = new SimpleCommand(OnInputName);
             OkTkxByeCommand = new SimpleCommand(() => (UiServices ?? throw Errors.UiHostAccess).VisualHost.Close());
+            TestMessagesCommand = new SimpleCommand(OnTestMessages);
         }
 
         /// <inheritdoc/>
@@ -121,6 +123,11 @@ namespace TheXDS.Proteus.Slim.ViewModels
         /// </summary>
         public ICommand InputNameCommand { get; }
 
+        /// <summary>
+        /// Comando que permite la prueba de diálogos de mensajes.
+        /// </summary>
+        public ICommand TestMessagesCommand { get; }
+
         private void OnSum()
         {
             Result = NumberOne + NumberTwo;
@@ -164,6 +171,23 @@ namespace TheXDS.Proteus.Slim.ViewModels
             await Get<double>();
             await Get(DateTime.Now);
             await Get(DayOfWeek.Wednesday);
+        }
+
+        private async Task OnTestMessages()
+        {
+            if (UiServices is not { Dialogs: { } d }) return;
+            await d.Message("Mensaje simple.");
+            await d.Message("Título", "Mensaje con título.");
+            await d.Message(MessageDialogType.Information, "Mensaje informativo.");
+            await d.Message(MessageDialogType.Information, "Título", "Mensaje informativo con título.");
+            await d.Message(MessageDialogType.Warning, "Advertencia.");
+            await d.Message(MessageDialogType.Error, "Error.");
+            await d.Message(MessageDialogType.Critical, "Error crítico.");
+            await d.Message("Seleccione una acción", new[]
+            {
+                new Launcher("1", () => d.Message("Acción 1")),
+                new Launcher("2", () => d.Message("Acción 2"))
+            });
         }
     }
 }

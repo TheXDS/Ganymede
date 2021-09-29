@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="TheXDS.MCART.Ext.PrismLike" Version="0.14.2-a002" />
     <PackageReference Include="TheXDS.MCART.UI" Version="0.14.2-a002" />

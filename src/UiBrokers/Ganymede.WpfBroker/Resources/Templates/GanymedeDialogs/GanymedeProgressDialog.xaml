@@ -30,7 +30,6 @@
                             HorizontalAlignment="Center"
                             FontSize="16" TextWrapping="Wrap" 
                             TextAlignment="Center"
-                            Foreground="{TemplateBinding Foreground}"
                             Text="{Binding DataContext.UiServices.MessageText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
                     </Grid>
                 </ControlTemplate>
