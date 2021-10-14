@@ -22,8 +22,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Build and test Ganymede
-      run: dotnet test $env:Solution_Name --configuration=$env:Configuration
+    - name: Build solution
+      run: dotnet build $env:Solution_Name --configuration=$env:Configuration --version-suffix=$env:GITHUB_SHA -p:RepositoryBranch=${{ github.ref }} -p:ContinuousIntegrationBuild=true
+    - name: Test Ganymede
+      run: dotnet test $env:Solution_Name --configuration=$env:Configuration --version-suffix=$env:GITHUB_SHA -p:RepositoryBranch=${{ github.ref }} -p:ContinuousIntegrationBuild=true
     - name: Create NuGet Packages
       run: dotnet pack $env:Solution_Name --configuration=$env:Configuration --version-suffix=$env:GITHUB_SHA --include-source -p:RepositoryBranch=${{ github.ref }} -p:ContinuousIntegrationBuild=true
     - uses: actions/upload-artifact@v2
