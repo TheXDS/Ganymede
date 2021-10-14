@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:TheXDS.Proteus.Slim.ViewModels"
     xmlns:gnmd="http://schemas.thexds.com/ganymede/wpf"
+    xmlns:pg ="clr-namespace:TheXDS.Ganymede.Pages;assembly=Ganymede.WpfBroker"
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     TintOpacity="{Binding TintOpacity, Mode=OneWay}"
     Title="{Binding Title, Mode=OneWay}"
@@ -15,5 +16,11 @@
     <Window.DataContext>
         <vm:MainWindowViewModel x:Name="_vm"/>
     </Window.DataContext>
-    <gnmd:TabHostControl/>
+    <gnmd:TabHostControl>
+        <gnmd:TabHostControl.Resources>
+            <Style TargetType="pg:TabHost">
+                <Setter Property="Background" Value="Black"/>
+            </Style>
+        </gnmd:TabHostControl.Resources>
+    </gnmd:TabHostControl>
 </fw:AcrylicWindow>

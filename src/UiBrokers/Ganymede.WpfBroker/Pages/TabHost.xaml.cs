@@ -1,6 +1,8 @@
-﻿using System.Windows.Controls;
-using TheXDS.Ganymede.WpfBroker.Widgets;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.Ganymede.WpfBroker.Widgets;
 
 namespace TheXDS.Ganymede.Pages
 {
@@ -29,6 +31,23 @@ namespace TheXDS.Ganymede.Pages
                 Page = content,
             };
             content.DataContext = DataContext;
+        }
+
+        /// <summary>
+        /// Obtiene una referencia a la propiedad de dependencia <see cref="TabBackground"/>.
+        /// </summary>
+        public static readonly DependencyProperty TabBackgroundProperty =
+            DependencyProperty.Register(nameof(TabBackground), typeof(Brush), typeof(TabHost), new FrameworkPropertyMetadata(Brushes.Gray, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        /// <summary>
+        /// Obtiene o establece un color de fondo a utilizar en el control
+        /// visual a mostrarse dentro del encabezado de un 
+        /// <see cref="TabHostControl"/>.
+        /// </summary>
+        public Brush TabBackground
+        {
+            get => (Brush)GetValue(TabBackgroundProperty);
+            set => SetValue(TabBackgroundProperty, value);
         }
     }
 }

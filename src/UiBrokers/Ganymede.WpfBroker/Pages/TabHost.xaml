@@ -8,13 +8,12 @@
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede"
     xmlns:controls="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance vm:PageViewModel}"    
-    BorderBrush="{x:Null}"
-    Background="Gray">
+    d:DataContext="{d:DesignInstance vm:PageViewModel}"
+    BorderBrush="{x:Null}">
     <TabItem.Resources>
         <vc:McartColorConverter x:Key="McartColorConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolVis"/>
-    </TabItem.Resources>    
+    </TabItem.Resources>
     <TabItem.Template>
         <ControlTemplate TargetType="{x:Type TabItem}">
             <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
