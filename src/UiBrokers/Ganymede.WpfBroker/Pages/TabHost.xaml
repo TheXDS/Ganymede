@@ -7,7 +7,7 @@
     xmlns:vc ="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.WPF"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede"
     xmlns:controls="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
-    mc:Ignorable="d"
+    mc:Ignorable="d"    
     d:DataContext="{d:DesignInstance vm:PageViewModel}"
     BorderBrush="{x:Null}">
     <TabItem.Resources>
@@ -26,7 +26,7 @@
                     Margin="{TemplateBinding Padding}"
                     RecognizesAccessKey="True"
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                    VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>                            
+                    VerticalAlignment="Center"/>                            
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
@@ -50,13 +50,18 @@
                     Background="Transparent"
                     DockPanel.Dock="Right"
                     Visibility="{Binding UiServices.Closeable, Converter={StaticResource BoolVis}}"
-                    Command="{Binding UiServices.CloseCommand, Mode=OneWay}">❌</Button>
+                    Command="{Binding UiServices.CloseCommand, Mode=OneWay}">
+                    <TextBlock>❌</TextBlock>
+                </Button>
                 <controls:BusyIndicator
                     Radius="5"
                     Thickness="2"
                     Margin="0,0,3,0"
                     Visibility="{Binding UiServices.IsBusy, Converter={StaticResource BoolVis}}"/>
-                <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding UiServices.Title}"/>
+                <TextBlock
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding UiServices.Title}"/>
             </DockPanel>
         </Border>
     </TabItem.Header>

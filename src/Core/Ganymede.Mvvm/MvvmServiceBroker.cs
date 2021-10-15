@@ -278,15 +278,15 @@ namespace TheXDS.Ganymede.Mvvm
             return retval;
         }
 
-        async Task<int> IUiDialogService.Message(MessageDialogType type, string? title, string message, string[] options)
+        async Task<int> IUiDialogService.Message(MessageDialogTemplate dialogTemplate)
         {
             TaskCompletionSource<int>? result = new();
             List<Launcher>? actions = new();
 
-            MessageTitle = title;
-            MessageText = message;
+            MessageTitle = dialogTemplate.Title;
+            MessageText = dialogTemplate.Message;
             ContentSelection = MvvmContent.Message;
-            DialogIcon = type switch
+            DialogIcon = dialogTemplate.Type switch
             {
                 MessageDialogType.Information => "ℹ",
                 MessageDialogType.Warning => "⚠",
@@ -297,10 +297,10 @@ namespace TheXDS.Ganymede.Mvvm
                 _ => string.Empty
             };
 
-            for (int j = 0; j < options.Length; j++)
+            for (int j = 0; j < dialogTemplate.Options.Length; j++)
             {
                 int jj = j;
-                actions.Add(new Launcher(options[j], () => result.TrySetResult(jj)));
+                actions.Add(new Launcher(dialogTemplate.Options[j], () => result.TrySetResult(jj)));
             }
             Actions = actions;
             int r = await result.Task;

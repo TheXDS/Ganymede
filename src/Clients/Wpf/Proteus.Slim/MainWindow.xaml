@@ -19,7 +19,9 @@
     <gnmd:TabHostControl>
         <gnmd:TabHostControl.Resources>
             <Style TargetType="pg:TabHost">
+                <Setter Property="TextBlock.Foreground" Value="Red"/>
                 <Setter Property="Background" Value="Black"/>
+                <Setter Property="Height" Value="48"/>
             </Style>
         </gnmd:TabHostControl.Resources>
     </gnmd:TabHostControl>

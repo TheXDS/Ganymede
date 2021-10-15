@@ -82,6 +82,5 @@
             </StackPanel>
         </TabItem>
         <TabItem Header="Un Tab desactivado" IsEnabled="False" />
-
     </TabControl>
 </Page>
