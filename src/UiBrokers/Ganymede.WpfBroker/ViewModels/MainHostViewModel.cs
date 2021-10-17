@@ -38,7 +38,7 @@ namespace TheXDS.Ganymede.WpfBroker.ViewModels
 
         private static IVisualBuilder<TabHost> CreateBuilder(out DictionaryVisualResolver<Page> dict)
         {
-            VisualResolverCollection<Page>? c = new VisualResolverCollection<Page>
+            VisualResolverCollection<Page>? c = new()
             {
                 (dict = new DictionaryVisualResolver<Page>()),
                 new AnnotationsVisualResolver<Page>(),

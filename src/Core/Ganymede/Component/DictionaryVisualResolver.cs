@@ -19,7 +19,7 @@ namespace TheXDS.Ganymede.Component
     /// </typeparam>
     public class DictionaryVisualResolver<T> : IVisualResolver<T>, IEnumerable<KeyValuePair<Type, Type>> where T : notnull
     {
-        private readonly Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
+        private readonly Dictionary<Type, Type> _mappings = new();
 
         /// <summary>
         /// Resuelve el contenedor visual a utilizar para alojar al 

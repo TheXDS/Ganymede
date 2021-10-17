@@ -81,7 +81,7 @@ namespace TermClient
 
     class Screen : HostViewModel
     {
-        private readonly List<IInputReader> _keyHandlers = new List<IInputReader>();
+        private readonly List<IInputReader> _keyHandlers = new();
 
         private int _activeTab;
 

@@ -11,7 +11,7 @@ namespace TheXDS.Ganymede.ViewModels
         /// Obtiene un <see cref="ProgressInfo"/> que representa una operación
         /// de progreso desconocido. Este campo es de solo lectura.
         /// </summary>
-        public static readonly ProgressInfo Unknwon = new ProgressInfo();
+        public static readonly ProgressInfo Unknwon = new();
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase

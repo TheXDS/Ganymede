@@ -17,10 +17,4 @@
         <Setter Property="Background" Value="{DynamicResource SystemBaseLowColorBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource SystemBaseHighColorBrush}"/>
     </Style>
-    <Style TargetType="dialogs:PasswordDialog">
-        <Setter Property="fw:AcrylicWindow.Enabled" Value="True"/>
-        <Setter Property="fw:PointerTracker.Enabled" Value="True"/>
-        <Setter Property="Background" Value="{DynamicResource SystemBaseLowColorBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource SystemBaseHighColorBrush}"/>
-    </Style>
 </ResourceDictionary>

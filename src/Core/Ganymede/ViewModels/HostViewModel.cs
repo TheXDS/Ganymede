@@ -17,7 +17,7 @@ namespace TheXDS.Ganymede.ViewModels
     /// </summary>
     public class HostViewModel : ViewModelBase
     {
-        private protected readonly ObservableCollection<PageViewModel> _pages = new ObservableCollection<PageViewModel>();
+        private protected readonly ObservableCollection<PageViewModel> _pages = new();
         private readonly IUiServiceBrokerFactory _serviceFactory;
         private PageViewModel? _activePage;
 
@@ -150,7 +150,7 @@ namespace TheXDS.Ganymede.ViewModels
 
         private bool CancelEv(EventHandler<CancelValueEventArgs<PageViewModel>>? handler, PageViewModel page)
         {
-            CancelValueEventArgs<PageViewModel>? ev = new CancelValueEventArgs<PageViewModel>(page);
+            CancelValueEventArgs<PageViewModel>? ev = new(page);
             handler?.Invoke(this, ev);
             return ev.Cancel;
         }
@@ -182,7 +182,7 @@ namespace TheXDS.Ganymede.ViewModels
     /// </typeparam>
     public class HostViewModel<T> : HostViewModel where T : notnull
     {
-        private readonly Dictionary<PageViewModel, T> _visuals = new Dictionary<PageViewModel, T>();
+        private readonly Dictionary<PageViewModel, T> _visuals = new();
         private readonly IVisualBuilder<T> _visualBuilder;
 
         /// <summary>

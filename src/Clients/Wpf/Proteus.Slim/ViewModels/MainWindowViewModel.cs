@@ -26,8 +26,8 @@ namespace TheXDS.Proteus.Slim.ViewModels
 
         private async Task AddUiTestPage()
         {
-            PageViewModel? vm = new PageViewModel();
-            TabHost? v = new TabHost(vm, new UiDemoPage());
+            PageViewModel? vm = new();
+            TabHost? v = new(vm, new UiDemoPage());
             await AddVisualDirect(vm, v);
         }
 
