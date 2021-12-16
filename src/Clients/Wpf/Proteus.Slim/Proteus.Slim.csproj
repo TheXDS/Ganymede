@@ -8,7 +8,7 @@
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.WPF" Version="0.15.1-a003" />
+		<PackageReference Include="TheXDS.MCART.WPF" Version="0.15.1" />
 		<PackageReference Include="FluentWPF" Version="0.10.2" />
 	</ItemGroup>
 	<ItemGroup>
