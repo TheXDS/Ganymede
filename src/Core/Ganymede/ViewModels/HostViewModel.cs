@@ -268,7 +268,17 @@ namespace TheXDS.Ganymede.ViewModels
         /// Enumera los contenedores visuales de los
         /// <see cref="PageViewModel"/> abiertos dentro de esta instancia.
         /// </summary>
-        public virtual IEnumerable<T> Visuals => _visuals.Select(p => p.Value);
+        public virtual IEnumerable<T> Visuals
+        {
+            get
+            {
+                // HACK: Al implementar de este modo, se fuerza el orden de los objetos visuales.
+                foreach (var j in Pages)
+                {
+                    yield return _visuals[j];
+                }
+            }
+        }
 
         /// <summary>
         /// Obtiene una referencia al contenedor visual para la página activa.

@@ -9,8 +9,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type gnmd:GanymedeMessageBoxDialog}">
                     <DockPanel
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center">
+                        Background="{TemplateBinding Background}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
                         <DockPanel.Resources>
                             <valueconverters:NotNullToVisibilityConverter x:Key="nnc"/>
                         </DockPanel.Resources>
@@ -40,7 +41,7 @@
                                 </ListView.ItemTemplate>
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <mcart:StretchyWrapPanel/>
+                                        <mcart:StretchyWrapPanel HorizontalAlignment="Center"/>
                                     </ItemsPanelTemplate>
                                 </ListView.ItemsPanel>
                                 <ListView.ItemContainerStyle>
