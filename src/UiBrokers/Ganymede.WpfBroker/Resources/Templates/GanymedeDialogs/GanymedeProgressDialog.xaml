@@ -4,6 +4,16 @@
     xmlns:mcart="clr-namespace:TheXDS.MCART.Controls;assembly=MCART.WPF"
     xmlns:gnmd="http://schemas.thexds.com/ganymede/wpf">
     <Style TargetType="{x:Type gnmd:GanymedeProgressDialog}">
+        <!--<Setter Property="TextForeground" Value="Black"/>
+        <Setter Property="TitleForeground" Value="#00407f"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="White"/>-->
+
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type gnmd:GanymedeProgressDialog}">

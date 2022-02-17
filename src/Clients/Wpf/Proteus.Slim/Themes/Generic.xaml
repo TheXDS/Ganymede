@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:gnmd="http://schemas.thexds.com/ganymede/wpf">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Themes/Colors.xaml" />
         <ResourceDictionary Source="/Themes/Button/Button.xaml" />
@@ -14,4 +17,15 @@
         <ResourceDictionary Source="/Themes/PasswordBox/PasswordBox.xaml" />
         <ResourceDictionary Source="/Themes/FocusVisual/FocusVisual.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="gnmd:GanymedeMessageBoxDialog" BasedOn="{StaticResource {x:Type gnmd:GanymedeMessageBoxDialog}}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="TitleForeground" Value="#00407f"/>
+        <Setter Property="TextForeground" Value="Black"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect/>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

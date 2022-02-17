@@ -154,10 +154,10 @@ namespace TheXDS.Proteus.Slim.ViewModels
             switch (await (UiServices ?? throw Errors.UiHostAccess).Dialogs.AskYnc("Saludar?"))
             {
                 case true:
-                    await UiServices.Dialogs.Message($"Hello {Name}!");
+                    await UiServices.Dialogs.Message(MessageDialogType.Information, "Saludo", $"Hello {Name}!");
                     break;
                 case false:
-                    await UiServices.Dialogs.Message($"Goodbye {Name}");
+                    await UiServices.Dialogs.Message(MessageDialogType.Information, "Saludo", $"Goodbye {Name}");
                     break;
             }
         }
@@ -171,6 +171,7 @@ namespace TheXDS.Proteus.Slim.ViewModels
             await Get<double>();
             await Get(DateTime.Now);
             await Get(DayOfWeek.Wednesday);
+            await Get<Random>(); // Valor intencionalmente no obtenible
         }
 
         private async Task OnTestMessages()
