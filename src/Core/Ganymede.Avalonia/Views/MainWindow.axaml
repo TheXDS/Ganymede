@@ -1,0 +1,36 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
+    xmlns:viewModels="clr-namespace:TheXDS.Ganymede.ViewModels"
+    xmlns:locators="clr-namespace:TheXDS.Ganymede.Component.Locators"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="TheXDS.Ganymede.Views.MainWindow"
+    TransparencyLevelHint="AcrylicBlur"
+	SystemDecorations="None"
+	Background="Transparent"
+    Icon="{Binding WindowIcon}"
+    Title="{Binding Title}">
+    <Design.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Design.DataContext>
+    <Grid
+		>
+	    <!--Background="{StaticResource ThemeBackgroundBrush}"-->
+        <rxui:RoutedViewHost
+            IsEnabled="{Binding MainContentEnabled}"
+            Router="{Binding MainContent.Router}">
+            <rxui:RoutedViewHost.ViewLocator>
+                <locators:ReflectionAppViewLocator />
+            </rxui:RoutedViewHost.ViewLocator>
+        </rxui:RoutedViewHost>
+        <rxui:RoutedViewHost
+            Router="{Binding OverlayContent.Content.Router}">
+            <rxui:RoutedViewHost.ViewLocator>
+                <locators:DialogViewLocator />
+            </rxui:RoutedViewHost.ViewLocator>
+        </rxui:RoutedViewHost>
+    </Grid>
+</Window>

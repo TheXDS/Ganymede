@@ -1,0 +1,27 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:c="clr-namespace:TheXDS.Ganymede.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vc="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.Wpf.Common"
+    xmlns:mcart="http://schemas.thexds.local/mcart">
+    <vc:BooleanInverter x:Key="binv"/>
+    <Style TargetType="c:NavigationViewModelHost">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:NavigationViewModelHost">
+                    <Grid>
+                        <mcart:BusyContainer IsBusy="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                DataContext="{Binding Navigator.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                IsEnabled="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource binv}}"/>
+                        </mcart:BusyContainer>
+                        <ContentPresenter
+                            Content="{TemplateBinding OverlayContent}"
+                            DataContext="{Binding DialogService.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,83 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dialogs="clr-namespace:TheXDS.Ganymede.ViewModels.Dialogs"
+    xmlns:component="clr-namespace:TheXDS.Ganymede.Component"
+    xmlns:templating="clr-namespace:TheXDS.Ganymede.Component.Templating"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    Background="#80000000"
+    VerticalAlignment="Stretch"
+    HorizontalAlignment="Stretch"
+	x:Name="dialogRoot"
+    x:Class="TheXDS.Ganymede.Views.Dialogs.DialogView">
+	<Design.DataContext>
+		<dialogs:MessageDialogViewModel Title="Title" Message="This is a message." Icon="🐈">
+			<dialogs:MessageDialogViewModel.IconBrush>
+				<LinearGradientBrush>
+					<GradientStop Color="Red"/>
+					<GradientStop Color="Yellow" Offset="0.25"/>
+					<GradientStop Color="Green" Offset="0.5"/>
+					<GradientStop Color="Blue" Offset="0.75"/>
+					<GradientStop Color="Magenta" Offset="1"/>
+				</LinearGradientBrush>
+			</dialogs:MessageDialogViewModel.IconBrush>
+			<dialogs:MessageDialogViewModel.Interactions>
+				<component:ButtonInteraction Text="Ok"/>
+				<component:ButtonInteraction Text="Cancel"/>
+			</dialogs:MessageDialogViewModel.Interactions>
+		</dialogs:MessageDialogViewModel>
+	</Design.DataContext>
+	<Border
+        Margin="50"
+        VerticalAlignment="Center"
+        HorizontalAlignment="Center"
+        BoxShadow="0 0 5 5 #20000000"
+        CornerRadius="5"
+		Background="Gray">
+		<!--Background="{StaticResource ThemeBackgroundBrush}"-->
+		<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*,Auto">
+			<StackPanel IsVisible="{Binding IsTitleVisible}" Grid.Row="0" Grid.Column="1" Margin="10 10 0 0">
+				<TextBlock
+					Text="{Binding Title}"
+					FontSize="16"
+					FontWeight="Bold"/>
+				<Separator Margin="0 0 10 0"/>
+			</StackPanel>
+			<Border
+                Grid.RowSpan="3"
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                CornerRadius="5"
+                Background="{Binding IconBrush}"
+                IsVisible="{Binding IsIconVIsible}">
+				<TextBlock Margin="10, 10" Text="{Binding Icon}" FontSize="36" Foreground="White"/>
+			</Border>
+			<StackPanel Grid.Row="1" Grid.Column="1" Margin="10">
+				<ScrollViewer VerticalScrollBarVisibility="Auto">
+					<TextBlock
+						TextWrapping="Wrap"
+						Text="{Binding Message}"/>
+				</ScrollViewer>
+				<ContentPresenter
+                    Margin="0 10 0 0"
+                    ContentTemplate="{x:Static templating:DialogTemplateProvider.DialogTemplateBuilder}"
+                    Content="{Binding}"/>
+			</StackPanel>
+			<ItemsControl HorizontalAlignment="Center" Margin="5" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Interactions}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate DataType="component:ButtonInteraction">
+						<Button MinWidth="60" HorizontalContentAlignment="Center" Margin="5" Content="{Binding Text}" Command="{Binding Command}"/>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</Grid>
+	</Border>
+</UserControl>

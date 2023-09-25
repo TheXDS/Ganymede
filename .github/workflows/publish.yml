@@ -15,11 +15,9 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
     - name: Get tag name
       uses: olegtarasov/get-tag@v2.1
-    - name: Build solution
-      run: dotnet build $env:Solution_Name --configuration=$env:Configuration -p:Version=$env:GIT_TAG_NAME -p:RepositoryBranch=${{ github.ref }} 
     - name: Create NuGet Packages
       run: dotnet pack $env:Solution_Name --configuration=$env:Configuration -p:Version=$env:GIT_TAG_NAME -p:RepositoryBranch=${{ github.ref }} -p:ContinuousIntegrationBuild=true
     - name: Push packages to GitHub
