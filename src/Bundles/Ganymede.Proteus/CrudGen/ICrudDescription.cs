@@ -34,4 +34,9 @@ public interface ICrudDescription
     /// save operation.
     /// </summary>
     Action<Model>? SaveProlog { get; }
+
+    /// <summary>
+    /// Gets a reference to the resource type to use when resolving labels.
+    /// </summary>
+    Type? ResourceType { get; }
 }

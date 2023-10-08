@@ -37,46 +37,13 @@ public static class BlobPropertyDescriptorExtensions
     /// Thrown if the descriptor cannot be cast to a
     /// <see cref="IPasswordPropertyDescriptor"/> instance.
     /// </exception>
+    /// <remarks>
+    /// Usage of this descriptor also implies
+    /// <see cref="PropertyDescriptorExtensions.HideFromDetails{TDescriptor}(TDescriptor)"/>
+    /// </remarks>
     public static IPasswordPropertyDescriptor Password(this IBlobPropertyDescriptor descriptor)
     {
-        descriptor.Type(BlobType.Password);
+        descriptor.Type(BlobType.Password).HideFromDetails();
         return descriptor as IPasswordPropertyDescriptor ?? throw new InvalidCastException();
-    }
-}
-
-/// <summary>
-/// Includes a set of extensions for the 
-/// <see cref="ICollectionPropertyDescriptor"/> interface.
-/// </summary>
-public static class CollectionPropertyDescriptiorExtensions
-{
-    /// <summary>
-    /// Indicates that a collection must support adding existing entities.
-    /// </summary>
-    /// <param name="descriptor">Descriptor instance to configure.</param>
-    /// <returns>The same instance as <paramref name="descriptor"/>.</returns>
-    public static TDescriptor Linkable<TDescriptor>(this TDescriptor descriptor) where TDescriptor : ICollectionPropertyDescriptor
-    {
-        descriptor.SetValue(true);
-        return descriptor;
-    }
-
-    /// <summary>
-    /// Indicates that a collection must support creating new entities. This
-    /// also implies the ability to update items already on the list.
-    /// </summary>
-    /// <typeparam name="TDescriptor">Type of property descriptor.</typeparam>
-    /// <param name="descriptor">Descriptor instance to configure.</param>
-    /// <returns>The same instance as <paramref name="descriptor"/>.</returns>
-    public static TDescriptor Creatable<TDescriptor>(this TDescriptor descriptor) where TDescriptor : ICollectionPropertyDescriptor
-    {
-        descriptor.SetValue(true);
-        return descriptor;
-    }
-
-    public static TDescriptor AvailableModels<TDescriptor>(this TDescriptor descriptor, params ICrudDescription[] models) where TDescriptor : ICollectionPropertyDescriptor
-    {
-        descriptor.SetValue(models);
-        return descriptor;
     }
 }

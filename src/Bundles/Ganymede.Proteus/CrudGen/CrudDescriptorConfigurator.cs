@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using TheXDS.Ganymede.Helpers;
 using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.CrudGen;
@@ -18,8 +19,9 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     /// </summary>
     public CrudDescriptorConfigurator()
     {
+        FriendlyName = ResourceType.GetLabel($"{typeof(T).Name}{(ResourceType is not null && ResourceType.Name == typeof(T).Name ? "Model" : null)}");
         _properties = new();
-        _propertyConfigurator = new PropertyDescriptorConfigurator<T>(_properties);
+        _propertyConfigurator = new PropertyDescriptorConfigurator<T>(_properties, this);
     }
 
     /// <summary>
@@ -36,10 +38,13 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     public string? FriendlyNameBindingPath { get; private set; }
 
     /// <inheritdoc/>
-    public string FriendlyName { get; private set; } = SplitByUppercase(typeof(T).Name);
+    public string FriendlyName { get; private set; }
 
     /// <inheritdoc/>
     public Action<Model>? SaveProlog { get; private set; }
+
+    /// <inheritdoc/>
+    public Type? ResourceType { get; private set; }
 
     IModelConfigurator<T> IModelConfigurator<T>.FriendlyName(string friendlyName)
     {
@@ -65,17 +70,9 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
         return this;
     }
 
-    private static string SplitByUppercase(string name)
+    IModelConfigurator<T> IModelConfigurator<T>.LabelResource<TRes>()
     {
-        var sb = new System.Text.StringBuilder();
-        foreach (char c in name)
-        {
-            if (char.IsUpper(c))
-            {
-                sb.Append(' ');
-            }
-            sb.Append(c);
-        }
-        return sb.ToString().TrimStart();
+        ResourceType = typeof(TRes);
+        return this;
     }
 }

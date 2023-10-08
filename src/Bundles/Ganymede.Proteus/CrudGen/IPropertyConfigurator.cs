@@ -32,7 +32,7 @@ public interface IPropertyConfigurator<T> where T : Model
     ITextPropertyDescriptor Property(Expression<Func<T, string?>> propertySelector);
 
     /// <summary>
-    /// Begins the description of a <see cref="string"/> property.
+    /// Begins the description of a <see cref="ICollection{T}"/> property.
     /// </summary>
     /// <param name="propertySelector">
     /// Lambda that selects the property to configure from the model.
@@ -115,7 +115,7 @@ public interface IPropertyConfigurator<T> where T : Model
     /// Thrown if any previous calls to configure this property used a
     /// radically different kind of descriptor for the property.
     /// </exception>
-    IPropertyDescriptor<TValue> Property<TValue>(Expression<Func<T, TValue>> propertySelector);
+    IPropertyDescriptor<TValue> Property<TValue>(Expression<Func<T, TValue>> propertySelector) where TValue : struct;
 
     /// <summary>
     /// Begins the description of a numeric property.
@@ -158,4 +158,21 @@ public interface IPropertyConfigurator<T> where T : Model
     /// radically different kind of descriptor for the property.
     /// </exception>
     INullableNumericPropertyDescriptor<TValue> NullableNumericProperty<TValue>(Expression<Func<T, TValue?>> propertySelector) where TValue : unmanaged, IComparable<TValue>;
+
+    /// <summary>
+    /// Begins the description of a <see cref="Model"/> property.
+    /// </summary>
+    /// <param name="propertySelector">
+    /// Lambda that selects the property to configure from the model.
+    /// </param>
+    /// <returns>
+    /// An <see cref="ITextPropertyDescriptor"/> instance that can be used to
+    /// configure the presentation and behavior of any visual elements used to
+    /// show and/or edit a property.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if any previous calls to configure this property used a
+    /// radically different kind of descriptor for the property.
+    /// </exception>
+    ISingleObjectPropertyDescriptor Property(Expression<Func<T, Model?>> propertySelector);
 }

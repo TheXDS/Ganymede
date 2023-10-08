@@ -19,5 +19,5 @@ public interface IPropertyDescriptor
     /// Use the API provided by Proteus as extension methods instead.
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    void SetValue(object? value, [CallerMemberName] string name = null!);
+    internal void SetValue(object? value, [CallerMemberName] string name = null!);
 }

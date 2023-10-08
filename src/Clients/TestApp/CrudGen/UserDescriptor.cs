@@ -11,14 +11,14 @@ public class UserDescriptor : CrudDescriptor<User>
     /// <inheritdoc/>
     protected override void OnDescribeModel(IModelConfigurator<User> m)
     {
+        m.LabelResource<TheXDS.Ganymede.Resources.Strings.Models.User>();
         m.ConfigureProperties(c => { 
-            c.Property(p => p.Id).Label("User name");
-            c.Property(p => p.DisplayName).Label("Display name");
+            c.Property(p => p.Id);
+            c.Property(p => p.DisplayName);
             c.Property(p => p.Password)
                 .Password()
-                .HideFromDetails()
                 .Algorithm<Argon2Storage, Argon2Settings>(Argon2Storage.GetDefaultSettings());
-            c.Property(p => p.Enabled).Label("Is user enabled");
+            c.Property(p => p.Enabled);
             c.Property(p => p.Description).Nullable().Kind(TextKind.Big);
         });
     }
@@ -34,6 +34,7 @@ public class PostDescriptor : CrudDescriptor<Post>
     {
         m.ConfigureProperties(c => {
             c.Property(p => p.Title);
+            c.Property(p => p.Creator).Selectable();
             c.Property(p => p.Content).Big();
             c.Property(p => p.CreationDate).WithTime().HideFromEditor();
             c.Property(p => p.Comments)
@@ -41,7 +42,8 @@ public class PostDescriptor : CrudDescriptor<Post>
                 .WidgetSize(WidgetSize.Large)
                 .Creatable()
                 .AvailableModels(new CommentDescriptor().Description);
-        });        
+        });
+        m.SaveProlog(p => { if (p.Id == default) p.Id = Guid.NewGuid(); });
         m.SaveProlog(p => p.CreationDate ??= DateTime.Now);
     }
 }

@@ -26,29 +26,7 @@ public static class PropertyDescriptorExtensions
     public static TDescriptor Label<TDescriptor>(this TDescriptor descriptor, string label)
         where TDescriptor : IPropertyDescriptor
     {
-        descriptor.
-            SetValue(label);
-        return descriptor;
-    }
-
-    /// <summary>
-    /// Specifies
-    /// </summary>
-    /// <typeparam name="TDescriptor"></typeparam>
-    /// <param name="descriptor">
-    /// Descriptor onto which add the description.
-    /// </param>
-    /// <param name="resourceName">Name of the string resource to use when creating a label.</param>
-    /// <param name="resourceClass">Resource class to pull the string resource from.</param>
-    /// <returns>
-    /// The same instance as <paramref name="descriptor"/>, allowing the use of
-    /// Fluent syntax.
-    /// </returns>
-    public static TDescriptor Label<TDescriptor>(this TDescriptor descriptor, string resourceName, Type resourceClass)
-        where TDescriptor : IPropertyDescriptor
-    {
-        descriptor.SetValue(resourceName);
-        descriptor.SetValue(resourceClass, "LabelResourceClass");
+        descriptor.SetValue(label);
         return descriptor;
     }
 

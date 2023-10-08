@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
+using TheXDS.Ganymede.Helpers;
 
 namespace TheXDS.Ganymede.CrudGen.Descriptions;
 
@@ -15,10 +16,15 @@ public interface IPropertyDescription
     PropertyInfo Property { get; init; }
 
     /// <summary>
+    /// Gets a reference to the full Model description.
+    /// </summary>
+    ICrudDescription Parent { get; init; }
+
+    /// <summary>
     /// Gets the desired label to be displayed for the visual element used to
     /// view/edit the property.
     /// </summary>
-    string? Label => GetClassValue<string>() ?? Property.Name;
+    string Label => Parent.ResourceType.GetLabel(GetClassValue<string>() ?? Property.Name);
 
     /// <summary>
     /// Gets a value that indicates whether or not the visual element must be

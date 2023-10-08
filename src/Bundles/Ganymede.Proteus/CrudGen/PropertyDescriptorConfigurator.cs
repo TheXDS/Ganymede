@@ -15,6 +15,7 @@ namespace TheXDS.Ganymede.CrudGen;
 public class PropertyDescriptorConfigurator<T>: IPropertyConfigurator<T> where T : Model
 {
     private readonly Dictionary<PropertyInfo, DescriptionEntry> properties;
+    private readonly ICrudDescription _parent;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -23,9 +24,10 @@ public class PropertyDescriptorConfigurator<T>: IPropertyConfigurator<T> where T
     /// <param name="properties">
     /// Dictionary to use when adding property descriptions.
     /// </param>
-    public PropertyDescriptorConfigurator(Dictionary<PropertyInfo, DescriptionEntry> properties)
+    public PropertyDescriptorConfigurator(Dictionary<PropertyInfo, DescriptionEntry> properties, ICrudDescription parent)
     {
         this.properties = properties;
+        this._parent = parent;
     }
 
     /// <summary>
@@ -34,7 +36,7 @@ public class PropertyDescriptorConfigurator<T>: IPropertyConfigurator<T> where T
     public IReadOnlyDictionary<PropertyInfo, DescriptionEntry> PropertyDescriptions => properties;
 
     /// <inheritdoc/>
-    public IPropertyDescriptor<TValue> Property<TValue>(Expression<Func<T, TValue>> propertySelector)
+    public IPropertyDescriptor<TValue> Property<TValue>(Expression<Func<T, TValue>> propertySelector) where TValue : struct
     {
         return NewDescriptor<PropertyDescriptor<TValue>, T, TValue>(propertySelector);
     }
@@ -75,16 +77,23 @@ public class PropertyDescriptorConfigurator<T>: IPropertyConfigurator<T> where T
         return NewDescriptor<BlobPropertyDescriptor, T, byte[]>(propertySelector);
     }
 
+    /// <inheritdoc/>
     public ICollectionPropertyDescriptor Property<TModel>(Expression<Func<T, ICollection<TModel>>> propertySelector) where TModel : Model
     {
-        return NewDescriptor<CollectionPropertyDescription, T, ICollection<TModel>>(propertySelector);
+        return NewDescriptor<CollectionPropertyDescriptor, T, ICollection<TModel>>(propertySelector);
+    }
+
+    /// <inheritdoc/>
+    public ISingleObjectPropertyDescriptor Property(Expression<Func<T, Model?>> propertySelector)
+    {
+        return NewDescriptor<SingleObjectPropertyDescriptor, T, Model?>(propertySelector);
     }
 
     private TDescriptor NewDescriptor<TDescriptor, TObject, TProperty>(Expression<Func<TObject, TProperty>> propertySelector) where TDescriptor : class, IPropertyDescriptor, IPropertyDescription, new()
     {
         return RegisterDescription(propertySelector, prop =>
         {
-            var d = new TDescriptor() { Property = prop };
+            var d = new TDescriptor() { Property = prop, Parent = _parent };
             return new(d, d);
         }) as TDescriptor ?? throw new InvalidOperationException();
     }

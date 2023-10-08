@@ -14,6 +14,13 @@ namespace TheXDS.Ganymede.CrudGen;
 public interface IModelConfigurator<T> where T : Model
 {
     /// <summary>
+    /// Sets a resource class to use when resolving labels.
+    /// </summary>
+    /// <typeparam name="TRes">Type of resource class.</typeparam>
+    /// <returns>This same instance.</returns>
+    IModelConfigurator<T> LabelResource<TRes>() where TRes : class;
+
+    /// <summary>
     /// Sets a friendly name for the model.
     /// </summary>
     /// <param name="modelName">Name to use when presenting the model.</param>

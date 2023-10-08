@@ -34,6 +34,9 @@ public class PropertyDescriptor : IPropertyDescriptor, IPropertyDescription
 
     /// <inheritdoc/>
     public PropertyInfo Property { get; init; } = null!;
+
+    /// <inheritdoc/>
+    public ICrudDescription Parent { get; init; } = null!;
 }
 
 /// <summary>

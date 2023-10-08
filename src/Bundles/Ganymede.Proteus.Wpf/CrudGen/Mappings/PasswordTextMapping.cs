@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
 using TheXDS.Ganymede.ViewModels;
@@ -29,6 +30,7 @@ public class PasswordTextMapping : CrudMappingBase, ICrudMapping
     public FrameworkElement CreateControl(IPropertyDescription description)
     {
         var c = new PasswordBox();
+        ExtraProps.SetLabel(c, description.Label);
         c.PasswordChanged += (s, e) => {
             if (c.DataContext is CrudEditorViewModel vm)
             {
