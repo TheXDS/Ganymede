@@ -42,9 +42,12 @@ public interface IModelConfigurator<T> where T : Model
     IModelConfigurator<T> FriendlyNameBindingPath(Expression<Func<T, object?>> propertySelector) => FriendlyNameBindingPath(ReflectionHelpers.GetProperty(propertySelector).Name);
 
     /// <summary>
-    /// Configures a method to invoke whenever the
+    /// Configures a method to invoke whenever the entity gets saved.
     /// </summary>
-    /// <param name="prolog"></param>
+    /// <param name="prolog">
+    /// Method to execute. This will run right before the save operation is
+    /// performed.
+    /// </param>
     /// <returns>This same instance.</returns>
     IModelConfigurator<T> SaveProlog(Action<T> prolog);
 
