@@ -41,7 +41,8 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
         }
     }
 
-    private readonly ConcurrentStack<ViewModel> _navStack;
+    //private readonly ConcurrentStack<ViewModel> _navStack;
+    private readonly Stack<ViewModel> _navStack;
     private readonly ManualObserver _navStackInfo;
     private ViewModel? _homePage;
 
@@ -89,7 +90,8 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
     /// </summary>
     public NavigationService()
     {
-        _navStack = UiThread.Invoke(() => new ConcurrentStack<ViewModel>());
+        //_navStack = UiThread.Invoke(() => new ConcurrentStack<ViewModel>());
+        _navStack = UiThread.Invoke(() => new Stack<ViewModel>());
         RegisterPropertyChangeBroadcast(nameof(CurrentViewModel), nameof(NavigationStackDepth), nameof(NavigationStack));
         NavigateBackCommand = this.Create(NavigateBack)
             .ListensTo(p => p.CurrentViewModel)
@@ -101,7 +103,7 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
     /// <inheritdoc/>
     public void Navigate(ViewModel viewModel)
     {
-        _navStack.Push(viewModel ?? throw new ArgumentNullException(nameof(viewModel)));
+        UiThread.Invoke(() => _navStack.Push(viewModel ?? throw new ArgumentNullException(nameof(viewModel))));
         Refresh();
     }
 

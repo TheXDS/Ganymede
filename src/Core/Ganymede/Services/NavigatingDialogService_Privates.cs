@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Component;
+using TheXDS.Ganymede.Resources.Strings;
 
 namespace TheXDS.Ganymede.Services;
 
@@ -40,5 +41,21 @@ public partial class NavigatingDialogService : NavigationService, IDialogService
             NavigateBack();
             task.SetResult(result);
         });
+    }
+
+    private T CreateInputDialogVm<T>(string? title, string message, TaskCompletionSource<bool> dialogAwaiter) where T : DialogViewModel, new()
+    {
+        return new()
+        {
+            Title = title,
+            Message = message,
+            Icon = "✍",
+            IconBgColor = Color.DarkGray,
+            Interactions =
+            {
+                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok),
+                new(CloseDialogCommand(dialogAwaiter, false), Common.Cancel)
+            }
+        };
     }
 }

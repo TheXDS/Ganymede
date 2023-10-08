@@ -55,6 +55,7 @@
                 <StackPanel DockPanel.Dock="Bottom">
                     <Button Command="{Binding TestNavigationCommand, Mode=OneWay}" Content="Open new page instance"/>
                     <Button Command="{Binding TestMessageCommand, Mode=OneWay}" Content="Test Message"/>
+                    <Button Command="{Binding TestSelectionCommand, Mode=OneWay}" Content="Test Selection"/>
                     <Button Command="{Binding TestBusyCommand, Mode=OneWay}" Content="Test Busy 5 sec"/>
                     <Button Command="{Binding TestOperationCommand, Mode=OneWay}" Content="Test Operation"/>
                     <Button Command="{Binding TestCancellableOperationCommand, Mode=OneWay}" Content="Test Cancellable Operation"/>

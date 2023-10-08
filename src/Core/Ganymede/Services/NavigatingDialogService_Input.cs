@@ -2,6 +2,7 @@
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.Ganymede.Resources.Strings;
+using TheXDS.MCART.Types.Extensions;
 
 namespace TheXDS.Ganymede.Services;
 
@@ -29,6 +30,17 @@ public partial class NavigatingDialogService
             }
         }
         return GetButtonValue("?", Color.DarkGreen, title, prompt, GetOptions(options).ToArray());
+    }
+
+    /// <inheritdoc/>
+    public async Task<int> SelectOption(string? title, string prompt, params string[] options)
+    {
+        TaskCompletionSource<bool> dialogAwaiter = new();
+        var vm = CreateInputDialogVm<SelectionDialogViewModel>(title, prompt, dialogAwaiter);
+        vm.Options = options;
+        Navigate(vm);
+        var result = await dialogAwaiter.Task;
+        return result ? options.FindIndexOf(vm.Value) : -1;
     }
 
     /// <inheritdoc/>
@@ -71,21 +83,5 @@ public partial class NavigatingDialogService
         Navigate(vm);
         var result = await dialogAwaiter.Task;
         return new(result, result ? vm.Value : defaultValue);
-    }
-
-    private T CreateInputDialogVm<T>(string? title, string message, TaskCompletionSource<bool> dialogAwaiter) where T : DialogViewModel, new()
-    {
-        return new()
-        {
-            Title = title,
-            Message = message,
-            Icon = "✍",
-            IconBgColor = Color.DarkGray,
-            Interactions =
-            {
-                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok),
-                new(CloseDialogCommand(dialogAwaiter, false), Common.Cancel)
-            }
-        };
     }
 }

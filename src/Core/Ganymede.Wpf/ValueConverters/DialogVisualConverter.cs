@@ -44,7 +44,8 @@ public sealed class DialogVisualConverter : IOneWayValueConverter<DialogViewMode
     /// <inheritdoc/>
     public FrameworkElement? Convert(DialogViewModel value, object? parameter, CultureInfo? culture)
     {
-        return Builders.FirstOrDefault(p => p.CanBuild(value))?.Build(value)!;
+        var builder = Builders.FirstOrDefault(p => p.CanBuild(value));
+        return builder?.Build(value)!;
     }
 
     /// <summary>

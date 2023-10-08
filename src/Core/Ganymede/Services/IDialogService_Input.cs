@@ -60,7 +60,34 @@ public partial interface IDialogService
     /// The index of the selected option in the <paramref name="options"/>
     /// array.
     /// </returns>
+    /// <remarks>
+    /// This method works well when the pool of available options is small. If
+    /// the pool of available options contains several items, consider using
+    /// <see cref="SelectOption(string?, string, string[])"/> instead.
+    /// </remarks>
+    /// <seealso cref="SelectOption(string?, string, string[])"/>
     Task<int> GetOption(string? title, string prompt, params string[] options);
+
+    /// <summary>
+    /// Alternate value selection method that allows the user to select a value
+    /// from a larger pool of items.
+    /// </summary>
+    /// <param name="title">Title of the question.</param>
+    /// <param name="prompt">Prompt to ask.</param>
+    /// <param name="options">
+    /// Collection of available options to choose from.
+    /// </param>
+    /// <returns>
+    /// The index of the selected option in the <paramref name="options"/>
+    /// array.
+    /// </returns>
+    /// <remarks>
+    /// The UI for this dialog should be
+    /// different, and modeled under the asumption that the list of available
+    /// options may contain several items.
+    /// </remarks>
+    /// <see cref="GetOption(string?, string, string[])"/>
+    Task<int> SelectOption(string? title, string prompt, params string[] options) => GetOption(title, prompt, options);
 
     /// <summary>
     /// Gets a value from the user.

@@ -50,8 +50,8 @@ public partial class NavigatingDialogService
         var (vm, progress) = CreateOperationVm(title);
         Navigate(vm);
         var task = operation.Invoke(progress);
-        try { return task; }
-        finally { NavigateBack(); }
+        try { return (T)task.ContinueWith(_=>NavigateBack()); }
+        finally { ; }
     }
 
     private static (OperationDialogViewModel viewModel, IProgress<ProgressReport> progress) CreateOperationVm(string? title)

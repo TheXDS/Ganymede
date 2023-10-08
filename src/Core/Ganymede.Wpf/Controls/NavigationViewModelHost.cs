@@ -167,13 +167,13 @@ public class NavigationViewModelHost : Control
 
         if (e.ViewModel is { } vm && _dialogVisResolver.Resolve(vm) is { } view)
         {
-            SetValue(OverlayContentPropertyKey, view);
+            UiInvoke(() => SetValue(OverlayContentPropertyKey, view));
             vm.NavigationService = DialogService as NavigatingDialogService;
             vm.DialogService = null;
         }
         else
         {
-            SetValue(OverlayContentPropertyKey, null);
+            UiInvoke(() => SetValue(OverlayContentPropertyKey, null));
         }
     }
 }

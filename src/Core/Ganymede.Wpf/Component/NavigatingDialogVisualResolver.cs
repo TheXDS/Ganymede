@@ -18,5 +18,6 @@ public class NavigatingDialogVisualResolver : DictionaryVisualResolver<Framework
     {
         Register<DialogViewModel, DialogView>();
         Register<OperationDialogViewModel, DialogView>();
+        Register<SelectionDialogViewModel, DialogView>();
     }
 }

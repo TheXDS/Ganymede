@@ -15,6 +15,10 @@ public class WelcomeViewModel : ViewModel
             .CanExecuteIfNotNull(p => p.DialogService)
             .Build();
 
+        TestSelectionCommand = cb.BuildObserving(OnTestSelectDialog)
+            .CanExecuteIfNotNull(p => p.DialogService)
+            .Build();
+
         TestNavigationCommand = cb.BuildObserving(OnTestNavigation)
             .CanExecuteIfNotNull(p => p.NavigationService)
             .Build();
@@ -28,6 +32,8 @@ public class WelcomeViewModel : ViewModel
     public ICommand LogoutCommand { get; }
 
     public ICommand TestMessageCommand { get; }
+
+    public ICommand TestSelectionCommand { get; }
 
     public ICommand TestNavigationCommand { get; }
 
@@ -84,6 +90,20 @@ public class WelcomeViewModel : ViewModel
         {
             progress.Report("Cancelling...");
             await Task.Delay(1000);
+        }
+    }
+
+    private async Task OnTestSelectDialog()
+    {
+        var options = Enumerable.Range(1, 5).Select(p => $"Option {p}").ToArray();
+        var result = await DialogService!.SelectOption("Select option", "Select an option from the combobox below.", options);
+        if (result == -1)
+        {
+            await DialogService!.Message("Nothing selected", "No option has been selected from the prompt.");
+        }
+        else
+        {
+            await DialogService!.Message("Option", $"The user selected \"{options[result]}\"");
         }
     }
 
