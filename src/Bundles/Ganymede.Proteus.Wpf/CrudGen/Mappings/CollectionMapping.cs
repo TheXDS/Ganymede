@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Types;
@@ -41,50 +43,9 @@ public class CollectionMapping : ICrudMapping<ICollectionPropertyDescription>
             Models = description.AvailableModels,
             Label = description.Label,
         };
-
-        list.CreateCommand = new SimpleCommand(async () =>
-        {
-
-            var models = new Dictionary<string, ICrudDescription>(description.AvailableModels.Select(p => new KeyValuePair<string, ICrudDescription>(p.FriendlyName, p)));
-            var vm = (CrudEditorViewModel)list.DataContext;
-            Task OpenEditor(int index)
-            {
-                var desc = models[models.Keys.ToArray()[0]];
-                var entity = desc.Model.New<Model>();
-                return OpenChildEditor(entity, vm, desc, description);
-            }
-            if (models.Count > 1)
-            {
-                if (await vm.DialogService!.SelectOption("New item", "Select the type of item to be created", models.Keys.ToArray()) is { } m && m >= 0)
-                {
-                    await OpenEditor(m);
-                }
-            }
-            else
-            {
-                await OpenEditor(0);
-            }
-        });
+        list.CreateCommand = CreateNewCommand(list, description);
+        list.UpdateCommand = CreateUpdateCommand(list, description);
         return list;
-    }
-
-    private static async Task<Model?> OpenChildEditor(Model entity, CrudEditorViewModel parentVm, ICrudDescription description, ICollectionPropertyDescription parentDescription)
-    {
-        LaunchEditorSettings s = new()
-        {
-            Entity = entity,
-            Description = description,
-            Context = new CrudEditorViewModelContext(true)
-            {
-                PreSaveCallbacks =
-                {
-                    e => AddToEntityCollection(e, parentDescription, parentVm)
-                }
-            },
-            NavigationService = parentVm.NavigationService!,
-            DialogService = parentVm.DialogService!,
-        };
-        return await CrudCommon.LaunchEditor(s) ? s.Entity : null;
     }
 
     /// <inheritdoc/>
@@ -96,6 +57,57 @@ public class CollectionMapping : ICrudMapping<ICollectionPropertyDescription>
             controlCollection.Add(j);
         }
         ((ListEditor)control).Collection = new ObservableListWrap<Model>(controlCollection);
+    }
+
+    private static SimpleCommand CreateNewCommand(ListEditor list, ICollectionPropertyDescription description)
+    {
+        return new SimpleCommand(async () =>
+        {
+            var vm = (CrudEditorViewModel)list.DataContext;
+            var modelDescription = description.AvailableModels.Length > 1
+                ? await GetDesiredModel(vm.DialogService!, description.AvailableModels)
+                : description.AvailableModels[0];
+
+            if (modelDescription is not null)
+            { 
+                await OpenChildEditor(modelDescription.Model.New<Model>(), vm, modelDescription, description);
+            }
+        });
+    }
+
+    private static async Task<ICrudDescription?> GetDesiredModel(IDialogService dialogService, ICrudDescription[] models)
+    {
+        var m = new Dictionary<string, ICrudDescription>(models.Select(p => new KeyValuePair<string, ICrudDescription>(p.FriendlyName, p)));
+        return await dialogService!.SelectOption("New item", "Select the type of item to be created", m.Keys.ToArray()) is { } i && i >= 0
+            ? m[m.Keys.ToArray()[i]]
+            : null;
+    }
+
+    private static SimpleCommand CreateUpdateCommand(ListEditor list, ICollectionPropertyDescription description)
+    {
+        return new SimpleCommand(() => {
+            var vm = (CrudEditorViewModel)list.DataContext;
+            var model = vm.Entity.GetType();
+            var desc = description.AvailableModels.First(p => p.Model == model);
+            return OpenChildEditor(vm.Entity, vm, desc, description, false);
+        });
+    }
+
+    private static async Task<Model?> OpenChildEditor(Model entity, CrudEditorViewModel parentVm, ICrudDescription description, ICollectionPropertyDescription parentDescription, bool addNew = true)
+    {
+        LaunchEditorSettings s = new()
+        {
+            Entity = entity,
+            Description = description,
+            Context = new CrudEditorViewModelContext(addNew),
+            NavigationService = parentVm.NavigationService!,
+            DialogService = parentVm.DialogService!,
+        };
+        if (addNew)
+        {
+            s.Context.PreSaveCallbacks.Add(e => AddToEntityCollection(e, parentDescription, parentVm));
+        }
+        return await CrudCommon.LaunchEditor(s) ? s.Entity : null;
     }
 
     private static void AddToEntityCollection(Model newEntity, IPropertyDescription description, CrudViewModelBase parentVm)
