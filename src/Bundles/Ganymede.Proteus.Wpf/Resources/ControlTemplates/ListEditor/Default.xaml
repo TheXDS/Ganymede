@@ -1,0 +1,44 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:local="clr-namespace:TheXDS.Ganymede.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="{x:Type local:ListEditor}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ListEditor}">
+                    <DockPanel>
+                        <TextBlock
+                            DockPanel.Dock="Top"
+                            Foreground="{TemplateBinding LabelForeground}"
+                            Effect="{TemplateBinding LabelEffect}">
+                            <Run Text="{TemplateBinding Icon}"/>
+                            <Run Text="{TemplateBinding Label}"/>
+                        </TextBlock>
+                        <StackPanel DockPanel.Dock="Right" Margin="5,-5,-5,-5">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="Margin" Value="5"/>
+                                    <Setter Property="Height" Value="24"/>
+                                    <Setter Property="Width" Value="24"/>
+                                </Style>
+                                <BooleanToVisibilityConverter x:Key="b2vc"/>
+                            </StackPanel.Resources>
+                            <Button
+                                Visibility="{TemplateBinding CanSelect, Converter={StaticResource b2vc}}"
+                                Command="{TemplateBinding SelectCommand}">👆</Button>
+                            <Button
+                                Visibility="{TemplateBinding CanCreate, Converter={StaticResource b2vc}}"
+                                Command="{TemplateBinding CreateCommand}">➕</Button>
+                            <Button
+                                Visibility="{TemplateBinding CanCreate, Converter={StaticResource b2vc}}"
+                                Command="{TemplateBinding UpdateCommand}">✏️</Button>
+                            <Button 
+                                Command="{TemplateBinding RemoveCommand}">➖</Button>
+                        </StackPanel>
+                        <ListView ItemsSource="{TemplateBinding Collection}"/>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

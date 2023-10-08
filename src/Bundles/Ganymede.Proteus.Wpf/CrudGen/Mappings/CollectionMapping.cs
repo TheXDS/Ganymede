@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
@@ -55,7 +56,7 @@ public class CollectionMapping : ICrudMapping<ICollectionPropertyDescription>
         {
             controlCollection.Add(j);
         }
-        ((ListEditor)control).Collection = new ObservableListWrap<Model>(controlCollection);
+        ((ListEditor)control).Collection = controlCollection;
     }
 
     private static SimpleCommand CreateNewCommand(ListEditor list, ICollectionPropertyDescription description)
@@ -82,13 +83,14 @@ public class CollectionMapping : ICrudMapping<ICollectionPropertyDescription>
             : null;
     }
 
-    private static SimpleCommand CreateUpdateCommand(ListEditor list, ICollectionPropertyDescription description)
+    private static ICommand CreateUpdateCommand(ListEditor list, ICollectionPropertyDescription description)
     {
-        return new SimpleCommand(() => {
+        return new SimpleCommand(() => {            
             var vm = (CrudEditorViewModel)list.DataContext;
-            var model = vm.Entity.GetType();
+            var model = list.SelectedEntity?.GetType();
+            if (model is null) return Task.CompletedTask;
             var desc = description.AvailableModels.First(p => p.Model == model);
-            return OpenChildEditor(vm.Entity, vm, desc, description, false);
+            return OpenChildEditor(list.SelectedEntity!, vm, desc, description, false);
         });
     }
 
@@ -125,3 +127,13 @@ public class CollectionMapping : ICrudMapping<ICollectionPropertyDescription>
         }
     }
 }
+
+//public class SingleObjectMapping : ICrudMapping<ISingleObjectPropertyDescription>
+//{
+//    bool ICrudMapping.MustSetValueManually => true;
+
+//    public FrameworkElement CreateControl(ISingleObjectPropertyDescription description)
+//    {
+//        throw new NotImplementedException();
+//    }
+//}

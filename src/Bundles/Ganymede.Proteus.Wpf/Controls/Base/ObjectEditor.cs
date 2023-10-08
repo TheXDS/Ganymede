@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,92 +15,88 @@ using TheXDS.Ganymede.Types;
 using TheXDS.Triton.Models.Base;
 using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
 
-namespace TheXDS.Ganymede.Controls;
+namespace TheXDS.Ganymede.Controls.Base;
 
 /// <summary>
-/// Lógica de interacción para ListEditor.xaml
+/// Base class for all controls that can be used to manage properties that
+/// contain entities, either as a single instance or as part of a collection.
 /// </summary>
-public partial class ListEditor : UserControl
+public class ObjectEditor : Control
 {
     /// <summary>
-    /// Identifiees the <see cref="SelectCommand"/> dependency property.
+    /// Identifies the <see cref="SelectCommand"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty SelectCommandProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="CreateCommand"/> dependency property.
+    /// Identifies the <see cref="CreateCommand"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty CreateCommandProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="UpdateCommand"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty UpdateCommandProperty;
-
-    /// <summary>
-    /// Identifiees the <see cref="RemoveCommand"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty RemoveCommandProperty;
-
-    /// <summary>
-    /// Identifiees the <see cref="Collection"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty CollectionProperty;
-
-    /// <summary>
-    /// Identifiees the <see cref="CanCreate"/> dependency property.
+    /// Identifies the <see cref="CanCreate"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty CanCreateProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="CanSelect"/> dependency property.
+    /// Identifies the <see cref="CanSelect"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty CanSelectProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="EntitySource"/> dependency property.
+    /// Identifies the <see cref="EntitySource"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty EntitySourceProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="Models"/> dependency property.
+    /// Identifies the <see cref="Models"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty ModelsProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="Label"/> dependency property.
+    /// Identifies the <see cref="Label"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty LabelProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="Icon"/> dependency property.
+    /// Identifies the <see cref="Icon"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty IconProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="LabelForeground"/> dependency property.
+    /// Identifies the <see cref="LabelForeground"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty LabelForegroundProperty;
+
     /// <summary>
-    /// Identifiees the <see cref="LabelEffect"/> dependency property.
+    /// Identifies the <see cref="LabelEffect"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty LabelEffectProperty;
 
-    static ListEditor()
+    /// <summary>
+    /// Identifies the <see cref="UpdateCommand"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty UpdateCommandProperty;
+
+    /// <summary>
+    /// Identifies the <see cref="SelectedEntity"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty SelectedEntityProperty;
+
+    static ObjectEditor()
     {
-        SelectCommandProperty = NewDp<ICommand, ListEditor>(nameof(SelectCommand));
-        CreateCommandProperty = NewDp<ICommand, ListEditor>(nameof(CreateCommand));
-        UpdateCommandProperty = NewDp<ICommand, ListEditor>(nameof(UpdateCommand));
-        RemoveCommandProperty = NewDp<ICommand, ListEditor>(nameof(RemoveCommand));
-        CollectionProperty = NewDp<ICollection<Model>, ListEditor>(nameof(Collection));
-        CanCreateProperty = NewDp<bool, ListEditor>(nameof(CanCreate), true);
-        CanSelectProperty = NewDp<bool, ListEditor>(nameof(CanSelect));
-        EntitySourceProperty = NewDp<IEnumerable<Model>, ListEditor>(nameof(EntitySource));
-        ModelsProperty = NewDp<ICrudDescription[], ListEditor>(nameof(Models));
-        LabelProperty = NewDp<string, ListEditor>(nameof(Label));
-        IconProperty = NewDp<string, ListEditor>(nameof(Icon), "📄");
-        LabelForegroundProperty = NewDp<Brush, ListEditor>(nameof(LabelForeground), SystemColors.ControlTextBrush);
-        LabelEffectProperty = NewDp<Effect, ListEditor>(nameof(LabelEffect));
+        SelectCommandProperty = NewDp<ICommand, ObjectEditor>(nameof(SelectCommand));
+        CreateCommandProperty = NewDp<ICommand, ObjectEditor>(nameof(CreateCommand));
+        UpdateCommandProperty = NewDp<ICommand, ObjectEditor>(nameof(UpdateCommand));
+        CanCreateProperty = NewDp<bool, ObjectEditor>(nameof(CanCreate), true);
+        CanSelectProperty = NewDp<bool, ObjectEditor>(nameof(CanSelect));
+        EntitySourceProperty = NewDp<IEnumerable<Model>, ObjectEditor>(nameof(EntitySource));
+        ModelsProperty = NewDp<ICrudDescription[], ObjectEditor>(nameof(Models));
+        LabelProperty = NewDp<string, ObjectEditor>(nameof(Label));
+        IconProperty = NewDp<string, ObjectEditor>(nameof(Icon), "📄");
+        SelectedEntityProperty = NewDp<Model, ObjectEditor>(nameof(SelectedEntity));
+        LabelForegroundProperty = NewDp<Brush, ObjectEditor>(nameof(LabelForeground), SystemColors.ControlTextBrush);
+        LabelEffectProperty = NewDp<Effect, ObjectEditor>(nameof(LabelEffect));
     }
 
     /// <summary>
@@ -129,25 +130,6 @@ public partial class ListEditor : UserControl
     }
 
     /// <summary>
-    /// Gets or sets the command to invoke when the user wants to remove an
-    /// item from the collection.
-    /// </summary>
-    public ICommand RemoveCommand
-    {
-        get => (ICommand)GetValue(RemoveCommandProperty);
-        set => SetValue(RemoveCommandProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the collection to be managed by this control.
-    /// </summary>
-    public ICollection<Model> Collection
-    {
-        get => (ICollection<Model>)GetValue(CollectionProperty);
-        set => SetValue(CollectionProperty, value);
-    }
-
-    /// <summary>
     /// Gets or sets a value that indicates if this control should allow
     /// creation of new entities.
     /// </summary>
@@ -159,7 +141,7 @@ public partial class ListEditor : UserControl
 
     /// <summary>
     /// Gets or sets a value that indicates if this control should allow
-    /// selection of items to be added to this list.
+    /// selection of items to be added.
     /// </summary>
     public bool CanSelect
     {
@@ -225,10 +207,11 @@ public partial class ListEditor : UserControl
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ListEditor"/> class.
+    /// Gets or sets the selected entity on this control.
     /// </summary>
-    public ListEditor()
+    public Model? SelectedEntity
     {
-        InitializeComponent();
+        get => (Model?)GetValue(SelectedEntityProperty);
+        set => SetValue(SelectedEntityProperty, value);
     }
 }
