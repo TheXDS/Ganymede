@@ -47,7 +47,7 @@ public class ProteusDemoViewModel : ViewModel
         var svc = SP.CommonPool.Resolve<ITritonService>()!;
         using var trans = svc.GetReadTransaction();
         var tbl = trans.All<TModel>().Cast<Model>().ToList();
-        var vm = new CrudPageViewModel(tbl, new[] { new TDescriptor().Description }, svc);
+        var vm = new CrudPageViewModel(tbl, new[] { new TDescriptor().Description }, svc) { DialogService = DialogService };
         NavigationService?.Navigate(vm);
     }
 }

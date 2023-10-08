@@ -23,9 +23,9 @@ public partial class ListEditor : UserControl
     public static readonly DependencyProperty SelectCommandProperty;
 
     /// <summary>
-    /// Identifiees the <see cref="CreateCommands"/> dependency property.
+    /// Identifiees the <see cref="CreateCommand"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty CreateCommandsProperty;
+    public static readonly DependencyProperty CreateCommandProperty;
 
     /// <summary>
     /// Identifiees the <see cref="UpdateCommand"/> dependency property.
@@ -84,7 +84,7 @@ public partial class ListEditor : UserControl
     static ListEditor()
     {
         SelectCommandProperty = NewDp<ICommand, ListEditor>(nameof(SelectCommand));
-        CreateCommandsProperty = NewDp<ICollection<ButtonInteraction>, ListEditor>(nameof(CreateCommands));
+        CreateCommandProperty = NewDp<ICommand, ListEditor>(nameof(CreateCommand));
         UpdateCommandProperty = NewDp<ICommand, ListEditor>(nameof(UpdateCommand));
         RemoveCommandProperty = NewDp<ICommand, ListEditor>(nameof(RemoveCommand));
         CollectionProperty = NewDp<ICollection<Model>, ListEditor>(nameof(Collection));
@@ -112,10 +112,10 @@ public partial class ListEditor : UserControl
     /// Gets or sets the command to invoke when the user wants to add a new
     /// item to the collection.
     /// </summary>
-    public ICollection<ButtonInteraction> CreateCommands
+    public ICommand CreateCommand
     {
-        get => (ICollection<ButtonInteraction>)GetValue(CreateCommandsProperty);
-        set => SetValue(CreateCommandsProperty, value);
+        get => (ICommand)GetValue(CreateCommandProperty);
+        set => SetValue(CreateCommandProperty, value);
     }
 
     /// <summary>

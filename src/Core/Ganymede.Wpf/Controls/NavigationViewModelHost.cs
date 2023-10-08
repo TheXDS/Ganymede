@@ -154,7 +154,7 @@ public class NavigationViewModelHost : Control
         {
             UiInvoke(() => SetValue(ContentPropertyKey, view));
             vm.NavigationService = Navigator;
-            vm.DialogService = DialogService;
+            vm.DialogService ??= DialogService;
         }
         else
         {

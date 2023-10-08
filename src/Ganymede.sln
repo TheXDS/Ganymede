@@ -61,7 +61,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ganymede", "Core\Ganymede\G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ganymede.Avalonia", "Core\Ganymede.Avalonia\Ganymede.Avalonia.csproj", "{E2DA46DE-AF92-492D-8FD7-C3289E1FC0B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ganymede.Proteus.Wpf", "Bundles\Ganymede.Proteus.Wpf\Ganymede.Proteus.Wpf.csproj", "{55C5B4A7-B250-4DE0-AB00-AD60E278FD17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ganymede.Proteus.Wpf", "Bundles\Ganymede.Proteus.Wpf\Ganymede.Proteus.Wpf.csproj", "{55C5B4A7-B250-4DE0-AB00-AD60E278FD17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI", "CI", "{3469335D-5E43-4E69-9925-6655FB3BD1F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{4B761973-3A72-4025-9D37-953C2D2FF5B0}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
+		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +213,8 @@ Global
 		{DAAA6168-64BB-4AC7-9CB5-C69372F55F2F} = {FB335C01-305B-4D36-94FA-DEF3FC99B4E9}
 		{E2DA46DE-AF92-492D-8FD7-C3289E1FC0B0} = {FB335C01-305B-4D36-94FA-DEF3FC99B4E9}
 		{55C5B4A7-B250-4DE0-AB00-AD60E278FD17} = {5683A53B-B133-48C2-B294-91DF06903F6A}
+		{3469335D-5E43-4E69-9925-6655FB3BD1F2} = {3DEACF37-863F-486A-9E5B-07D5F6DAFD20}
+		{4B761973-3A72-4025-9D37-953C2D2FF5B0} = {3469335D-5E43-4E69-9925-6655FB3BD1F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C9D4151-06CD-4360-BF3E-A420FD86250F}

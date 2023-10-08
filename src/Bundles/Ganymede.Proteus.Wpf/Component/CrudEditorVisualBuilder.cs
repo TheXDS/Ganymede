@@ -3,7 +3,6 @@ using System.Windows;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.Component;
 

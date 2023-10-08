@@ -9,6 +9,7 @@ namespace TheXDS.Ganymede.Types.Base;
 public abstract class ViewModel : ViewModelBase
 {
     private string? _Title;
+    private IDialogService? dialogService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ViewModel"/> class.
@@ -30,7 +31,11 @@ public abstract class ViewModel : ViewModelBase
     /// <summary>
     /// Gets a reference to the current dialog service.
     /// </summary>
-    public IDialogService? DialogService { get; set; }
+    public IDialogService? DialogService
+    { 
+        get => dialogService;
+        set => dialogService = value;
+    }
 
     /// <summary>
     /// Gets a reference to a navigation service bound to this instance.
