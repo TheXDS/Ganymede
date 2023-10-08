@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Specialized;
 using System.Windows.Input;
+using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types.Base;
@@ -36,11 +37,11 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
 
         public void NotifyChange()
         {
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            UiThread.Invoke(() => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)));
         }
     }
 
-    private readonly ConcurrentStack<ViewModel> _navStack = new();
+    private readonly ConcurrentStack<ViewModel> _navStack;
     private readonly ManualObserver _navStackInfo;
     private ViewModel? _homePage;
 
@@ -88,12 +89,13 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
     /// </summary>
     public NavigationService()
     {
+        _navStack = UiThread.Invoke(() => new ConcurrentStack<ViewModel>());
         RegisterPropertyChangeBroadcast(nameof(CurrentViewModel), nameof(NavigationStackDepth), nameof(NavigationStack));
         NavigateBackCommand = this.Create(NavigateBack)
             .ListensTo(p => p.CurrentViewModel)
             .CanExecute(_navStack.Any)
             .Build();
-        _navStackInfo = new ManualObserver(_navStack);
+        _navStackInfo = UiThread.Invoke(() => new ManualObserver(_navStack));
     }
 
     /// <inheritdoc/>

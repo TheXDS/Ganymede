@@ -110,11 +110,11 @@ public class CrudPageViewModel : ViewModel
     /// </param>
     public CrudPageViewModel(ICollection<Model> entities, ICrudDescription[] descriptions, ITritonService? dataService = null)
     {
-        CrudNavService = new NavigationService();
+        CrudNavService = UiThread.Invoke(() => new NavigationService()); // <--------------------------------
         Descriptions = descriptions;
         Models = descriptions.Select(p => p.Model).ToArray();
         var b = new CommandBuilder<CrudPageViewModel>(this);
-        Entities = new ObservableCollectionWrap<Model>(entities);
+        Entities = UiThread.Invoke(() => new ObservableCollectionWrap<Model>(entities));
         NewCommands = descriptions.Select(t => CreateNewCommand(b, t)).ToArray();
         CrudInteractions = new ObservableCollection<ButtonInteraction>();
         UpdateInteraction = new(b.BuildObserving(OnUpdate).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), "Update");
@@ -157,12 +157,17 @@ public class CrudPageViewModel : ViewModel
 
     private void PresentUnselectedContent()
     {
-        PresentContent(null);
+        CrudNavService.NavigateAndReset(null);
     }
 
     private void PresentSelectedContent()
     {
-        PresentContent(ViewModelBuilder.BuildDetailsFrom(SelectedEntity!, GetCurrentDescription()), UpdateInteraction, DeleteInteraction);
+        var vm = ViewModelBuilder.BuildDetailsFrom(SelectedEntity!, GetCurrentDescription());
+        vm.CrudActions = new ButtonInteraction[] {
+            UpdateInteraction,
+            DeleteInteraction
+        };
+        CrudNavService.NavigateAndReset(vm);
     }
 
     private void PresentRegularContent()
@@ -175,28 +180,21 @@ public class CrudPageViewModel : ViewModel
     {
         var retval = false;
         IsEditing = true;
-        var vm = ViewModelBuilder.BuildEditorFrom(entity, description, context);
-        var b = new CommandBuilder<CrudEditorViewModel>(vm);
-        CrudInteractions.Clear();
-        CrudInteractions.Add(new(b.BuildBusyOperation(vm.OnSave), "Save"));
-        CrudInteractions.Add(new(b.BuildSimple(vm.OnCancel), "Cancel"));
-        CrudNavService.Navigate(vm);
-        vm.DialogService = DialogService;
-        if (await vm.WaitForCompletion() && vm.Entity is Model e)
+        LaunchEditorSettings s = new()
         {
-            description.SaveProlog?.Invoke(e);
-            retval = (await DialogService!.RunOperation(p => TrySaveData(p, e))) ?? true;
+            Entity = entity,
+            Description = description,
+            Context = context,
+            NavigationService = CrudNavService,
+            DialogService = DialogService!,
+        };
+        if (await CrudCommon.LaunchEditor(s))
+        {
+            retval = (await DialogService!.RunOperation(p => TrySaveData(p, entity))) ?? true;
         }
-        IsEditing = false;
         PresentRegularContent();
+        IsEditing = false;
         return retval;
-    }
-
-    private void PresentContent(ViewModel? content, params ButtonInteraction[] interactions)
-    {
-        CrudNavService.NavigateAndReset(content);
-        CrudInteractions.Clear();
-        CrudInteractions.AddRange(interactions);
     }
 
     private Task<bool?> TrySaveData(IProgress<ProgressReport> progress, Model entity)

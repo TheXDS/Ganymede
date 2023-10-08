@@ -3,6 +3,7 @@ using System.Windows;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -28,9 +29,12 @@ public class CrudEditorVisualBuilder : CrudVisualBuilderBase<CrudEditorViewModel
     protected override FrameworkElement? GetControl(IPropertyDescription description, CrudEditorViewModel viewModelContext)
     {
         if (_settings.SkipCkecks.Any(p => p.Invoke(description, viewModelContext))) return null;
-
-        return _settings.ControlTransformations.Aggregate(
-            (_settings.Mappings.FirstOrDefault(p => p.CanMap(description)) ?? FallbackMapping.Create())
-            .CreateControl(description), (c, t) => t.Invoke(c, description));
+        var mapping = _settings.Mappings.FirstOrDefault(p => p.CanMap(description)) ?? FallbackMapping.Create();
+        var control = mapping.CreateControl(description);
+        if (mapping.MustSetValueManually)
+        {
+            mapping.SetControlValue(control, viewModelContext.Entity, description);
+        }
+        return _settings.ControlTransformations.Aggregate(control, (c, t) => t.Invoke(c, description));
     }
 }

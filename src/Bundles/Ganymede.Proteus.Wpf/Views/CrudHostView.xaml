@@ -88,7 +88,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <ItemsControl ItemsSource="{Binding CrudInteractions, Mode=OneWay}" DockPanel.Dock="Bottom" Margin="5" HorizontalAlignment="Center">
+            <ItemsControl ItemsSource="{Binding CrudNavService.CurrentViewModel.CrudActions, Mode=OneWay}" DockPanel.Dock="Bottom" Margin="5" HorizontalAlignment="Center">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1"/>

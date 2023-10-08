@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.Ganymede.Resources.Strings;
 
 namespace TheXDS.Ganymede.Services;
 
@@ -12,7 +13,7 @@ public partial class NavigatingDialogService
     /// <inheritdoc/>
     public Task<bool> Ask(string? title, string question)
     {
-        return GetButtonValue("?", Color.DarkGreen, title, question, ("Common.Yes", true), ("Common.No", false));
+        return GetButtonValue("?", Color.DarkGreen, title, question, (Common.Yes, true), (Common.No, false));
     }
 
     /// <inheritdoc/>
@@ -36,7 +37,7 @@ public partial class NavigatingDialogService
     /// <inheritdoc/>
     public Task<bool?> AskYnc(string? title, string question)
     {
-        return GetButtonValue("?", Color.DarkGreen, title, question, ("Common.Yes", true), ("Common.No", false), ("Common.Cancel", (bool?)null));
+        return GetButtonValue("?", Color.DarkGreen, title, question, (Common.Yes, true), (Common.No, false), (Common.Cancel, (bool?)null));
     }
 
     /// <inheritdoc/>
@@ -82,8 +83,8 @@ public partial class NavigatingDialogService
             IconBgColor = Color.DarkGray,
             Interactions =
             {
-                new(CloseDialogCommand(dialogAwaiter, true), "Common.Ok"),
-                new(CloseDialogCommand(dialogAwaiter, false), "Common.Cancel")
+                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok),
+                new(CloseDialogCommand(dialogAwaiter, false), Common.Cancel)
             }
         };
     }

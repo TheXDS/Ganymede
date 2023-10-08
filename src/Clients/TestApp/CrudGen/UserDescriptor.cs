@@ -39,7 +39,8 @@ public class PostDescriptor : CrudDescriptor<Post>
             c.Property(p => p.Comments)
                 .HideFromDetails()
                 .WidgetSize(WidgetSize.Large)
-                .Creatable();
+                .Creatable()
+                .AvailableModels(new CommentDescriptor().Description);
         });        
         m.SaveProlog(p => p.CreationDate ??= DateTime.Now);
     }

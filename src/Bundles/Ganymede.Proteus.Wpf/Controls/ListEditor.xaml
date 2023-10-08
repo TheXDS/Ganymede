@@ -8,12 +8,18 @@
     mc:Ignorable="d"
     d:DesignWidth="300">
     <DockPanel>
-
-        <TextBlock DockPanel.Dock="Top">
+        <TextBlock DockPanel.Dock="Top" Foreground="{Binding LabelForeground, RelativeSource={RelativeSource AncestorType=local:ListEditor}}" Effect="{Binding LabelEffect, RelativeSource={RelativeSource AncestorType=local:ListEditor}}">
             <Run Text="{Binding Icon, RelativeSource={RelativeSource AncestorType=local:ListEditor}}"/>
             <Run Text="{Binding Label, RelativeSource={RelativeSource AncestorType=local:ListEditor}}"/>
         </TextBlock>
-        
+        <ItemsControl DockPanel.Dock="Right" ItemsSource="{Binding CreateCommands, RelativeSource={RelativeSource AncestorType=local:ListEditor}}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Text, Mode=OneWay}" Command="{Binding Command, Mode=OneWay}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            
+        </ItemsControl>
         <StackPanel DockPanel.Dock="Right" Margin="5,-5,-5,-5">
             <StackPanel.Resources>
                 <Style TargetType="Button">
@@ -26,9 +32,9 @@
             <Button
                 Visibility="{Binding CanSelect, RelativeSource={RelativeSource AncestorType=local:ListEditor}, Converter={StaticResource b2vc}}"
                 Command="{Binding SelectCommand, RelativeSource={RelativeSource AncestorType=local:ListEditor}}">👆</Button>
-            <Button
+            <!--<Button
                 Visibility="{Binding CanCreate, RelativeSource={RelativeSource AncestorType=local:ListEditor}, Converter={StaticResource b2vc}}"
-                Command="{Binding CreateCommand, RelativeSource={RelativeSource AncestorType=local:ListEditor}}">➕</Button>
+                Command="{Binding CreateCommands[0], RelativeSource={RelativeSource AncestorType=local:ListEditor}}">➕</Button>-->
             <Button
                 Visibility="{Binding CanCreate, RelativeSource={RelativeSource AncestorType=local:ListEditor}, Converter={StaticResource b2vc}}"
                 Command="{Binding UpdateCommand, RelativeSource={RelativeSource AncestorType=local:ListEditor}}">✏️</Button>

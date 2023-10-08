@@ -35,7 +35,7 @@ public interface ICollectionPropertyDescription : IPropertyDescription, IWidgetC
     /// <summary>
     /// Indicates the available models to be added/created.
     /// </summary>
-    Type[] AvailableModels => GetClassValue<Type[]>() ?? Type.EmptyTypes;
+    ICrudDescription[] AvailableModels => GetClassValue<ICrudDescription[]>() ?? Array.Empty<ICrudDescription>();
 }
 
 /// <summary>

@@ -74,7 +74,7 @@ public static class CollectionPropertyDescriptiorExtensions
         return descriptor;
     }
 
-    public static TDescriptor AvailableModels<TDescriptor>(this TDescriptor descriptor, params Type[] models) where TDescriptor : ICollectionPropertyDescriptor
+    public static TDescriptor AvailableModels<TDescriptor>(this TDescriptor descriptor, params ICrudDescription[] models) where TDescriptor : ICollectionPropertyDescriptor
     {
         descriptor.SetValue(models);
         return descriptor;

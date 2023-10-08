@@ -23,6 +23,7 @@ public abstract class CrudVisualBuilderBase<T> : IVisualResolver<FrameworkElemen
             {
                 if (GetControl(j.Value.Description, vm) is { } ctrl) pnl.Children.Add(ctrl);
             }
+            vm.Initialized = true;
             return pnl;
         }) : null;
     }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TheXDS.Ganymede.CrudGen;
+using TheXDS.Ganymede.Helpers;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 using St = TheXDS.Ganymede.Resources.Strings.Common;
@@ -18,7 +19,6 @@ namespace TheXDS.Ganymede.ViewModels;
 public class CrudEditorViewModel : CrudViewModelBase
 {
     private readonly TaskCompletionSource<bool> _resultAwaiter = new();
-
     private readonly Model originalEntity;
 
     /// <summary>
@@ -47,7 +47,7 @@ public class CrudEditorViewModel : CrudViewModelBase
     }
 
     /// <summary>
-    /// Getts a reference to the methos to invoke when cancelling the edit
+    /// Getts a reference to the method to invoke when cancelling the edit
     /// operation.
     /// </summary>
     /// <returns>
@@ -68,6 +68,10 @@ public class CrudEditorViewModel : CrudViewModelBase
     /// </summary>
     public void OnSave()
     {
+        foreach (var callback in Context.PreSaveCallbacks)
+        {
+            UiThread.Invoke(() => callback.Invoke(Entity));
+        }
         ShallowCopy(Entity, originalEntity, ModelType);
         NavigationService?.NavigateBack();
         _resultAwaiter.SetResult(true);
@@ -131,13 +135,7 @@ public class CrudEditorViewModel : CrudViewModelBase
             var ct = prop.PropertyType.GetCollectionType();
             if (TryGetCollection(prop, ct, source, out var sc) && TryGetCollection(GetProperty(destination, prop), ct, destination, out var dc))
             {
-                var dt = dc.GetType();
-                var add = dt.GetMethod(nameof(ICollection<object>.Add))!;
-                dt.GetMethod(nameof(ICollection<object>.Clear))!.Invoke(dc, Array.Empty<object>());
-                foreach (object? j in (System.Collections.IEnumerable)sc)
-                {
-                    add.Invoke(destination, new object[] { j });
-                }
+                CrudCommon.DynamicPopulateCollection(sc, dc);
             }
         }
     }

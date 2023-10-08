@@ -2,6 +2,7 @@
 using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
+using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Triton.Models.Base;
 using TheXDS.Triton.Services.Base;

@@ -1,5 +1,6 @@
 ﻿using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.CrudGen;
+using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Triton.Models.Base;
 
@@ -10,7 +11,7 @@ namespace TheXDS.Ganymede.ViewModels;
 /// </summary>
 public abstract class CrudViewModelBase : ViewModel
 {
-    private IEnumerable<CrudButtonInteraction> _crudActions = Array.Empty<CrudButtonInteraction>();
+    private IEnumerable<ButtonInteraction> _crudActions = Array.Empty<ButtonInteraction>();
     private readonly ICrudDescription _modelDescription;
     private Model _entity;
 
@@ -35,7 +36,7 @@ public abstract class CrudViewModelBase : ViewModel
     /// Gets or sets a collection of custom, special actions available for the
     /// entity.
     /// </summary>
-    public IEnumerable<CrudButtonInteraction> CrudActions
+    public IEnumerable<ButtonInteraction> CrudActions
     {
         get => _crudActions;
         set => Change(ref _crudActions, value);
@@ -55,6 +56,11 @@ public abstract class CrudViewModelBase : ViewModel
         get => _entity;
         set => Change(ref _entity, value);
     }
+
+    /// <summary>
+    /// Gets or sets a value that determines if this ViewModel has been initialized.
+    /// </summary>
+    public bool Initialized { get; set; }
 
     /// <summary>
     /// Gets a reference to the Model type of the Entity.
