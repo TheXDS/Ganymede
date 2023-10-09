@@ -13,7 +13,7 @@ public interface IObjectPropertyDescription : IPropertyDescription
     /// <summary>
     /// Indicates that a property must support adding existing entities.
     /// </summary>
-    bool Linkable => GetStructValue<bool>() ?? false;
+    bool Selectable => GetStructValue<bool>() ?? false;
 
     /// <summary>
     /// Indicates that a property must support creating new entities. This

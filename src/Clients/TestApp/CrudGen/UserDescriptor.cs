@@ -57,6 +57,7 @@ public class CommentDescriptor : CrudDescriptor<Comment>
     protected override void OnDescribeModel(IModelConfigurator<Comment> m)
     {
         m.ConfigureProperties(c => {
+            c.Property(p => p.Creator).Selectable();
             c.Property(p => p.Content).Big();
             c.Property(p => p.CreationDate).HideFromEditor();
         });
