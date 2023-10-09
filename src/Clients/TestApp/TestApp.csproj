@@ -24,12 +24,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>User.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Strings\Views\DialogDemoView.Designer.cs">
+      <DependentUpon>DialogDemoView.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings\Models\User.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>User.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Strings\Views\DialogDemoView.resx">
+      <LastGenOutput>DialogDemoView.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
