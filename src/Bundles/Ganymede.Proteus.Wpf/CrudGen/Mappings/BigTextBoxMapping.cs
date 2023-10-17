@@ -15,7 +15,7 @@ public class BigTextBoxMapping : SimpleTextBoxMapping
     /// <inheritdoc/>
     public override bool CanMap(IPropertyDescription description)
     {
-        return description is ITextPropertyDescription { Kind: TextKind.Big };
+        return description is ITextPropertyDescription { Kind: TextKind.Paragraph };
     }
 
     /// <inheritdoc/>
@@ -23,5 +23,13 @@ public class BigTextBoxMapping : SimpleTextBoxMapping
     {
         base.ConfigureControl(control, description);
         if (Application.Current.FindResource("BigTextBoxEx") is Style st) control.Style = st;
+        control.Height = ((ITextPropertyDescription)description).WidgetSize switch
+        {
+            WidgetSize.Small => 58,
+            WidgetSize.Medium => 90,
+            WidgetSize.Large => 200,
+            WidgetSize.Huge => 500,
+            _ => 0
+        };
     }
 }

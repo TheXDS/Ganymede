@@ -29,6 +29,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="Resources\Strings\Views\WelcomeView.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WelcomeView.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +44,10 @@
     <EmbeddedResource Update="Resources\Strings\Views\DialogDemoView.resx">
       <LastGenOutput>DialogDemoView.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Strings\Views\WelcomeView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WelcomeView.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

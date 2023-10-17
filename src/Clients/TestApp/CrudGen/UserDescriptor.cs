@@ -1,6 +1,5 @@
 ﻿using TheXDS.Ganymede.Models;
-using TheXDS.MCART.Security;
-
+using St = TheXDS.Ganymede.Resources.Strings.Models;
 namespace TheXDS.Ganymede.CrudGen;
 
 /// <summary>
@@ -11,15 +10,13 @@ public class UserDescriptor : CrudDescriptor<User>
     /// <inheritdoc/>
     protected override void OnDescribeModel(IModelConfigurator<User> m)
     {
-        m.LabelResource<TheXDS.Ganymede.Resources.Strings.Models.User>();
+        m.LabelResource<St.User>();
         m.ConfigureProperties(c => { 
             c.Property(p => p.Id);
             c.Property(p => p.DisplayName);
-            c.Property(p => p.Password)
-                .Password()
-                .Algorithm<Argon2Storage, Argon2Settings>(Argon2Storage.GetDefaultSettings());
+            c.Property(p => p.Password).Password().Argon2();
             c.Property(p => p.Enabled);
-            c.Property(p => p.Description).Nullable().Kind(TextKind.Big);
+            c.Property(p => p.Description).Nullable().Kind(TextKind.Paragraph);
         });
     }
 }
@@ -35,7 +32,7 @@ public class PostDescriptor : CrudDescriptor<Post>
         m.ConfigureProperties(c => {
             c.Property(p => p.Title);
             c.Property(p => p.Creator).Selectable();
-            c.Property(p => p.Content).Big();
+            c.Property(p => p.Content).Paragraph(WidgetSize.Huge);
             c.Property(p => p.CreationDate).WithTime().HideFromEditor();
             c.Property(p => p.Comments)
                 .HideFromDetails()
@@ -57,9 +54,10 @@ public class CommentDescriptor : CrudDescriptor<Comment>
     protected override void OnDescribeModel(IModelConfigurator<Comment> m)
     {
         m.ConfigureProperties(c => {
+            c.Property(p => p.Post).Selectable();
             c.Property(p => p.Creator).Selectable();
-            c.Property(p => p.Content).Big();
-            c.Property(p => p.CreationDate).HideFromEditor();
+            c.Property(p => p.Content).Paragraph();
+            c.Property(p => p.CreationDate).WithTime().HideFromEditor();
         });
         m.SaveProlog(p => p.CreationDate ??= DateTime.Now);
     }

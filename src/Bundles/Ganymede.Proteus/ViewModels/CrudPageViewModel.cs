@@ -127,7 +127,7 @@ public class CrudPageViewModel : ViewModel
         return new(builder.BuildSimple(async () =>
         {
             var e = desc.Model.New<Model>();
-            if (await PresentEditingContent(e, desc, new(true)))
+            if (await PresentEditingContent(e, desc, new(true, desc.Model)))
             {
                 Entities.Add(e);
             }
@@ -137,7 +137,7 @@ public class CrudPageViewModel : ViewModel
     private Task OnUpdate()
     {
         if (SelectedEntity is null) return Task.CompletedTask;
-        return PresentEditingContent(SelectedEntity, GetCurrentDescription(), new(false));
+        return PresentEditingContent(SelectedEntity, GetCurrentDescription(), new(false, SelectedEntity.GetType()));
     }
 
     private async Task OnDelete(IProgress<ProgressReport> progress)

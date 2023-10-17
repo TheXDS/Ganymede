@@ -86,9 +86,17 @@ public static class CrudCommon
     /// <param name="item">Item to add to the list.</param>
     public static void DynamicAdd(object collection, object item)
     {
-        var type = collection.GetType();
-        var add = type.GetMethod("Add")!;
-        add.Invoke(collection, new object[] { item });
+        CollectionDynamicInvoke(collection, item, "Add");
+    }
+
+    /// <summary>
+    /// Dinamically removes an item from a collection.
+    /// </summary>
+    /// <param name="collection">Collection to remove the item from.</param>
+    /// <param name="item">Item to remove from the list.</param>
+    public static void DynamicRemove(object collection, object item)
+    {
+        CollectionDynamicInvoke(collection, item, "Remove");
     }
 
     private static string SplitByUppercase(string name)
@@ -103,5 +111,12 @@ public static class CrudCommon
             sb.Append(c);
         }
         return sb.ToString().TrimStart();
+    }
+
+    private static void CollectionDynamicInvoke(object collection, object item, string methodName)
+    {
+        var type = collection.GetType();
+        var method = type.GetMethod(methodName)!;
+        method.Invoke(collection, new object[] { item });
     }
 }

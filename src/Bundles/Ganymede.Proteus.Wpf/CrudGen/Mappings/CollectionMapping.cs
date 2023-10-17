@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Windows.Input;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Component;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 
@@ -27,6 +30,22 @@ public class CollectionMapping : ObjectMappingBase<ListEditor, ICollectionProper
             WidgetSize.Huge => 500,
             _ => 0
         };
+        control.RemoveCommand = CreateRemoveCommand(control, description);
+    }
+
+    private static ICommand CreateRemoveCommand(ListEditor control, ICollectionPropertyDescription description)
+    {
+        return new SimpleCommand(async () =>
+        {
+            var vm = (CrudEditorViewModel)control.DataContext;
+            if (control.SelectedEntity is not { } child || description.Property.GetValue(vm.Entity) is not { } parentCollection) return;
+            if (await vm.DialogService!.Ask("Delete", "Are you sure you want to delete this element?"))
+            {
+                CrudCommon.DynamicRemove(parentCollection, child);
+                control.Collection.Remove(child);
+                control.InvalidateProperty(ListEditor.CollectionProperty);
+            }
+        });
     }
 
     /// <inheritdoc/>

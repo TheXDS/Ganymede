@@ -18,6 +18,44 @@ public interface IPasswordPropertyDescriptor : IBlobPropertyDescriptor
     IPasswordPropertyDescriptor Pbkdf2() => Algorithm<Pbkdf2Storage>();
 
     /// <summary>
+    /// Shortcut to set up the hashing algorithm to Argon2id for securely
+    /// storing the password.
+    /// </summary>
+    /// <returns>
+    /// This same descriptor instance, allowing the use of Fluent syntax.
+    /// </returns>
+    /// <remarks>
+    /// Algorithm settings will be set as follows:
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Setting</term>
+    /// <description>Value</description>
+    /// </listheader>
+    /// <item>
+    /// <term>Iterations</term>
+    /// <description>4</description>
+    /// </item>
+    /// <item>
+    /// <term>Memory size</term>
+    /// <description>262144 KiB</description>
+    /// </item>
+    /// <item>
+    /// <term>Parallelism</term>
+    /// <description>Number of CPUs in the system (up to 32767 CPUs)</description>
+    /// </item>
+    /// <item>
+    /// <term>Type</term>
+    /// <description>Argon2id</description>
+    /// </item>
+    /// <item>
+    /// <term>Key length</term>
+    /// <description>16 bytes</description>
+    /// </item>
+    /// </list>
+    /// </remarks>
+    IPasswordPropertyDescriptor Argon2() => Algorithm<Argon2Storage, Argon2Settings>(Argon2Storage.GetDefaultSettings());
+
+    /// <summary>
     /// Defines the encryption algorithm used to securely store the password in
     /// a binary blob.
     /// </summary>

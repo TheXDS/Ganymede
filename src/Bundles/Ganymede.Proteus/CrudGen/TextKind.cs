@@ -24,7 +24,7 @@ public enum TextKind : byte
     /// <summary>
     /// Long block of text.
     /// </summary>
-    Big,
+    Paragraph,
 
     /// <summary>
     /// Enriched text. May use RTF format.

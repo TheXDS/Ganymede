@@ -4,7 +4,7 @@
 /// Defines a set of properties to be exposed by a descriptor for
 /// <see cref="string"/> properties normally associated with text.
 /// </summary>
-public interface ITextPropertyDescription : IPropertyDescription<string>, INullablePropertyDescription
+public interface ITextPropertyDescription : IPropertyDescription<string>, INullablePropertyDescription, IWidgetConfigurableDescription
 {
     /// <summary>
     /// Gets a value that indicates the kind of text that this property is

@@ -1,10 +1,10 @@
 ﻿<UserControl
     x:Class="TheXDS.Ganymede.Views.WelcomeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:TheXDS.Ganymede.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:st="clr-namespace:TheXDS.Ganymede.Resources.Strings.Views;assembly=TestApp"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=TestApp"
     xmlns:valueconverters="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.Wpf.Common"
     mc:Ignorable="d"
@@ -20,47 +20,23 @@
         </Grid.ColumnDefinitions>
         <Border Margin="15" Background="#b0000000">
             <DockPanel Margin="10">
-                <TextBlock FontSize="36" DockPanel.Dock="top">Proteus/Ganymede</TextBlock>
+                <TextBlock FontSize="36" DockPanel.Dock="top" Text="{x:Static st:WelcomeView.Title}"/>
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
-                    <TextBlock TextWrapping="Wrap">
-                    Welcome! This application is an illustrative example of the
-                    power of Ganymede UI Framework and Proteus dynamic UI
-                    generation for any type.
-                    <LineBreak/>
-                    <LineBreak/>
-                    Ganymede implements the basic UI controls and navigation.
-                    The window you're interacting with right now, is provided
-                    by Ganymede. An acrylic version is also made availabe.
-                    <LineBreak/>
-                    <LineBreak/>
-                    Proteus implements the layer in charge of dynamically
-                    creating panels with interactive controls bound to a model.
-                    <LineBreak/>
-                    <LineBreak/>
-                    Ganymede also provides of its own dialog subsystem, which
-                    ViewModels can invoke and use freely, decouplig Windows
-                    specific APIs from them. Every dialog is easily accessible
-                    by invoking a minimal yet flexible interface model.
-                    <LineBreak/>
-                    <LineBreak/>
-                    As this is a regular WPF application, programming for
-                    Ganymede/Proteus is as easy as it can be, removing a lot of
-                    the complexities of heavier frameworks.
-                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static st:WelcomeView.HelpText}"/>
                 </ScrollViewer>
             </DockPanel>
         </Border>
         <Border Margin="15" Background="#b0000000" Grid.Column="1">
             <DockPanel Margin="5">
                 <StackPanel DockPanel.Dock="Bottom">
-                    <Button Command="{Binding LogoutCommand, Mode=OneWay}" Content="Logout"/>
+                    <Button Margin="5" Command="{Binding LogoutCommand, Mode=OneWay}" Content="{x:Static st:WelcomeView.Logout}"/>
                 </StackPanel>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,5">
                     <StackPanel>
-                        <Button Margin="5" Command="{Binding TestNavigationCommand, Mode=OneWay}" Content="Open new page instance"/>
-                        <Button Margin="5" Command="{Binding TestBusyCommand, Mode=OneWay}" Content="Test Busy 5 sec"/>
-                        <Button Margin="5" Command="{Binding TryDialogDemoCommand, Mode=OneWay}" Content="Dialog demos"/>
-                        <Button Margin="5" Command="{Binding TryProteusCommand, Mode=OneWay}" Content="Try Proteus"/>
+                        <Button Margin="5" Command="{Binding TestNavigationCommand, Mode=OneWay}" Content="{x:Static st:WelcomeView.TestNewPage}"/>
+                        <Button Margin="5" Command="{Binding TestBusyCommand, Mode=OneWay}" Content="{x:Static st:WelcomeView.TestBusy}"/>
+                        <Button Margin="5" Command="{Binding TryDialogDemoCommand, Mode=OneWay}" Content="{x:Static st:WelcomeView.TestDiaglog}"/>
+                        <Button Margin="5" Command="{Binding TryProteusCommand, Mode=OneWay}" Content="{x:Static st:WelcomeView.TestProteus}"/>
                     </StackPanel>
                 </ScrollViewer>
             </DockPanel>

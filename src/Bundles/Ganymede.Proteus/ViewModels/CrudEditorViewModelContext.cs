@@ -8,10 +8,31 @@ namespace TheXDS.Ganymede.ViewModels;
 /// Contains context and state information about the active
 /// <see cref="CrudEditorViewModel"/> instance.
 /// </summary>
-/// <param name="CreatingNew">Indicates whether or not the ViewModel was
-/// invoked to edit a new entiity.</param>
-public record struct CrudEditorViewModelContext(bool CreatingNew)
+/// <param name="CreatingNew">
+/// Indicates whether or not the ViewModel was invoked to edit a new entiity.
+/// </param>
+/// <param name="Model">
+/// Model for which the ViewModel was invoked.
+/// </param>
+/// <param name="ParentModel">
+/// Parent model of the invoked ViewModel instance.
+/// </param>
+public record struct CrudEditorViewModelContext(bool CreatingNew, Type Model, Type? ParentModel)
 {
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="CrudEditorViewModelContext"/> record.
+    /// </summary>
+    /// <param name="creatingNew">
+    /// Indicates whether or not the ViewModel was invoked to edit a new entiity.
+    /// </param>
+    /// <param name="model">
+    /// Model for which the ViewModel was invoked.
+    /// </param>
+    public CrudEditorViewModelContext(bool creatingNew, Type model) : this(creatingNew, model, null)
+    {
+    }
+
     /// <summary>
     /// Indicates whether or not the ViewModel was invoked to edit an existing entiity.
     /// </summary>

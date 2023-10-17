@@ -133,7 +133,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
         {
             Entity = entity,
             Description = description,
-            Context = new CrudEditorViewModelContext(addNew is not null),
+            Context = new CrudEditorViewModelContext(addNew is not null, description.Model, parentVm.Entity.GetType()),
             NavigationService = parentVm.NavigationService!,
             DialogService = parentVm.DialogService!,
         };

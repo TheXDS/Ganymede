@@ -4,15 +4,28 @@
 /// Defines a set of members to be implemented by a type that describes a
 /// <see cref="string"/> property for UI generation by Proteus.
 /// </summary>
-public interface ITextPropertyDescriptor : IPropertyDescriptor<string>, INullablePropertyDescriptor
+public interface ITextPropertyDescriptor : IPropertyDescriptor<string>, INullablePropertyDescriptor, IWidgetConfigurableDescriptor
 {
     /// <summary>
-    /// Shortcut to set the text kind to <see cref="TextKind.Big"/>.
+    /// Shortcut to set the text kind to <see cref="TextKind.Paragraph"/>.
     /// </summary>
     /// <returns>
     /// This same descriptor instance, allowing the use of Fluent syntax.
     /// </returns>
-    public ITextPropertyDescriptor Big() => Kind(TextKind.Big);
+    public ITextPropertyDescriptor Paragraph() => Paragraph(WidgetSize.Medium);
+
+    /// <summary>
+    /// Shortcut to set the text kind to <see cref="TextKind.Paragraph"/> and
+    /// specifying the desired widget size for the paragraph text UI element.
+    /// </summary>
+    /// <param name="desiredSize">
+    /// Desired size for the generated UI element.
+    /// </param>
+    /// This same descriptor instance, allowing the use of Fluent syntax.
+    public ITextPropertyDescriptor Paragraph(WidgetSize desiredSize)
+    {
+        return Kind(TextKind.Paragraph).WidgetSize(desiredSize);
+    }
 
     /// <summary>
     /// Sets the kind of text the property is intended to hold.

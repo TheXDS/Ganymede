@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -51,6 +52,8 @@ public class ProteusStackVisualResolver : IVisualResolver<FrameworkElement>
                 (d, v) => d.Property.Name == "Id" && v.Context.UpdatingExisting,
                 // Skip if the property is explicitly hidden from the editor.
                 (d, _) => d.HideFromEditor,
+                // Skip on inferred parent/child relationship.
+                (d, v) => d is ISingleObjectPropertyDescription && d.Property.PropertyType == v.Context.ParentModel,
             },
         };
         EditorSettings.Mappings.AddRange(ReflectionHelpers.FindAllObjects<ICrudMapping>());
