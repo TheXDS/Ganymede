@@ -40,8 +40,8 @@ public class PostDescriptor : CrudDescriptor<Post>
                 .Creatable()
                 .AvailableModels(new CommentDescriptor().Description);
         });
-        m.SaveProlog(p => { if (p.Id == default) p.Id = Guid.NewGuid(); });
-        m.SaveProlog(p => p.CreationDate ??= DateTime.Now);
+        m.AddSaveProlog(p => { if (p.Id == default) p.Id = Guid.NewGuid(); });
+        m.AddSaveProlog(p => p.CreationDate ??= DateTime.Now);
     }
 }
 
@@ -59,6 +59,7 @@ public class CommentDescriptor : CrudDescriptor<Comment>
             c.Property(p => p.Content).Paragraph();
             c.Property(p => p.CreationDate).WithTime().HideFromEditor();
         });
-        m.SaveProlog(p => p.CreationDate ??= DateTime.Now);
+        m.AddDefaultGuidIdProlog();
+        m.AddSaveProlog(p => p.CreationDate ??= DateTime.Now);
     }
 }

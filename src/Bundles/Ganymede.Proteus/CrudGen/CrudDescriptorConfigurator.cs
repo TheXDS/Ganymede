@@ -12,7 +12,7 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
 {
     private readonly Dictionary<PropertyInfo, DescriptionEntry> _properties;
     private readonly IPropertyConfigurator<T> _propertyConfigurator;
-
+    private readonly List<Action<Model>> _savePrologs = new();
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="CrudDescriptorConfigurator{T}"/> class.
@@ -41,7 +41,7 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     public string FriendlyName { get; private set; }
 
     /// <inheritdoc/>
-    public Action<Model>? SaveProlog { get; private set; }
+    public IEnumerable<Action<Model>> SavePrologs => _savePrologs;
 
     /// <inheritdoc/>
     public Type? ResourceType { get; private set; }
@@ -58,9 +58,9 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
         return this;
     }
 
-    IModelConfigurator<T> IModelConfigurator<T>.SaveProlog(Action<T> prolog)
+    IModelConfigurator<T> IModelConfigurator<T>.AddSaveProlog(Action<T> prolog)
     {
-        SaveProlog = m => prolog.Invoke((T)m);
+        _savePrologs.Add(m => prolog.Invoke((T)m));
         return this;
     }
 

@@ -44,7 +44,7 @@ public record struct CrudEditorViewModelContext(bool CreatingNew, Type Model, Ty
     /// </summary>
     /// <remarks>
     /// These actions are not the same as the
-    /// <see cref="ICrudDescription.SaveProlog"/> actions, as these are
+    /// <see cref="ICrudDescription.SavePrologs"/> actions, as these are
     /// executed on the temporary <see cref="CrudEditorViewModel"/> entity
     /// before the value transfer operation is performed, whereas the
     /// SavePrologs are executed after the editor has closed. These callbacks

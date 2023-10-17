@@ -30,10 +30,10 @@ public interface ICrudDescription
     string FriendlyName { get; }
 
     /// <summary>
-    /// Gets a reference to a method to be invoked right before executing a
-    /// save operation.
+    /// Gets a reference to a collection of methods to be invoked right before
+    /// executing a save operation.
     /// </summary>
-    Action<Model>? SaveProlog { get; }
+    IEnumerable<Action<Model>> SavePrologs { get; }
 
     /// <summary>
     /// Gets a reference to the resource type to use when resolving labels.

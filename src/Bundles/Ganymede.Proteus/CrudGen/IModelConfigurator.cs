@@ -56,7 +56,7 @@ public interface IModelConfigurator<T> where T : Model
     /// performed.
     /// </param>
     /// <returns>This same instance.</returns>
-    IModelConfigurator<T> SaveProlog(Action<T> prolog);
+    IModelConfigurator<T> AddSaveProlog(Action<T> prolog);
 
     /// <summary>
     /// Initiates the configuration of the model properties.
