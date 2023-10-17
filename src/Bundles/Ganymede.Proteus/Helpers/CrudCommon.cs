@@ -54,7 +54,10 @@ public static class CrudCommon
         settings.NavigationService.Navigate(vm);
         if (await vm.WaitForCompletion())
         {
-            settings.Description.SavePrologs?.Invoke(settings.Entity);
+            foreach (var saveProlog in settings.Description.SavePrologs)
+            {
+                saveProlog.Invoke(settings.Entity);
+            }
             return true;
         }
         return false;
