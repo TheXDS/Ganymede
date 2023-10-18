@@ -4,7 +4,7 @@ using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
-using St = TheXDS.Ganymede.Resources.Strings.Common;
+using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
 namespace TheXDS.Ganymede.ViewModels;
 

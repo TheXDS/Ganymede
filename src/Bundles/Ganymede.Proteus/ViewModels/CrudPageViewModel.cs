@@ -10,7 +10,7 @@ using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 using TheXDS.Triton.Services.Base;
-using St = TheXDS.Ganymede.Resources.Strings.Common;
+using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
 namespace TheXDS.Ganymede.ViewModels;
 
