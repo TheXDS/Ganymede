@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <DockPanel Margin="5">
         <DockPanel IsEnabled="{Binding IsEditing, Converter={StaticResource binv}}">
-            <TextBox DockPanel.Dock="Top" Margin="5"/>
+            <gn:SearchBox DockPanel.Dock="Top" Margin="5"/>
             <StackPanel
                 Orientation="Horizontal"
                 DockPanel.Dock="Bottom"
