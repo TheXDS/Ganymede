@@ -88,6 +88,24 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a User.
+        /// </summary>
+        public static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Yes.
         /// </summary>
         public static string Yes {

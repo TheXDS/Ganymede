@@ -1,14 +1,12 @@
-using System.Windows.Controls;
-using System;
-using System.Windows;
 using System.Windows.Data;
+using TheXDS.Ganymede.Controls;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;
 
 /// <summary>
 /// Implements a template builder for ranges of <see cref="decimal"/>.
 /// </summary>
-public class DecimalRangeInputDialogTemplateBuilder : NumericRangeInputDialogTemplateBuilder<decimal>
+public class DecimalRangeInputDialogTemplateBuilder : NumericRangeInputDialogTemplateBuilder<decimal, DecimalTextBox>
 {
     /// <inheritdoc/>
     protected override void ConfigureValueBinding(Binding binding)

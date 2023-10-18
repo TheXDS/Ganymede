@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using TheXDS.Ganymede.Controls.Primitives;
 using TheXDS.Ganymede.CrudGen;
-using TheXDS.Ganymede.Types;
 using TheXDS.Triton.Models.Base;
 using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
 
@@ -21,7 +15,7 @@ namespace TheXDS.Ganymede.Controls.Base;
 /// Base class for all controls that can be used to manage properties that
 /// contain entities, either as a single instance or as part of a collection.
 /// </summary>
-public class ObjectEditor : Control
+public class ObjectEditor : FormInputControl
 {
     /// <summary>
     /// Identifies the <see cref="SelectCommand"/> dependency property.
@@ -54,16 +48,6 @@ public class ObjectEditor : Control
     public static readonly DependencyProperty ModelsProperty;
 
     /// <summary>
-    /// Identifies the <see cref="Label"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty LabelProperty;
-
-    /// <summary>
-    /// Identifies the <see cref="Icon"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty IconProperty;
-
-    /// <summary>
     /// Identifies the <see cref="LabelForeground"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty LabelForegroundProperty;
@@ -92,11 +76,10 @@ public class ObjectEditor : Control
         CanSelectProperty = NewDp<bool, ObjectEditor>(nameof(CanSelect));
         EntitySourceProperty = NewDp<IEnumerable<Model>, ObjectEditor>(nameof(EntitySource));
         ModelsProperty = NewDp<ICrudDescription[], ObjectEditor>(nameof(Models));
-        LabelProperty = NewDp<string, ObjectEditor>(nameof(Label));
-        IconProperty = NewDp<string, ObjectEditor>(nameof(Icon), "📄");
         SelectedEntityProperty = NewDp<Model, ObjectEditor>(nameof(SelectedEntity));
         LabelForegroundProperty = NewDp<Brush, ObjectEditor>(nameof(LabelForeground), SystemColors.ControlTextBrush);
         LabelEffectProperty = NewDp<Effect, ObjectEditor>(nameof(LabelEffect));
+        OverrideDefaultIcon<ObjectEditor>("📄");
     }
 
     /// <summary>
@@ -185,25 +168,6 @@ public class ObjectEditor : Control
     {
         get => (Effect?)GetValue(LabelEffectProperty);
         set => SetValue(LabelEffectProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the label to be displayed on this control.
-    /// </summary>
-    public string? Label
-    {
-        get => (string?)GetValue(LabelProperty);
-        set => SetValue(LabelProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets a glyph to be displayed as an iconic decoration in this
-    /// control.
-    /// </summary>
-    public string Icon
-    {
-        get => (string)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
     }
 
     /// <summary>

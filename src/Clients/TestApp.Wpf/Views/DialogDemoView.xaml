@@ -33,6 +33,10 @@
                     <Button Margin="5" Command="{Binding TestSelectionCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.SelectItemTest}"/>
                     <Button Margin="5" Command="{Binding TestOperationCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.OperationTest}"/>
                     <Button Margin="5" Command="{Binding TestCancellableOperationCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.CancellableOpTest}"/>
+                    <Button Margin="5" Command="{Binding TestTextInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
+                    <Button Margin="5" Command="{Binding TestIntInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
+                    <Button Margin="5" Command="{Binding TestIntRangeInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
+                    <Button Margin="5" Command="{Binding TestCredentialCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
                 </StackPanel>
             </ScrollViewer>
         </Border>

@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{26DA7C2F-0793-4028-8DEA-4CE0393EA2F4}"
 	ProjectSection(SolutionItems) = preProject
 		..\BuildTargets\BuildPaths.props = ..\BuildTargets\BuildPaths.props
+		..\BuildTargets\Cleanup.targets = ..\BuildTargets\Cleanup.targets
 		..\BuildTargets\CompileOptions.targets = ..\BuildTargets\CompileOptions.targets
 		..\BuildTargets\PackageInfo.props = ..\BuildTargets\PackageInfo.props
 		..\BuildTargets\PackageVersion.props = ..\BuildTargets\PackageVersion.props

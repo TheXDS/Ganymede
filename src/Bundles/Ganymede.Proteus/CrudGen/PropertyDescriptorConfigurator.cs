@@ -12,9 +12,9 @@ namespace TheXDS.Ganymede.CrudGen;
 /// Implements the property configuration logic for CRUD generation.
 /// </summary>
 /// <typeparam name="T">Model to configure.</typeparam>
-public class PropertyDescriptorConfigurator<T>: IPropertyConfigurator<T> where T : Model
+public class PropertyDescriptorConfigurator<T> : IPropertyConfigurator<T> where T : Model
 {
-    private readonly Dictionary<PropertyInfo, DescriptionEntry> properties;
+    private readonly Dictionary<PropertyInfo, DescriptionEntry> _properties;
     private readonly ICrudDescription _parent;
 
     /// <summary>
@@ -24,16 +24,17 @@ public class PropertyDescriptorConfigurator<T>: IPropertyConfigurator<T> where T
     /// <param name="properties">
     /// Dictionary to use when adding property descriptions.
     /// </param>
+    /// <param name="parent">Parent CRUD description.</param>
     public PropertyDescriptorConfigurator(Dictionary<PropertyInfo, DescriptionEntry> properties, ICrudDescription parent)
     {
-        this.properties = properties;
-        this._parent = parent;
+        _properties = properties;
+        _parent = parent;
     }
 
     /// <summary>
     /// Enumerates the described properties for the model.
     /// </summary>
-    public IReadOnlyDictionary<PropertyInfo, DescriptionEntry> PropertyDescriptions => properties;
+    public IReadOnlyDictionary<PropertyInfo, DescriptionEntry> PropertyDescriptions => _properties;
 
     /// <inheritdoc/>
     public IPropertyDescriptor<TValue> Property<TValue>(Expression<Func<T, TValue>> propertySelector) where TValue : struct
@@ -103,10 +104,10 @@ public class PropertyDescriptorConfigurator<T>: IPropertyConfigurator<T> where T
     {
         var p = ReflectionHelpers.GetProperty(propertySelector);
 
-        if (!properties.ContainsKey(p))
+        if (!_properties.ContainsKey(p))
         {
-            properties.Add(p, descriptionFactory.Invoke(p));
+            _properties.Add(p, descriptionFactory.Invoke(p));
         }
-        return properties[p].Descriptor;
+        return _properties[p].Descriptor;
     }
 }

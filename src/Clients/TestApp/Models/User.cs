@@ -1,4 +1,6 @@
-﻿using TheXDS.Triton.Models.Base;
+﻿#pragma warning disable CS1591
+
+using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.Models;
 

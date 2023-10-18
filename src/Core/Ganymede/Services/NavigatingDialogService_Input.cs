@@ -1,8 +1,10 @@
 ﻿using System.Drawing;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.Resources.Strings;
 using TheXDS.MCART.Types.Extensions;
+using System.Threading;
 
 namespace TheXDS.Ganymede.Services;
 
@@ -53,6 +55,15 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
+    public Task<InputResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>
+    {
+        return GetInput<InputDialogViewModel<T>, T>(title, message, defaultValue, p => {
+            p.Minimum = minimum;
+            p.Maximum = maximum;
+        });
+    }
+
+    /// <inheritdoc/>
     public Task<InputResult<T>> GetInputValue<T>(string? title, string message, T defaultValue = default) where T : struct, IComparable<T>
     {
         return GetInput<InputDialogViewModel<T>, T>(title, message, defaultValue);
@@ -65,6 +76,12 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
+    public Task<InputResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>
+    {
+        return GetInput<RangeInputDialogViewModel<T>, (T, T)>(title, message, (defaultMin, defaultMax));
+    }
+
+    /// <inheritdoc/>
     public Task<InputResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T minimum, T maximum, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>
     {
         return GetInput<RangeInputDialogViewModel<T>, (T, T)>(title, message, (defaultMin, defaultMax), p =>
@@ -72,6 +89,48 @@ public partial class NavigatingDialogService
             p.Minimum = minimum;
             p.Maximum = maximum;
         });
+    }
+
+    /// <inheritdoc/>
+    public async Task<InputResult<Credential>> GetCredential(string? title, string message, string? defaultUser = null)
+    {
+        TaskCompletionSource<bool> dialogAwaiter = new();
+        var vm = new CredentialInputDialogViewModel()
+        {
+            Title = title,
+            Message = message,
+            Icon = "👤",
+            IconBgColor = Color.MediumAquamarine,
+            Interactions =
+            {
+                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok),
+                new(CloseDialogCommand(dialogAwaiter, false), Common.Cancel)
+            },
+            User = defaultUser ?? string.Empty
+        };
+        Navigate(vm);
+        var result = await dialogAwaiter.Task;
+        return new(result, result ? new Credential(vm.User, vm.Password) : null!);
+    }
+
+    /// <summary>
+    /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
+    /// dialog navigation system.
+    /// </summary>
+    /// <typeparam name="TViewModel">
+    /// Type of <see cref="DialogViewModel"/> to navigate to. It must implement
+    /// <see cref="IAwaitableDialogViewModel"/> to be able to notify of its own
+    /// completion.
+    /// </typeparam>
+    /// <param name="dialogVm">Dialog ViewModel to navigate to.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    public Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : ViewModel, IAwaitableDialogViewModel
+    {
+        Navigate(dialogVm);
+        return dialogVm.DialogAwaiter;
     }
 
     private async Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue, Action<TViewModel>? initCallback = null) where TViewModel : DialogViewModel, IInputDialogViewModel<TValue>, new()

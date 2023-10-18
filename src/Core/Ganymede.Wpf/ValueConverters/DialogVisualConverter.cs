@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using TheXDS.Ganymede.Controls;
+using TheXDS.Ganymede.Controls.Primitives;
 using TheXDS.Ganymede.Resources.DialogTemplates;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
@@ -28,17 +30,16 @@ public sealed class DialogVisualConverter : IOneWayValueConverter<DialogViewMode
             .Cast<IDialogTemplateBuilder>());
 
         //Register well-known input dialog builders
-        RegisterNumericTemplateBuilder<byte>();
-        RegisterNumericTemplateBuilder<sbyte>();
-        RegisterNumericTemplateBuilder<char>();
-        RegisterNumericTemplateBuilder<short>();
-        RegisterNumericTemplateBuilder<ushort>();
-        RegisterNumericTemplateBuilder<int>();
-        RegisterNumericTemplateBuilder<uint>();
-        RegisterNumericTemplateBuilder<long>();
-        RegisterNumericTemplateBuilder<ulong>();
-        RegisterNumericTemplateBuilder<float>();
-        RegisterNumericTemplateBuilder<double>();
+        RegisterNumericTemplateBuilder<byte, UInt8TextBox>();
+        RegisterNumericTemplateBuilder<sbyte, Int8TextBox>();
+        RegisterNumericTemplateBuilder<short, Int16TextBox>();
+        RegisterNumericTemplateBuilder<ushort, UInt16TextBox>();
+        RegisterNumericTemplateBuilder<int, Int32TextBox>();
+        RegisterNumericTemplateBuilder<uint, UInt32TextBox>();
+        RegisterNumericTemplateBuilder<long, Int64TextBox>();
+        RegisterNumericTemplateBuilder<ulong, UInt64TextBox>();
+        RegisterNumericTemplateBuilder<float, FloatTextBox>();
+        RegisterNumericTemplateBuilder<double, DoubleTextBox>();
     }
 
     /// <inheritdoc/>
@@ -65,10 +66,12 @@ public sealed class DialogVisualConverter : IOneWayValueConverter<DialogViewMode
         && p.GetConstructor(Type.EmptyTypes) is not null;
     }
 
-    private static void RegisterNumericTemplateBuilder<T>() where T : struct, IComparable<T>
+    private static void RegisterNumericTemplateBuilder<TValue, TControl>()
+        where TValue : unmanaged, IComparable<TValue>
+        where TControl : NumericInputControl<TValue>, new()
     {
-        RegisterTemplateBuilder<NumericInputDialogTemplateBuilder<T>>();
-        RegisterTemplateBuilder<NumericRangeInputDialogTemplateBuilder<T>>();
+        RegisterTemplateBuilder<NumericInputDialogTemplateBuilder<TValue, TControl>>();
+        RegisterTemplateBuilder<NumericRangeInputDialogTemplateBuilder<TValue, TControl>> ();
     }
 }
 

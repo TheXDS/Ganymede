@@ -8,9 +8,8 @@ namespace TheXDS.Ganymede.ViewModels;
 /// <summary>
 /// Base class for all Ganymede ViewModels used to implement dialogs.
 /// </summary>
-public class DialogViewModel : ViewModel
+public class DialogViewModel : ViewModel, IDialogViewModel
 {
-    private string? _title;
     private string _message = string.Empty;
     private string? _icon;
     private Color? _iconBgColor;
@@ -22,7 +21,7 @@ public class DialogViewModel : ViewModel
     public DialogViewModel()
     {
         RegisterPropertyChangeBroadcast(nameof(Title), nameof(IsTitleVisible));
-        RegisterPropertyChangeBroadcast(nameof(Icon), nameof(IsIconVIsible));
+        RegisterPropertyChangeBroadcast(nameof(Icon), nameof(IsIconVisible));
     }
 
     /// <summary>
@@ -34,7 +33,7 @@ public class DialogViewModel : ViewModel
     /// Gets a value that indicates if the icon should be made visible in the
     /// dialog.
     /// </summary>
-    public bool IsIconVIsible => !string.IsNullOrWhiteSpace(Icon);
+    public bool IsIconVisible => !string.IsNullOrWhiteSpace(Icon);
 
     /// <summary>
     /// Gets a value that indicates if the title should be made visible.
@@ -67,14 +66,5 @@ public class DialogViewModel : ViewModel
     {
         get => _message;
         set => Change(ref _message, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the title to be displayed on the dialog.
-    /// </summary>
-    public string? Title
-    {
-        get => _title;
-        set => Change(ref _title, value);
     }
 }

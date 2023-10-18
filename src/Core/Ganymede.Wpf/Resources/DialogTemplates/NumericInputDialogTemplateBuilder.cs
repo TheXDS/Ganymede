@@ -1,6 +1,6 @@
 using System;
 using System.Windows;
-using System.Windows.Controls;
+using TheXDS.Ganymede.Controls.Primitives;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;
 
@@ -8,17 +8,18 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// Implements a dialog template builder that supports numeric values through a
 /// numeric input control.
 /// </summary>
-/// <typeparam name="T">Type of numeric value.</typeparam>
-public class NumericInputDialogTemplateBuilder<T> : ComparableValueDialogTemplateBuilder<T, TextBox>
-    where T : struct, IComparable<T>
+/// <typeparam name="TValue">Type of numeric value.</typeparam>
+/// <typeparam name="TControl">Type of control to bind to.</typeparam>
+public class NumericInputDialogTemplateBuilder<TValue, TControl> : ComparableValueDialogTemplateBuilder<TValue, TControl>
+    where TValue : unmanaged, IComparable<TValue>
+    where TControl : NumericInputControl<TValue>, new()
 {
+    /// <inheritdoc/>
+    protected override DependencyProperty GetMaxProperty() => NumericInputControl<TValue>.MaximumProperty;
 
     /// <inheritdoc/>
-    protected override DependencyProperty GetMaxProperty() => throw new NotImplementedException();
+    protected override DependencyProperty GetMinProperty() => NumericInputControl<TValue>.MinimumProperty;
 
     /// <inheritdoc/>
-    protected override DependencyProperty GetMinProperty() => throw new NotImplementedException();
-
-    /// <inheritdoc/>
-    protected override DependencyProperty GetValueProperty() => TextBox.TextProperty;
+    protected override DependencyProperty GetValueProperty() => NumericInputControl<TValue>.ValueProperty;
 }

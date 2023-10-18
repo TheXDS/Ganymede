@@ -1,28 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
-namespace TheXDS.Ganymede.Views
+namespace TheXDS.Ganymede.Views;
+
+/// <summary>
+/// Business logic for DialogDemoView.xaml
+/// </summary>
+public partial class DialogDemoView : UserControl
 {
     /// <summary>
-    /// Lógica de interacción para DialogDemoView.xaml
+    /// Initializes a new instance of the <see cref="DialogDemoView"/> class.
     /// </summary>
-    public partial class DialogDemoView : UserControl
+    public DialogDemoView()
     {
-        public DialogDemoView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

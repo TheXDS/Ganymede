@@ -94,6 +94,26 @@ public partial interface IDialogService
     /// </summary>
     /// <param name="title">Dialog title.</param>
     /// <param name="message">Dialog message.</param>
+    /// <param name="minimum">Minimum allowed value.</param>
+    /// <param name="maximum">Maximum allowed value.</param>
+    /// <param name="defaultValue">Default value.</param>
+    /// <typeparam name="T">Type of value to get.</typeparam>
+    /// <returns>
+    /// A new <see cref="InputResult{T}"/> with
+    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="InputResult{T}.Result"/> set to the value entered by the
+    /// user, or a new <see cref="InputResult{T}"/> with
+    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="InputResult{T}.Result"/> set to the default value for
+    /// <typeparamref name="T"/> if the user cancels the input dialog.
+    /// </returns>
+    Task<InputResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>;
+    
+    /// <summary>
+    /// Gets a value from the user.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
     /// <param name="defaultValue">Default value.</param>
     /// <typeparam name="T">Type of value to get.</typeparam>
     /// <returns>
@@ -129,6 +149,29 @@ public partial interface IDialogService
     /// </summary>
     /// <param name="title">Dialog title.</param>
     /// <param name="message">Dialog message.</param>
+    /// <param name="defaultMin">
+    /// Default value for the lower bound of the range.
+    /// </param>
+    /// <param name="defaultMax">
+    /// Default value for the upper bound of the range.
+    /// </param>
+    /// <typeparam name="T">Type of value to get.</typeparam>
+    /// <returns>
+    /// A new <see cref="InputResult{T}"/> with
+    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="InputResult{T}.Result"/> set to the range of values entered
+    /// by the user, or a new <see cref="InputResult{T}"/> with
+    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="InputResult{T}.Result"/> set to <see langword="null"/> if
+    /// the user cancels the input dialog.
+    /// </returns>
+    Task<InputResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>;
+
+    /// <summary>
+    /// Gets a range of values from the user.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
     /// <param name="minimum">Minimum allowed value.</param>
     /// <param name="maximum">Maximum allowed value.</param>
     /// <param name="defaultMin">
@@ -148,4 +191,36 @@ public partial interface IDialogService
     /// the user cancels the input dialog.
     /// </returns>
     Task<InputResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T minimum, T maximum, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>;
+
+    /// <summary>
+    /// Gets a credential from the user.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="defaultUser">Default username to present.</param>
+    /// <returns>
+    /// A new <see cref="InputResult{T}"/> with
+    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="InputResult{T}.Result"/> set to the credential entered by
+    /// the user, or a new <see cref="InputResult{T}"/> with
+    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="InputResult{T}.Result"/> set to <see langword="null"/> if
+    /// the user cancels the input dialog.
+    /// </returns>
+    Task<InputResult<Credential>> GetCredential(string? title, string message, string? defaultUser = null);
+
+    /// <summary>
+    /// Gets a credential from the user.
+    /// </summary>
+    /// <param name="message">Dialog message.</param>
+    /// <returns>
+    /// A new <see cref="InputResult{T}"/> with
+    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="InputResult{T}.Result"/> set to the credential entered by
+    /// the user, or a new <see cref="InputResult{T}"/> with
+    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="InputResult{T}.Result"/> set to <see langword="null"/> if
+    /// the user cancels the input dialog.
+    /// </returns>
+    Task<InputResult<Credential>> GetCredential(string message) => GetCredential(null, message);
 }

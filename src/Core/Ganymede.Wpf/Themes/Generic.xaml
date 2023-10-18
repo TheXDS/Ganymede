@@ -3,6 +3,7 @@
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/Button.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/NavigationViewModelHost/Default.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/TitleBarControl/Default.xaml"/>
+        <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/IntegerTextBox/Default.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/TextBoxEx.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/PasswordBox.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/Window.xaml"/>

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Ganymede\Ganymede.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\ControlTemplates\IntegerTextBox\" />
+  </ItemGroup>
+
 </Project>

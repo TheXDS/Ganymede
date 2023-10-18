@@ -81,10 +81,12 @@ public abstract class ValueDialogTemplateBuilderBase<TViewModel, TValue, TContro
     /// <param name="valuePath">
     /// Value path to bind the control's value property to.
     /// </param>
+    /// <param name="uniqueConfig">Unique control configuration callback.</param>
     /// <returns></returns>
-    protected TControl NewControl(DependencyProperty valueProperty, string valuePath)
+    protected TControl NewControl(DependencyProperty valueProperty, string valuePath, Action<TControl>? uniqueConfig = null)
     {
         var control = new TControl();
+        uniqueConfig?.Invoke(control);
         var binding = new Binding(valuePath);
         ConfigureControl(control);
         ConfigureValueBinding(binding);

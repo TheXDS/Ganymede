@@ -59,7 +59,7 @@
                 Margin="5"
                 CornerRadius="5"
                 Background="{Binding IconBgColor, Converter={StaticResource brc}}"
-                Visibility="{Binding IsIconVIsible, Converter={StaticResource b2vc}}">
+                Visibility="{Binding IsIconVisible, Converter={StaticResource b2vc}}">
                 <TextBlock Margin="10 10" Text="{Binding Icon, Mode=OneWay}" FontSize="36" Foreground="White"/>
             </Border>
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="10">

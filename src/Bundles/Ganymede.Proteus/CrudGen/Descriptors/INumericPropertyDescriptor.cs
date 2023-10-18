@@ -8,7 +8,3 @@
 public interface INumericPropertyDescriptor<T> : IFormattablePropertyDescriptor, IPropertyDescriptor<T> where T : unmanaged, IComparable<T>
 {
 }
-
-public interface INullableNumericPropertyDescriptor<T> : INumericPropertyDescriptor<T>, INullablePropertyDescriptor where T : unmanaged, IComparable<T>
-{
-}

@@ -32,7 +32,7 @@ public class PostDescriptor : CrudDescriptor<Post>
         m.ConfigureProperties(c => {
             c.Property(p => p.Title);
             c.Property(p => p.Creator).Selectable();
-            c.Property(p => p.Content).Paragraph(WidgetSize.Huge);
+            c.Property(p => p.Content).Paragraph(WidgetSize.Large);
             c.Property(p => p.CreationDate).WithTime().HideFromEditor();
             c.Property(p => p.Comments)
                 .HideFromDetails()
@@ -40,7 +40,7 @@ public class PostDescriptor : CrudDescriptor<Post>
                 .Creatable()
                 .AvailableModels(new CommentDescriptor().Description);
         });
-        m.AddSaveProlog(p => { if (p.Id == default) p.Id = Guid.NewGuid(); });
+        m.AddDefaultGuidIdProlog();
         m.AddSaveProlog(p => p.CreationDate ??= DateTime.Now);
     }
 }

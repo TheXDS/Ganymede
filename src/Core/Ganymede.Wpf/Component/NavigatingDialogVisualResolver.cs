@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using TheXDS.Ganymede.ViewModels;
 using TheXDS.Ganymede.Views.Dialogs;
+using TheXDS.MCART.Types.Base;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -11,13 +11,18 @@ namespace TheXDS.Ganymede.Component;
 public class NavigatingDialogVisualResolver : DictionaryVisualResolver<FrameworkElement>
 {
     /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="NavigatingDialogVisualResolver"/> class.
+    /// Resolves a dialog visual container to be used to host the requested Dialog ViewModel.
     /// </summary>
-    public NavigatingDialogVisualResolver()
+    /// <param name="viewModel">ViewModel to resolve.</param>
+    /// <returns>
+    /// This method will try to resolve the visual based on registrations, and
+    /// upon failure, will return a new instance of the
+    /// <see cref="DialogView"/> class. Although the signature of this method
+    /// allows returning <see langword="null"/>, this method will never return
+    /// it.
+    /// </returns>
+    public override FrameworkElement? Resolve(ViewModelBase viewModel)
     {
-        Register<DialogViewModel, DialogView>();
-        Register<OperationDialogViewModel, DialogView>();
-        Register<SelectionDialogViewModel, DialogView>();
+        return base.Resolve(viewModel) ?? new DialogView();
     }
 }

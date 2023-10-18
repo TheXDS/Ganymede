@@ -169,4 +169,10 @@ Como el sistema de diálogos es expandible, el servicio de diálogos incluído e
   <data name="WarningText" xml:space="preserve">
     <value>Este es un mensaje de advertencia.</value>
   </data>
+  <data name="TestTextInput" xml:space="preserve">
+    <value>Entrada de texto</value>
+  </data>
+  <data name="TextInputPrompt" xml:space="preserve">
+    <value>Por favor, escriba algo de texto a continuación.</value>
+  </data>
 </root>

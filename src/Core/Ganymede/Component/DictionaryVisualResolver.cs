@@ -15,7 +15,7 @@ public class DictionaryVisualResolver<T> : IVisualResolver<T>
     private readonly Dictionary<Type, Type> _registry = new();
 
     /// <inheritdoc/>
-    public T? Resolve(ViewModelBase viewModel)
+    public virtual T? Resolve(ViewModelBase viewModel)
     {
         return _registry.TryGetValue(viewModel.GetType(), out var visual)
             ? (T)Activator.CreateInstance(visual)!

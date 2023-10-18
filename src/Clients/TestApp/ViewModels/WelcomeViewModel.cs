@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿#pragma warning disable CS1591
+
+using System.Windows.Input;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Base;

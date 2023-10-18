@@ -1,7 +1,10 @@
-﻿using System.Windows.Input;
+﻿#pragma warning disable CS1591
+
+using System.Windows.Input;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Base;
+using TheXDS.MCART.Types.Extensions;
 using St = TheXDS.Ganymede.Resources.Strings.Views.DialogDemoView;
 
 namespace TheXDS.Ganymede.ViewModels;
@@ -28,6 +31,10 @@ public class DialogDemoViewModel : ViewModel
         TestSelectionCommand = NewDialogCmd(cb, OnTestSelectDialog);
         TestOperationCommand = cb.BuildBusyOperation(OnTestOperation);
         TestCancellableOperationCommand = cb.BuildBusyOperation(OnTestCancellableOperation);
+        TestTextInputCommand = NewDialogCmd(cb, OnTestTextInput);
+        TestIntInputCommand = NewDialogCmd(cb, OnTestValueInput<int>);
+        TestIntRangeInputCommand = NewDialogCmd(cb, OnTestRangeInput<int>);
+        TestCredentialCommand = NewDialogCmd(cb, OnTestCredential);
     }
 
     public ICommand TestOperationCommand { get; }
@@ -44,11 +51,40 @@ public class DialogDemoViewModel : ViewModel
 
     public ICommand TestSelectionCommand { get; }
 
+    public ICommand TestTextInputCommand { get; }
+
+    public ICommand TestIntInputCommand { get; }
+
+    public ICommand TestIntRangeInputCommand { get; }
+
+    public ICommand TestCredentialCommand { get; }
+
     private void OnTestMessage() => DialogService?.Message(St.Message, St.HelloWorld);
 
     private void OnTestError() => DialogService?.Error(St.Error, St.ErrorText);
 
     private void OnTestWarning() => DialogService?.Warning(St.Warning, St.WarningText);
+
+    private async Task OnTestTextInput()
+    {
+        if (DialogService is null) return;
+        var text = await DialogService.GetInputText(St.TestTextInput, St.TextInputPrompt);
+        await DialogService.Message(St.TestTextInput, text.Success ? text.Result! : string.Empty);
+    }
+
+    private async Task OnTestValueInput<T>() where T : unmanaged, IComparable<T>
+    {
+        if (DialogService is null) return;
+        var text = await DialogService.GetInputValue<T>(St.TestTextInput, St.TextInputPrompt);
+        await DialogService.Message(St.TestTextInput, text.Success ? text.Result.ToString()! : string.Empty);
+    }
+
+    private async Task OnTestRangeInput<T>() where T : unmanaged, IComparable<T>
+    {
+        if (DialogService is null) return;
+        var text = await DialogService.GetInputRange<T>(St.TestTextInput, St.TextInputPrompt);
+        await DialogService.Message(St.TestTextInput, text.Success ? text.Result.ToString()! : string.Empty);
+    }
 
     private async Task OnTestQuestion()
     {
@@ -107,5 +143,12 @@ public class DialogDemoViewModel : ViewModel
         {
             await DialogService!.Message("Option", $"The user selected \"{options[result]}\"");
         }
+    }
+
+    private async Task OnTestCredential()
+    {
+        if (DialogService is null) return;
+        var text = await DialogService.GetCredential(St.TestTextInput, St.TextInputPrompt);
+        await DialogService.Message(St.TestTextInput, text.Success ? $"{text.Result.User}\n{text.Result.Password.Read()}" : string.Empty);
     }
 }

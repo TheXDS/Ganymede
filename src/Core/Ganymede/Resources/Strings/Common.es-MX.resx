@@ -126,6 +126,12 @@
   <data name="Ok" xml:space="preserve">
     <value>Aceptar</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
   <data name="Yes" xml:space="preserve">
     <value>Sí</value>
   </data>

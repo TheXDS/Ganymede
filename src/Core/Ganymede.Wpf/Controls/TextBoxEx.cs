@@ -24,7 +24,7 @@ public class TextBoxEx : TextBox
     /// </summary>
     static TextBoxEx()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBoxEx), new FrameworkPropertyMetadata(typeof(TextBoxEx)));
+        SetControlStyle<TextBoxEx>(DefaultStyleKeyProperty);
         LabelProperty = NewDp<string, TextBoxEx>(nameof(Label));
         IconProperty = NewDp<string, TextBoxEx>(nameof(Icon),"🖋️");
     }
