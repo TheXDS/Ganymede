@@ -20,6 +20,6 @@ public abstract class AcrylicWindow : ModernWindow
     /// </summary>
     public AcrylicWindow()
     {
-        Loaded += (_, __) => this.EnableMicaIfSupported();
+        Loaded += (_, __) => this.EnableAcrylic();
     }
 }
