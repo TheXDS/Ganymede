@@ -120,7 +120,7 @@
   <data name="HelpText" xml:space="preserve">
     <value>Esta página contiene algunas demostraciones de cómo funciona el servicio de diálogos en Ganymede.
 
-Ganymede implementa una API de diálogos que puede orientarse a distintas plataformas. Para las aplicaciones WPF, usted tiene acceso a un sistema de diálogos personalizao que se integra bien con el estilo y la interfaz de este programa. Sigue un principio de mantener el número de ventanas independientes reducidas a una, e implementa un tema y un estilo consistentes para todos los diálogos.
+Ganymede implementa una API de diálogos que puede orientarse a distintas plataformas. Para las aplicaciones WPF, usted tiene acceso a un sistema de diálogos personalizado que se integra bien con el estilo y la interfaz de este programa. Sigue un principio de mantener el número de ventanas independientes reducidas a una, e implementa un tema y un estilo consistentes para todos los diálogos.
 
 Como el sistema de diálogos es expandible, el servicio de diálogos incluído en Ganymede.Wpf puede incorporar nuevos diálogos sin tener que redefinir la interfaz de los mismos desde cero, siendo únicamente necesario definir e implementar lo que hace único a cada diálogo. Podrá observar esta afirmación con las distintas demostraciones aquí.</value>
   </data>
