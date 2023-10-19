@@ -39,4 +39,10 @@ public interface ICrudDescription
     /// Gets a reference to the resource type to use when resolving labels.
     /// </summary>
     Type? ResourceType { get; }
+
+    /// <summary>
+    /// Gets a reference to the ViewModel Type to use when no entity is
+    /// selected on a CRUD page.
+    /// </summary>
+    Type? Dashboard { get; }
 }

@@ -12,11 +12,15 @@ public abstract class ViewModel : ViewModelBase
     private IDialogService? dialogService;
 
     /// <summary>
+    /// Gets a value that indicates if this ViewModel has been initialized.
+    /// </summary>
+    protected bool IsInitialized { get; private set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ViewModel"/> class.
     /// </summary>
     protected ViewModel()
     {
-        OnCreated();
     }
 
     /// <summary>
@@ -50,7 +54,15 @@ public abstract class ViewModel : ViewModelBase
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the async operation.
     /// </returns>
-    protected virtual Task OnCreated() => Task.CompletedTask;
+    protected virtual Task OnCreated()
+    {
+        return Task.CompletedTask;
+    }
 
     internal void SetIsBusy_Internal(bool value) => IsBusy = value;
+    internal async Task InvokeOnCreated()
+    {
+        await OnCreated();
+        IsInitialized = true;
+    }
 }

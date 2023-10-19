@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Windows.Input;
 using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
@@ -9,6 +11,7 @@ using TheXDS.MCART.Exceptions;
 using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
+using TheXDS.Triton.Services;
 using TheXDS.Triton.Services.Base;
 using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
@@ -21,6 +24,7 @@ namespace TheXDS.Ganymede.ViewModels;
 public class CrudPageViewModel : ViewModel
 {
     private readonly ITritonService? _dataService;
+    private readonly ObservableCollectionWrap<Model> _entities;
     private Model? _selectedEntity;
     private bool _isEditing = false;
 
@@ -28,22 +32,38 @@ public class CrudPageViewModel : ViewModel
     /// Contains the current navigation service used to handle navigation to
     /// detail and editor panels for any selected entity.
     /// </summary>
-    public INavigationService CrudNavService { get; }
+    public INavigationService CrudNavService { get; } = UiThread.Invoke(() => new NavigationService());
 
     /// <summary>
     /// Contains the current set of entities to be displayed on this ViewModel.
     /// </summary>
-    public ICollection<Model> Entities { get; }
+    public ICollection<Model> Entities => _entities;
+
+    /// <summary>
+    /// Gets an array of all defned descriptions for this CRUD page.
+    /// </summary>
+    public ICrudDescription[] Descriptions { get; }
 
     /// <summary>
     /// Gets an array of model types handled by this ViewModel.
     /// </summary>
-    public Type[] Models { get; }
+    public Type[] Models => Descriptions.Select(p => p.Model).ToArray();
 
     /// <summary>
-    /// Enumerates all the commands available to create new entities.
+    /// Gets a reference to the command used to unselect any entity, navigating
+    /// to the CRUD dashboard.
     /// </summary>
-    public IEnumerable<ButtonInteraction> NewCommands { get; }
+    public ICommand UnselectCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to refresh the current dataset.
+    /// </summary>
+    public ICommand RefreshCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to create new entities.
+    /// </summary>
+    public ICommand NewCommand { get; }
 
     /// <summary>
     /// Gets a reference to the command used to edit the currently selected entity on the set.
@@ -59,12 +79,7 @@ public class CrudPageViewModel : ViewModel
     /// Enumerates the commands to be displayed below the generated CRUD page
     /// content.
     /// </summary>
-    public ICollection<ButtonInteraction> CrudInteractions { get; }
-
-    /// <summary>
-    /// Gets an array of all defned descriptions for this CRUD page.
-    /// </summary>
-    public ICrudDescription[] Descriptions { get; }
+    public ICollection<ButtonInteraction> CrudInteractions { get; } = new ObservableCollection<ButtonInteraction>();
 
     /// <summary>
     /// Gets a reference to the entity being managed in this ViewModel.
@@ -102,36 +117,77 @@ public class CrudPageViewModel : ViewModel
     /// <param name="descriptions">
     /// Model description for the entities.
     /// </param>
-    /// <param name="dataService">
-    /// Data service to use when saving an entity or updating the entity set.
-    /// If not specified or set to <see langword="null"/>, a create or update
-    /// operation will only write the changes onto the underlying entity and/or
-    /// copy of the dataset in memory.
-    /// </param>
-    public CrudPageViewModel(ICollection<Model> entities, ICrudDescription[] descriptions, ITritonService? dataService = null)
+    /// <remarks>
+    /// When using this contructor, any create or update operation will only
+    /// write the changes onto the dataset in memory, and refresh operations
+    /// will not be available.
+    /// </remarks>
+    public CrudPageViewModel(ICollection<Model> entities, ICrudDescription[] descriptions)
     {
-        CrudNavService = UiThread.Invoke(() => new NavigationService()); // <--------------------------------
         Descriptions = descriptions;
-        Models = descriptions.Select(p => p.Model).ToArray();
+        _entities = UiThread.Invoke(() => new ObservableCollectionWrap<Model>(entities));
         var b = new CommandBuilder<CrudPageViewModel>(this);
-        Entities = UiThread.Invoke(() => new ObservableCollectionWrap<Model>(entities));
-        NewCommands = descriptions.Select(t => CreateNewCommand(b, t)).ToArray();
-        CrudInteractions = new ObservableCollection<ButtonInteraction>();
+        UnselectCommand = b.BuildSimple(() => SelectedEntity = null);
+        RefreshCommand = b.BuildBusyOperation(OnRefresh);
+        NewCommand = b.BuildSimple(OnNew);
         UpdateInteraction = new(b.BuildObserving(OnUpdate).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), "Update");
         DeleteInteraction = new(b.BuildObserving(OnDelete).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), "Delete");
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="CrudPageViewModel"/> class.
+    /// </summary>
+    /// <param name="descriptions">
+    /// Model description for the entities.
+    /// </param>
+    /// <param name="dataService">
+    /// Data service to use when saving an entity or updating the entity set.
+    /// </param>
+    public CrudPageViewModel(ICrudDescription[] descriptions, ITritonService dataService) : this(new List<Model>(), descriptions)
+    {
         _dataService = dataService;
     }
 
-    private ButtonInteraction CreateNewCommand(CommandBuilder<CrudPageViewModel> builder, ICrudDescription desc)
+    protected override async Task OnCreated()
     {
-        return new(builder.BuildSimple(async () =>
+        if (!IsInitialized)
+        { 
+            await (DialogService?.RunOperation(OnRefresh) ?? OnRefresh(null));
+        }
+        await base.OnCreated();
+    }
+
+    private async Task OnNew()
+    {
+        ICrudDescription? desc = Descriptions.Length == 1 ? Descriptions[0] : await SelectNew();
+        if (desc is null) return;
+        Model e = desc.Model.New<Model>();
+        if (await PresentEditingContent(e, desc, new(true, desc.Model)))
         {
-            var e = desc.Model.New<Model>();
-            if (await PresentEditingContent(e, desc, new(true, desc.Model)))
-            {
-                Entities.Add(e);
-            }
-        }), desc.FriendlyName);
+            Entities.Add(e);
+        }
+    }
+
+    private async Task<ICrudDescription?> SelectNew()
+    {
+        var options = Descriptions.Select(p => p.FriendlyName).ToArray();
+        var i = await (DialogService?.SelectOption("new item", "Select the type of item to create", options) ?? Task.FromResult(-1));
+        return i >= 0 ? Descriptions[i] : null;
+    }
+
+    private async Task OnRefresh(IProgress<ProgressReport>? status)
+    {
+        if (_dataService is null) return;
+        SelectedEntity = null;
+        status?.Report("Connecting...");
+        await using var transaction = _dataService!.GetReadTransaction();
+        status?.Report("Fetching data...");
+
+        _entities.Clear();
+        //TODO: perform paging here.
+        _entities.Replace(await Models.SelectMany(t => All(transaction, t)).ToListAsync());
+        if (!IsEditing) PresentRegularContent();
     }
 
     private Task OnUpdate()
@@ -157,7 +213,7 @@ public class CrudPageViewModel : ViewModel
 
     private void PresentUnselectedContent()
     {
-        CrudNavService.NavigateAndReset(null);
+        UiThread.Invoke(() => CrudNavService.NavigateAndReset(Descriptions[0].Dashboard?.New<ViewModel>()));
     }
 
     private void PresentSelectedContent()
@@ -188,6 +244,7 @@ public class CrudPageViewModel : ViewModel
             NavigationService = CrudNavService,
             DialogService = DialogService!,
         };
+        CrudNavService.NavigateAndReset(null);
         if (await CrudCommon.LaunchEditor(s))
         {
             retval = (await DialogService!.RunOperation(p => TrySaveData(p, entity))) ?? true;
@@ -212,5 +269,20 @@ public class CrudPageViewModel : ViewModel
             return (await svc.CommitAsync()).Success;
         }
         return null;
+    }
+
+    private static QueryServiceResult<Model> All(ICrudReadTransaction transaction, Type model)
+    {
+        var m = transaction.GetType().GetMethod(nameof(All), 1, BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null)!.MakeGenericMethod(model);
+        object o = m.Invoke(transaction, Array.Empty<object>())!;
+        ServiceResult r = (ServiceResult)o;
+        if (r.Success)
+        {
+            return new QueryServiceResult<Model>((IQueryable<Model>)o);
+        }
+        else
+        {
+            return new QueryServiceResult<Model>(r.Reason ?? FailureReason.Unknown, r.Message);
+        }
     }
 }

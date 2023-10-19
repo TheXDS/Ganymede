@@ -1,4 +1,5 @@
-﻿using TheXDS.Ganymede.Types.Base;
+﻿using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Types.Base;
 
 namespace TheXDS.Ganymede.Component;
@@ -10,7 +11,7 @@ namespace TheXDS.Ganymede.Component;
 /// <typeparam name="T">
 /// Type of visual to be registered and resolved by this class.
 /// </typeparam>
-public class DictionaryVisualResolver<T> : IVisualResolver<T>
+public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewRegistry<T>
 {
     private readonly Dictionary<Type, Type> _registry = new();
 
@@ -18,7 +19,7 @@ public class DictionaryVisualResolver<T> : IVisualResolver<T>
     public virtual T? Resolve(ViewModelBase viewModel)
     {
         return _registry.TryGetValue(viewModel.GetType(), out var visual)
-            ? (T)Activator.CreateInstance(visual)!
+            ? UiThread.Invoke(() => (T)Activator.CreateInstance(visual)!)
             : default!;
     }
 

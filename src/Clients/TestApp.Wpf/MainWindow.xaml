@@ -43,7 +43,7 @@
     <gn:NavigationViewModelHost
         x:Name="vmHost"
         DialogService="{gn:NavDialogService}"
-        Navigator="{gn:NavService Home={x:Type vm:LoginViewModel}}">
+        Navigator="{gn:NavService Home={x:Type vm:WelcomeViewModel}}">
         <gn:NavigationViewModelHost.VisualResolver>
             <gn:WpfResolverStack>
                 <gn:ProteusStackVisualResolver/>

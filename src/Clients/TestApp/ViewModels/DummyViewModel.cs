@@ -7,4 +7,11 @@ namespace TheXDS.Ganymede.ViewModels;
 /// </summary>
 public class DummyViewModel : ViewModel
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DummyViewModel"/> class.
+    /// </summary>
+    public DummyViewModel()
+    {
+        Title = "Dummy ViewModel";
+    }
 }

@@ -44,6 +44,9 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     public IEnumerable<Action<Model>> SavePrologs => _savePrologs;
 
     /// <inheritdoc/>
+    public Type? Dashboard { get; private set; }
+
+    /// <inheritdoc/>
     public Type? ResourceType { get; private set; }
 
     IModelConfigurator<T> IModelConfigurator<T>.FriendlyName(string friendlyName)
@@ -73,6 +76,12 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     IModelConfigurator<T> IModelConfigurator<T>.LabelResource<TRes>()
     {
         ResourceType = typeof(TRes);
+        return this;
+    }
+
+    IModelConfigurator<T> IModelConfigurator<T>.Dashboard<TViewModel>()
+    {
+        Dashboard = typeof(TViewModel);
         return this;
     }
 }

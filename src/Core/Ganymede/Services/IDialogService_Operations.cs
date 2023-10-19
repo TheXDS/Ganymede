@@ -39,7 +39,7 @@ public partial interface IDialogService
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the operation.
     /// </returns>
-    T RunOperation<T>(Func<IProgress<ProgressReport>, T> operation) where T : Task => RunOperation(null, operation);
+    Task RunOperation(Func<IProgress<ProgressReport>, Task> operation) => RunOperation(null, operation);
 
     /// <summary>
     /// Runs a long-running, non-cancellable operation and displays a dialog
@@ -52,7 +52,32 @@ public partial interface IDialogService
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the operation.
     /// </returns>
-    T RunOperation<T>(string? title, Func<IProgress<ProgressReport>, T> operation) where T : Task;
+    Task RunOperation(string? title, Func<IProgress<ProgressReport>, Task> operation);
+
+    /// <summary>
+    /// Runs a long-running, non-cancellable operation and displays a dialog
+    /// that shows the progress of it.
+    /// </summary>
+    /// <param name="operation">
+    /// Operation to execute.
+    /// </param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await the operation.
+    /// </returns>
+    Task<T> RunOperation<T>(Func<IProgress<ProgressReport>, Task<T>> operation) => RunOperation(null, operation);
+
+    /// <summary>
+    /// Runs a long-running, non-cancellable operation and displays a dialog
+    /// that shows the progress of it.
+    /// </summary>
+    /// <param name="title">Title of the dialog.</param>
+    /// <param name="operation">
+    /// Operation to execute.
+    /// </param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await the operation.
+    /// </returns>
+    Task<T> RunOperation<T>(string? title, Func<IProgress<ProgressReport>, Task<T>> operation);
 
     /// <summary>
     /// Runs a long-running operation and displays a dialog that shows the

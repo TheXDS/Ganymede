@@ -1,4 +1,5 @@
 ﻿using TheXDS.Ganymede.Models;
+using TheXDS.Ganymede.ViewModels;
 using St = TheXDS.Ganymede.Resources.Strings.Models;
 namespace TheXDS.Ganymede.CrudGen;
 
@@ -40,6 +41,7 @@ public class PostDescriptor : CrudDescriptor<Post>
                 .Creatable()
                 .AvailableModels(new CommentDescriptor().Description);
         });
+        m.Dashboard<DummyViewModel>();
         m.AddDefaultGuidIdProlog();
         m.AddSaveProlog(p => p.CreationDate ??= DateTime.Now);
     }

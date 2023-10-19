@@ -7,7 +7,9 @@
     xmlns:gn="http://schemas.thexds.local/ganymede"
     xmlns:gn2="clr-namespace:TheXDS.Ganymede.Markup"
     xmlns:mcart="http://schemas.thexds.local/mcart"
-    mc:Ignorable="d" 
+    xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede.Proteus"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance vm:CrudPageViewModel}"
     d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <mcart:SubtractConverter x:Key="svc"/>
@@ -16,26 +18,51 @@
     <DockPanel Margin="5">
         <DockPanel IsEnabled="{Binding IsEditing, Converter={StaticResource binv}}">
             <gn:SearchBox DockPanel.Dock="Top" Margin="5"/>
-            <StackPanel
-                Orientation="Horizontal"
+            <DockPanel
+                MinWidth="300"
                 DockPanel.Dock="Bottom"
                 Margin="5"
                 HorizontalAlignment="Right">
-                <StackPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="5"/>
-                        <Setter Property="MinWidth" Value="80"/>
-                    </Style>
-                </StackPanel.Resources>
-                <ItemsPresenter/>
-                <Button Content="Filter"/>
-                <Button Content="Refresh"/>
-                <Separator Margin="5">
-                    <Separator.LayoutTransform>
-                        <RotateTransform Angle="90"/>
-                    </Separator.LayoutTransform>
-                </Separator>
-                <mcart:SelectorPanel SelectedIndex="{Binding Models.Length, Converter={StaticResource svc}, ConverterParameter=1}">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="-5">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Width" Value="20"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Separator Margin="5">
+                        <Separator.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </Separator.LayoutTransform>
+                    </Separator>
+                    <Button Command="{Binding UnselectCommand}">
+                        <Button.ToolTip>
+                            <TextBlock>
+                                Home
+                            </TextBlock>
+                        </Button.ToolTip>
+                        <TextBlock>🏠</TextBlock>
+                    </Button>
+                    <Button Command="{Binding RefreshCommand}">
+                        <Button.ToolTip>
+                            <TextBlock>
+                                Refresh
+                            </TextBlock>
+                        </Button.ToolTip>
+                        <TextBlock>🔄</TextBlock>
+                    </Button>
+
+                    <Button Command="{Binding NewCommand}">
+                        <Button.ToolTip>
+                            <TextBlock>
+                                New...
+                            </TextBlock>
+                        </Button.ToolTip>
+                        <TextBlock>➕</TextBlock>
+                    </Button>
+                </StackPanel>
+
+                <!--<mcart:SelectorPanel SelectedIndex="{Binding Models.Length, Converter={StaticResource svc}, ConverterParameter=1}">
                     <Button Command="{Binding NewCommands[0].Command}">
                         <TextBlock>New <Run Text="{Binding NewCommands[0].Text}"/></TextBlock>
                     </Button>
@@ -66,8 +93,9 @@
                             </ItemsControl>
                         </Popup>
                     </Grid>
-                </mcart:SelectorPanel>
-            </StackPanel>
+                </mcart:SelectorPanel>-->
+                <TextBlock Background="Gray" HorizontalAlignment="Center" Foreground="Yellow">Placeholder: Paged nav</TextBlock>
+            </DockPanel>
             <ListView Margin="5" ItemsSource="{Binding Entities, Mode=OneWay}" SelectedItem="{Binding SelectedEntity}"/>
         </DockPanel>
         <DockPanel>

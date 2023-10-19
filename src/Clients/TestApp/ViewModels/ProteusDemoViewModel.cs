@@ -1,10 +1,7 @@
 ﻿using System.Windows.Input;
 using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Helpers;
-using TheXDS.Ganymede.Models;
-using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
-using TheXDS.Triton.Models.Base;
 using TheXDS.Triton.Services.Base;
 using SP = TheXDS.ServicePool.ServicePool;
 
@@ -37,17 +34,16 @@ public class ProteusDemoViewModel : ViewModel
     public ProteusDemoViewModel()
     {
         CommandBuilder<ProteusDemoViewModel> cb = new(this);
-        ManageUsersCommand = cb.BuildSimple(OnManage<User, UserDescriptor>);
-        ManagePostsCommand = cb.BuildSimple(OnManage<Post, PostDescriptor>);
-        ManageCommentsCommand = cb.BuildSimple(OnManage<Comment, CommentDescriptor>);
+        ManageUsersCommand = cb.BuildSimple(OnManage<UserDescriptor>);
+        ManagePostsCommand = cb.BuildSimple(OnManage<PostDescriptor>);
+        ManageCommentsCommand = cb.BuildSimple(OnManage<CommentDescriptor>);
     }
 
-    private void OnManage<TModel, TDescriptor>() where TModel : Model, new() where TDescriptor : ICrudDescriptor, new()
+    private void OnManage<TDescriptor>() where TDescriptor : ICrudDescriptor, new()
     {
         var svc = SP.CommonPool.Resolve<ITritonService>()!;
         using var trans = svc.GetReadTransaction();
-        var tbl = trans.All<TModel>().Cast<Model>().ToList();
-        var vm = new CrudPageViewModel(tbl, new[] { new TDescriptor().Description }, svc) { DialogService = DialogService };
+        var vm = new CrudPageViewModel(new[] { new TDescriptor().Description }, svc) { DialogService = DialogService };
         NavigationService?.Navigate(vm);
     }
 }

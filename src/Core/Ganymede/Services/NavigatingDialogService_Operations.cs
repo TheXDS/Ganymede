@@ -3,28 +3,16 @@ using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Component;
+using St = TheXDS.Ganymede.Resources.Strings.Common;
 
 namespace TheXDS.Ganymede.Services;
 public partial class NavigatingDialogService
 {
-    /// <summary>
-    /// Runs a long-running operation and displays a dialog that shows the
-    /// progress of it.
-    /// </summary>
-    /// <param name="title">Title of the dialog.</param>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
-    /// <returns>
-    /// A <see cref="Task{TResult}"/> that can be used to await the operation.
-    /// The task will return <see langword="true"/> if the operation ran
-    /// successfully, or <see langword="false"/> if it was cancelled by the
-    /// user.
-    /// </returns>
+    /// <inheritdoc/>
     public async Task<bool> RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation)
     {
         CancellationTokenSource ct = new();
-        ButtonInteraction cancel = new(new SimpleCommand(ct.Cancel), "Cancel");
+        ButtonInteraction cancel = new(new SimpleCommand(ct.Cancel), St.Cancel);
         var (vm, progress) = CreateOperationVm(title);
         vm.Interactions.Add(cancel);
         Navigate(vm);
@@ -34,24 +22,24 @@ public partial class NavigatingDialogService
         return !(ct.IsCancellationRequested || task.IsFaulted);
     }
 
-    /// <summary>
-    /// Runs a long-running, non-cancellable operation and displays a dialog
-    /// that shows the progress of it.
-    /// </summary>
-    /// <param name="title">Title of the dialog.</param>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await the operation.
-    /// </returns>
-    public T RunOperation<T>(string? title, Func<IProgress<ProgressReport>, T> operation) where T : Task
+    /// <inheritdoc/>
+    public async Task<T> RunOperation<T>(string? title, Func<IProgress<ProgressReport>, Task<T>> operation)
     {
         var (vm, progress) = CreateOperationVm(title);
         Navigate(vm);
         var task = operation.Invoke(progress);
-        try { return (T)task.ContinueWith(_=>NavigateBack()); }
-        finally { ; }
+        try { return await task; }
+        finally { NavigateBack(); }
+    }
+
+    /// <inheritdoc/>
+    public Task RunOperation(string? title, Func<IProgress<ProgressReport>, Task> operation)
+    {
+        var (vm, progress) = CreateOperationVm(title);
+        Navigate(vm);
+        var task = operation.Invoke(progress);
+        try { return task.ContinueWith(_ => NavigateBack()); }
+        finally {; }
     }
 
     private static (OperationDialogViewModel viewModel, IProgress<ProgressReport> progress) CreateOperationVm(string? title)

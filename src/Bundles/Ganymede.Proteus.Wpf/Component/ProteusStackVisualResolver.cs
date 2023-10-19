@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ValueConverters;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Helpers;
@@ -18,14 +18,10 @@ namespace TheXDS.Ganymede.Component;
 /// Implements a <see cref="IVisualResolver{TVisual}"/> that dynamically
 /// generates views for Proteus ViewModels.
 /// </summary>
-public class ProteusStackVisualResolver : IVisualResolver<FrameworkElement>
+public class ProteusStackVisualResolver : IVisualResolver<FrameworkElement>, IViewModelToViewRegistry<FrameworkElement>
 {
-    private readonly IVisualResolver<FrameworkElement>[] _resolvers = new IVisualResolver<FrameworkElement>[]
-    {
-        new CrudPageVisualBuilder(),
-        new CrudDetailsVisualBuilder(),
-        new CrudEditorVisualBuilder(EditorSettings),
-    };
+    private readonly IVisualResolver<FrameworkElement>[] _resolvers;
+    private readonly DictionaryVisualResolver<FrameworkElement> _dict;
 
     /// <summary>
     /// Gets a static reference to the settings to use when generating editor
@@ -107,9 +103,37 @@ public class ProteusStackVisualResolver : IVisualResolver<FrameworkElement>
         return d.ReadOnly ? new ReadOnlyMapping().CreateControl(d) : element;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="ProteusStackVisualResolver"/> class.
+    /// </summary>
+    public ProteusStackVisualResolver()
+    {
+        _resolvers = new IVisualResolver<FrameworkElement>[]
+        {
+            new CrudPageVisualBuilder(),
+            new CrudDetailsVisualBuilder(),
+            new CrudEditorVisualBuilder(EditorSettings),
+            _dict = new DictionaryVisualResolver<FrameworkElement>(),
+            new ConventionVisualResolver<FrameworkElement>(),
+        };
+    }
+
+    /// <summary>
+    /// Gets a reference to an internal <see cref="IVisualResolver{TVisual}"/>
+    /// that is part of the resolution stack of this instance, which allows for
+    /// dictionary ViewModel-to-View mapping.
+    /// </summary>
+    public IViewModelToViewRegistry<FrameworkElement> ViewMappings => _dict;
+
     /// <inheritdoc/>
     public FrameworkElement? Resolve(ViewModelBase viewModel)
     {
         return _resolvers.Select(p => p.Resolve(viewModel)).FirstOrDefault(p => p is not null);
+    }
+
+    void IViewModelToViewRegistry<FrameworkElement>.Register<TViewModel, TVisual>()
+    {
+        ((IViewModelToViewRegistry<FrameworkElement>)_dict).Register<TViewModel, TVisual>();
     }
 }

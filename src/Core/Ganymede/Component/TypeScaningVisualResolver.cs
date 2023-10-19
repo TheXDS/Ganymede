@@ -1,4 +1,5 @@
-﻿using TheXDS.MCART.Types.Extensions;
+﻿using TheXDS.Ganymede.Helpers;
+using TheXDS.MCART.Types.Extensions;
 using static TheXDS.MCART.Helpers.ReflectionHelpers;
 
 namespace TheXDS.Ganymede.Component;
@@ -30,9 +31,6 @@ public abstract class TypeScaningVisualResolver<TVisual> where TVisual : new()
     protected TVisual? FindView(Func<Type, bool> condition)
     {
         var vmType = PublicTypes().FirstOrDefault(condition);
-
-        return vmType is not null && vmType.TryInstance<TVisual>(out var visual)
-            ? visual 
-            : default;
+        return UiThread.Invoke(() => vmType is not null && vmType.TryInstance<TVisual>(out var visual) ? visual : default);
     }
 }
