@@ -1,4 +1,8 @@
-﻿namespace TheXDS.Ganymede.Services;
+﻿using TheXDS.MCART.Resources.Strings;
+using static TheXDS.MCART.Resources.Strings.Composition;
+using St = TheXDS.Ganymede.Resources.Strings.Common;
+
+namespace TheXDS.Ganymede.Services;
 
 /// <summary>
 /// Defines a set of members to be implemented by a type that can provide of
@@ -56,10 +60,27 @@ public partial interface IDialogService
     /// <summary>
     /// Displays an error message to the user.
     /// </summary>
+    /// <param name="exception">
+    /// <see cref="Exception"/> with the information about the error.
+    /// </param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await the dialog.
+    /// </returns>
+    Task Error(Exception exception) => Error(St.Error, ExDump(exception, exDumpOptions));
+
+    /// <summary>
+    /// Displays an error message to the user.
+    /// </summary>
     /// <param name="title">Title of the dialog.</param>
     /// <param name="message">Message to display.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the dialog.
     /// </returns>
     Task Error(string? title, string message);
+
+#if DEBUG
+    private const ExDumpOptions exDumpOptions = ExDumpOptions.All;
+#else
+    private const ExDumpOptions exDumpOptions = ExDumpOptions.Message;
+#endif
 }

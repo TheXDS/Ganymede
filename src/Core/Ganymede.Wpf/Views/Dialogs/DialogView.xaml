@@ -65,17 +65,17 @@
                 Visibility="{Binding IsIconVisible, Converter={StaticResource b2vc}}">
                 <TextBlock Margin="10 10" Text="{Binding Icon, Mode=OneWay}" FontSize="36" Foreground="White"/>
             </Border>
-            <StackPanel Grid.Row="1" Grid.Column="1" Margin="10" SnapsToDevicePixels="True">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" SnapsToDevicePixels="True">
+            <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" SnapsToDevicePixels="True">
+                <StackPanel Margin="10" SnapsToDevicePixels="True">
                     <TextBlock
 						SnapsToDevicePixels="True"
                         TextWrapping="Wrap"
 						Text="{Binding Message, Mode=OneWay}"/>
-                </ScrollViewer>
-                <ContentPresenter
-                    Margin="0 10 0 0" Content="{Binding Converter={gn1:DialogVc}}" SnapsToDevicePixels="True">
-                </ContentPresenter>
-            </StackPanel>
+                    <ContentPresenter
+                        Margin="0 10 0 0" Content="{Binding Converter={gn1:DialogVc}}" SnapsToDevicePixels="True">
+                    </ContentPresenter>
+                </StackPanel>
+            </ScrollViewer>
             <ItemsControl HorizontalAlignment="Center" Margin="5" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Interactions}" SnapsToDevicePixels="True">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

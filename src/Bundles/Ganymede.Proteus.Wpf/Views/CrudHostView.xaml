@@ -51,7 +51,6 @@
                         </Button.ToolTip>
                         <TextBlock>🔄</TextBlock>
                     </Button>
-
                     <Button Command="{Binding NewCommand}">
                         <Button.ToolTip>
                             <TextBlock>
@@ -61,39 +60,6 @@
                         <TextBlock>➕</TextBlock>
                     </Button>
                 </StackPanel>
-
-                <!--<mcart:SelectorPanel SelectedIndex="{Binding Models.Length, Converter={StaticResource svc}, ConverterParameter=1}">
-                    <Button Command="{Binding NewCommands[0].Command}">
-                        <TextBlock>New <Run Text="{Binding NewCommands[0].Text}"/></TextBlock>
-                    </Button>
-                    <Grid>
-                        <ToggleButton x:Name="btnMultiNew" Margin="5" MinWidth="80" HorizontalContentAlignment="Stretch">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock HorizontalAlignment="Center">New...</TextBlock>
-                                <TextBlock Grid.Column="2">🔻</TextBlock>
-                                <Separator  Grid.Column="1">
-                                    <Separator.LayoutTransform>
-                                        <RotateTransform Angle="90"/>
-                                    </Separator.LayoutTransform>
-                                </Separator>
-                            </Grid>
-                        </ToggleButton>
-                        <Popup IsOpen="{Binding IsChecked, ElementName=btnMultiNew}" AllowsTransparency="True">
-                            <ItemsControl ItemsSource="{Binding NewCommands}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding Text}" Command="{Binding Command}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Popup>
-                    </Grid>
-                </mcart:SelectorPanel>-->
                 <TextBlock Background="Gray" HorizontalAlignment="Center" Foreground="Yellow">Placeholder: Paged nav</TextBlock>
             </DockPanel>
             <ListView Margin="5" ItemsSource="{Binding Entities, Mode=OneWay}" SelectedItem="{Binding SelectedEntity}"/>

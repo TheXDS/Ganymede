@@ -70,6 +70,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No.
         /// </summary>
         public static string No {

@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 using TheXDS.Ganymede.Controls.Base;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.Helpers;
@@ -39,14 +41,17 @@ public abstract class ObjectMappingBase<TControl, TDescription>
     /// <inheritdoc/>
     public FrameworkElement CreateControl(TDescription description)
     {
-        var control = new TControl()
+        var control = new TControl
         {
             CanCreate = description.Creatable,
             CanSelect = description.Selectable,
             Models = description.AvailableModels,
             Label = description.Label,
+            LabelForeground = Brushes.White,
+            LabelEffect = new DropShadowEffect() { Color = Colors.Black, ShadowDepth = 0 }
         };
         control.CreateCommand = CreateNewCommand(control, description, OnAddNew);
+        control.SelectCommand = CreateSelectCommand(control, description);
         control.UpdateCommand = CreateUpdateCommand(control, description);
         ConfigureControl(control, description);
         return control;
@@ -124,6 +129,15 @@ public abstract class ObjectMappingBase<TControl, TDescription>
             if (model is null) return Task.CompletedTask;
             var desc = description.AvailableModels.First(p => p.Model == model);
             return OpenChildEditor(control.SelectedEntity!, vm, desc, description.Property, null);
+        });
+    }
+
+    protected static ICommand CreateSelectCommand(TControl control, TDescription description)
+    {
+        return new SimpleCommand(() =>
+        {
+            var vm = (CrudEditorViewModel)control.DataContext;
+            return vm.DialogService!.Error(new NotImplementedException());
         });
     }
 
