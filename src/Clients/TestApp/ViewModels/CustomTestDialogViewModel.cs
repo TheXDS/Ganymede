@@ -22,7 +22,7 @@ public class CustomTestDialogViewModel : AwaitableDialogViewModel
     public CustomTestDialogViewModel()
     {
         Icon = "⭕";
-        IconBgColor = System.Drawing.Color.SlateGray;
+        IconBgColor = System.Drawing.Color.Magenta;
         Title = "Custom dialog";
         Message = "This is a custom dialog.";
 

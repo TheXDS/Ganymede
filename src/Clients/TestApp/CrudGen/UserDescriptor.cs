@@ -32,7 +32,7 @@ public class PostDescriptor : CrudDescriptor<Post>
     {
         m.ConfigureProperties(c => {
             c.Property(p => p.Title);
-            c.Property(p => p.Creator).Selectable();
+            c.Property(p => p.Creator).Selectable().AvailableModels(new UserDescriptor().Description);
             c.Property(p => p.Content).Paragraph(WidgetSize.Large);
             c.Property(p => p.CreationDate).WithTime().HideFromEditor();
             c.Property(p => p.Comments)

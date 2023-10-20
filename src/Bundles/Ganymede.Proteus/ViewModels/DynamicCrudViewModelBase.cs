@@ -28,5 +28,6 @@ public abstract class DynamicCrudViewModelBase : EntityCrudViewModelBase
     protected DynamicCrudViewModelBase(Model entity, ICrudDescription description)
     {
         ModelDescription = description;
+        Entity = entity;
     }
 }

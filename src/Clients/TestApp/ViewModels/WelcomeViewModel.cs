@@ -4,7 +4,11 @@ using System.Windows.Input;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Base;
+using TheXDS.MCART.Helpers;
+using TheXDS.MCART.Types.Extensions;
+using TheXDS.Triton.Services.Base;
 using St = TheXDS.Ganymede.Resources.Strings.Views.WelcomeView;
+using SP = TheXDS.ServicePool.ServicePool;
 
 namespace TheXDS.Ganymede.ViewModels;
 
@@ -35,5 +39,32 @@ public class WelcomeViewModel : ViewModel
         progress.Report(St.LoggingOut);
         await Task.Delay(2500);
         NavigationService!.HomePage = new LoginViewModel();
+    }
+
+
+    /// <inheritdoc/>
+    protected override Task OnCreated()
+    {
+        if (SP.CommonPool.Resolve<ITritonService>() is not { } svc) return Task.CompletedTask;
+        using var trans = svc.GetWriteTransaction();
+        trans.Create(new User()
+        {
+            Id = "root",
+            DisplayName = "Super User",
+            Password = PasswordStorage.CreateHash<MCART.Security.Pbkdf2Storage>("password".ToSecureString())
+        });
+        trans.Create(new User()
+        {
+            Id = "admin",
+            DisplayName = "Administrator",
+            Password = PasswordStorage.CreateHash<MCART.Security.Pbkdf2Storage>("password".ToSecureString())
+        });
+        trans.Create(new User()
+        {
+            Id = "user",
+            DisplayName = "User",
+            Password = PasswordStorage.CreateHash<MCART.Security.Pbkdf2Storage>("password".ToSecureString())
+        });
+        return trans.CommitAsync();
     }
 }

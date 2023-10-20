@@ -265,5 +265,5 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : ViewModel, IAwaitableDialogViewModel, new();
+    Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : ViewModel, IAwaitableDialogViewModel;
 }

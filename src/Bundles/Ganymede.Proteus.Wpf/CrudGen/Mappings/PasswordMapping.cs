@@ -5,6 +5,7 @@ using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Helpers;
+using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.CrudGen.Mappings;
 
@@ -25,9 +26,9 @@ public class PasswordMapping : CrudMappingBase, ICrudMapping
         var c = new PasswordBox();
         ExtraProps.SetLabel(c, description.Label);
         c.PasswordChanged += (s, e) => {
-            if (c.DataContext is CrudEditorViewModel vm)
+            if (c.DataContext is CrudEditorViewModel {Entity: Model entity })
             {
-                description.Property.SetValue(vm.Entity, PasswordStorage.CreateHash(((IPasswordPropertyDescription)description).Algorithm, c.SecurePassword));
+                description.Property.SetValue(entity, PasswordStorage.CreateHash(((IPasswordPropertyDescription)description).Algorithm, c.SecurePassword));
             }
         };
         return c;

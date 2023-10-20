@@ -49,20 +49,6 @@ public class LoginViewModel : ViewModel
         LoginCommand = cb.BuildObserving(OnLogin).CanExecuteIfFilled(p => p.Username, p => p.Password).Build();
     }
 
-    /// <inheritdoc/>
-    protected override Task OnCreated()
-    {
-        if (SP.CommonPool.Resolve<ITritonService>() is not { } svc) return Task.CompletedTask;
-        using var trans = svc.GetWriteTransaction();
-        trans.Create(new User()
-        { 
-            Id = "root",
-            DisplayName = "Super User",
-            Password = PasswordStorage.CreateHash<MCART.Security.Pbkdf2Storage>("password".ToSecureString())
-        });
-        return trans.CommitAsync();
-    }
-
     private async Task OnLogin(IProgress<ProgressReport> progress)
     {
         progress.Report("Logging in...");

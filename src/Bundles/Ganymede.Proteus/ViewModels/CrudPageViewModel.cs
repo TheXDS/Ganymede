@@ -149,6 +149,7 @@ public class CrudPageViewModel : ViewModel
         _dataService = dataService;
     }
 
+    /// <inheritdoc/>
     protected override async Task OnCreated()
     {
         if (!IsInitialized)
@@ -163,7 +164,7 @@ public class CrudPageViewModel : ViewModel
         ICrudDescription? desc = Descriptions.Length == 1 ? Descriptions[0] : await SelectNew();
         if (desc is null) return;
         Model e = desc.Model.New<Model>();
-        if (await PresentEditingContent(e, desc, new(true, desc.Model)))
+        if (await PresentEditingContent(e, desc, new(true, desc.Model, null, _dataService)))
         {
             Entities.Add(e);
         }
@@ -186,14 +187,14 @@ public class CrudPageViewModel : ViewModel
 
         _entities.Clear();
         //TODO: perform paging here.
-        _entities.Replace(await Models.SelectMany(t => All(transaction, t)).ToListAsync());
+        _entities.Replace(await Models.SelectMany(t => transaction.All(t)).ToListAsync());
         if (!IsEditing) PresentRegularContent();
     }
 
     private Task OnUpdate()
     {
         if (SelectedEntity is null) return Task.CompletedTask;
-        return PresentEditingContent(SelectedEntity, GetCurrentDescription(), new(false, SelectedEntity.GetType()));
+        return PresentEditingContent(SelectedEntity, GetCurrentDescription(), new(false, SelectedEntity.GetType(), null, _dataService));
     }
 
     private async Task OnDelete(IProgress<ProgressReport> progress)
@@ -269,20 +270,5 @@ public class CrudPageViewModel : ViewModel
             return (await svc.CommitAsync()).Success;
         }
         return null;
-    }
-
-    private static QueryServiceResult<Model> All(ICrudReadTransaction transaction, Type model)
-    {
-        var m = transaction.GetType().GetMethod(nameof(All), 1, BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null)!.MakeGenericMethod(model);
-        object o = m.Invoke(transaction, Array.Empty<object>())!;
-        ServiceResult r = (ServiceResult)o;
-        if (r.Success)
-        {
-            return new QueryServiceResult<Model>((IQueryable<Model>)o);
-        }
-        else
-        {
-            return new QueryServiceResult<Model>(r.Reason ?? FailureReason.Unknown, r.Message);
-        }
     }
 }

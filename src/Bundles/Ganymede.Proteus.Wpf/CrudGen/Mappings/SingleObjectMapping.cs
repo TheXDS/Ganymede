@@ -19,8 +19,9 @@ public class SingleObjectMapping : ObjectMappingBase<SingleObjectEditor, ISingle
     }
 
     /// <inheritdoc/>
-    protected override void OnAddNew(Model newEntity, PropertyInfo parentProperty, Model parentEntity)
+    protected override void OnAddNew(SingleObjectEditor control, Model newEntity, PropertyInfo parentProperty, Model parentEntity)
     {
         parentProperty.SetValue(parentEntity, newEntity);
+        control.SelectedEntity = newEntity;
     }
 }

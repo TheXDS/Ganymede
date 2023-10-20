@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing.IndexedProperties;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Media3D;
 using TheXDS.Ganymede.Controls.Base;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.Helpers;
@@ -52,7 +54,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
             LabelEffect = new DropShadowEffect() { Color = Colors.Black, ShadowDepth = 0 }
         };
         control.CreateCommand = CreateNewCommand(control, description, OnAddNew);
-        control.SelectCommand = CreateSelectCommand(control, description);
+        control.SelectCommand = CreateSelectCommand(control, description, OnAddNew);
         control.UpdateCommand = CreateUpdateCommand(control, description);
         ConfigureControl(control, description);
         return control;
@@ -83,7 +85,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
     /// <param name="parentEntity">
     /// Entity that will hold the newly created child entity.
     /// </param>
-    protected abstract void OnAddNew(Model newEntity, PropertyInfo parentProperty, Model parentEntity);
+    protected abstract void OnAddNew(TControl control, Model newEntity, PropertyInfo parentProperty, Model parentEntity);
 
     /// <summary>
     /// Creates a command that allows to create a new entity.
@@ -93,9 +95,10 @@ public abstract class ObjectMappingBase<TControl, TDescription>
     /// </param>
     /// <param name="description">Current property description.</param>
     /// <param name="newAction">
-    /// Action to execute upon successful creation of a new entity.</param>
+    /// Action to execute upon successful creation of a new entity.
+    /// </param>
     /// <returns>A new command that allows to create a new entity.</returns>
-    protected static ICommand CreateNewCommand(TControl control, TDescription description, Action<Model, PropertyInfo, Model> newAction)
+    protected static ICommand CreateNewCommand(TControl control, TDescription description, Action<TControl, Model, PropertyInfo, Model> newAction)
     {
         return new SimpleCommand(async () =>
         {
@@ -106,7 +109,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
 
             if (childDescription is not null)
             {
-                await OpenChildEditor(childDescription.Model.New<Model>(), vm, childDescription, description.Property, newAction);
+                await OpenChildEditor(control, childDescription.Model.New<Model>(), vm, childDescription, description.Property, newAction);
             }
         });
     }
@@ -129,7 +132,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
             var model = control.SelectedEntity?.GetType();
             if (model is null) return Task.CompletedTask;
             var desc = description.AvailableModels.First(p => p.Model == model);
-            return OpenChildEditor(control.SelectedEntity!, vm, desc, description.Property, null);
+            return OpenChildEditor(control, control.SelectedEntity!, vm, desc, description.Property, null);
         });
     }
 
@@ -138,34 +141,46 @@ public abstract class ObjectMappingBase<TControl, TDescription>
     /// or set to the value of the object property.
     /// </summary>
     /// <param name="control">
-    /// Control to extract the active datacontext from.
+    /// Control to extract the active DataContext from.
     /// </param>
     /// <param name="description">Current property description.</param>
+    /// <param name="selectAction">
+    /// Action to execute upon successful creation of a new entity.
+    /// </param>
     /// <returns>
     /// A new command that allows to add/select an existing entity.
     /// </returns>
-    protected static ICommand CreateSelectCommand(TControl control, TDescription description)
+    protected static ICommand CreateSelectCommand(TControl control, TDescription description, Action<TControl, Model, PropertyInfo, Model> selectAction)
     {
-        return new SimpleCommand(() =>
+        return new SimpleCommand(async () =>
         {
             var vm = (CrudEditorViewModel)control.DataContext;
-            return vm.DialogService!.Error(new NotImplementedException());
+            var childDescription = description.AvailableModels.Length > 1
+                ? await GetDesiredModel(vm.DialogService!, description.AvailableModels)
+                : description.AvailableModels[0];
+            if (childDescription is null) return;
+            var selectDialog = new DataCrudSelectorViewModel(vm.Context.PageDataService!, childDescription);
+            await vm.DialogService!.CustomDialog(selectDialog);
+            if (selectDialog.Entity is not null)
+            {
+                selectAction.Invoke(control, selectDialog.Entity, description.Property, vm.Entity);
+            }
         });
     }
 
-    private static async Task<Model?> OpenChildEditor(Model entity, CrudEditorViewModel parentVm, ICrudDescription description, PropertyInfo parentProperty, Action<Model, PropertyInfo, Model>? addNew)
+    private static async Task<Model?> OpenChildEditor(TControl control, Model entity, CrudEditorViewModel parentVm, ICrudDescription description, PropertyInfo parentProperty, Action<TControl, Model, PropertyInfo, Model>? addNew)
     {
         LaunchEditorSettings s = new()
         {
             Entity = entity,
             Description = description,
-            Context = new CrudEditorViewModelContext(addNew is not null, description.Model, parentVm.Entity!.GetType()),
+            Context = new CrudEditorViewModelContext(addNew is not null, description.Model, parentVm.Entity!.GetType(), parentVm.Context.PageDataService),
             NavigationService = parentVm.NavigationService!,
             DialogService = parentVm.DialogService!,
         };
         if (addNew is not null)
         {
-            s.Context.PreSaveCallbacks.Add(e => addNew.Invoke(e, parentProperty, parentVm.Entity));
+            s.Context.PreSaveCallbacks.Add(e => addNew.Invoke(control, e, parentProperty, parentVm.Entity));
         }
         return await CrudCommon.LaunchEditor(s) ? s.Entity : null;
     }

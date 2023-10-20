@@ -75,7 +75,7 @@ public class ObjectEditor : FormInputControl
         CanSelectProperty = NewDp<bool, ObjectEditor>(nameof(CanSelect));
         EntitySourceProperty = NewDp<IEnumerable<Model>, ObjectEditor>(nameof(EntitySource));
         ModelsProperty = NewDp<ICrudDescription[], ObjectEditor>(nameof(Models));
-        SelectedEntityProperty = NewDp<Model, ObjectEditor>(nameof(SelectedEntity));
+        SelectedEntityProperty = NewDp2Way<Model, ObjectEditor>(nameof(SelectedEntity));
         LabelForegroundProperty = NewDp<Brush, ObjectEditor>(nameof(LabelForeground), SystemColors.ControlTextBrush);
         LabelEffectProperty = NewDp<Effect, ObjectEditor>(nameof(LabelEffect));
         OverrideDefaultIcon<ObjectEditor>("📄");

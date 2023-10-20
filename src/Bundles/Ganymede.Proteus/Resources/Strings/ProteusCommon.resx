@@ -147,6 +147,15 @@
   <data name="Saving" xml:space="preserve">
     <value>Saving data...</value>
   </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="SelectItem" xml:space="preserve">
+    <value>Select item</value>
+  </data>
+  <data name="SelectItemHelp" xml:space="preserve">
+    <value>Select an item from the list below:</value>
+  </data>
   <data name="WantToCancelChanges" xml:space="preserve">
     <value>Are you sure you want to cancel? All changes made will be lost.</value>
   </data>

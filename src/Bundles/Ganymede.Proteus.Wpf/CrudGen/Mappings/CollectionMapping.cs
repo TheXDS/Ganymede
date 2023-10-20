@@ -61,7 +61,7 @@ public class CollectionMapping : ObjectMappingBase<ListEditor, ICollectionProper
     }
 
     /// <inheritdoc/>
-    protected override void OnAddNew(Model newEntity, PropertyInfo parentProperty, Model parentEntity)
+    protected override void OnAddNew(ListEditor control, Model newEntity, PropertyInfo parentProperty, Model parentEntity)
     {
         object? targetCollection = parentProperty.GetValue(parentEntity);
         if (targetCollection is not null)

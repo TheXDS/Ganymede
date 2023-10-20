@@ -37,7 +37,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{TemplateBinding SelectedEntity}"
+                            Text="{Binding SelectedEntity, RelativeSource={RelativeSource TemplatedParent}}"
                             Foreground="{TemplateBinding LabelForeground}"
                             Effect="{TemplateBinding LabelEffect}"/>
                     </DockPanel>

@@ -3,6 +3,10 @@ using System.Reflection;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Types.Extensions;
+using TheXDS.Triton.Models.Base;
+using TheXDS.Triton.Services.Base;
+using TheXDS.Triton.Services;
+using System.Linq.Expressions;
 
 namespace TheXDS.Ganymede.Helpers;
 
@@ -61,6 +65,32 @@ public static class CrudCommon
             return true;
         }
         return false;
+    }
+
+    /// <summary>
+    /// Exposes a non-generic version of the method
+    /// <see cref="ICrudReadTransaction.All{TModel}"/>.
+    /// </summary>
+    /// <param name="transaction">
+    /// Transaction to call the methond from.
+    /// </param>
+    /// <param name="model">Type of entity to get.</param>
+    /// <returns>
+    /// A service result that contains the resulting query.
+    /// </returns>
+    public static QueryServiceResult<Model> All(this ICrudReadTransaction transaction, Type model)
+    {
+        var m = transaction.GetType().GetMethod(nameof(All), 1, BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null)!.MakeGenericMethod(model);
+        object o = m.Invoke(transaction, Array.Empty<object>())!;
+        ServiceResult r = (ServiceResult)o;
+        if (r.Success)
+        {
+            return new QueryServiceResult<Model>((IQueryable<Model>)o);
+        }
+        else
+        {
+            return new QueryServiceResult<Model>(r.Reason ?? FailureReason.Unknown, r.Message);
+        }
     }
 
     /// <summary>
