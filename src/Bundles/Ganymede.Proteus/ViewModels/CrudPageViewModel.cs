@@ -213,7 +213,7 @@ public class CrudPageViewModel : ViewModel
 
     private void PresentUnselectedContent()
     {
-        UiThread.Invoke(() => CrudNavService.NavigateAndReset(Descriptions[0].Dashboard?.New<ViewModel>()));
+        UiThread.Invoke(() => CrudNavService.NavigateAndReset(Descriptions[0].DashboardViewModel?.New<ViewModel>()));
     }
 
     private void PresentSelectedContent()

@@ -10,6 +10,7 @@ using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
+using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
 namespace TheXDS.Ganymede.CrudGen.Mappings;
 
@@ -39,7 +40,7 @@ public class CollectionMapping : ObjectMappingBase<ListEditor, ICollectionProper
         {
             var vm = (CrudEditorViewModel)control.DataContext;
             if (control.SelectedEntity is not { } child || description.Property.GetValue(vm.Entity) is not { } parentCollection) return;
-            if (await vm.DialogService!.Ask("Delete", "Are you sure you want to delete this element?"))
+            if (await vm.DialogService!.Ask(St.Delete, St.AreYouSureDelete))
             {
                 CrudCommon.DynamicRemove(parentCollection, child);
                 control.Collection.Remove(child);

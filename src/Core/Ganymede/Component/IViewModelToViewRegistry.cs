@@ -23,6 +23,6 @@ public interface IViewModelToViewRegistry<T>
     /// resolve to.
     /// </typeparam>
     void Register<TViewModel, TVisual>()
-        where TViewModel : ViewModel
+        where TViewModel : IViewModel
         where TVisual : T, new();
 }

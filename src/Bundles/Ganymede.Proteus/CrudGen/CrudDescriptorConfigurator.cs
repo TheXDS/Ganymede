@@ -44,7 +44,10 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     public IEnumerable<Action<Model>> SavePrologs => _savePrologs;
 
     /// <inheritdoc/>
-    public Type? Dashboard { get; private set; }
+    public Type? DashboardViewModel { get; private set; }
+
+    /// <inheritdoc/>
+    public Type? DetailsViewModel { get; private set; }
 
     /// <inheritdoc/>
     public Type? ResourceType { get; private set; }
@@ -79,9 +82,15 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
         return this;
     }
 
-    IModelConfigurator<T> IModelConfigurator<T>.Dashboard<TViewModel>()
+    IModelConfigurator<T> IModelConfigurator<T>.DashboardViewModel<TViewModel>()
     {
-        Dashboard = typeof(TViewModel);
+        DashboardViewModel = typeof(TViewModel);
+        return this;
+    }
+
+    IModelConfigurator<T> IModelConfigurator<T>.DetailsViewModel<TViewModel>()
+    {
+        DetailsViewModel = typeof(TViewModel);
         return this;
     }
 }

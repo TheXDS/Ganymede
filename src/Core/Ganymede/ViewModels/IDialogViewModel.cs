@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using TheXDS.Ganymede.Types;
+using TheXDS.Ganymede.Types.Base;
 
 namespace TheXDS.Ganymede.ViewModels;
 
@@ -7,7 +8,7 @@ namespace TheXDS.Ganymede.ViewModels;
 /// Defines a set of members to be implemented by a type that exposes dialog
 /// functionality.
 /// </summary>
-public interface IDialogViewModel
+public interface IDialogViewModel : IViewModel
 {
     /// <summary>
     /// Gets or sets the icon to be displayed on the dialog.

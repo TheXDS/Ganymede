@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.Views.Dialogs;
-using TheXDS.MCART.Types.Base;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -8,7 +8,7 @@ namespace TheXDS.Ganymede.Component;
 /// Implements a <see cref="IVisualResolver{TVisual}"/> tailored to resolve
 /// dialog-specific ViewModels.
 /// </summary>
-public class NavigatingDialogVisualResolver : DictionaryVisualResolver<FrameworkElement>
+public class NavigatingDialogVisualResolver : IVisualResolver<FrameworkElement>
 {
     /// <summary>
     /// Resolves a dialog visual container to be used to host the requested Dialog ViewModel.
@@ -21,8 +21,8 @@ public class NavigatingDialogVisualResolver : DictionaryVisualResolver<Framework
     /// allows returning <see langword="null"/>, this method will never return
     /// it.
     /// </returns>
-    public override FrameworkElement? Resolve(ViewModelBase viewModel)
+    public FrameworkElement? Resolve(IViewModel viewModel)
     {
-        return base.Resolve(viewModel) ?? new DialogView();
+        return new DialogView();
     }
 }

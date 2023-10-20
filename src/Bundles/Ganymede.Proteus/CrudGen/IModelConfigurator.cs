@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using TheXDS.Ganymede.Types.Base;
+using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Helpers;
 using TheXDS.Triton.Models.Base;
 
@@ -71,5 +72,12 @@ public interface IModelConfigurator<T> where T : Model
     /// </summary>
     /// <typeparam name="TViewModel">Type of ViewModel to present.</typeparam>
     /// <returns>This same instance.</returns>
-    IModelConfigurator<T> Dashboard<TViewModel>() where TViewModel : ViewModel, new();
+    IModelConfigurator<T> DashboardViewModel<TViewModel>() where TViewModel : ViewModel, new();
+
+    /// <summary>
+    /// Specifies a ViewModel to present whenever there is no selected entity.
+    /// </summary>
+    /// <typeparam name="TViewModel">Type of ViewModel to present.</typeparam>
+    /// <returns>This same instance.</returns>
+    IModelConfigurator<T> DetailsViewModel<TViewModel>() where TViewModel : EntityCrudViewModelBase, new();
 }

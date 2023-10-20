@@ -15,6 +15,7 @@ using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
+using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
 namespace TheXDS.Ganymede.CrudGen.Mappings.Base;
 
@@ -132,6 +133,17 @@ public abstract class ObjectMappingBase<TControl, TDescription>
         });
     }
 
+    /// <summary>
+    /// Creates a command that allows to select an existing entity to be added
+    /// or set to the value of the object property.
+    /// </summary>
+    /// <param name="control">
+    /// Control to extract the active datacontext from.
+    /// </param>
+    /// <param name="description">Current property description.</param>
+    /// <returns>
+    /// A new command that allows to add/select an existing entity.
+    /// </returns>
     protected static ICommand CreateSelectCommand(TControl control, TDescription description)
     {
         return new SimpleCommand(() =>
@@ -147,7 +159,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
         {
             Entity = entity,
             Description = description,
-            Context = new CrudEditorViewModelContext(addNew is not null, description.Model, parentVm.Entity.GetType()),
+            Context = new CrudEditorViewModelContext(addNew is not null, description.Model, parentVm.Entity!.GetType()),
             NavigationService = parentVm.NavigationService!,
             DialogService = parentVm.DialogService!,
         };
@@ -161,8 +173,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
     private static async Task<ICrudDescription?> GetDesiredModel(IDialogService dialogService, ICrudDescription[] models)
     {
         var m = new Dictionary<string, ICrudDescription>(models.Select(p => new KeyValuePair<string, ICrudDescription>(p.FriendlyName, p)));
-        // TODO: move these strings into a resource dictionary.
-        return await dialogService!.SelectOption("New item", "Select the type of item to be created", m.Keys.ToArray()) is { } i && i >= 0
+        return await dialogService!.SelectOption(St.NewItem, St.NewItemHelp, m.Keys.ToArray()) is { } i && i >= 0
             ? m[m.Keys.ToArray()[i]]
             : null;
     }

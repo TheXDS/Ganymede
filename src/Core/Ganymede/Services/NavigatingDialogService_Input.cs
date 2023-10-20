@@ -113,27 +113,16 @@ public partial class NavigatingDialogService
         return new(result, result ? new Credential(vm.User, vm.Password) : null!);
     }
 
-    /// <summary>
-    /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
-    /// dialog navigation system.
-    /// </summary>
-    /// <typeparam name="TViewModel">
-    /// Type of <see cref="DialogViewModel"/> to navigate to. It must implement
-    /// <see cref="IAwaitableDialogViewModel"/> to be able to notify of its own
-    /// completion.
-    /// </typeparam>
-    /// <param name="dialogVm">Dialog ViewModel to navigate to.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    public Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : ViewModel, IAwaitableDialogViewModel
+    /// <inheritdoc/>
+    public async Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : ViewModel, IAwaitableDialogViewModel, new()
     {
         Navigate(dialogVm);
-        return dialogVm.DialogAwaiter;
+        try { await dialogVm.DialogAwaiter; }
+        finally { NavigateBack(); }
     }
 
-    private async Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue, Action<TViewModel>? initCallback = null) where TViewModel : DialogViewModel, IInputDialogViewModel<TValue>, new()
+    /// <inheritdoc/>
+    public async Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null) where TViewModel : DialogViewModel, IInputDialogViewModel<TValue>, new()
     {
         TaskCompletionSource<bool> dialogAwaiter = new();
         var vm = CreateInputDialogVm<TViewModel>(title, message, dialogAwaiter);

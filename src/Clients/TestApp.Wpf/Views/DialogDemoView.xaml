@@ -37,6 +37,7 @@
                     <Button Margin="5" Command="{Binding TestIntInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
                     <Button Margin="5" Command="{Binding TestIntRangeInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
                     <Button Margin="5" Command="{Binding TestCredentialCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
+                    <Button Margin="5" Command="{Binding TestCustomDialogCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
                 </StackPanel>
             </ScrollViewer>
         </Border>

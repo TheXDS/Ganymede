@@ -22,7 +22,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ProteusCommon {
+    public class ProteusCommon {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
         ///   Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.Ganymede.Resources.Strings.ProteusCommon", typeof(ProteusCommon).Assembly);
@@ -51,7 +51,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
         ///   búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,25 +63,70 @@ namespace TheXDS.Ganymede.Resources.Strings {
         /// <summary>
         ///   Busca una cadena traducida similar a Are you sure you want to perform this operation?.
         /// </summary>
-        internal static string AreYouSure {
+        public static string AreYouSure {
             get {
                 return ResourceManager.GetString("AreYouSure", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Are you sure you want to delete this element?.
+        /// </summary>
+        public static string AreYouSureDelete {
+            get {
+                return ResourceManager.GetString("AreYouSureDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Details of {0} &quot;{1}&quot;.
+        /// </summary>
+        public static string DetailsOfX {
+            get {
+                return ResourceManager.GetString("DetailsOfX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Edit {0} &quot;{1}&quot;.
         /// </summary>
-        internal static string EditModel {
+        public static string EditModel {
             get {
                 return ResourceManager.GetString("EditModel", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a New item.
+        /// </summary>
+        public static string NewItem {
+            get {
+                return ResourceManager.GetString("NewItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select the type of item to be created..
+        /// </summary>
+        public static string NewItemHelp {
+            get {
+                return ResourceManager.GetString("NewItemHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a New {0}.
         /// </summary>
-        internal static string NewModel {
+        public static string NewModel {
             get {
                 return ResourceManager.GetString("NewModel", resourceCulture);
             }
@@ -90,7 +135,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
         /// <summary>
         ///   Busca una cadena traducida similar a No.
         /// </summary>
-        internal static string No {
+        public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
             }
@@ -99,7 +144,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
         /// <summary>
         ///   Busca una cadena traducida similar a Saving data....
         /// </summary>
-        internal static string Saving {
+        public static string Saving {
             get {
                 return ResourceManager.GetString("Saving", resourceCulture);
             }
@@ -108,7 +153,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
         /// <summary>
         ///   Busca una cadena traducida similar a Are you sure you want to cancel? All changes made will be lost..
         /// </summary>
-        internal static string WantToCancelChanges {
+        public static string WantToCancelChanges {
             get {
                 return ResourceManager.GetString("WantToCancelChanges", resourceCulture);
             }
@@ -117,7 +162,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
         /// <summary>
         ///   Busca una cadena traducida similar a Yes.
         /// </summary>
-        internal static string Yes {
+        public static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }

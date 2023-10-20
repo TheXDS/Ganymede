@@ -53,7 +53,9 @@ public sealed class DialogVisualConverter : IOneWayValueConverter<DialogViewMode
     /// Registers a new template builder available to use when creating input
     /// dialogs.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">
+    /// Type of dialog template builder to register.
+    /// </typeparam>
     public static void RegisterTemplateBuilder<T>() where T : IDialogTemplateBuilder, new()
     {
         Builders.Add(new T());

@@ -16,11 +16,6 @@ public class DialogDemoViewModel : ViewModel
         return builder.BuildObserving(action).CanExecuteIfNotNull(p => p.DialogService).Build();
     }
 
-    private static ICommand NewDialogCmd(CommandBuilder<DialogDemoViewModel> builder, Action action)
-    {
-        return builder.BuildObserving(action).CanExecuteIfNotNull(p => p.DialogService).Build();
-    }
-
     public DialogDemoViewModel()
     {
         var cb = new CommandBuilder<DialogDemoViewModel>(this);
@@ -35,6 +30,7 @@ public class DialogDemoViewModel : ViewModel
         TestIntInputCommand = NewDialogCmd(cb, OnTestValueInput<int>);
         TestIntRangeInputCommand = NewDialogCmd(cb, OnTestRangeInput<int>);
         TestCredentialCommand = NewDialogCmd(cb, OnTestCredential);
+        TestCustomDialogCommand = NewDialogCmd(cb, OnTestCustomDialog);
     }
 
     public ICommand TestOperationCommand { get; }
@@ -59,11 +55,13 @@ public class DialogDemoViewModel : ViewModel
 
     public ICommand TestCredentialCommand { get; }
 
-    private void OnTestMessage() => DialogService?.Message(St.Message, St.HelloWorld);
+    public ICommand TestCustomDialogCommand { get; }
 
-    private void OnTestError() => DialogService?.Error(St.Error, St.ErrorText);
+    private Task OnTestMessage() => DialogService!.Message(St.Message, St.HelloWorld);
 
-    private void OnTestWarning() => DialogService?.Warning(St.Warning, St.WarningText);
+    private Task OnTestError() => DialogService!.Error(St.Error, St.ErrorText);
+
+    private Task OnTestWarning() => DialogService!.Warning(St.Warning, St.WarningText);
 
     private async Task OnTestTextInput()
     {
@@ -150,5 +148,13 @@ public class DialogDemoViewModel : ViewModel
         if (DialogService is null) return;
         var text = await DialogService.GetCredential(St.TestTextInput, St.TextInputPrompt);
         await DialogService.Message(St.TestTextInput, text.Success ? $"{text.Result.User}\n{text.Result.Password.Read()}" : string.Empty);
+    }
+
+    private async Task OnTestCustomDialog()
+    {
+        if (DialogService is null) return;
+        var vm = new CustomTestDialogViewModel();
+        await DialogService.CustomDialog(vm);
+        await DialogService.Message("Times ran", vm.TimesRan.ToString());
     }
 }

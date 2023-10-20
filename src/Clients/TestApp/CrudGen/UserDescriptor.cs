@@ -41,7 +41,7 @@ public class PostDescriptor : CrudDescriptor<Post>
                 .Creatable()
                 .AvailableModels(new CommentDescriptor().Description);
         });
-        m.Dashboard<DummyViewModel>();
+        m.DashboardViewModel<DummyViewModel>();
         m.AddDefaultGuidIdProlog();
         m.AddSaveProlog(p => p.CreationDate ??= DateTime.Now);
     }

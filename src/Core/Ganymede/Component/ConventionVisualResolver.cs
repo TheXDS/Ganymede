@@ -1,4 +1,4 @@
-﻿using TheXDS.MCART.Types.Base;
+﻿using TheXDS.Ganymede.Types.Base;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -11,14 +11,14 @@ namespace TheXDS.Ganymede.Component;
 /// </typeparam>
 public class ConventionVisualResolver<TVisual> : TypeScaningVisualResolver<TVisual>, IVisualResolver<TVisual> where TVisual : new()
 {
-    private static string GetName(ViewModelBase viewModel)
+    private static string GetName(IViewModel viewModel)
     {
         return (viewModel ?? throw new ArgumentNullException(nameof(viewModel)))
             .GetType().Name.Replace("ViewModel", "View");
     }
 
     /// <inheritdoc/>
-    public TVisual? Resolve(ViewModelBase viewModel)
+    public virtual TVisual? Resolve(IViewModel viewModel)
     {
         var name = GetName(viewModel);
         return FindView(p => p.Name == name);

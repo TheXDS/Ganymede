@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART.Types.Base;
 using static TheXDS.Ganymede.Helpers.Common;
 
 namespace TheXDS.Ganymede.Component;
@@ -11,10 +11,10 @@ namespace TheXDS.Ganymede.Component;
 /// Base class for all <see cref="IVisualResolver{TVisual}"/> types that can
 /// generate visual elements for CRUD operations.
 /// </summary>
-public abstract class CrudVisualBuilderBase<T> : IVisualResolver<FrameworkElement> where T : CrudViewModelBase
+public abstract class CrudVisualBuilderBase<T> : IVisualResolver<FrameworkElement> where T : DynamicCrudViewModelBase
 {
     /// <inheritdoc/>
-    public virtual FrameworkElement? Resolve(ViewModelBase viewModel)
+    public virtual FrameworkElement? Resolve(IViewModel viewModel)
     {
         return viewModel is T vm ? (FrameworkElement)UiInvoke(() =>
         {
@@ -23,7 +23,6 @@ public abstract class CrudVisualBuilderBase<T> : IVisualResolver<FrameworkElemen
             {
                 if (GetControl(j.Value.Description, vm) is { } ctrl) pnl.Children.Add(ctrl);
             }
-            vm.Initialized = true;
             return pnl;
         }) : null;
     }

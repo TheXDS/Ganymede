@@ -1,12 +1,13 @@
 ﻿using TheXDS.Ganymede.CrudGen;
 using TheXDS.Triton.Models.Base;
+using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
 namespace TheXDS.Ganymede.ViewModels;
 
 /// <summary>
 /// ViewModel that allows the user to display the details of a selected entity.
 /// </summary>
-public class CrudDetailsViewModel : CrudViewModelBase
+public class CrudDetailsViewModel : DynamicCrudViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CrudDetailsViewModel"/>
@@ -20,6 +21,6 @@ public class CrudDetailsViewModel : CrudViewModelBase
     /// </param>
     public CrudDetailsViewModel(Model entity, ICrudDescription description) : base(entity, description)
     {
-        Title = $"Details of {description.FriendlyName} \"{entity.IdAsString}\"";
+        Title = string.Format(St.DetailsOfX, description.FriendlyName, entity.IdAsString);
     }
 }

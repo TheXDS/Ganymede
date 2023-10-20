@@ -11,7 +11,7 @@ namespace TheXDS.Ganymede.Types;
 /// <typeparam name="T">
 /// Type of <see cref="DialogViewModel"/> to generate controls for.
 /// </typeparam>
-public interface IDialogTemplateBuilder<in T> : IDialogTemplateBuilder where T : DialogViewModel
+public interface IDialogTemplateBuilder<in T> : IDialogTemplateBuilder where T : IDialogViewModel
 {
     /// <summary>
     /// Generates the controls to include in the dialog view to allow the user
@@ -26,8 +26,7 @@ public interface IDialogTemplateBuilder<in T> : IDialogTemplateBuilder where T :
     /// </returns>
     FrameworkElement? Build(T viewModel);
 
-    bool IDialogTemplateBuilder.CanBuild(DialogViewModel vm) => vm is T;
+    bool IDialogTemplateBuilder.CanBuild(IDialogViewModel vm) => vm is T;
 
-    FrameworkElement? IDialogTemplateBuilder.Build(DialogViewModel vm) => Build((T)vm);
+    FrameworkElement? IDialogTemplateBuilder.Build(IDialogViewModel vm) => Build((T)vm);
 }
-

@@ -164,7 +164,6 @@ public class NavigationViewModelHost : Control
 
     private void OnDialogNavigationCompleted(object? sender, NavigationCompletedEventArgs e)
     {
-
         if (e.ViewModel is { } vm && _dialogVisResolver.Resolve(vm) is { } view)
         {
             UiInvoke(() => SetValue(OverlayContentPropertyKey, view));

@@ -42,7 +42,7 @@ public class SimpleCrudMapping<TProp, TControl> : SimpleCrudMappingBase<TProp, T
     public override FrameworkElement CreateControl(IPropertyDescription description)
     {
         var c = base.CreateControl(description);
-        c.SetBinding(valueProperty, $"{nameof(CrudViewModelBase.Entity)}.{description.Property.Name}");
+        c.SetBinding(valueProperty, $"{nameof(DynamicCrudViewModelBase.Entity)}.{description.Property.Name}");
         return c;
     }
 

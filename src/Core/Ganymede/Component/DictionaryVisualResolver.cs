@@ -16,7 +16,7 @@ public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewR
     private readonly Dictionary<Type, Type> _registry = new();
 
     /// <inheritdoc/>
-    public virtual T? Resolve(ViewModelBase viewModel)
+    public virtual T? Resolve(IViewModel viewModel)
     {
         return _registry.TryGetValue(viewModel.GetType(), out var visual)
             ? UiThread.Invoke(() => (T)Activator.CreateInstance(visual)!)
@@ -33,7 +33,7 @@ public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewR
     /// Type to register the specified <typeparamref name="TViewModel"/> to
     /// resolve to.
     /// </typeparam>
-    public void Register<TViewModel, TVisual>() where TViewModel : ViewModel where TVisual : T, new()
+    public void Register<TViewModel, TVisual>() where TViewModel : IViewModel where TVisual : T, new()
     {
         _registry.Add(typeof(TViewModel), typeof(TVisual));
     }
@@ -50,7 +50,7 @@ public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewR
     /// <returns>
     /// A new instance of the resolved visual type.
     /// </returns>
-    protected virtual T CreateVisual(Type visualType, ViewModel viewModel)
+    protected virtual T CreateVisual(Type visualType, IViewModel viewModel)
     {
         return (T)Activator.CreateInstance(visualType)!;
     }

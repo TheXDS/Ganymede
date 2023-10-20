@@ -16,7 +16,7 @@ namespace TheXDS.Ganymede.ViewModels;
 /// written to the entity after executing the
 /// <see cref="OnSave"/> method.
 /// </remarks>
-public class CrudEditorViewModel : CrudViewModelBase
+public class CrudEditorViewModel : DynamicCrudViewModelBase
 {
     private readonly TaskCompletionSource<bool> _resultAwaiter = new();
     private readonly Model originalEntity;
@@ -72,7 +72,7 @@ public class CrudEditorViewModel : CrudViewModelBase
         {
             UiThread.Invoke(() => callback.Invoke(Entity));
         }
-        ShallowCopy(Entity, originalEntity, ModelType);
+        ShallowCopy(Entity, originalEntity, ModelDescription.Model);
         NavigationService?.NavigateBack();
         _resultAwaiter.SetResult(true);
     }

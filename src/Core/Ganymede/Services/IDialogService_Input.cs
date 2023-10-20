@@ -1,4 +1,6 @@
 ﻿using TheXDS.Ganymede.Models;
+using TheXDS.Ganymede.Types.Base;
+using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.Services;
 
@@ -223,4 +225,45 @@ public partial interface IDialogService
     /// the user cancels the input dialog.
     /// </returns>
     Task<InputResult<Credential>> GetCredential(string message) => GetCredential(null, message);
+
+    /// <summary>
+    /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
+    /// dialog navigation system.
+    /// </summary>
+    /// <typeparam name="TViewModel">
+    /// Type of <see cref="DialogViewModel"/> to navigate to. It must implement
+    /// <see cref="IAwaitableDialogViewModel"/> to be able to notify of its own
+    /// completion.
+    /// </typeparam>
+    /// <typeparam name="TValue">
+    /// Type of value to get from the input dialog.
+    /// </typeparam>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="defaultValue">Default value to set and/or return.</param>
+    /// <param name="initCallback">
+    /// Optional callback invoked to further configure the ViewModel before
+    /// presentation.
+    /// </param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null) where TViewModel : DialogViewModel, IInputDialogViewModel<TValue>, new();
+
+    /// <summary>
+    /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
+    /// dialog navigation system.
+    /// </summary>
+    /// <typeparam name="TViewModel">
+    /// Type of <see cref="DialogViewModel"/> to navigate to. It must implement
+    /// <see cref="IAwaitableDialogViewModel"/> to be able to notify of its own
+    /// completion.
+    /// </typeparam>
+    /// <param name="dialogVm">Dialog ViewModel to navigate to.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : ViewModel, IAwaitableDialogViewModel, new();
 }

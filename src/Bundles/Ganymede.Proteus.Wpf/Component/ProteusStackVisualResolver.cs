@@ -127,7 +127,7 @@ public class ProteusStackVisualResolver : IVisualResolver<FrameworkElement>, IVi
     public IViewModelToViewRegistry<FrameworkElement> ViewMappings => _dict;
 
     /// <inheritdoc/>
-    public FrameworkElement? Resolve(ViewModelBase viewModel)
+    public FrameworkElement? Resolve(IViewModel viewModel)
     {
         return _resolvers.Select(p => p.Resolve(viewModel)).FirstOrDefault(p => p is not null);
     }

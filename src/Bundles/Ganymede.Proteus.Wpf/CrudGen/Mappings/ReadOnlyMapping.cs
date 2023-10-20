@@ -21,7 +21,7 @@ public class ReadOnlyMapping : ICrudMapping
     public FrameworkElement CreateControl(IPropertyDescription description)
     {
         var i = new Run();
-        i.SetBinding(Run.TextProperty, new Binding($"{nameof(CrudViewModelBase.Entity)}.{description.Property.Name}") { Mode = BindingMode.OneWay });
+        i.SetBinding(Run.TextProperty, new Binding($"{nameof(DynamicCrudViewModelBase.Entity)}.{description.Property.Name}") { Mode = BindingMode.OneWay });
         return new TextBlock()
         {
             Inlines =

@@ -6,7 +6,7 @@ namespace TheXDS.Ganymede.Types.Base;
 /// <summary>
 /// Base class for all Ganymede ViewModels.
 /// </summary>
-public abstract class ViewModel : ViewModelBase
+public abstract class ViewModel : ViewModelBase, IViewModel
 {
     private string? _Title;
     private IDialogService? dialogService;
@@ -36,7 +36,7 @@ public abstract class ViewModel : ViewModelBase
     /// Gets a reference to the current dialog service.
     /// </summary>
     public IDialogService? DialogService
-    { 
+    {
         get => dialogService;
         set => dialogService = value;
     }

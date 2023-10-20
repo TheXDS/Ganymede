@@ -28,7 +28,7 @@ public class SimpleTextBoxMapping : SimpleCrudMappingBase<TextBoxEx>, ICrudMappi
     protected override void ConfigureControl(TextBoxEx control, IPropertyDescription description)
     {
         control.Label = description.Label;
-        control.SetBinding(TextBox.TextProperty, $"{nameof(CrudViewModelBase.Entity)}.{description.Property.Name}");
+        control.SetBinding(TextBox.TextProperty, $"{nameof(DynamicCrudViewModelBase.Entity)}.{description.Property.Name}");
         SetIf<IPropertyDescription<string>, string>(description, p => p.DefaultValue, p => control.SetValue(TextBox.TextProperty, p));
         SetIf<ITextPropertyDescription, int>(description, p => p.MaxLength, p => control.MaxLength = p);
     }

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.Ganymede.Views;
-using TheXDS.MCART.Types.Base;
 using static TheXDS.Ganymede.Helpers.Common;
 
 namespace TheXDS.Ganymede.Component;
@@ -12,7 +12,7 @@ namespace TheXDS.Ganymede.Component;
 public class CrudPageVisualBuilder : IVisualResolver<FrameworkElement>
 {
     /// <inheritdoc/>
-    public FrameworkElement? Resolve(ViewModelBase viewModel)
+    public FrameworkElement? Resolve(IViewModel viewModel)
     {
         return (viewModel is CrudPageViewModel vm) ? UiInvoke(() =>
         {

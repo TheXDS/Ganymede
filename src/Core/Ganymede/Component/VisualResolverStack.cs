@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using TheXDS.MCART.Types.Base;
+using TheXDS.Ganymede.Types.Base;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -13,7 +13,7 @@ namespace TheXDS.Ganymede.Component;
 public class VisualResolverStack<TVisual> : Collection<IVisualResolver<TVisual>>, IVisualResolver<TVisual>
 {
     /// <inheritdoc/>
-    public TVisual? Resolve(ViewModelBase viewModel)
+    public TVisual? Resolve(IViewModel viewModel)
     {
         return this.Select(p => p.Resolve(viewModel)).FirstOrDefault(p => p is not null);
     }

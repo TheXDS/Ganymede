@@ -7,7 +7,8 @@
     xmlns:component="clr-namespace:TheXDS.Ganymede.Types;assembly=Ganymede"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede"
     xmlns:gn="clr-namespace:TheXDS.Ganymede.ValueConverters"
-    xmlns:gn1="clr-namespace:TheXDS.Ganymede.Markup"
+    xmlns:gn1="clr-namespace:TheXDS.Ganymede.Markup" 
+    xmlns:mcart="http://schemas.thexds.local/mcart"
     mc:Ignorable="d" 
     Background="#80000000"
     VerticalAlignment="Stretch"
@@ -16,6 +17,7 @@
     d:DataContext="{d:DesignInstance Type=vm:DialogViewModel}"
     d:DesignHeight="450" d:DesignWidth="600">
     <UserControl.Resources>
+        <mcart:BooleanInverter x:Key="binv"/>
         <BooleanToVisibilityConverter x:Key="b2vc"/>
         <gn:DrawingColorToMediaBrushConverter x:Key="brc"/>
     </UserControl.Resources>
@@ -72,11 +74,21 @@
                         TextWrapping="Wrap"
 						Text="{Binding Message, Mode=OneWay}"/>
                     <ContentPresenter
-                        Margin="0 10 0 0" Content="{Binding Converter={gn1:DialogVc}}" SnapsToDevicePixels="True">
+                        Margin="0 10 0 0"
+                        Content="{Binding Converter={gn1:DialogVc}}"
+                        SnapsToDevicePixels="True"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource binv}}">
                     </ContentPresenter>
                 </StackPanel>
             </ScrollViewer>
-            <ItemsControl HorizontalAlignment="Center" Margin="5" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Interactions}" SnapsToDevicePixels="True">
+            <ItemsControl
+                HorizontalAlignment="Center"
+                Margin="5"
+                Grid.Row="2"
+                Grid.Column="1"
+                ItemsSource="{Binding Interactions}"
+                SnapsToDevicePixels="True"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource binv}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" SnapsToDevicePixels="True"/>
