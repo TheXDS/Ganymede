@@ -80,4 +80,14 @@ public interface IModelConfigurator<T> where T : Model
     /// <typeparam name="TViewModel">Type of ViewModel to present.</typeparam>
     /// <returns>This same instance.</returns>
     IModelConfigurator<T> DetailsViewModel<TViewModel>() where TViewModel : EntityCrudViewModelBase, new();
+
+    /// <summary>
+    /// Specifies the properties to be used to show information on a
+    /// ListView-style UI visual element.
+    /// </summary>
+    /// <param name="propertySelectors">
+    /// Expressions that allow for property selection.
+    /// </param>
+    /// <returns>This same instance.</returns>
+    IModelConfigurator<T> ListViewProperties(params Expression<Func<T, object?>>[] propertySelectors);
 }

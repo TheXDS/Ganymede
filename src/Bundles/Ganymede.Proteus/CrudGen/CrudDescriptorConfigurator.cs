@@ -1,5 +1,8 @@
-﻿using System.Reflection;
+﻿using System.Linq.Expressions;
+using System.Reflection;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.MCART.Helpers;
+using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.CrudGen;
@@ -13,6 +16,8 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     private readonly Dictionary<PropertyInfo, DescriptionEntry> _properties;
     private readonly IPropertyConfigurator<T> _propertyConfigurator;
     private readonly List<Action<Model>> _savePrologs = new();
+    private readonly ICollection<PropertyInfo> _listViewProps = new List<PropertyInfo>();
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="CrudDescriptorConfigurator{T}"/> class.
@@ -51,6 +56,16 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
 
     /// <inheritdoc/>
     public Type? ResourceType { get; private set; }
+
+    /// <inheritdoc/>
+    public IEnumerable<PropertyInfo> ListViewProperties => _listViewProps.Any() ? _listViewProps : InferListViewProps();
+
+    private IEnumerable<PropertyInfo> InferListViewProps()
+    {
+        return PropertyDescriptions
+            .Where(p => !p.Value.Description.HideFromDetails)
+            .Select(p => p.Key);
+    }
 
     IModelConfigurator<T> IModelConfigurator<T>.FriendlyName(string friendlyName)
     {
@@ -91,6 +106,12 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     IModelConfigurator<T> IModelConfigurator<T>.DetailsViewModel<TViewModel>()
     {
         DetailsViewModel = typeof(TViewModel);
+        return this;
+    }
+
+    IModelConfigurator<T> IModelConfigurator<T>.ListViewProperties(params Expression<Func<T, object?>>[] propertySelectors)
+    {
+        _listViewProps.AddRange(propertySelectors.Select(ReflectionHelpers.GetProperty));
         return this;
     }
 }

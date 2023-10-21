@@ -12,9 +12,11 @@ using System.Windows.Media.Media3D;
 using TheXDS.Ganymede.Controls.Base;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Resources.Strings;
 using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Component;
+using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
@@ -80,6 +82,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
     /// Defines the operation to be performed to add a new entity to the value
     /// of the property on the entity.
     /// </summary>
+    /// <param name="control">Control context.</param>
     /// <param name="newEntity"></param>
     /// <param name="parentProperty">Property information on the parent entity.</param>
     /// <param name="parentEntity">
@@ -154,10 +157,16 @@ public abstract class ObjectMappingBase<TControl, TDescription>
     {
         return new SimpleCommand(async () =>
         {
+            var models = description.AvailableModels;
             var vm = (CrudEditorViewModel)control.DataContext;
-            var childDescription = description.AvailableModels.Length > 1
-                ? await GetDesiredModel(vm.DialogService!, description.AvailableModels)
-                : description.AvailableModels[0];
+            if (models.Length == 0)
+            {
+                await (vm.DialogService?.Error(new InvalidOperationException(ProteusErrors.UnconfiguredObjectSelection)) ?? Task.CompletedTask);
+                return;
+            }
+            var childDescription = models.Length > 1
+                ? await GetDesiredModel(vm.DialogService!, models)
+                : models[0];
             if (childDescription is null) return;
             var selectDialog = new DataCrudSelectorViewModel(vm.Context.PageDataService!, childDescription);
             await vm.DialogService!.CustomDialog(selectDialog);

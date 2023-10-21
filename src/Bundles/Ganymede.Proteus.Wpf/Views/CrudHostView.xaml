@@ -8,18 +8,22 @@
     xmlns:gn2="clr-namespace:TheXDS.Ganymede.Markup"
     xmlns:mcart="http://schemas.thexds.local/mcart"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede.Proteus"
+    xmlns:vc="clr-namespace:TheXDS.Ganymede.ValueConverters"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:CrudPageViewModel}"
     d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <mcart:SubtractConverter x:Key="svc"/>
         <mcart:BooleanInverter x:Key="binv"/>
+        <vc:ListViewGridGenerator x:Key="lvg"/>
+        <vc:DescriptionCountVisibilityConverter VisibleIf="Single" x:Key="sdc2vc"/>
+        <vc:DescriptionCountVisibilityConverter VisibleIf="Multiple" x:Key="mdc2vc"/>
     </UserControl.Resources>
     <DockPanel Margin="5">
         <DockPanel IsEnabled="{Binding IsEditing, Converter={StaticResource binv}}">
             <gn:SearchBox DockPanel.Dock="Top" Margin="5"/>
             <DockPanel
-                MinWidth="300"
+                Width="300"
                 DockPanel.Dock="Bottom"
                 Margin="5"
                 HorizontalAlignment="Right">
@@ -62,7 +66,19 @@
                 </StackPanel>
                 <TextBlock Background="Gray" HorizontalAlignment="Center" Foreground="Yellow">Placeholder: Paged nav</TextBlock>
             </DockPanel>
-            <ListView Margin="5" ItemsSource="{Binding Entities, Mode=OneWay}" SelectedItem="{Binding SelectedEntity}"/>
+            <ListView
+                Margin="5"
+                Width="300"
+                Visibility="{Binding Descriptions, Converter={StaticResource sdc2vc}}"
+                View="{Binding Descriptions[0], Converter={StaticResource lvg}}"
+                ItemsSource="{Binding Entities, Mode=OneWay}"
+                SelectedItem="{Binding SelectedEntity}"/>
+            <ListView
+                Margin="5"
+                Width="300"
+                Visibility="{Binding Descriptions, Converter={StaticResource mdc2vc}}"
+                ItemsSource="{Binding Entities, Mode=OneWay}"
+                SelectedItem="{Binding SelectedEntity}"/>
         </DockPanel>
         <DockPanel>
             <ItemsControl ItemsSource="{Binding CrudNavService.NavigationStack, Mode=OneWay}" DockPanel.Dock="Top" Margin="5">

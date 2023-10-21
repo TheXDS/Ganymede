@@ -5,3 +5,4 @@ using System.Windows.Markup;
 [assembly: ComVisible(false)]
 [assembly: XmlnsDefinition("http://schemas.thexds.local/ganymede", "TheXDS.Ganymede.Markup", AssemblyName = "Ganymede.Proteus.Wpf")]
 [assembly: XmlnsDefinition("http://schemas.thexds.local/ganymede", "TheXDS.Ganymede.Component", AssemblyName = "Ganymede.Proteus.Wpf")]
+[assembly: XmlnsDefinition("http://schemas.thexds.local/ganymede", "TheXDS.Ganymede.ValueConverters", AssemblyName = "Ganymede.Proteus.Wpf")]

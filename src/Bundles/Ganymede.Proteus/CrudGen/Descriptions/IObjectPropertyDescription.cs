@@ -1,4 +1,6 @@
 ﻿using TheXDS.Ganymede.CrudGen.Descriptors;
+using TheXDS.Ganymede.Helpers;
+using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.CrudGen.Descriptions;
@@ -24,5 +26,5 @@ public interface IObjectPropertyDescription : IPropertyDescription
     /// <summary>
     /// Indicates the available models to be added/selected/updated.
     /// </summary>
-    ICrudDescription[] AvailableModels => GetClassValue<ICrudDescription[]>() ?? Array.Empty<ICrudDescription>();
+    ICrudDescription[] AvailableModels => (GetClassValue<ICrudDescription[]>()?.OrNull() ?? CrudCommon.InferDescriptions(this)).ToArray();
 }

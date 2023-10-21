@@ -19,6 +19,7 @@ public class UserDescriptor : CrudDescriptor<User>
             c.Property(p => p.Enabled);
             c.Property(p => p.Description).Nullable().Kind(TextKind.Paragraph);
         });
+        m.ListViewProperties(p => p.Id, p => p.DisplayName);
     }
 }
 
@@ -32,18 +33,18 @@ public class PostDescriptor : CrudDescriptor<Post>
     {
         m.ConfigureProperties(c => {
             c.Property(p => p.Title);
-            c.Property(p => p.Creator).Selectable().AvailableModels(new UserDescriptor().Description);
+            c.Property(p => p.Creator).Selectable();
             c.Property(p => p.Content).Paragraph(WidgetSize.Large);
             c.Property(p => p.CreationDate).WithTime().HideFromEditor();
             c.Property(p => p.Comments)
                 .HideFromDetails()
                 .WidgetSize(WidgetSize.Large)
-                .Creatable()
-                .AvailableModels(new CommentDescriptor().Description);
+                .Creatable();
         });
         m.DashboardViewModel<DummyViewModel>();
         m.AddDefaultGuidIdProlog();
         m.AddSaveProlog(p => p.CreationDate ??= DateTime.Now);
+        m.ListViewProperties(p => p.Title, p => p.CreationDate, p => p.Creator);
     }
 }
 
@@ -63,5 +64,6 @@ public class CommentDescriptor : CrudDescriptor<Comment>
         });
         m.AddDefaultGuidIdProlog();
         m.AddSaveProlog(p => p.CreationDate ??= DateTime.Now);
+        m.ListViewProperties(p => p.CreationDate, p => p.Creator);
     }
 }

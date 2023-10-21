@@ -7,9 +7,13 @@
     xmlns:local="clr-namespace:TheXDS.Ganymede.Views.CustomDialogs"
     xmlns:gn="http://schemas.thexds.local/ganymede"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede.Proteus"
+    xmlns:vc="clr-namespace:TheXDS.Ganymede.ValueConverters"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:DataCrudSelectorViewModel}"
     Height="250" Width="600">
+    <UserControl.Resources>
+        <vc:ListViewGridGenerator x:Key="lvg"/>
+    </UserControl.Resources>
     <DockPanel>
         <UniformGrid Margin="5" Rows="1" Columns="2" DockPanel.Dock="Top">
             <DockPanel>
@@ -27,6 +31,7 @@
                 Margin="5"/>
         </UniformGrid>
         <ListView
+            View="{Binding Description, Converter={StaticResource lvg}}"
             Margin="10,0"
             ItemsSource="{Binding Entities}"
             SelectedItem="{Binding Entity}"/>

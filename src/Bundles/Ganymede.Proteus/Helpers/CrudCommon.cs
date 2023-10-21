@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Reflection;
+using TheXDS.Ganymede.CrudGen.Descriptions;
+using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
-using TheXDS.Triton.Services.Base;
 using TheXDS.Triton.Services;
-using System.Linq.Expressions;
+using TheXDS.Triton.Services.Base;
 
 namespace TheXDS.Ganymede.Helpers;
 
@@ -130,6 +131,39 @@ public static class CrudCommon
     public static void DynamicRemove(object collection, object item)
     {
         CollectionDynamicInvoke(collection, item, "Remove");
+    }
+
+    /// <summary>
+    /// Scans the available types and finds all the 
+    /// <see cref="ICrudDescription"/> instances that can be used to describe
+    /// potential values assignable to the specified property description.
+    /// </summary>
+    /// <param name="property">
+    /// Property description for wich to infer the available CRUD descriptors.
+    /// </param>
+    /// <returns>
+    /// An enumeration of new instances of <see cref="ICrudDescription"/> that
+    /// can be used to describe values that are assignable to the described
+    /// property.
+    /// </returns>
+    public static IEnumerable<ICrudDescription> InferDescriptions(IPropertyDescription property)
+    {
+        var types = property.Property.PropertyType.Derivates().Where(p => p.IsInstantiable());
+        foreach (var type in types)
+        {
+            foreach (var k in EnumerateDescriptors(type))
+            {
+                yield return k.New<ICrudDescriptor>().Description;
+            }
+        }
+    }
+
+    private static IEnumerable<Type> EnumerateDescriptors(Type type)
+    {
+        return AppDomain.CurrentDomain
+            .GetAssemblies().Where(p => !p.IsDynamic)
+            .SelectMany(p => p.ExportedTypes)
+            .Where(t => t.IsAssignableTo(typeof(CrudDescriptor<>).MakeGenericType(type)) && t.IsInstantiable());
     }
 
     private static string SplitByUppercase(string name)

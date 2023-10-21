@@ -26,12 +26,21 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>ProteusCommon.resx</DependentUpon>
       </Compile>
+      <Compile Update="Resources\Strings\ProteusErrors.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ProteusErrors.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Update="Resources\Strings\ProteusCommon.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>ProteusCommon.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Strings\ProteusErrors.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>ProteusErrors.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 

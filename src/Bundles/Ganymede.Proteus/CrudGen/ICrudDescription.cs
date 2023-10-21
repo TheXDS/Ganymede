@@ -20,6 +20,11 @@ public interface ICrudDescription
     IReadOnlyDictionary<PropertyInfo, DescriptionEntry> PropertyDescriptions { get; }
 
     /// <summary>
+    /// Enumerates the properties to be shown in a list view as columns.
+    /// </summary>
+    IEnumerable<PropertyInfo> ListViewProperties { get; }
+
+    /// <summary>
     /// Gets a binding path to use when getting a friendly name for the entity.
     /// </summary>
     string? FriendlyNameBindingPath { get; }
