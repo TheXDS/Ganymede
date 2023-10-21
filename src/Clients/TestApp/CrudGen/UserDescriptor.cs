@@ -14,7 +14,7 @@ public class UserDescriptor : CrudDescriptor<User>
         m.LabelResource<St.User>();
         m.ConfigureProperties(c => { 
             c.Property(p => p.Id);
-            c.Property(p => p.DisplayName);
+            c.Property(p => p.DisplayName).Icon("👤");
             c.Property(p => p.Password).Password().Argon2();
             c.Property(p => p.Enabled);
             c.Property(p => p.Description).Nullable().Kind(TextKind.Paragraph);
@@ -41,7 +41,6 @@ public class PostDescriptor : CrudDescriptor<Post>
                 .WidgetSize(WidgetSize.Large)
                 .Creatable();
         });
-        m.DashboardViewModel<DummyViewModel>();
         m.AddDefaultGuidIdProlog();
         m.AddSaveProlog(p => p.CreationDate ??= DateTime.Now);
         m.ListViewProperties(p => p.Title, p => p.CreationDate, p => p.Creator);

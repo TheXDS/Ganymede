@@ -31,6 +31,27 @@ public static class PropertyDescriptorExtensions
     }
 
     /// <summary>
+    /// Specifies a custom icon to be used when presenting this property.
+    /// </summary>
+    /// <typeparam name="TDescriptor">
+    /// Type of descriptor onto which add the description.
+    /// </typeparam>
+    /// <param name="descriptor">
+    /// Descriptor onto which add the description.
+    /// </param>
+    /// <param name="icon">Label to be displayed for the property.</param>
+    /// <returns>
+    /// The same instance as <paramref name="descriptor"/>, allowing the use of
+    /// Fluent syntax.
+    /// </returns>
+    public static TDescriptor Icon<TDescriptor>(this TDescriptor descriptor, string icon)
+        where TDescriptor : IPropertyDescriptor
+    {
+        descriptor.SetValue(icon);
+        return descriptor;
+    }
+
+    /// <summary>
     /// Sets a default value to be used when editing the specified property.
     /// </summary>
     /// <typeparam name="TDescriptor">

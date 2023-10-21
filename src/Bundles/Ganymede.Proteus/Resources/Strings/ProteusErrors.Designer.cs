@@ -61,6 +61,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The databound entity provider is not ready. Please, execute FetchDataAsync() before trying to refresh the results..
+        /// </summary>
+        public static string DtEntityProvNotReady {
+            get {
+                return ResourceManager.GetString("DtEntityProvNotReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The list of available models for this operation has not been defined and could not be automatically resolved..
         /// </summary>
         public static string UnconfiguredObjectSelection {

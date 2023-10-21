@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Media;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
 using TheXDS.Ganymede.ViewModels;
@@ -22,12 +23,14 @@ public class ReadOnlyMapping : ICrudMapping
     {
         var i = new Run();
         i.SetBinding(Run.TextProperty, new Binding($"{nameof(DynamicCrudViewModelBase.Entity)}.{description.Property.Name}") { Mode = BindingMode.OneWay });
-        return new TextBlock()
+        return new DockPanel
         {
-            Inlines =
+            Margin = new Thickness(5),
+            Children =
             {
-                new Run($"{description.Label}: "),
-                i
+                new TextBlock() { Text = description.Icon ?? "✍️", Foreground = Brushes.SkyBlue },
+                new TextBlock() { Text = description.Label, FontWeight = FontWeights.Bold, Margin = new Thickness(5,0,5,0) },
+                new TextBlock() { Inlines = { i }, TextWrapping = TextWrapping.Wrap }
             }
         };
     }

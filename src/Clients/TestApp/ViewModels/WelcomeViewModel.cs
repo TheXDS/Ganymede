@@ -6,9 +6,12 @@ using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types.Extensions;
+using TheXDS.MCART.Security;
+using TheXDS.Triton.Faker;
 using TheXDS.Triton.Services.Base;
 using St = TheXDS.Ganymede.Resources.Strings.Views.WelcomeView;
 using SP = TheXDS.ServicePool.ServicePool;
+using System.Xml.Linq;
 
 namespace TheXDS.Ganymede.ViewModels;
 
@@ -47,24 +50,49 @@ public class WelcomeViewModel : ViewModel
     {
         if (SP.CommonPool.Resolve<ITritonService>() is not { } svc) return Task.CompletedTask;
         using var trans = svc.GetWriteTransaction();
-        trans.Create(new User()
+        var users = new[]
         {
-            Id = "root",
-            DisplayName = "Super User",
-            Password = PasswordStorage.CreateHash<MCART.Security.Pbkdf2Storage>("password".ToSecureString())
-        });
-        trans.Create(new User()
+            new User()
+            {
+                Id = "root",
+                DisplayName = "Super User",
+                Enabled = false,
+                Password = PasswordStorage.CreateHash<Pbkdf2Storage>("r00t".ToSecureString())
+            },
+            new User()
+            {
+                Id = "admin",
+                DisplayName = "Administrator",
+                Password = PasswordStorage.CreateHash<Pbkdf2Storage>("@dmin1234".ToSecureString())
+            }
+        }.Concat(Enumerable.Range(0, 10)
+            .Select(_ => Person.Adult())
+            .Select(p => new User()
+            {
+                Id = p.UserName,
+                DisplayName = p.Name,
+                Password = PasswordStorage.CreateHash<Pbkdf2Storage>("1234".ToSecureString())
+            })).ToArray();
+        trans.Create(users);
+        var admPost = new Post()
         {
-            Id = "admin",
-            DisplayName = "Administrator",
-            Password = PasswordStorage.CreateHash<MCART.Security.Pbkdf2Storage>("password".ToSecureString())
-        });
-        trans.Create(new User()
+            Title = Text.Lorem(4),
+            Content = Text.Lorem(200, 8, 3),
+            CreationDate = DateTime.Now,
+            Creator = users[1],
+            Id = Guid.NewGuid(),
+        };
+        var comments = users[2..].Select(u => new Comment()
         {
-            Id = "user",
-            DisplayName = "User",
-            Password = PasswordStorage.CreateHash<MCART.Security.Pbkdf2Storage>("password".ToSecureString())
+            Id = Guid.NewGuid(),
+            Content = Text.Lorem(10),
+            CreationDate = DateTime.Now,
+            Creator = u,
+            Post = admPost
         });
+        admPost.Comments = comments.ToList();
+        trans.Create(admPost);
+        trans.Create(comments.ToArray());
         return trans.CommitAsync();
     }
 }

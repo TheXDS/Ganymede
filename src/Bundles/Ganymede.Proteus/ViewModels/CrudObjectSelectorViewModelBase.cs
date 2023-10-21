@@ -25,6 +25,7 @@ public abstract class CrudObjectSelectorViewModelBase : AwaitableDialogViewModel
     private Model? entity;
     private IEnumerable<Model>? _Entities;
     private PropertyInfo? _SelectedSearchProperty;
+    private string? _SearchQuery;
 
     /// <summary>
     /// Gets a reference to the description of the model to be selected.
@@ -46,6 +47,15 @@ public abstract class CrudObjectSelectorViewModelBase : AwaitableDialogViewModel
     /// Gets a collection of properties available to perform search.
     /// </summary>
     public IEnumerable<SearchPropertyItem> Properties => Description.PropertyDescriptions.Where(IsValidSearchProperty).Select(p => new SearchPropertyItem(p.Key, p.Value.Description.Label));
+
+    /// <summary>
+    /// Gets or sets the current search query.
+    /// </summary>
+    public string? SearchQuery
+    {
+        get => _SearchQuery;
+        set => Change(ref _SearchQuery, value);
+    }
 
     /// <summary>
     /// Gets or sets the selected property used for search.
@@ -114,6 +124,7 @@ public abstract class CrudObjectSelectorViewModelBase : AwaitableDialogViewModel
     private async Task OnCloseSearch()
     {
         IsBusy = true;
+        SearchQuery = null;
         Entities = await PerformSearchAsync(null);
         IsBusy = false;
     }

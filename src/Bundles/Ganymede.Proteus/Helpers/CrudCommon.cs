@@ -148,7 +148,7 @@ public static class CrudCommon
     /// </returns>
     public static IEnumerable<ICrudDescription> InferDescriptions(IPropertyDescription property)
     {
-        var types = property.Property.PropertyType.Derivates().Where(p => p.IsInstantiable());
+        var types = property.Property.PropertyType.ResolveCollectionType().Derivates().Where(p => p.IsInstantiable());
         foreach (var type in types)
         {
             foreach (var k in EnumerateDescriptors(type))

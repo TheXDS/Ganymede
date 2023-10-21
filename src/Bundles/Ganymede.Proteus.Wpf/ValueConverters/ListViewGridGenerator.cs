@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using TheXDS.Ganymede.CrudGen;
@@ -17,6 +16,7 @@ namespace TheXDS.Ganymede.ValueConverters;
 /// </summary>
 public class ListViewGridGenerator : IOneWayValueConverter<ICrudDescription?, ViewBase?>
 {
+    /// <inheritdoc/>
     public ViewBase? Convert(ICrudDescription? value, object? parameter, CultureInfo? culture)
     {
         if (value is null) return null;
@@ -41,23 +41,5 @@ public class ListViewGridGenerator : IOneWayValueConverter<ICrudDescription?, Vi
             Header = p.Label,
             DisplayMemberBinding = new Binding(p.Property.Name)
         };
-    }
-}
-
-public enum DescriptionCountVisibility : byte
-{
-    Single,
-    Multiple
-}
-
-public class DescriptionCountVisibilityConverter : IOneWayValueConverter<ICrudDescription[], Visibility>
-{
-    public DescriptionCountVisibility VisibleIf { get; set; }
-
-    public Visibility Convert(ICrudDescription[] value, object? parameter, CultureInfo? culture)
-    {
-        return VisibleIf == DescriptionCountVisibility.Single
-            ? value.Length == 1 ? Visibility.Visible : Visibility.Collapsed
-            : value.Length > 1 ? Visibility.Visible : Visibility.Collapsed;
     }
 }

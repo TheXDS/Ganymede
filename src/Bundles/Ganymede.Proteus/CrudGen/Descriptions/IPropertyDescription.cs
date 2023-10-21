@@ -27,6 +27,13 @@ public interface IPropertyDescription
     string Label => Parent.ResourceType.GetLabel(GetClassValue<string>() ?? Property.Name);
 
     /// <summary>
+    /// Gets an optional desired icon to be set on the generated visual
+    /// element. If not specified, the visual element generator may choose a
+    /// default icon to be presented.
+    /// </summary>
+    string? Icon => GetClassValue<string>();
+
+    /// <summary>
     /// Gets a value that indicates whether or not the visual element must be
     /// generated as read-only for editor Views.
     /// </summary>

@@ -26,6 +26,7 @@
                     Margin="5"/>
             </DockPanel>
             <gn:SearchBox
+                Text="{Binding SearchQuery}"
                 SearchCommand="{Binding SearchCommand}"
                 CloseSearchCommand="{Binding CloseSearchCommand}"
                 Margin="5"/>

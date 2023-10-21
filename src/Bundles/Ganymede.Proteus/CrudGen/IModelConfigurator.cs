@@ -72,7 +72,7 @@ public interface IModelConfigurator<T> where T : Model
     /// </summary>
     /// <typeparam name="TViewModel">Type of ViewModel to present.</typeparam>
     /// <returns>This same instance.</returns>
-    IModelConfigurator<T> DashboardViewModel<TViewModel>() where TViewModel : ViewModel, new();
+    IModelConfigurator<T> DashboardViewModel<TViewModel>() where TViewModel : CrudViewModelBase, new();
 
     /// <summary>
     /// Specifies a ViewModel to present whenever there is no selected entity.

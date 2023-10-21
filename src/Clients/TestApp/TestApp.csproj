@@ -11,6 +11,7 @@
     <PackageReference Include="TheXDS.MCART.Security.Argon2" Version="0.17.1-a002" />
     <PackageReference Include="TheXDS.ServicePool" Version="1.0.5" />
     <PackageReference Include="TheXDS.Triton.Diagnostics" Version="1.4.2" />
+    <PackageReference Include="TheXDS.Triton.Faker" Version="1.4.2" />
     <PackageReference Include="TheXDS.Triton.InMemory" Version="1.4.2" />
   </ItemGroup>
 
