@@ -4,7 +4,7 @@ using TheXDS.Ganymede.Services.Base;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 using TheXDS.Triton.Services.Base;
-using Est = TheXDS.Ganymede.Resources.Strings.ProteusErrors;
+
 namespace TheXDS.Ganymede.Services;
 
 /// <summary>
