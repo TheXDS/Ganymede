@@ -1,4 +1,6 @@
-﻿using TheXDS.MCART.Component;
+﻿#pragma warning disable CS1591
+
+using TheXDS.MCART.Component;
 
 namespace TheXDS.Ganymede.ViewModels;
 

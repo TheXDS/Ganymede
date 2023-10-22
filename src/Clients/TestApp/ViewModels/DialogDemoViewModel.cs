@@ -98,12 +98,12 @@ public class DialogDemoViewModel : ViewModel
             return Task.Delay(delay);
         }
 
-        await Simmulate("Establising connection...");
+        await Simmulate(St.OperationDemo1);
         for (var j  = 0; j <= 40; j++)
         {
-            await Simmulate($"Writting to object {Guid.NewGuid()}...", 100, j * 2.5);
+            await Simmulate(string.Format(St.OperationDemo2, Guid.NewGuid()), 100, j * 2.5);
         }
-        await Simmulate("Cleaning up...");
+        await Simmulate(St.OperationDemo3);
     }
 
     private async Task OnTestCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress)
@@ -115,31 +115,31 @@ public class DialogDemoViewModel : ViewModel
         }
         try
         {
-            await Simmulate("Establising connection...");
+            await Simmulate(St.OperationDemo1);
             for (var j = 0; j <= 40; j++)
             {
-                await Simmulate($"Writting to object {Guid.NewGuid()}...", 100, j * 2.5);
+                await Simmulate(string.Format(St.OperationDemo2, Guid.NewGuid()), 100, j * 2.5);
             }
-            await Simmulate("Cleaning up...");
+            await Simmulate(St.OperationDemo3);
         }
         catch (TaskCanceledException)
         {
-            progress.Report("Cancelling...");
+            await Simmulate(St.OperationDemo4);
             await Task.Delay(1000);
         }
     }
 
     private async Task OnTestSelectDialog()
     {
-        var options = Enumerable.Range(1, 5).Select(p => $"Option {p}").ToArray();
-        var result = await DialogService!.SelectOption("Select option", "Select an option from the combobox below.", options);
+        var options = Enumerable.Range(1, 5).Select(p => string.Format(St.SelectDemo1, p)).ToArray();
+        var result = await DialogService!.SelectOption(St.SelectDemo2, St.SelectDemo3, options);
         if (result == -1)
         {
-            await DialogService!.Message("Nothing selected", "No option has been selected from the prompt.");
+            await DialogService!.Message(St.SelectDemo4, St.SelectDemo5);
         }
         else
         {
-            await DialogService!.Message("Option", $"The user selected \"{options[result]}\"");
+            await DialogService!.Message(St.SelectDemo2, string.Format(St.SelectDemo6, options[result]));
         }
     }
 
@@ -155,6 +155,6 @@ public class DialogDemoViewModel : ViewModel
         if (DialogService is null) return;
         var vm = new CustomTestDialogViewModel();
         await DialogService.CustomDialog(vm);
-        await DialogService.Message("Times ran", vm.TimesRan.ToString());
+        await DialogService.Message(St.CustomDialog1, vm.TimesRan.ToString());
     }
 }

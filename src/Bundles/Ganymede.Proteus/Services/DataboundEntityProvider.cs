@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using TheXDS.Ganymede.Services.Base;
+using TheXDS.MCART.Types.Base;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 using TheXDS.Triton.Services.Base;
@@ -10,7 +11,7 @@ namespace TheXDS.Ganymede.Services;
 /// <summary>
 /// Implements an entity provider bound to a Triton service.
 /// </summary>
-public class DataboundEntityProvider : IEntityProvider
+public class DataboundEntityProvider : ViewModelBase, IEntityProvider
 {
     private readonly ITritonService _dataService;
     private readonly Type _model;
@@ -72,12 +73,17 @@ public class DataboundEntityProvider : IEntityProvider
     /// <inheritdoc/>
     public async Task FetchDataAsync()
     {
-        Page = 1;
         await using var t = _dataService.GetReadTransaction();
         var query = BuildQuery(_model, t, Filters.Select(ToLambda)).Cast<Model>();
         TotalItems = query.Count();
         Results = await query.Skip((Page - 1) * ItemsPerPage).Take(ItemsPerPage).ToListAsync();
     }
+
+
+
+
+
+
 
     private LambdaExpression ToLambda(FilterItem item)
     {

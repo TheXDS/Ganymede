@@ -123,6 +123,9 @@
   <data name="AreYouSureDelete" xml:space="preserve">
     <value>Are you sure you want to delete this element?</value>
   </data>
+  <data name="Connecting" xml:space="preserve">
+    <value>Connecting...</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -131,6 +134,12 @@
   </data>
   <data name="EditModel" xml:space="preserve">
     <value>Edit {0} "{1}"</value>
+  </data>
+  <data name="FetchingData" xml:space="preserve">
+    <value>Fetching data...</value>
+  </data>
+  <data name="ItemCount" xml:space="preserve">
+    <value>{0} items.</value>
   </data>
   <data name="NewItem" xml:space="preserve">
     <value>New item</value>
@@ -144,6 +153,9 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>Page {0} of {1}</value>
+  </data>
   <data name="Saving" xml:space="preserve">
     <value>Saving data...</value>
   </data>
@@ -155,6 +167,9 @@
   </data>
   <data name="SelectItemHelp" xml:space="preserve">
     <value>Select an item from the list below:</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
   </data>
   <data name="WantToCancelChanges" xml:space="preserve">
     <value>Are you sure you want to cancel? All changes made will be lost.</value>

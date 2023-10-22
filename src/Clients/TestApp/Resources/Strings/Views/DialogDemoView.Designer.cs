@@ -79,6 +79,15 @@ namespace TheXDS.Ganymede.Resources.Strings.Views {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Times ran.
+        /// </summary>
+        public static string CustomDialog1 {
+            get {
+                return ResourceManager.GetString("CustomDialog1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error.
         /// </summary>
         public static string Error {
@@ -146,6 +155,42 @@ namespace TheXDS.Ganymede.Resources.Strings.Views {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Establishing connection....
+        /// </summary>
+        public static string OperationDemo1 {
+            get {
+                return ResourceManager.GetString("OperationDemo1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Writing to object {0}....
+        /// </summary>
+        public static string OperationDemo2 {
+            get {
+                return ResourceManager.GetString("OperationDemo2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cleaning up....
+        /// </summary>
+        public static string OperationDemo3 {
+            get {
+                return ResourceManager.GetString("OperationDemo3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cancelling....
+        /// </summary>
+        public static string OperationDemo4 {
+            get {
+                return ResourceManager.GetString("OperationDemo4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Test operation dialog.
         /// </summary>
         public static string OperationTest {
@@ -164,11 +209,101 @@ namespace TheXDS.Ganymede.Resources.Strings.Views {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Option {0}.
+        /// </summary>
+        public static string SelectDemo1 {
+            get {
+                return ResourceManager.GetString("SelectDemo1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select option.
+        /// </summary>
+        public static string SelectDemo2 {
+            get {
+                return ResourceManager.GetString("SelectDemo2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select an option from the combo box below:.
+        /// </summary>
+        public static string SelectDemo3 {
+            get {
+                return ResourceManager.GetString("SelectDemo3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nothing selected.
+        /// </summary>
+        public static string SelectDemo4 {
+            get {
+                return ResourceManager.GetString("SelectDemo4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No option has been selected from the prompt..
+        /// </summary>
+        public static string SelectDemo5 {
+            get {
+                return ResourceManager.GetString("SelectDemo5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The user selected &quot;{0}&quot;..
+        /// </summary>
+        public static string SelectDemo6 {
+            get {
+                return ResourceManager.GetString("SelectDemo6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Test item selection.
         /// </summary>
         public static string SelectItemTest {
             get {
                 return ResourceManager.GetString("SelectItemTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Credential input.
+        /// </summary>
+        public static string TestCredentialInput {
+            get {
+                return ResourceManager.GetString("TestCredentialInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a User-defined dialog.
+        /// </summary>
+        public static string TestCustomDialog {
+            get {
+                return ResourceManager.GetString("TestCustomDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Number input.
+        /// </summary>
+        public static string TestIntInput {
+            get {
+                return ResourceManager.GetString("TestIntInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Number range input.
+        /// </summary>
+        public static string TestIntRangeInput {
+            get {
+                return ResourceManager.GetString("TestIntRangeInput", resourceCulture);
             }
         }
         

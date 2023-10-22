@@ -79,6 +79,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Connecting....
+        /// </summary>
+        public static string Connecting {
+            get {
+                return ResourceManager.GetString("Connecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Delete.
         /// </summary>
         public static string Delete {
@@ -102,6 +111,24 @@ namespace TheXDS.Ganymede.Resources.Strings {
         public static string EditModel {
             get {
                 return ResourceManager.GetString("EditModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fetching data....
+        /// </summary>
+        public static string FetchingData {
+            get {
+                return ResourceManager.GetString("FetchingData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} items..
+        /// </summary>
+        public static string ItemCount {
+            get {
+                return ResourceManager.GetString("ItemCount", resourceCulture);
             }
         }
         
@@ -142,6 +169,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Page {0} of {1}.
+        /// </summary>
+        public static string PageCount {
+            get {
+                return ResourceManager.GetString("PageCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Saving data....
         /// </summary>
         public static string Saving {
@@ -174,6 +210,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         public static string SelectItemHelp {
             get {
                 return ResourceManager.GetString("SelectItemHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Update.
+        /// </summary>
+        public static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
             }
         }
         

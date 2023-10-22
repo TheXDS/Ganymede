@@ -13,7 +13,7 @@ public interface IEntityProvider
     /// </summary>
     /// <remarks>
     /// This collection will be populated whenever the
-    /// <see cref="RefreshResultsAsync"/> method is invoked.
+    /// <see cref="FetchDataAsync"/> method is invoked.
     /// </remarks>
     IEnumerable<Model> Results { get; }
     

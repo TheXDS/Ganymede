@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Transactions;
 using System.Windows.Input;
 using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Helpers;
@@ -8,6 +7,7 @@ using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 using Pst = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 using St = TheXDS.Ganymede.Resources.Strings.Common;
+
 namespace TheXDS.Ganymede.ViewModels;
 
 /// <summary>
@@ -78,7 +78,7 @@ public abstract class CrudObjectSelectorViewModelBase : AwaitableDialogViewModel
     /// <summary>
     /// Gets the active collection of items to select the entity from.
     /// </summary>
-    public IEnumerable<Model>? Entities 
+    public IEnumerable<Model>? Entities
     {
         get => _Entities;
         private set => Change(ref _Entities, value);

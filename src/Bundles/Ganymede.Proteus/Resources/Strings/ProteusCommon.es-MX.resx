@@ -138,4 +138,37 @@
   <data name="Yes" xml:space="preserve">
     <value>Sí</value>
   </data>
+  <data name="AreYouSureDelete" xml:space="preserve">
+    <value>¿Está seguro de que quiere eliminar este elemento?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DetailsOfX" xml:space="preserve">
+    <value>Detalles de {0} "{1}"</value>
+  </data>
+  <data name="NewItem" xml:space="preserve">
+    <value>Nuevo ítem</value>
+  </data>
+  <data name="NewItemHelp" xml:space="preserve">
+    <value>Seleccione el tipo de elemento a crear.</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Seleccionar</value>
+  </data>
+  <data name="SelectItem" xml:space="preserve">
+    <value>Seleccionar ítem</value>
+  </data>
+  <data name="SelectItemHelp" xml:space="preserve">
+    <value>Seleccione un ítem de la lista a continuación:</value>
+  </data>
+  <data name="Connecting" xml:space="preserve">
+    <value>Conectando...</value>
+  </data>
+  <data name="FetchingData" xml:space="preserve">
+    <value>Obteniendo datos...</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
 </root>

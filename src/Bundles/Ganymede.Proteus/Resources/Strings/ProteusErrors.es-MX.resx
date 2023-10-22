@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,107 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HelpText" xml:space="preserve">
-    <value>Esta página contiene algunas demostraciones de cómo funciona el servicio de diálogos en Ganymede.
-
-Ganymede implementa una API de diálogos que puede orientarse a distintas plataformas. Para las aplicaciones WPF, usted tiene acceso a un sistema de diálogos personalizado que se integra bien con el estilo y la interfaz de este programa. Sigue un principio de mantener el número de ventanas independientes reducidas a una, e implementa un tema y un estilo consistentes para todos los diálogos.
-
-Como el sistema de diálogos es expandible, el servicio de diálogos incluído en Ganymede.Wpf puede incorporar nuevos diálogos sin tener que redefinir la interfaz de los mismos desde cero, siendo únicamente necesario definir e implementar lo que hace único a cada diálogo. Podrá observar esta afirmación con las distintas demostraciones aquí.</value>
+  <data name="DtEntityProvNotReady" xml:space="preserve">
+    <value>El proveedor de entidades enlazado a datos no está listo. Por favor, ejecute FetchDataAsync() antes de intentar refrescar los resultados.</value>
   </data>
-  <data name="Title" xml:space="preserve">
-    <value>Demostración de servicio de diálogo</value>
-  </data>
-  <data name="AskText" xml:space="preserve">
-    <value>¿Funciona correctamente este cuadro de diálogo?</value>
-  </data>
-  <data name="CancellableOpTest" xml:space="preserve">
-    <value>Probar diálogo de operación cancelable</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="ErrorTest" xml:space="preserve">
-    <value>Probar mensaje de error</value>
-  </data>
-  <data name="ErrorText" xml:space="preserve">
-    <value>Este es un mensaje de error.</value>
-  </data>
-  <data name="HelloWorld" xml:space="preserve">
-    <value>¡Hola mundo!</value>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Mensaje</value>
-  </data>
-  <data name="MessageTest" xml:space="preserve">
-    <value>Probar mensaje</value>
-  </data>
-  <data name="OperationTest" xml:space="preserve">
-    <value>Probar diálogo de operación</value>
-  </data>
-  <data name="QuestionTest" xml:space="preserve">
-    <value>Probar pregunta</value>
-  </data>
-  <data name="SelectItemTest" xml:space="preserve">
-    <value>Probar selección de elemento</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>Advertencia</value>
-  </data>
-  <data name="WarningTest" xml:space="preserve">
-    <value>Probar mensaje de advertencia</value>
-  </data>
-  <data name="WarningText" xml:space="preserve">
-    <value>Este es un mensaje de advertencia.</value>
-  </data>
-  <data name="TestTextInput" xml:space="preserve">
-    <value>Entrada de texto</value>
-  </data>
-  <data name="TextInputPrompt" xml:space="preserve">
-    <value>Por favor, escriba algo de texto a continuación.</value>
-  </data>
-  <data name="CustomDialog1" xml:space="preserve">
-    <value>Veces ejecutado</value>
-  </data>
-  <data name="OperationDemo1" xml:space="preserve">
-    <value>Estableciendo conexión...</value>
-  </data>
-  <data name="OperationDemo2" xml:space="preserve">
-    <value>Escribiendo a objeto {0}...</value>
-  </data>
-  <data name="OperationDemo3" xml:space="preserve">
-    <value>Limpiando...</value>
-  </data>
-  <data name="OperationDemo4" xml:space="preserve">
-    <value>Cancelando...</value>
-  </data>
-  <data name="SelectDemo1" xml:space="preserve">
-    <value>Opción {0}</value>
-  </data>
-  <data name="SelectDemo2" xml:space="preserve">
-    <value>Seleccionar opción</value>
-  </data>
-  <data name="SelectDemo3" xml:space="preserve">
-    <value>Seleccione una opción desde el combo box a continuación:</value>
-  </data>
-  <data name="SelectDemo4" xml:space="preserve">
-    <value>Nada seleccionado</value>
-  </data>
-  <data name="SelectDemo5" xml:space="preserve">
-    <value>No se ha seleccionado ninguna opción en el diálogo.</value>
-  </data>
-  <data name="SelectDemo6" xml:space="preserve">
-    <value>El usuario ha seleccionado "{0}".</value>
-  </data>
-  <data name="TestCredentialInput" xml:space="preserve">
-    <value>Entrada de credencial</value>
-  </data>
-  <data name="TestCustomDialog" xml:space="preserve">
-    <value>Diálogo definido por el usuario</value>
-  </data>
-  <data name="TestIntInput" xml:space="preserve">
-    <value>Entrada de número</value>
-  </data>
-  <data name="TestIntRangeInput" xml:space="preserve">
-    <value>Entrada de rango de números</value>
+  <data name="UnconfiguredObjectSelection" xml:space="preserve">
+    <value>La lista de modelos disponibles para esta operación no ha sido definida y no ha podido ser resuelta automáticamente.</value>
   </data>
 </root>

@@ -43,7 +43,9 @@ public class CrudEditorViewModel : DynamicCrudViewModelBase
     {
         originalEntity = entity;
         Context = context;
-        Title = context.CreatingNew ? $"New {description.FriendlyName}" : $"Edit {description.FriendlyName} \"{entity.IdAsString}\"";
+        Title = context.CreatingNew
+            ? string.Format(St.NewModel, description.FriendlyName)
+            : string.Format(St.EditModel, description.FriendlyName, entity.IdAsString);
     }
 
     /// <summary>

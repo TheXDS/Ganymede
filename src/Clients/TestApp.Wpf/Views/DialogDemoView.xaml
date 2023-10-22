@@ -34,10 +34,10 @@
                     <Button Margin="5" Command="{Binding TestOperationCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.OperationTest}"/>
                     <Button Margin="5" Command="{Binding TestCancellableOperationCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.CancellableOpTest}"/>
                     <Button Margin="5" Command="{Binding TestTextInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
-                    <Button Margin="5" Command="{Binding TestIntInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
-                    <Button Margin="5" Command="{Binding TestIntRangeInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
-                    <Button Margin="5" Command="{Binding TestCredentialCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
-                    <Button Margin="5" Command="{Binding TestCustomDialogCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestTextInput}"/>
+                    <Button Margin="5" Command="{Binding TestIntInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestIntInput}"/>
+                    <Button Margin="5" Command="{Binding TestIntRangeInputCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestIntRangeInput}"/>
+                    <Button Margin="5" Command="{Binding TestCredentialCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestCredentialInput}"/>
+                    <Button Margin="5" Command="{Binding TestCustomDialogCommand, Mode=OneWay}" Content="{x:Static str:DialogDemoView.TestCustomDialog}"/>
                 </StackPanel>
             </ScrollViewer>
         </Border>

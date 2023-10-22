@@ -123,6 +123,9 @@
   <data name="CancellableOpTest" xml:space="preserve">
     <value>Test cancellable operation dialog</value>
   </data>
+  <data name="CustomDialog1" xml:space="preserve">
+    <value>Times ran</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
@@ -148,14 +151,56 @@ As this dialog system is expandable, the dialog service included in Ganymede.Wpf
   <data name="MessageTest" xml:space="preserve">
     <value>Test message</value>
   </data>
+  <data name="OperationDemo1" xml:space="preserve">
+    <value>Establishing connection...</value>
+  </data>
+  <data name="OperationDemo2" xml:space="preserve">
+    <value>Writing to object {0}...</value>
+  </data>
+  <data name="OperationDemo3" xml:space="preserve">
+    <value>Cleaning up...</value>
+  </data>
+  <data name="OperationDemo4" xml:space="preserve">
+    <value>Cancelling...</value>
+  </data>
   <data name="OperationTest" xml:space="preserve">
     <value>Test operation dialog</value>
   </data>
   <data name="QuestionTest" xml:space="preserve">
     <value>Test question</value>
   </data>
+  <data name="SelectDemo1" xml:space="preserve">
+    <value>Option {0}</value>
+  </data>
+  <data name="SelectDemo2" xml:space="preserve">
+    <value>Select option</value>
+  </data>
+  <data name="SelectDemo3" xml:space="preserve">
+    <value>Select an option from the combo box below:</value>
+  </data>
+  <data name="SelectDemo4" xml:space="preserve">
+    <value>Nothing selected</value>
+  </data>
+  <data name="SelectDemo5" xml:space="preserve">
+    <value>No option has been selected from the prompt.</value>
+  </data>
+  <data name="SelectDemo6" xml:space="preserve">
+    <value>The user selected "{0}".</value>
+  </data>
   <data name="SelectItemTest" xml:space="preserve">
     <value>Test item selection</value>
+  </data>
+  <data name="TestCredentialInput" xml:space="preserve">
+    <value>Credential input</value>
+  </data>
+  <data name="TestCustomDialog" xml:space="preserve">
+    <value>User-defined dialog</value>
+  </data>
+  <data name="TestIntInput" xml:space="preserve">
+    <value>Number input</value>
+  </data>
+  <data name="TestIntRangeInput" xml:space="preserve">
+    <value>Number range input</value>
   </data>
   <data name="TestTextInput" xml:space="preserve">
     <value>Text input</value>
