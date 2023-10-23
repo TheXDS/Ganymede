@@ -1,22 +1,30 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
+using System.Windows.Input;
+using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Services.Base;
+using TheXDS.Ganymede.Types.Base;
+using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Base;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 using TheXDS.Triton.Services.Base;
+using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
 namespace TheXDS.Ganymede.Services;
 
 /// <summary>
 /// Implements an entity provider bound to a Triton service.
 /// </summary>
-public class DataboundEntityProvider : ViewModelBase, IEntityProvider
+public class DataboundEntityProvider : ViewModelBase, IEntityProvider, IViewModel
 {
     private readonly ITritonService _dataService;
     private readonly Type _model;
+    private readonly ObservableCollectionWrap<Model> _results = new();
     private int _page = 1;
     private int _itemsPerPage = 100;
+    private int totalItems;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DataboundEntityProvider"/>
@@ -34,15 +42,63 @@ public class DataboundEntityProvider : ViewModelBase, IEntityProvider
     /// </exception>
     public DataboundEntityProvider(ITritonService dataService, Type model)
     {
+        RegisterPropertyChangeBroadcast(nameof(ItemsPerPage), nameof(TotalPages));
+
         _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
         _model = model ?? throw new ArgumentNullException(nameof(model));
+        var b = new CommandBuilder<DataboundEntityProvider>(this);
+
+        FirstPageCommand = b.BuildSimple(OnFirst);
+        LastPageCommand = b.BuildSimple(OnLast);
+        NextPageCommand = b.BuildObserving(OnNextPage).ListensTo(p => p.Results).CanExecute(CanGoNext).Build();
+        PrevousPageCommand = b.BuildObserving(OnPreviousPage).ListensTo(p => p.Results).CanExecute(CanGoPrevious).Build();
+        RefreshCommand = b.BuildBusyOperation(OnRefresh);
     }
 
-    /// <inheritdoc/>
-    public IEnumerable<Model> Results { get; private set; } = Enumerable.Empty<Model>();
+    /// <summary>
+    /// Gets a reference to the command used to navigate to the first page.
+    /// </summary>
+    public ICommand FirstPageCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to navigate to the last page.
+    /// </summary>
+    public ICommand LastPageCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to navigate to the next page.
+    /// </summary>
+    public ICommand NextPageCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to navigate to the previous page.
+    /// </summary>
+    public ICommand PrevousPageCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to reload the contents of the
+    /// <see cref="Results"/> collection.
+    /// </summary>
+    public ICommand RefreshCommand { get; }
 
     /// <inheritdoc/>
-    public int TotalItems { get; private set; }
+    public ICollection<FilterItem> Filters { get; } = new ObservableCollectionWrap<FilterItem>(new List<FilterItem>());
+
+    /// <inheritdoc/>
+    public IEnumerable<Model> Results => _results;
+
+    /// <summary>
+    /// Gets a reference to a dialog service that can be used to block the UI
+    /// while the service is busy fetching data.
+    /// </summary>
+    public IDialogService? DialogService { get; set; }
+
+    /// <inheritdoc/>
+    public int TotalItems
+    {
+        get => totalItems;
+        private set => Change(ref totalItems, value);
+    }
 
     /// <inheritdoc/>
     public int Page
@@ -52,7 +108,7 @@ public class DataboundEntityProvider : ViewModelBase, IEntityProvider
         {
             var total = ((IEntityProvider)this).TotalPages;
             if (value < 1 || (total > 0 && value > total)) throw new ArgumentOutOfRangeException(nameof(value));
-            _page = value;
+            if (Change(ref _page, value)) FetchDataAsync();
         }
     }
 
@@ -63,27 +119,73 @@ public class DataboundEntityProvider : ViewModelBase, IEntityProvider
         set
         {
             if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
-            _itemsPerPage = value;
+            if (Change(ref _itemsPerPage, value))
+            {
+                _page = 1;
+                Notify(nameof(Page));
+                FetchDataAsync();
+            }
         }
     }
 
     /// <inheritdoc/>
-    public ICollection<FilterItem> Filters { get; } = new List<FilterItem>();
+    public int TotalPages => ItemsPerPage > 0 ? (int)Math.Ceiling(TotalItems / (float)ItemsPerPage) : 1;
+
+    INavigationService? IViewModel.NavigationService { get => null; set { } }
+
+    string? IViewModel.Title { get => null; set { } }
+
+    bool IViewModel.IsBusy { get => IsBusy; set => IsBusy = value; }
 
     /// <inheritdoc/>
-    public async Task FetchDataAsync()
+    public Task FetchDataAsync()
     {
+        return DialogService?.RunOperation(OnRefresh) ?? OnRefresh(null);
+    }
+
+    private async Task OnRefresh(IProgress<ProgressReport>? status)
+    {
+        status?.Report(St.FetchingData);
         await using var t = _dataService.GetReadTransaction();
         var query = BuildQuery(_model, t, Filters.Select(ToLambda)).Cast<Model>();
         TotalItems = query.Count();
-        Results = await query.Skip((Page - 1) * ItemsPerPage).Take(ItemsPerPage).ToListAsync();
+        _results.Substitute(await query.Skip((Page - 1) * ItemsPerPage).Take(ItemsPerPage).ToListAsync());
+        Notify(nameof(Results));
     }
 
+    private Task OnFirst()
+    {
+        Page = 1;
+        return FetchDataAsync();
+    }
 
+    private Task OnNextPage()
+    {
+        Page++;
+        return FetchDataAsync();
+    }
 
+    private Task OnPreviousPage()
+    {
+        Page--;
+        return FetchDataAsync();
+    }
 
+    private Task OnLast()
+    {
+        Page = ((IEntityProvider)this).TotalPages;
+        return FetchDataAsync();
+    }
 
+    private bool CanGoNext()
+    {
+        return Page < ((IEntityProvider)this).TotalPages;
+    }
 
+    private bool CanGoPrevious()
+    {
+        return Page > 1;
+    }
 
     private LambdaExpression ToLambda(FilterItem item)
     {

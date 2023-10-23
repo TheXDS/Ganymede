@@ -24,4 +24,9 @@ public interface IViewModel : INotifyPropertyChanged
     /// Gets or sets the ViewModel title.
     /// </summary>
     string? Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value that indicates whether or not this ViewModel is busy.
+    /// </summary>
+    bool IsBusy { get; set; }
 }

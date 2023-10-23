@@ -59,12 +59,17 @@ public abstract class ViewModel : ViewModelBase, IViewModel
         return Task.CompletedTask;
     }
 
-    internal void SetIsBusy_Internal(bool value) => IsBusy = value;
     internal async Task InvokeOnCreated()
     {
         IsBusy = true;
         await OnCreated();
         IsInitialized = true;
         IsBusy = false;
+    }
+
+    bool IViewModel.IsBusy
+    {
+        get => IsBusy; 
+        set => IsBusy = value;
     }
 }

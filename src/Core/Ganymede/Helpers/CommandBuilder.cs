@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TheXDS.Ganymede.Models;
-using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Helpers;
@@ -20,7 +14,7 @@ namespace TheXDS.Ganymede.Helpers;
 /// Type of <see cref="ViewModel"/> for which to generate
 /// <see cref="ICommand"/> instances.
 /// </typeparam>
-public class CommandBuilder<TViewModel> where TViewModel : ViewModel
+public class CommandBuilder<TViewModel> where TViewModel : IViewModel
 {
     private readonly TViewModel _vm;
 
@@ -323,14 +317,14 @@ public class CommandBuilder<TViewModel> where TViewModel : ViewModel
 
     private async Task RunBusyOp(Task callback)
     {
-        _vm.SetIsBusy_Internal(true);
+        _vm.IsBusy = true;
         try 
         {
             await callback;
         }
         finally
         {
-            _vm.SetIsBusy_Internal(false);
+            _vm.IsBusy = false;
         }
     }
 }

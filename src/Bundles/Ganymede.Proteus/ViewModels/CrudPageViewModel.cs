@@ -8,10 +8,10 @@ using TheXDS.Ganymede.Services.Base;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Exceptions;
-using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
 using TheXDS.Triton.Services.Base;
+
 using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
 namespace TheXDS.Ganymede.ViewModels;
@@ -26,18 +26,12 @@ public class CrudPageViewModel : ViewModel
     private readonly ITritonService? _dataService;
     private Model? _selectedEntity;
     private bool _isEditing = false;
-    private readonly ObservableCollectionWrap<Model> _entities = UiThread.Invoke(() => new ObservableCollectionWrap<Model>());
 
     /// <summary>
     /// Contains the current navigation service used to handle navigation to
     /// detail and editor panels for any selected entity.
     /// </summary>
     public INavigationService CrudNavService { get; } = UiThread.Invoke(() => new NavigationService());
-
-    /// <summary>
-    /// Contains the current set of entities to be displayed on this ViewModel.
-    /// </summary>
-    public ICollection<Model> Entities => _entities;
 
     /// <summary>
     /// Gets an array of all defned descriptions for this CRUD page.
@@ -56,25 +50,9 @@ public class CrudPageViewModel : ViewModel
     public ICommand UnselectCommand { get; }
 
     /// <summary>
-    /// Gets a reference to the command used to refresh the current dataset.
-    /// </summary>
-    public ICommand RefreshCommand { get; }
-
-    /// <summary>
     /// Gets a reference to the command used to create new entities.
     /// </summary>
     public ICommand NewCommand { get; }
-
-    public ICommand FirstPageCommand { get; }
-    public ICommand LastPageCommand { get; }
-
-
-    public ICommand NextPageCommand { get; }
-
-    public ICommand PrevousPageCommand { get; }
-
-
-
 
     /// <summary>
     /// Gets a reference to the command used to edit the currently selected entity on the set.
@@ -117,16 +95,10 @@ public class CrudPageViewModel : ViewModel
         private set => Change(ref _isEditing, value);
     }
 
-    public int ItemsPerPage
-    {
-        get => _entityProvider.ItemsPerPage;
-        set
-        {
-            _entityProvider.ItemsPerPage = value;
-            DialogService!.RunOperation(OnRefresh);
-        }
-    }
-
+    /// <summary>
+    /// Gets a reference to the Entity provider instance that contains the
+    /// collection of entities managed by this ViewModel.
+    /// </summary>
     public IEntityProvider EntityProvider => _entityProvider;
 
     private CrudPageViewModel(ICrudDescription[] descriptions)
@@ -135,48 +107,9 @@ public class CrudPageViewModel : ViewModel
         Descriptions = descriptions;
         var b = new CommandBuilder<CrudPageViewModel>(this);
         UnselectCommand = b.BuildSimple(() => SelectedEntity = null);
-        RefreshCommand = b.BuildBusyOperation(OnRefresh);
         NewCommand = b.BuildSimple(OnNew);
-        FirstPageCommand = b.BuildSimple(OnFirst);
-        LastPageCommand = b.BuildSimple(OnLast);
-        NextPageCommand = b.BuildObserving(OnNextPage).ListensTo(p => p.Entities).CanExecute(CanGoNext).Build();
-        PrevousPageCommand = b.BuildObserving(OnPreviousPage).ListensTo(p => p.Entities).CanExecute(CanGoPrevious).Build();
         UpdateInteraction = new(b.BuildObserving(OnUpdate).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), St.Update);
         DeleteInteraction = new(b.BuildObserving(OnDelete).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), St.Delete);
-    }
-
-    private Task OnLast()
-    {
-        _entityProvider.Page = _entityProvider.TotalPages;
-        return DialogService!.RunOperation(OnRefresh);
-    }
-
-    private Task OnFirst()
-    {
-        _entityProvider.Page = 1;
-        return DialogService!.RunOperation(OnRefresh);
-    }
-
-    private Task OnNextPage()
-    {
-        _entityProvider.Page++;
-        return DialogService!.RunOperation(OnRefresh);
-    }
-
-    private bool CanGoNext()
-    {
-        return _entityProvider.Page < _entityProvider.TotalPages;
-    }
-
-    private bool CanGoPrevious()
-    {
-        return _entityProvider.Page > 1;
-    }
-
-    private Task OnPreviousPage()
-    {
-        _entityProvider.Page--;
-        return DialogService!.RunOperation(OnRefresh);
     }
 
     /// <summary>
@@ -197,7 +130,7 @@ public class CrudPageViewModel : ViewModel
     /// </remarks>
     public CrudPageViewModel(ICollection<Model> entities, ICrudDescription[] descriptions) : this(descriptions)
     {
-        _entities.Substitute(entities);
+        _entityProvider = null!;
     }
 
     /// <summary>
@@ -217,13 +150,9 @@ public class CrudPageViewModel : ViewModel
     }
 
     /// <inheritdoc/>
-    protected override async Task OnCreated()
+    protected override Task OnCreated()
     {
-        if (!IsInitialized)
-        {
-            await (DialogService?.RunOperation(OnRefresh) ?? OnRefresh(null));
-        }
-        await base.OnCreated();
+        return IsInitialized ? base.OnCreated() : EntityProvider.FetchDataAsync();
     }
 
     private async Task OnNew()
@@ -241,17 +170,6 @@ public class CrudPageViewModel : ViewModel
         return i >= 0 ? Descriptions[i] : null;
     }
 
-    private async Task OnRefresh(IProgress<ProgressReport>? status)
-    {
-        if (_dataService is null) return;
-        SelectedEntity = null;
-        status?.Report(St.FetchingData);
-        await _entityProvider.FetchDataAsync();
-        _entities.Substitute(_entityProvider.Results.ToList());
-        Notify(nameof(Entities), nameof(EntityProvider));
-        if (!IsEditing) PresentRegularContent();
-    }
-
     private Task OnUpdate()
     {
         if (SelectedEntity is null) return Task.CompletedTask;
@@ -264,7 +182,7 @@ public class CrudPageViewModel : ViewModel
         {
             IsBusy = true;
             await TrySaveData(progress, SelectedEntity ?? throw new InvalidOperationException(), (p, q) => p.Delete(q));
-            await OnRefresh(null);
+            await EntityProvider.FetchDataAsync();
             IsBusy = false;
         }
     }
@@ -312,7 +230,7 @@ public class CrudPageViewModel : ViewModel
         if (await CrudCommon.LaunchEditor(s))
         {
             retval = (await DialogService!.RunOperation(p => TrySaveData(p, entity))) ?? true;
-            await OnRefresh(null);
+            await EntityProvider.FetchDataAsync();
         }
         PresentRegularContent();
         IsEditing = false;
