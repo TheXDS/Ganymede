@@ -174,21 +174,23 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
 
     private LambdaExpression ToLambda(FilterItem item)
     {
-        return Expression.Lambda(ToFunc(_model), GetFilterOnly(_model, out var entExp, item), entExp);
+        return Expression.Lambda(ToFunc(_model), GetFilter(_model, out var entExp, item), entExp);
     }
 
     private static IQueryable<Model> BuildQuery(Type model, ICrudReadTransaction t, IEnumerable<LambdaExpression> expressions)
     {
-        IQueryable<Model> o = t.All(model);
-        return expressions.Aggregate(o, (p, q) => p.Where((Expression<Func<Model, bool>>)q));
+        return (IQueryable<Model>)typeof(TritonEntityProvider)
+            .GetMethod(nameof(BuildQueryGeneric), BindingFlags.NonPublic | BindingFlags.Static)!
+            .MakeGenericMethod(model)
+            .Invoke(null, new object[] { t, expressions })!;
     }
 
-
-
-
-
-
-
+    private static IQueryable<T> BuildQueryGeneric<T>(ICrudReadTransaction t, IEnumerable<LambdaExpression> expressions)
+        where T : Model
+    {
+        IQueryable<T> o = t.All<T>();
+        return expressions.Aggregate(o, (p, q) => p.Where((Expression<Func<T, bool>>)q));
+    }
 
     private static Type ToFunc(Type model)
     {
@@ -210,7 +212,7 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
         return Expression.Property(source, property.GetMethod!);
     }
 
-    private static Expression GetFilterOnly(Type model, out ParameterExpression entExp, FilterItem query)
+    private static Expression GetFilter(Type model, out ParameterExpression entExp, FilterItem query)
     {
         entExp = Expression.Parameter(model);
         return Expression.Call(
