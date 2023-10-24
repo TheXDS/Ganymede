@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Triton.Services.Base;
 using SP = TheXDS.ServicePool.ServicePool;
@@ -42,8 +43,8 @@ public class ProteusDemoViewModel : ViewModel
     private void OnManage<TDescriptor>() where TDescriptor : ICrudDescriptor, new()
     {
         var svc = SP.CommonPool.Resolve<ITritonService>()!;
-        using var trans = svc.GetReadTransaction();
-        var vm = new CrudPageViewModel(new[] { new TDescriptor().Description }, svc) { DialogService = DialogService };
+        var ep = new TritonEntityProvider(svc, new TDescriptor().Description.Model);
+        var vm = new CrudPageViewModel(new[] { new TDescriptor().Description }, svc, ep) { DialogService = DialogService };
         NavigationService?.Navigate(vm);
     }
 }

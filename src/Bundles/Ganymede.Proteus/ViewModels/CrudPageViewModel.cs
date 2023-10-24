@@ -23,7 +23,7 @@ namespace TheXDS.Ganymede.ViewModels;
 public class CrudPageViewModel : ViewModel
 {
     private readonly IEntityProvider _entityProvider;
-    private readonly ITritonService? _dataService;
+    private readonly ITritonService _tritonService;
     private Model? _selectedEntity;
     private bool _isEditing = false;
 
@@ -101,9 +101,23 @@ public class CrudPageViewModel : ViewModel
     /// </summary>
     public IEntityProvider EntityProvider => _entityProvider;
 
-    private CrudPageViewModel(ICrudDescription[] descriptions)
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="CrudPageViewModel"/> class.
+    /// </summary>
+    /// <param name="descriptions">
+    /// Model description for the entities.
+    /// </param>
+    /// <param name="tritonService">
+    /// Triton service instance to use for write operations.
+    /// </param>
+    /// <param name="entityProvider">
+    /// Entity provider instance to use on this and any children ViewModel.
+    /// </param>
+    public CrudPageViewModel(ICrudDescription[] descriptions, ITritonService tritonService, IEntityProvider entityProvider)
     {
-        _entityProvider = null!;
+        _tritonService = tritonService;
+        _entityProvider = entityProvider;
         Descriptions = descriptions;
         var b = new CommandBuilder<CrudPageViewModel>(this);
         UnselectCommand = b.BuildSimple(() => SelectedEntity = null);
@@ -116,37 +130,15 @@ public class CrudPageViewModel : ViewModel
     /// Initializes a new instance of the
     /// <see cref="CrudPageViewModel"/> class.
     /// </summary>
-    /// <param name="entities">
-    /// Collection of entities to manage. May be a data set, or a
-    /// sub-collection inside an entity.
-    /// </param>
     /// <param name="descriptions">
     /// Model description for the entities.
     /// </param>
-    /// <remarks>
-    /// When using this contructor, any create or update operation will only
-    /// write the changes onto the dataset in memory, and refresh operations
-    /// will not be available.
-    /// </remarks>
-    public CrudPageViewModel(ICollection<Model> entities, ICrudDescription[] descriptions) : this(descriptions)
-    {
-        _entityProvider = null!;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="CrudPageViewModel"/> class.
-    /// </summary>
-    /// <param name="descriptions">
-    /// Model description for the entities.
+    /// <param name="tritonService">
+    /// Triton service instance to use for write operations.
     /// </param>
-    /// <param name="dataService">
-    /// Data service to use when saving an entity or updating the entity set.
-    /// </param>
-    public CrudPageViewModel(ICrudDescription[] descriptions, ITritonService dataService) : this(descriptions)
+    public CrudPageViewModel(ICrudDescription[] descriptions, ITritonService tritonService)
+        : this(descriptions, tritonService, new TritonEntityProvider(tritonService, descriptions[0].Model))
     {
-        _entityProvider = new DataboundEntityProvider(dataService, descriptions[0].Model);
-        _dataService = dataService;
     }
 
     /// <inheritdoc/>
@@ -160,7 +152,7 @@ public class CrudPageViewModel : ViewModel
         ICrudDescription? desc = Descriptions.Length == 1 ? Descriptions[0] : await SelectNew();
         if (desc is null) return;
         Model e = desc.Model.New<Model>();
-        await PresentEditingContent(e, desc, new(true, desc.Model, null, _dataService));
+        await PresentEditingContent(e, desc, new(true, desc.Model, null, _tritonService));
     }
 
     private async Task<ICrudDescription?> SelectNew()
@@ -173,7 +165,7 @@ public class CrudPageViewModel : ViewModel
     private Task OnUpdate()
     {
         if (SelectedEntity is null) return Task.CompletedTask;
-        return PresentEditingContent(SelectedEntity, GetCurrentDescription(), new(false, SelectedEntity.GetType(), null, _dataService));
+        return PresentEditingContent(SelectedEntity, GetCurrentDescription(), new(false, SelectedEntity.GetType(), null, _tritonService));
     }
 
     private async Task OnDelete(IProgress<ProgressReport> progress)
@@ -229,7 +221,7 @@ public class CrudPageViewModel : ViewModel
         CrudNavService.NavigateAndReset(null);
         if (await CrudCommon.LaunchEditor(s))
         {
-            retval = (await DialogService!.RunOperation(p => TrySaveData(p, entity))) ?? true;
+            retval = await DialogService!.RunOperation(p => TrySaveData(p, entity));
             await EntityProvider.FetchDataAsync();
         }
         PresentRegularContent();
@@ -237,20 +229,16 @@ public class CrudPageViewModel : ViewModel
         return retval;
     }
 
-    private Task<bool?> TrySaveData(IProgress<ProgressReport> progress, Model entity)
+    private Task<bool> TrySaveData(IProgress<ProgressReport> progress, Model entity)
     {
         return TrySaveData(progress, entity, (p, q) => p.CreateOrUpdate(q));
     }
 
-    private async Task<bool?> TrySaveData(IProgress<ProgressReport> progress, Model entity, Action<ICrudWriteTransaction, Model> operation)
+    private async Task<bool> TrySaveData(IProgress<ProgressReport> progress, Model entity, Action<ICrudWriteTransaction, Model> operation)
     {
-        if (_dataService is not null)
-        {
-            progress.Report(St.Saving);
-            await using var svc = _dataService.GetWriteTransaction();
-            operation.Invoke(svc, entity);
-            return (await svc.CommitAsync()).Success;
-        }
-        return null;
+        progress.Report(St.Saving);
+        await using var svc = _tritonService.GetWriteTransaction();
+        operation.Invoke(svc, entity);
+        return (await svc.CommitAsync()).Success;
     }
 }

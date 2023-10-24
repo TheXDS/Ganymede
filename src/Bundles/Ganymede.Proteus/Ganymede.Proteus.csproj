@@ -8,11 +8,11 @@
 
     <ItemGroup>
       <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.1.1" />
-      <PackageReference Include="TheXDS.MCART.Security" Version="0.17.1-a002" />
-      <PackageReference Include="TheXDS.MCART.Security.Argon2" Version="0.17.0" />
-      <PackageReference Include="TheXDS.MCART.TypeFactory" Version="0.17.1-a002" />
-      <PackageReference Include="TheXDS.MCART.ViewModelFactory" Version="0.17.1-a002" />
-		<PackageReference Include="TheXDS.Triton" Version="1.4.2" />
+      <PackageReference Include="TheXDS.MCART.Security" Version="0.17.1-a003" />
+      <PackageReference Include="TheXDS.MCART.Security.Argon2" Version="0.17.1-a003" />
+      <PackageReference Include="TheXDS.MCART.TypeFactory" Version="0.17.1-a003" />
+      <PackageReference Include="TheXDS.MCART.ViewModelFactory" Version="0.17.1-a003" />
+		<PackageReference Include="TheXDS.Triton" Version="1.5.0" />
 
 	</ItemGroup>
 

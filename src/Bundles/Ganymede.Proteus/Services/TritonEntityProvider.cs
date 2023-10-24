@@ -17,7 +17,7 @@ namespace TheXDS.Ganymede.Services;
 /// <summary>
 /// Implements an entity provider bound to a Triton service.
 /// </summary>
-public class DataboundEntityProvider : ViewModelBase, IEntityProvider, IViewModel
+public class TritonEntityProvider : ViewModelBase, IEntityProvider
 {
     private readonly ITritonService _dataService;
     private readonly Type _model;
@@ -27,7 +27,7 @@ public class DataboundEntityProvider : ViewModelBase, IEntityProvider, IViewMode
     private int totalItems;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataboundEntityProvider"/>
+    /// Initializes a new instance of the <see cref="TritonEntityProvider"/>
     /// class.
     /// </summary>
     /// <param name="dataService">
@@ -40,45 +40,34 @@ public class DataboundEntityProvider : ViewModelBase, IEntityProvider, IViewMode
     /// Thrown if either <paramref name="dataService"/> or
     /// <paramref name="model"/> are <see langword="null"/>.
     /// </exception>
-    public DataboundEntityProvider(ITritonService dataService, Type model)
+    public TritonEntityProvider(ITritonService dataService, Type model)
     {
         RegisterPropertyChangeBroadcast(nameof(ItemsPerPage), nameof(TotalPages));
 
         _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
         _model = model ?? throw new ArgumentNullException(nameof(model));
-        var b = new CommandBuilder<DataboundEntityProvider>(this);
+        var b = new CommandBuilder<TritonEntityProvider>(this);
 
         FirstPageCommand = b.BuildSimple(OnFirst);
         LastPageCommand = b.BuildSimple(OnLast);
         NextPageCommand = b.BuildObserving(OnNextPage).ListensTo(p => p.Results).CanExecute(CanGoNext).Build();
-        PrevousPageCommand = b.BuildObserving(OnPreviousPage).ListensTo(p => p.Results).CanExecute(CanGoPrevious).Build();
+        PreviousPageCommand = b.BuildObserving(OnPreviousPage).ListensTo(p => p.Results).CanExecute(CanGoPrevious).Build();
         RefreshCommand = b.BuildBusyOperation(OnRefresh);
     }
 
-    /// <summary>
-    /// Gets a reference to the command used to navigate to the first page.
-    /// </summary>
+    /// <inheritdoc/>
     public ICommand FirstPageCommand { get; }
 
-    /// <summary>
-    /// Gets a reference to the command used to navigate to the last page.
-    /// </summary>
+    /// <inheritdoc/>
     public ICommand LastPageCommand { get; }
 
-    /// <summary>
-    /// Gets a reference to the command used to navigate to the next page.
-    /// </summary>
+    /// <inheritdoc/>
     public ICommand NextPageCommand { get; }
 
-    /// <summary>
-    /// Gets a reference to the command used to navigate to the previous page.
-    /// </summary>
-    public ICommand PrevousPageCommand { get; }
+    /// <inheritdoc/>
+    public ICommand PreviousPageCommand { get; }
 
-    /// <summary>
-    /// Gets a reference to the command used to reload the contents of the
-    /// <see cref="Results"/> collection.
-    /// </summary>
+    /// <inheritdoc/>
     public ICommand RefreshCommand { get; }
 
     /// <inheritdoc/>
@@ -131,10 +120,6 @@ public class DataboundEntityProvider : ViewModelBase, IEntityProvider, IViewMode
     /// <inheritdoc/>
     public int TotalPages => ItemsPerPage > 0 ? (int)Math.Ceiling(TotalItems / (float)ItemsPerPage) : 1;
 
-    INavigationService? IViewModel.NavigationService { get => null; set { } }
-
-    string? IViewModel.Title { get => null; set { } }
-
     bool IViewModel.IsBusy { get => IsBusy; set => IsBusy = value; }
 
     /// <inheritdoc/>
@@ -147,7 +132,7 @@ public class DataboundEntityProvider : ViewModelBase, IEntityProvider, IViewMode
     {
         status?.Report(St.FetchingData);
         await using var t = _dataService.GetReadTransaction();
-        var query = BuildQuery(_model, t, Filters.Select(ToLambda)).Cast<Model>();
+        var query = BuildQuery(_model, t, Filters.Select(ToLambda));
         TotalItems = query.Count();
         _results.Substitute(await query.Skip((Page - 1) * ItemsPerPage).Take(ItemsPerPage).ToListAsync());
         Notify(nameof(Results));
@@ -192,26 +177,18 @@ public class DataboundEntityProvider : ViewModelBase, IEntityProvider, IViewMode
         return Expression.Lambda(ToFunc(_model), GetFilterOnly(_model, out var entExp, item), entExp);
     }
 
-    private static IQueryable BuildQuery(Type model, ICrudReadTransaction t, IEnumerable<LambdaExpression> expressions)
+    private static IQueryable<Model> BuildQuery(Type model, ICrudReadTransaction t, IEnumerable<LambdaExpression> expressions)
     {
-        object o = GetTritonAllMethod(t, model).Invoke(t, Array.Empty<object>())!;
-        return (IQueryable)GetQueryMethod(model).Invoke(null, new object[] { o, expressions })!;
+        IQueryable<Model> o = t.All(model);
+        return expressions.Aggregate(o, (p, q) => p.Where((Expression<Func<Model, bool>>)q));
     }
 
-    private static IQueryable<T> BuildQueryGeneric<T>(IQueryable<T> all, IEnumerable<LambdaExpression> expressions) where T : Model
-    {
-        return expressions.Aggregate(all, (p, q) => p.Where((Expression<Func<T, bool>>)q));
-    }
 
-    private static MethodInfo GetQueryMethod(Type model)
-    {
-        return typeof(DataboundEntityProvider).GetMethod(nameof(BuildQueryGeneric), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(model);
-    }
 
-    private static MethodInfo GetTritonAllMethod(ICrudReadTransaction t, Type model)
-    {
-        return t.GetType().GetMethod("All", 1, BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null)!.MakeGenericMethod(model);
-    }
+
+
+
+
 
     private static Type ToFunc(Type model)
     {

@@ -10,7 +10,7 @@ namespace TheXDS.Ganymede.ViewModels;
 /// </summary>
 public class DataCrudSelectorViewModel : CrudObjectSelectorViewModelBase
 {
-    private readonly DataboundEntityProvider _queryService;
+    private readonly TritonEntityProvider _queryService;
 
     /// <summary>
     /// Initializes a new instance of the

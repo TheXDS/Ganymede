@@ -1,4 +1,6 @@
-﻿using TheXDS.Triton.Models.Base;
+﻿using System.Windows.Input;
+using TheXDS.Ganymede.Types.Base;
+using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.Services.Base;
 
@@ -6,7 +8,7 @@ namespace TheXDS.Ganymede.Services.Base;
 /// Defines a set of members to be implemented by a type that provides query
 /// and search services for collections of entities.
 /// </summary>
-public interface IEntityProvider
+public interface IEntityProvider : IViewModel
 {
     /// <summary>
     /// Gets the current query results.
@@ -44,6 +46,36 @@ public interface IEntityProvider
     /// Gets a collection of search filters that can be applied to the query.
     /// </summary>
     ICollection<FilterItem> Filters { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to navigate to the first page.
+    /// </summary>
+    ICommand FirstPageCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to navigate to the last page.
+    /// </summary>
+    ICommand LastPageCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to navigate to the next page.
+    /// </summary>
+    ICommand NextPageCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to navigate to the previous page.
+    /// </summary>
+    ICommand PreviousPageCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to reload the contents of the
+    /// <see cref="Results"/> collection.
+    /// </summary>
+    ICommand RefreshCommand { get; }
+
+    INavigationService? IViewModel.NavigationService { get => null; set { } }
+
+    string? IViewModel.Title { get => null; set { } }
 
     /// <summary>
     /// Creates the internal query used by this instance to generate the       

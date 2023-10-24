@@ -21,7 +21,7 @@ namespace TheXDS.Ganymede.ViewModels;
 /// <param name="PageDataService">
 /// Data service instance available to the whole CRUD chain.
 /// </param>
-public record struct CrudEditorViewModelContext(bool CreatingNew, Type Model, Type? ParentModel, ITritonService? PageDataService)
+public record struct CrudEditorViewModelContext(bool CreatingNew, Type Model, Type? ParentModel, ITritonService PageDataService)
 {
     /// <summary>
     /// Indicates whether or not the ViewModel was invoked to edit an existing entiity.
