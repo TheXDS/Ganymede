@@ -11,20 +11,20 @@ namespace TheXDS.Ganymede.Services;
 /// <summary>
 /// Implements a ViewModel-based navigation service.
 /// </summary>
-public class NavigationService : NotifyPropertyChanged, INavigationService
+public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T> where T : ViewModel
 {
-    private class ManualObserver : IEnumerable<ViewModel>, INotifyCollectionChanged
+    private class ManualObserver : IEnumerable<T>, INotifyCollectionChanged
     {
-        private readonly IEnumerable<ViewModel> _source;
+        private readonly IEnumerable<T> _source;
 
-        public ManualObserver(IEnumerable<ViewModel> source)
+        public ManualObserver(IEnumerable<T> source)
         {
             _source = source;
         }
 
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-        public IEnumerator<ViewModel> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
             return _source.Reverse().GetEnumerator();
         }
@@ -41,21 +41,21 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
     }
 
     //private readonly ConcurrentStack<ViewModel> _navStack;
-    private readonly Stack<ViewModel> _navStack;
+    private readonly Stack<T> _navStack;
     private readonly ManualObserver _navStackInfo;
-    private ViewModel? _homePage;
+    private T? _homePage;
 
     /// <inheritdoc/>
     public event EventHandler<NavigationCompletedEventArgs>? NavigationCompleted;
 
     /// <inheritdoc/>
-    public ViewModel? CurrentViewModel => _navStack.Any() && _navStack.TryPeek(out var vm) ? vm : _homePage;
+    public T? CurrentViewModel => _navStack.Any() && _navStack.TryPeek(out var vm) ? vm : _homePage;
 
     /// <inheritdoc/>
     public int NavigationStackDepth => _navStack.Count;
 
     /// <inheritdoc/>
-    public IEnumerable<ViewModel> NavigationStack => _navStackInfo;
+    public IEnumerable<T> NavigationStack => _navStackInfo;
 
     /// <summary>
     /// Gets or sets the Navigation Stack's home page.
@@ -65,7 +65,7 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
     /// as-is, and upon a request to navigate back until the navigation stack
     /// is empty, the active page will be set to this value.
     /// </remarks>
-    public ViewModel? HomePage
+    public T? HomePage
     {
         get => _homePage;
         set
@@ -84,12 +84,12 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
     public ICommand NavigateBackCommand { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="NavigationService"/>
+    /// Initializes a new instance of the <see cref="NavigationService{T}"/>
     /// class.
     /// </summary>
     public NavigationService()
     {
-        _navStack = UiThread.Invoke(() => new Stack<ViewModel>());
+        _navStack = UiThread.Invoke(() => new Stack<T>());
         RegisterPropertyChangeBroadcast(nameof(CurrentViewModel), nameof(NavigationStackDepth), nameof(NavigationStack));
         NavigateBackCommand = this.Create(NavigateBack)
             .ListensTo(p => p.CurrentViewModel)
@@ -99,14 +99,14 @@ public class NavigationService : NotifyPropertyChanged, INavigationService
     }
 
     /// <inheritdoc/>
-    public void Navigate(ViewModel viewModel)
+    public void Navigate(T viewModel)
     {
         UiThread.Invoke(() => _navStack.Push(viewModel ?? throw new ArgumentNullException(nameof(viewModel))));
         Refresh();
     }
 
     /// <inheritdoc/>
-    public void NavigateAndReset(ViewModel? viewModel)
+    public void NavigateAndReset(T? viewModel)
     {
         _navStack.Clear();
         if (viewModel is { })

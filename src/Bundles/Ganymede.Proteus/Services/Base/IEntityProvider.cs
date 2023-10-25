@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Triton.Models.Base;
 
@@ -72,6 +73,21 @@ public interface IEntityProvider : IViewModel
     /// <see cref="Results"/> collection.
     /// </summary>
     ICommand RefreshCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to edit the current filter selection.
+    /// </summary>
+    ICommand EditFiltersCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the command used to clear the filter list.
+    /// </summary>
+    ICommand ClearFiltersCommand { get; }
+
+    /// <summary>
+    /// Gets a reference to the model being returned by this provider.
+    /// </summary>
+    ICrudDescription Model { get; }
 
     INavigationService? IViewModel.NavigationService { get => null; set { } }
 

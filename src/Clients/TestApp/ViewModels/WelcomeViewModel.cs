@@ -5,13 +5,12 @@ using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Helpers;
-using TheXDS.MCART.Types.Extensions;
 using TheXDS.MCART.Security;
+using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Faker;
 using TheXDS.Triton.Services.Base;
-using St = TheXDS.Ganymede.Resources.Strings.Views.WelcomeView;
 using SP = TheXDS.ServicePool.ServicePool;
-using System.Xml.Linq;
+using St = TheXDS.Ganymede.Resources.Strings.Views.WelcomeView;
 
 namespace TheXDS.Ganymede.ViewModels;
 

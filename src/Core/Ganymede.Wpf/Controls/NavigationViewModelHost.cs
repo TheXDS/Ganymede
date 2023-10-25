@@ -1,7 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TheXDS.Ganymede.Component;
+using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Services;
+using TheXDS.Ganymede.Types.Base;
+using TheXDS.MCART.Types.Extensions;
 using static TheXDS.Ganymede.Helpers.Common;
 
 namespace TheXDS.Ganymede.Controls;
@@ -56,7 +59,7 @@ public class NavigationViewModelHost : Control
 
         DialogServiceProperty = DependencyProperty.Register(
             nameof(DialogService),
-            typeof(IDialogService), 
+            typeof(IDialogService),
             typeof(NavigationViewModelHost),
             new PropertyMetadata(null, OnDialogServiceChanged));
 
@@ -67,7 +70,7 @@ public class NavigationViewModelHost : Control
             new PropertyMetadata(null, OnNavigatorChanged));
 
         VisualResolverProperty = DependencyProperty.Register(
-            nameof(VisualResolver), 
+            nameof(VisualResolver),
             typeof(IVisualResolver<FrameworkElement>),
             typeof(NavigationViewModelHost),
             new PropertyMetadata(null, OnVisualResolverChanged));
@@ -81,12 +84,12 @@ public class NavigationViewModelHost : Control
     /// <summary>
     /// Gets the current content of this control.
     /// </summary>
-    public object? Content => UiInvoke(() => GetValue(ContentProperty));
+    public object? Content => UiThread.Invoke(() => GetValue(ContentProperty));
 
     /// <summary>
     /// Gets the current content of this control.
     /// </summary>
-    public object? OverlayContent => UiInvoke(() => GetValue(OverlayContentProperty));
+    public object? OverlayContent => UiThread.Invoke(() => GetValue(OverlayContentProperty));
 
     /// <summary>
     /// Gets or sets a reference to the <see cref="IDialogService"/> to provide
@@ -150,29 +153,27 @@ public class NavigationViewModelHost : Control
 
     private void OnNavigationCompleted(object? sender, NavigationCompletedEventArgs e)
     {
-        if (e.ViewModel is { } vm && VisualResolver?.Resolve(vm) is { } view)
-        {
-            UiInvoke(() => SetValue(ContentPropertyKey, view));
-            vm.NavigationService = Navigator;
-            vm.DialogService ??= DialogService;
-        }
-        else
-        {
-            UiInvoke(() => SetValue(ContentPropertyKey, null));
-        }
+        HandleNavigation(e.ViewModel, VisualResolver, ContentPropertyKey, Navigator, DialogService, true);
     }
 
     private void OnDialogNavigationCompleted(object? sender, NavigationCompletedEventArgs e)
     {
-        if (e.ViewModel is { } vm && _dialogVisResolver.Resolve(vm) is { } view)
+        HandleNavigation(e.ViewModel, _dialogVisResolver, OverlayContentPropertyKey, DialogService as NavigatingDialogService, null, false);
+    }
+
+    private void HandleNavigation<TNav>(ViewModel? vm, IVisualResolver<FrameworkElement>? resolver, DependencyPropertyKey contentProp, TNav? navSvc, IDialogService? dlgSvc, bool skipNavStack)
+        where TNav : INavigationService
+    {
+        if (vm is not null && (skipNavStack || (navSvc?.NavigationStack.Contains(vm) ?? false)) && UiThread.Invoke(() => resolver?.Resolve(vm)) is { } view)
         {
-            UiInvoke(() => SetValue(OverlayContentPropertyKey, view));
-            vm.NavigationService = DialogService as NavigatingDialogService;
-            vm.DialogService = null;
+            UiThread.Invoke(() => view.DataContext = vm);
+            UiThread.Invoke(() => SetValue(contentProp, view));
+            vm.NavigationService = navSvc;
+            vm.DialogService ??= dlgSvc;
         }
         else
         {
-            UiInvoke(() => SetValue(OverlayContentPropertyKey, null));
+            UiThread.Invoke(() => SetValue(contentProp, null));
         }
     }
 }

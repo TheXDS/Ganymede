@@ -43,7 +43,7 @@ public class ProteusDemoViewModel : ViewModel
     private void OnManage<TDescriptor>() where TDescriptor : ICrudDescriptor, new()
     {
         var svc = SP.CommonPool.Resolve<ITritonService>()!;
-        var ep = new TritonEntityProvider(svc, new TDescriptor().Description.Model);
+        var ep = new TritonEntityProvider(svc, new TDescriptor().Description);
         var vm = new CrudPageViewModel(new[] { new TDescriptor().Description }, svc, ep) { DialogService = DialogService };
         NavigationService?.Navigate(vm);
     }

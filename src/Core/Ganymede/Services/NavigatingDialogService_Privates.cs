@@ -9,7 +9,7 @@ namespace TheXDS.Ganymede.Services;
 /// <summary>
 /// Implements a specialized navigation service that includes dialog services.
 /// </summary>
-public partial class NavigatingDialogService : NavigationService, IDialogService
+public partial class NavigatingDialogService : NavigationService<DialogViewModel>, IDialogService
 {
     private async Task SimpleMessage(string icon, Color brush, string? title, string message)
     {

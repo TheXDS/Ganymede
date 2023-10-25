@@ -15,6 +15,7 @@ using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Resources.Strings;
 using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.Ganymede.ViewModels.CustomDialogs;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types.Extensions;
@@ -170,9 +171,9 @@ public abstract class ObjectMappingBase<TControl, TDescription>
             if (childDescription is null) return;
             var selectDialog = new DataCrudSelectorViewModel(vm.Context.PageDataService!, childDescription);
             await vm.DialogService!.CustomDialog(selectDialog);
-            if (selectDialog.Entity is not null)
+            if (selectDialog.SelectedEntity is not null)
             {
-                selectAction.Invoke(control, selectDialog.Entity, description.Property, vm.Entity);
+                selectAction.Invoke(control, selectDialog.SelectedEntity, description.Property, vm.Entity);
             }
         });
     }
@@ -184,7 +185,7 @@ public abstract class ObjectMappingBase<TControl, TDescription>
             Entity = entity,
             Description = description,
             Context = new CrudEditorViewModelContext(addNew is not null, description.Model, parentVm.Entity!.GetType(), parentVm.Context.PageDataService),
-            NavigationService = parentVm.NavigationService!,
+            NavigationService = (INavigationService<CrudViewModelBase>)parentVm.NavigationService!,
             DialogService = parentVm.DialogService!,
         };
         if (addNew is not null)

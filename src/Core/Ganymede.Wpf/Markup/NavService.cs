@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Windows.Markup;
 using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
@@ -11,19 +10,20 @@ namespace TheXDS.Ganymede.Markup;
 
 /// <summary>
 /// Markup extension that allows quick definition of a navigation service of
-/// type <see cref="NavigationService"/> with a specified home page.
+/// type <see cref="NavigationService{T}"/> with a specified home page.
 /// </summary>
 public sealed class NavService : MarkupExtension
 {
     /// <summary>
-    /// Gets or sets the <see cref="ViewModel"/> instance to be set as the home page for the new navigation service to be returned.
+    /// Gets or sets the <see cref="ViewModel"/> instance to be set as the home
+    /// page for the new navigation service to be returned.
     /// </summary>
     public object? Home { get; set; }
 
     /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
-        return new NavigationService { HomePage = GetViewModel() };
+        return new NavigationService<ViewModel> { HomePage = GetViewModel() };
     }
 
     private ViewModel? GetViewModel()

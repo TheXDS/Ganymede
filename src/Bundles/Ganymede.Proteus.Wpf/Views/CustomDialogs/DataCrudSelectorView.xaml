@@ -1,40 +1,19 @@
 ﻿<UserControl
     x:Class="TheXDS.Ganymede.Views.CustomDialogs.DataCrudSelectorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:TheXDS.Ganymede.Views.CustomDialogs"
-    xmlns:gn="http://schemas.thexds.local/ganymede"
-    xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels;assembly=Ganymede.Proteus"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:TheXDS.Ganymede.Controls"
     xmlns:vc="clr-namespace:TheXDS.Ganymede.ValueConverters"
+    xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels.CustomDialogs;assembly=Ganymede.Proteus"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:DataCrudSelectorViewModel}"
-    Height="250" Width="600">
+    Height="400" Width="600">
     <UserControl.Resources>
         <vc:ListViewGridGenerator x:Key="lvg"/>
     </UserControl.Resources>
-    <DockPanel>
-        <UniformGrid Margin="5" Rows="1" Columns="2" DockPanel.Dock="Top">
-            <DockPanel>
-                <TextBlock VerticalAlignment="Center" Margin="5">Property:</TextBlock>
-                <ComboBox
-                    ItemsSource="{Binding Properties}"
-                    SelectedValuePath="Property"
-                    DisplayMemberPath="DisplayName"
-                    SelectedValue="{Binding SelectedSearchProperty}"
-                    Margin="5"/>
-            </DockPanel>
-            <gn:SearchBox
-                Text="{Binding SearchQuery}"
-                SearchCommand="{Binding SearchCommand}"
-                CloseSearchCommand="{Binding CloseSearchCommand}"
-                Margin="5"/>
-        </UniformGrid>
-        <ListView
-            View="{Binding Description, Converter={StaticResource lvg}}"
-            Margin="10,0"
-            ItemsSource="{Binding Entities}"
-            SelectedItem="{Binding Entity}"/>
-    </DockPanel>
+    <controls:EntitySelector
+        Provider="{Binding Provider, Mode=OneWay}"
+        SelectedEntity="{Binding SelectedEntity}"/>
 </UserControl>

@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Ganymede.Proteus.Wpf;component/Resources/ControlTemplates/EntitySelector/Default.xaml"/>
         <ResourceDictionary Source="/Ganymede.Proteus.Wpf;component/Resources/ControlTemplates/ListEditor/Default.xaml"/>
-        <ResourceDictionary Source="/Ganymede.Proteus.Wpf;component/Resources/ControlTemplates/SingleObjectEditor/Default.xaml"/>        
+        <ResourceDictionary Source="/Ganymede.Proteus.Wpf;component/Resources/ControlTemplates/SingleObjectEditor/Default.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

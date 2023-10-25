@@ -1,10 +1,14 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
+using TheXDS.Ganymede.CrudGen;
+using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Services.Base;
 using TheXDS.Ganymede.Types.Base;
+using TheXDS.Ganymede.ViewModels.CustomDialogs;
+using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Base;
 using TheXDS.MCART.Types.Extensions;
@@ -20,7 +24,6 @@ namespace TheXDS.Ganymede.Services;
 public class TritonEntityProvider : ViewModelBase, IEntityProvider
 {
     private readonly ITritonService _dataService;
-    private readonly Type _model;
     private readonly ObservableCollectionWrap<Model> _results = new();
     private int _page = 1;
     private int _itemsPerPage = 100;
@@ -40,12 +43,12 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
     /// Thrown if either <paramref name="dataService"/> or
     /// <paramref name="model"/> are <see langword="null"/>.
     /// </exception>
-    public TritonEntityProvider(ITritonService dataService, Type model)
+    public TritonEntityProvider(ITritonService dataService, ICrudDescription model)
     {
         RegisterPropertyChangeBroadcast(nameof(ItemsPerPage), nameof(TotalPages));
 
         _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
-        _model = model ?? throw new ArgumentNullException(nameof(model));
+        Model = model ?? throw new ArgumentNullException(nameof(model));
         var b = new CommandBuilder<TritonEntityProvider>(this);
 
         FirstPageCommand = b.BuildSimple(OnFirst);
@@ -53,6 +56,8 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
         NextPageCommand = b.BuildObserving(OnNextPage).ListensTo(p => p.Results).CanExecute(CanGoNext).Build();
         PreviousPageCommand = b.BuildObserving(OnPreviousPage).ListensTo(p => p.Results).CanExecute(CanGoPrevious).Build();
         RefreshCommand = b.BuildBusyOperation(OnRefresh);
+        EditFiltersCommand = b.BuildSimple(OnEditFilters);
+        ClearFiltersCommand = b.BuildSimple(OnClearFilters);
     }
 
     /// <inheritdoc/>
@@ -69,6 +74,12 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
 
     /// <inheritdoc/>
     public ICommand RefreshCommand { get; }
+
+    /// <inheritdoc/>
+    public ICommand EditFiltersCommand { get; }
+
+    /// <inheritdoc/>
+    public ICommand ClearFiltersCommand { get; }
 
     /// <inheritdoc/>
     public ICollection<FilterItem> Filters { get; } = new ObservableCollectionWrap<FilterItem>(new List<FilterItem>());
@@ -120,6 +131,9 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
     /// <inheritdoc/>
     public int TotalPages => ItemsPerPage > 0 ? (int)Math.Ceiling(TotalItems / (float)ItemsPerPage) : 1;
 
+    /// <inheritdoc/>
+    public ICrudDescription Model { get; }
+
     bool IViewModel.IsBusy { get => IsBusy; set => IsBusy = value; }
 
     /// <inheritdoc/>
@@ -132,10 +146,23 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
     {
         status?.Report(St.FetchingData);
         await using var t = _dataService.GetReadTransaction();
-        var query = BuildQuery(_model, t, Filters.Select(ToLambda));
+        var query = BuildQuery(Model.Model, t, Filters.Where(p => p.Property is not null && !p.Query.IsEmpty()).Select(ToLambda));
         TotalItems = query.Count();
         _results.Substitute(await query.Skip((Page - 1) * ItemsPerPage).Take(ItemsPerPage).ToListAsync());
         Notify(nameof(Results));
+    }
+    
+    private async Task OnEditFilters()
+    {
+        var vm = new FilterEditorDialogViewModel(Filters, GetFilterableProperties());
+        await (DialogService?.CustomDialog(vm) ?? Task.CompletedTask);
+        await FetchDataAsync();
+    }
+
+    private Task OnClearFilters()
+    {
+        Filters.Clear();
+        return FetchDataAsync();
     }
 
     private Task OnFirst()
@@ -174,7 +201,18 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
 
     private LambdaExpression ToLambda(FilterItem item)
     {
-        return Expression.Lambda(ToFunc(_model), GetFilter(_model, out var entExp, item), entExp);
+        return Expression.Lambda(ToFunc(Model.Model), GetFilter(Model.Model, out var entExp, item), entExp);
+    }
+
+    private IPropertyDescription[] GetFilterableProperties()
+    {
+        return Model.PropertyDescriptions.Where(IsValidSearchProperty).Select(p => p.Value.Description).ToArray();
+    }
+
+    private static bool IsValidSearchProperty(KeyValuePair<PropertyInfo, DescriptionEntry> prop)
+    {
+        var type = prop.Key.PropertyType;
+        return type == typeof(string) || type.IsNumericType() || type == typeof(Guid);
     }
 
     private static IQueryable<Model> BuildQuery(Type model, ICrudReadTransaction t, IEnumerable<LambdaExpression> expressions)
@@ -204,7 +242,7 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
 
     private static Expression ToLower(Expression expression)
     {
-        return Expression.Call(expression, typeof(string).GetMethod("ToLower", Type.EmptyTypes)!);
+        return Expression.Call(expression, ReflectionHelpers.GetMethod<string, Func<string>>(p => p.ToLower));
     }
 
     private static Expression GetFromEntity(Expression source, PropertyInfo property)
@@ -215,12 +253,18 @@ public class TritonEntityProvider : ViewModelBase, IEntityProvider
     private static Expression GetFilter(Type model, out ParameterExpression entExp, FilterItem query)
     {
         entExp = Expression.Parameter(model);
+        var prop = query.Property!.Property;
+
+        return prop.PropertyType.IsClass
+            ? Expression.AndAlso(Expression.NotEqual(GetFromEntity(entExp, prop), Expression.Constant(null)), Contains(entExp, prop, query.Query!))
+            : Contains(entExp, prop, query.Query!);
+    }
+
+    private static Expression Contains(ParameterExpression entExp, PropertyInfo prop, string query)
+    {
         return Expression.Call(
-                ToLower(
-                    ToStringExp(
-                        GetFromEntity(entExp, query.Property),
-                        query.Property!.PropertyType)),
-                typeof(string).GetMethod("Contains", new Type[] { typeof(string) })!,
-                Expression.Constant(query.Query.ToLower()));
+            ToLower(ToStringExp(GetFromEntity(entExp, prop), prop.PropertyType)),
+            ReflectionHelpers.GetMethod<string, Func<string, bool>>(p => p.Contains),
+            Expression.Constant(query.ToLower()));
     }
 }

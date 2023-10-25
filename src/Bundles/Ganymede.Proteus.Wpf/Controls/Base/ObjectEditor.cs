@@ -37,11 +37,6 @@ public class ObjectEditor : FormInputControl
     public static readonly DependencyProperty CanSelectProperty;
 
     /// <summary>
-    /// Identifies the <see cref="EntitySource"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty EntitySourceProperty;
-
-    /// <summary>
     /// Identifies the <see cref="Models"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty ModelsProperty;
@@ -73,7 +68,6 @@ public class ObjectEditor : FormInputControl
         UpdateCommandProperty = NewDp<ICommand, ObjectEditor>(nameof(UpdateCommand));
         CanCreateProperty = NewDp<bool, ObjectEditor>(nameof(CanCreate), true);
         CanSelectProperty = NewDp<bool, ObjectEditor>(nameof(CanSelect));
-        EntitySourceProperty = NewDp<IEnumerable<Model>, ObjectEditor>(nameof(EntitySource));
         ModelsProperty = NewDp<ICrudDescription[], ObjectEditor>(nameof(Models));
         SelectedEntityProperty = NewDp2Way<Model, ObjectEditor>(nameof(SelectedEntity));
         LabelForegroundProperty = NewDp<Brush, ObjectEditor>(nameof(LabelForeground), SystemColors.ControlTextBrush);
@@ -129,16 +123,6 @@ public class ObjectEditor : FormInputControl
     {
         get => (bool)GetValue(CanSelectProperty);
         set => SetValue(CanSelectProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets an entity enumeration of all the items that can be added
-    /// to the list managed by this collection.
-    /// </summary>
-    public IEnumerable<Model>? EntitySource
-    {
-        get => (IEnumerable<Model>?)GetValue(EntitySourceProperty);
-        set => SetValue(EntitySourceProperty, value);
     }
 
     /// <summary>

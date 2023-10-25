@@ -61,7 +61,7 @@ public interface IPropertyDescription
     /// <see langword="null"/> if no such value exists or cannot be cast to
     /// <typeparamref name="T"/>.
     /// </returns>
-    protected T? GetClassValue<T>([CallerMemberName] string name = null!) where T : class
+    T? GetClassValue<T>([CallerMemberName] string name = null!) where T : class
     {
         return GetValue(name) as T;
     }
@@ -77,7 +77,7 @@ public interface IPropertyDescription
     /// <typeparamref name="T"/>. The return value might be null for
     /// <see cref="Nullable{T}"/> value types.
     /// </returns>
-    protected T? GetStructValue<T>([CallerMemberName] string name = null!) where T : struct
+    T? GetStructValue<T>([CallerMemberName] string name = null!) where T : struct
     {
         return GetValue(name) is T v ? v : default;
     }

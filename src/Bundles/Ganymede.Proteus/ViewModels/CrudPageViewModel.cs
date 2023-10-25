@@ -7,6 +7,7 @@ using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Services.Base;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.Types.Base;
+using TheXDS.Ganymede.ViewModels.CustomDialogs;
 using TheXDS.MCART.Exceptions;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
@@ -31,7 +32,7 @@ public class CrudPageViewModel : ViewModel
     /// Contains the current navigation service used to handle navigation to
     /// detail and editor panels for any selected entity.
     /// </summary>
-    public INavigationService CrudNavService { get; } = UiThread.Invoke(() => new NavigationService());
+    public INavigationService<CrudViewModelBase> CrudNavService { get; } = UiThread.Invoke(() => new NavigationService<CrudViewModelBase>());
 
     /// <summary>
     /// Gets an array of all defned descriptions for this CRUD page.
@@ -47,12 +48,12 @@ public class CrudPageViewModel : ViewModel
     /// Gets a reference to the command used to unselect any entity, navigating
     /// to the CRUD dashboard.
     /// </summary>
-    public ICommand UnselectCommand { get; }
+    public ButtonInteraction UnselectInteraction { get; }
 
     /// <summary>
     /// Gets a reference to the command used to create new entities.
     /// </summary>
-    public ICommand NewCommand { get; }
+    public ButtonInteraction NewEntityInteraction { get; }
 
     /// <summary>
     /// Gets a reference to the command used to edit the currently selected entity on the set.
@@ -120,8 +121,8 @@ public class CrudPageViewModel : ViewModel
         _entityProvider = entityProvider;
         Descriptions = descriptions;
         var b = new CommandBuilder<CrudPageViewModel>(this);
-        UnselectCommand = b.BuildSimple(() => SelectedEntity = null);
-        NewCommand = b.BuildSimple(OnNew);
+        UnselectInteraction = new(b.BuildSimple(() => SelectedEntity = null), "Back");
+        NewEntityInteraction = new(b.BuildSimple(OnNew), St.NewItem);
         UpdateInteraction = new(b.BuildObserving(OnUpdate).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), St.Update);
         DeleteInteraction = new(b.BuildObserving(OnDelete).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), St.Delete);
     }
@@ -137,14 +138,16 @@ public class CrudPageViewModel : ViewModel
     /// Triton service instance to use for write operations.
     /// </param>
     public CrudPageViewModel(ICrudDescription[] descriptions, ITritonService tritonService)
-        : this(descriptions, tritonService, new TritonEntityProvider(tritonService, descriptions[0].Model))
+        : this(descriptions, tritonService, new TritonEntityProvider(tritonService, descriptions[0]))
     {
     }
 
     /// <inheritdoc/>
-    protected override Task OnCreated()
+    protected override async Task OnCreated()
     {
-        return IsInitialized ? base.OnCreated() : EntityProvider.FetchDataAsync();
+        _entityProvider.DialogService = DialogService;
+        await (IsInitialized ? base.OnCreated() : EntityProvider.FetchDataAsync());
+        if (!IsEditing) PresentRegularContent();
     }
 
     private async Task OnNew()
@@ -187,16 +190,22 @@ public class CrudPageViewModel : ViewModel
 
     private void PresentUnselectedContent()
     {
-        UiThread.Invoke(() => CrudNavService.NavigateAndReset(Descriptions[0].DashboardViewModel?.New<ViewModel>()));
+        var vm = Descriptions[0].DashboardViewModel?.New<CrudViewModelBase>() ?? new BlankCrudViewModel();
+        vm.CrudActions = vm.CrudActions.Append(NewEntityInteraction).ToArray();
+        UiThread.Invoke(() => CrudNavService.NavigateAndReset(vm));
     }
 
     private void PresentSelectedContent()
     {
+        //TODO: allow details ViewModel specification.
         var vm = ViewModelBuilder.BuildDetailsFrom(SelectedEntity!, GetCurrentDescription());
-        vm.CrudActions = new ButtonInteraction[] {
+
+        vm.CrudActions = vm.CrudActions.Concat(new ButtonInteraction[] {
+            UnselectInteraction,
+            NewEntityInteraction,
             UpdateInteraction,
             DeleteInteraction
-        };
+        }).ToArray();
         CrudNavService.NavigateAndReset(vm);
     }
 

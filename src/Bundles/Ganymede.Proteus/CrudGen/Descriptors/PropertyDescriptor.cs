@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using TheXDS.Ganymede.CrudGen.Descriptions;
+using TheXDS.Ganymede.Helpers;
 
 namespace TheXDS.Ganymede.CrudGen.Descriptors;
 
@@ -37,6 +38,15 @@ public class PropertyDescriptor : IPropertyDescriptor, IPropertyDescription
 
     /// <inheritdoc/>
     public ICrudDescription Parent { get; init; } = null!;
+
+    /// <inheritdoc/>
+    public string Label => Parent.ResourceType.GetLabel(((IPropertyDescription)this).GetClassValue<string>() ?? Property.Name);
+
+    /// <inheritdoc/>
+    public string? Icon => ((IPropertyDescription)this).GetClassValue<string>();
+
+    /// <inheritdoc/>
+    public bool ReadOnly => ((IPropertyDescription)this).GetStructValue<bool>() ?? !Property.CanWrite;
 }
 
 /// <summary>

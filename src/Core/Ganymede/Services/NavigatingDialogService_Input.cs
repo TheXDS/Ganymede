@@ -114,7 +114,7 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : ViewModel, IAwaitableDialogViewModel
+    public async Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : DialogViewModel, IAwaitableDialogViewModel
     {
         Navigate(dialogVm);
         try { await dialogVm.DialogAwaiter; }
