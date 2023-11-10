@@ -5,14 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="clr-namespace:TheXDS.Ganymede.Controls"
-    xmlns:vc="clr-namespace:TheXDS.Ganymede.ValueConverters"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels.CustomDialogs;assembly=Ganymede.Proteus"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:DataCrudSelectorViewModel}"
     Height="400" Width="600">
-    <UserControl.Resources>
-        <vc:ListViewGridGenerator x:Key="lvg"/>
-    </UserControl.Resources>
     <controls:EntitySelector
         Provider="{Binding Provider, Mode=OneWay}"
         SelectedEntity="{Binding SelectedEntity}"/>

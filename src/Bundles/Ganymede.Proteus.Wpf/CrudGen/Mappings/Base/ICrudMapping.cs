@@ -16,6 +16,11 @@ public interface ICrudMapping
     /// Gets a value that indicates if the generated control requires its value
     /// to be set manually.
     /// </summary>
+    /// <remarks>
+    /// If this property returns <see langword="true"/>, the method
+    /// <see cref="SetControlValue(FrameworkElement, Model, IPropertyDescription)"/>
+    /// must be overriden.
+    /// </remarks>
     bool MustSetValueManually => false;
 
     /// <summary>

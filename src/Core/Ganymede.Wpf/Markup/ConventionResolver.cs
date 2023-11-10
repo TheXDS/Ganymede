@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Markup;
 using TheXDS.Ganymede.Component;
-
 namespace TheXDS.Ganymede.Markup;
 
 /// <summary>

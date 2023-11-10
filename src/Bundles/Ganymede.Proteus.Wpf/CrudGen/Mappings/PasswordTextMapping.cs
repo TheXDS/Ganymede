@@ -1,9 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Types.Extensions;
+using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.CrudGen.Mappings;
 
@@ -38,5 +43,69 @@ public class PasswordTextMapping : CrudMappingBase, ICrudMapping
             }
         };
         return c;
+    }
+}
+
+/// <summary>
+/// Maps <see cref="Enum"/> properties for non-flag enums.
+/// </summary>
+public class EnumMapping : CrudMappingBase, ICrudMapping<IEnumPropertyDescription>
+{
+    /// <inheritdoc/>
+    public bool CanMap(IEnumPropertyDescription description) => !description.Flags;
+
+    /// <inheritdoc/>
+    public FrameworkElement CreateControl(IEnumPropertyDescription description)
+    {
+        var c = new ComboBox
+        {
+            ItemsSource = description.Property.PropertyType.AsNamedEnum(),
+            SelectedValuePath = "Value",
+            DisplayMemberPath = "Name"
+        };
+        c.SetBinding(Selector.SelectedValueProperty, description.GetBindingString());
+        return c;
+    }
+}
+
+/// <summary>
+/// Maps <see cref="Enum"/> properties for non-flag enums.
+/// </summary>
+public class FlagEnumMapping : CrudMappingBase, ICrudMapping<IEnumPropertyDescription>
+{
+    bool ICrudMapping.MustSetValueManually => false;
+
+    /// <inheritdoc/>
+    public bool CanMap(IEnumPropertyDescription description) => description.Flags;
+
+    /// <inheritdoc/>
+    public FrameworkElement CreateControl(IEnumPropertyDescription description)
+    {
+        var pnl = new WrapPanel
+        {
+            Orientation = Orientation.Vertical,
+            MaxHeight = 150
+        };
+        var groupBox = new GroupBox
+        {
+            Header = $"{description.Icon} {description.Label}",
+            Content = new ScrollViewer
+            {
+                Content = pnl,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+            }
+        };
+        foreach (var j in description.Property.PropertyType.AsNamedEnum())
+        {
+            if (j.Value.ToUnderlyingType().Equals(0)) continue;
+            var chk = new CheckBox { Content = j.Name, Tag = j.Value };
+            pnl.Children.Add(chk);
+        }
+        return groupBox;
+    }
+
+    void ICrudMapping.SetControlValue(FrameworkElement control, Model entity, IPropertyDescription description)
+    {
+
     }
 }

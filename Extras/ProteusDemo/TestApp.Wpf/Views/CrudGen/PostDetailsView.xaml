@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="TheXDS.Ganymede.Views.CrudGen.PostDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:TheXDS.Ganymede.Views.CrudGen"
+    xmlns:crudgen="clr-namespace:TheXDS.Ganymede.ViewModels.CrudGen;assembly=TestApp" xmlns:models="clr-namespace:TheXDS.Ganymede.Models;assembly=TestApp"
+    mc:Ignorable="d" 
+    d:DataContext="{d:DesignInstance Type=crudgen:PostDetailsViewModel}"
+    d:DesignHeight="450" d:DesignWidth="600">
+    <StackPanel>
+        <TextBlock Text="{Binding Entity.Title, Mode=OneWay}" FontSize="24"/>
+        <TextBlock Opacity="0.5">
+            Posted on <Run Text="{Binding Entity.CreationDate, Mode=OneWay}"/> by <Run Text="{Binding Entity.Creator.DisplayName, Mode=OneWay}"/>
+        </TextBlock>
+        <Separator/>
+        <DockPanel>
+            <Expander DockPanel.Dock="Right" ExpandDirection="Left">
+                <Expander.Header>
+                    <TextBlock Text="Comments">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="-90"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <ItemsControl MinWidth="200" ItemsSource="{Binding Entity.Comments}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="models:Comment">
+                                    <DockPanel Margin="0,0,0,5">
+                                        <TextBlock Text="👤" Foreground="White" Background="SteelBlue" DockPanel.Dock="Left"/>
+                                        <DockPanel DockPanel.Dock="Top">
+                                            <TextBlock DockPanel.Dock="Right" Text="{Binding CreationDate}" Opacity="0.5"/>
+                                            <TextBlock Text="{Binding Creator.DisplayName}" FontWeight="Bold"/>
+                                        </DockPanel>
+                                        <TextBlock Text="{Binding Content}" TextWrapping="Wrap" Margin="0,5"/>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Expander>
+            <TextBlock Text="{Binding Entity.Content, Mode=OneWay}"/>
+        </DockPanel>
+    </StackPanel>
+</UserControl>

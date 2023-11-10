@@ -50,4 +50,10 @@ public interface ICrudDescription
     /// selected on a CRUD page.
     /// </summary>
     Type? DashboardViewModel { get; }
+
+    /// <summary>
+    /// Gets a reference to the ViewModel Type to use when an entity is
+    /// selected on a CRUD page.
+    /// </summary>
+    Type? DetailsViewModel { get; }
 }

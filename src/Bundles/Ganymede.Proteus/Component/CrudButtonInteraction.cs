@@ -3,15 +3,19 @@
 namespace TheXDS.Ganymede.Component;
 
 /// <summary>
-/// Extends the <see cref="ButtonInteraction"/> class to include information on
-/// visibility based on the current state of the Crud ViewModel where this
-/// interaction could be shown.
+/// Extends the <see cref="ButtonInteraction"/> class to include information
+/// that can be used when configuring or presenting the interaction on the UI.
 /// </summary>
 public class CrudButtonInteraction : ButtonInteraction
 {
     /// <summary>
-    /// Gets a value that indicates if this interaction is visible under a set
-    /// of possible states of a Crud ViewModel.
+    /// Gets a value that indicates the group membership of the interaction.
     /// </summary>
-    public CrudVisibility Visibility { get; init; }
+    public string Group { get; init; }
+
+    /// <summary>
+    /// Gets a value that indicates if this interaction should be considered
+    /// essential, that is, if it should be presented on main panels and menus.
+    /// </summary>
+    public bool Essential { get; init; }
 }

@@ -20,9 +20,10 @@ internal class FallbackMapping : ICrudMapping
     /// </returns>
     public static FallbackMapping Create() => new();
 
-    /* This private constructor prevents automatic registration of this mapping
-     * when using either type discovery or reflection, as this is intended to
-     * be used internally by Proteus only when a property cannot be mapped. */
+    /* This private constructor prevents automatic discovery and registration
+     * of this mapping when using either type discovery or reflection, as this
+     * is intended to be used internally by Proteus only when a property cannot
+     * be mapped. */
     private FallbackMapping()
     {
     }

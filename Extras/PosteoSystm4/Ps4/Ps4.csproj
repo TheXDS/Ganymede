@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TheXDS.Triton.Diagnostics" Version="1.5.0" />
+    <PackageReference Include="TheXDS.Triton.EFCore" Version="1.5.0" />
+  </ItemGroup>
+
+</Project>

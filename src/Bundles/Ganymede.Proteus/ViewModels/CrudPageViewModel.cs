@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
 using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
@@ -7,7 +6,6 @@ using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Services.Base;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.Types.Base;
-using TheXDS.Ganymede.ViewModels.CustomDialogs;
 using TheXDS.MCART.Exceptions;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Triton.Models.Base;
@@ -138,7 +136,7 @@ public class CrudPageViewModel : ViewModel
     /// Triton service instance to use for write operations.
     /// </param>
     public CrudPageViewModel(ICrudDescription[] descriptions, ITritonService tritonService)
-        : this(descriptions, tritonService, new TritonEntityProvider(tritonService, descriptions[0]))
+        : this(descriptions, tritonService, new TritonFlatEntityProvider(tritonService, descriptions[0]))
     {
     }
 
@@ -197,9 +195,8 @@ public class CrudPageViewModel : ViewModel
 
     private void PresentSelectedContent()
     {
-        //TODO: allow details ViewModel specification.
-        var vm = ViewModelBuilder.BuildDetailsFrom(SelectedEntity!, GetCurrentDescription());
-
+        var vm = Descriptions[0].DetailsViewModel?.New<EntityCrudViewModelBase>(SelectedEntity!) ?? ViewModelBuilder.BuildDetailsFrom(SelectedEntity!, GetCurrentDescription());
+        vm.Entity = SelectedEntity!;
         vm.CrudActions = vm.CrudActions.Concat(new ButtonInteraction[] {
             UnselectInteraction,
             NewEntityInteraction,

@@ -5,7 +5,6 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
-using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.CrudGen.Mappings;
 
@@ -22,7 +21,7 @@ public class ReadOnlyMapping : ICrudMapping
     public FrameworkElement CreateControl(IPropertyDescription description)
     {
         var i = new Run();
-        i.SetBinding(Run.TextProperty, new Binding($"{nameof(DynamicCrudViewModelBase.Entity)}.{description.Property.Name}") { Mode = BindingMode.OneWay });
+        i.SetBinding(Run.TextProperty, new Binding(description.GetBindingString()) { Mode = BindingMode.OneWay });
         return new DockPanel
         {
             Margin = new Thickness(5),

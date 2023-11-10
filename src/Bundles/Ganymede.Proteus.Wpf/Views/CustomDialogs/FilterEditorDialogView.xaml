@@ -14,7 +14,7 @@
             <Button Margin="5" Content="Add filter" Command="{Binding AddFilterCommand, Mode=OneWay}"/>
             <Button Margin="5" Content="Remove all" Command="{Binding ClearFiltersCommand, Mode=OneWay}"/>
         </StackPanel>
-        <ListView Margin="10,10,0,10" ItemsSource="{Binding FilterCollection, Mode=OneWay}">
+        <ListView ItemsSource="{Binding FilterCollection, Mode=OneWay}">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>

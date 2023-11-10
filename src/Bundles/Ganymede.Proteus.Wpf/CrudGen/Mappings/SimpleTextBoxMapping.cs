@@ -2,7 +2,6 @@
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
-using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.CrudGen.Mappings;
 
@@ -28,7 +27,7 @@ public class SimpleTextBoxMapping : SimpleCrudMappingBase<TextBoxEx>, ICrudMappi
     protected override void ConfigureControl(TextBoxEx control, IPropertyDescription description)
     {
         control.Label = description.Label;
-        control.SetBinding(TextBox.TextProperty, $"{nameof(DynamicCrudViewModelBase.Entity)}.{description.Property.Name}");
+        control.SetBinding(TextBox.TextProperty, description.GetBindingString());
         SetIf<IPropertyDescription<string>, string>(description, p => p.DefaultValue, p => control.SetValue(TextBox.TextProperty, p));
         SetIf<ITextPropertyDescription, int>(description, p => p.MaxLength, p => control.MaxLength = p);
     }

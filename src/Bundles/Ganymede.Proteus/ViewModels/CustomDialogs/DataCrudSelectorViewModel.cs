@@ -30,7 +30,7 @@ public class DataCrudSelectorViewModel : AwaitableDialogViewModel
     /// </exception>
     public DataCrudSelectorViewModel(ITritonService dataService, ICrudDescription description)
     {
-        Provider = new TritonEntityProvider(dataService, description);
+        Provider = new TritonFlatEntityProvider(dataService, description);
         Icon = "👆";
         IconBgColor = System.Drawing.Color.SlateGray;
         Title = Pst.SelectItem;

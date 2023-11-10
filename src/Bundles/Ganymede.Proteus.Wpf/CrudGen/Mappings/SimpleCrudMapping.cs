@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Windows;
 using TheXDS.Ganymede.CrudGen.Descriptions;
-using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.CrudGen.Mappings;
 
@@ -42,7 +41,7 @@ public class SimpleCrudMapping<TProp, TControl> : SimpleCrudMappingBase<TProp, T
     public override FrameworkElement CreateControl(IPropertyDescription description)
     {
         var c = base.CreateControl(description);
-        c.SetBinding(valueProperty, $"{nameof(DynamicCrudViewModelBase.Entity)}.{description.Property.Name}");
+        c.SetBinding(valueProperty, description.GetBindingString());
         return c;
     }
 

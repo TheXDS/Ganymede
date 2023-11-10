@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Types.Extensions;
+using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.CrudGen.Descriptions;
 
@@ -91,4 +94,18 @@ public interface IPropertyDescription
     /// <see langword="null"/> if no such value exists.
     /// </returns>
     object? GetValue([CallerMemberName] string name = null!);
+
+    /// <summary>
+    /// Indicates the source of the described property.
+    /// </summary>
+    PropertyLocation PropertySource => Property.DeclaringType?.Implements<Model>() == true ? PropertyLocation.Model : PropertyLocation.ViewModel;
+
+    /// <summary>
+    /// Gets a string used to set the proper Binding string.
+    /// </summary>
+    /// <returns></returns>
+    string GetBindingString()
+    {
+        return $"{(PropertySource == PropertyLocation.Model ? $"{nameof(EntityCrudViewModelBase.Entity)}." : null)}{Property.Name}";
+    }
 }

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TheXDS.ServicePool" Version="1.0.5" />
+    <PackageReference Include="TheXDS.Triton.EFCore" Version="1.5.0" />
+    <PackageReference Include="TheXDS.Triton.Models" Version="1.5.0" />
+    <PackageReference Include="TheXDS.Triton.SecurityEssentials" Version="1.5.0" />
+    <PackageReference Include="TheXDS.Triton.SecurityEssentials.Ef" Version="1.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Bundles\Ganymede.Proteus\Ganymede.Proteus.csproj" />
+    <ProjectReference Include="..\..\..\src\Core\Ganymede\Ganymede.csproj" />
+  </ItemGroup>
+
+</Project>

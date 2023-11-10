@@ -12,23 +12,17 @@ namespace TheXDS.Ganymede.CrudGen.Mappings;
 /// <summary>
 /// Maps password storage fields to a <see cref="PasswordBox"/>.
 /// </summary>
-public class PasswordMapping : CrudMappingBase, ICrudMapping
+public class PasswordMapping : CrudMappingBase, ICrudMapping<IPasswordPropertyDescription>
 {
     /// <inheritdoc/>
-    public bool CanMap(IPropertyDescription description)
-    {
-        return description is IPasswordPropertyDescription;
-    }
-
-    /// <inheritdoc/>
-    public FrameworkElement CreateControl(IPropertyDescription description)
+    public FrameworkElement CreateControl(IPasswordPropertyDescription description)
     {
         var c = new PasswordBox();
         ExtraProps.SetLabel(c, description.Label);
         c.PasswordChanged += (s, e) => {
             if (c.DataContext is CrudEditorViewModel {Entity: Model entity })
             {
-                description.Property.SetValue(entity, PasswordStorage.CreateHash(((IPasswordPropertyDescription)description).Algorithm, c.SecurePassword));
+                description.Property.SetValue(entity, PasswordStorage.CreateHash(description.Algorithm, c.SecurePassword));
             }
         };
         return c;
