@@ -5,51 +5,71 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     mc:Ignorable="d"
-    x:Name="PART_root"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels.CustomDialogs;assembly=Ganymede.Proteus"
     d:DataContext="{d:DesignInstance vm:FilterEditorDialogViewModel}"
-    Height="150" Width="500">
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Right" Margin="5" Width="80">
-            <Button Margin="5" Content="Add filter" Command="{Binding AddFilterCommand, Mode=OneWay}"/>
-            <Button Margin="5" Content="Remove all" Command="{Binding ClearFiltersCommand, Mode=OneWay}"/>
-        </StackPanel>
-        <ListView ItemsSource="{Binding FilterCollection, Mode=OneWay}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Property" Width="166">                            
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ComboBox
-                                        MinWidth="150"
-                                        SelectedValue="{Binding Property}"
-                                        DisplayMemberPath="Label"
-                                        ItemsSource="{Binding DataContext.Properties, ElementName=PART_root, Mode=OneWay}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Filter" Width="166">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox MinWidth="150" Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="36">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        Width="20"
-                                        Content="-"
-                                        Command="{Binding DataContext.RemoveFilterCommand, ElementName=PART_root}"
-                                        CommandParameter="{Binding}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>                                
-                        </GridViewColumn>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </DockPanel>
+    Height="240" Width="550">
+    <TabControl Loaded="TabControl_Loaded" Background="{x:Null}" ItemsSource="{Binding FilterCollection, Mode=OneWay}">
+        <TabControl.ContentTemplate>
+            <DataTemplate>
+                <DockPanel x:Name="PART_root" Margin="10">
+                    <StackPanel DockPanel.Dock="Right" Margin="5" Width="80">
+                        <Button Margin="5" Content="Add filter" Command="{Binding AddFilterCommand, Mode=OneWay}"/>
+                        <Button Margin="5" Content="Remove all" Command="{Binding ClearFiltersCommand, Mode=OneWay}"/>
+                    </StackPanel>
+                    <StackPanel Margin="5" DockPanel.Dock="Top">
+                        <CheckBox IsChecked="{Binding Filter.Exclude}">Exclude all elements of this type from results</CheckBox>
+                        <WrapPanel>
+                            <RadioButton Margin="5" IsChecked="{Binding Filter.AggregateWithAnd}">Apply filter using "AND"</RadioButton>
+                            <RadioButton Margin="5" IsChecked="{Binding Filter.AggregateWithOr}">Apply filter using "OR"</RadioButton>
+                        </WrapPanel>
+                    </StackPanel>
+                    <ListView ItemsSource="{Binding Filter.Items, Mode=OneWay}">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Property" Width="166">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox
+                                                    MinWidth="150"
+                                                    SelectedValue="{Binding Property}"
+                                                    DisplayMemberPath="Label"
+                                                    ItemsSource="{Binding DataContext.Properties, ElementName=PART_root, Mode=OneWay}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Filter" Width="166">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox MinWidth="150" Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Width="36">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Width="20"
+                                                    Content="-"
+                                                    Command="{Binding DataContext.RemoveFilterCommand, ElementName=PART_root}"
+                                                    CommandParameter="{Binding}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </DataTemplate>
+        </TabControl.ContentTemplate>
+        <TabControl.ItemTemplate>
+            <DataTemplate>
+                <TextBlock>
+                    <Run  Text="{Binding Description.FriendlyName, Mode=OneWay}"/>
+                    (<Run  Text="{Binding Filter.Items.Count, Mode=OneWay}"/> filters)
+                </TextBlock>
+            </DataTemplate>
+        </TabControl.ItemTemplate>
+    </TabControl>
 </UserControl>

@@ -100,6 +100,7 @@
                             MinWidth="60"
                             HorizontalContentAlignment="Center"
                             SnapsToDevicePixels="True"
+                            Padding="10,5"
                             Margin="5"
                             Content="{Binding Text, Mode=OneWay}"
                             Command="{Binding Command, Mode=OneWay}"/>

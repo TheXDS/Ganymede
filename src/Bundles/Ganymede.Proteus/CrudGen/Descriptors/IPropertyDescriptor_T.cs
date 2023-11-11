@@ -5,6 +5,6 @@
 /// property type to which it applies.
 /// </summary>
 /// <typeparam name="T">Type of the property being described.</typeparam>
-public interface IPropertyDescriptor<T> : IPropertyDescriptor
+public interface IPropertyDescriptor<out T> : IPropertyDescriptor
 {
 }

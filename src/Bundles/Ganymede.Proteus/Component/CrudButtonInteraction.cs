@@ -11,7 +11,7 @@ public class CrudButtonInteraction : ButtonInteraction
     /// <summary>
     /// Gets a value that indicates the group membership of the interaction.
     /// </summary>
-    public string Group { get; init; }
+    public string Group { get; init; } = string.Empty;
 
     /// <summary>
     /// Gets a value that indicates if this interaction should be considered

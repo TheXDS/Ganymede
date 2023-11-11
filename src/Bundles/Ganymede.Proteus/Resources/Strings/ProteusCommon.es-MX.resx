@@ -171,4 +171,10 @@
   <data name="Update" xml:space="preserve">
     <value>Actualizar</value>
   </data>
+  <data name="ItemCount" xml:space="preserve">
+    <value>{0} elementos.</value>
+  </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>Página {0} de {1}</value>
+  </data>
 </root>

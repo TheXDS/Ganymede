@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
@@ -49,37 +47,20 @@ public class PasswordTextMapping : CrudMappingBase, ICrudMapping
 /// <summary>
 /// Maps <see cref="Enum"/> properties for non-flag enums.
 /// </summary>
-public class EnumMapping : CrudMappingBase, ICrudMapping<IEnumPropertyDescription>
-{
-    /// <inheritdoc/>
-    public bool CanMap(IEnumPropertyDescription description) => !description.Flags;
-
-    /// <inheritdoc/>
-    public FrameworkElement CreateControl(IEnumPropertyDescription description)
-    {
-        var c = new ComboBox
-        {
-            ItemsSource = description.Property.PropertyType.AsNamedEnum(),
-            SelectedValuePath = "Value",
-            DisplayMemberPath = "Name"
-        };
-        c.SetBinding(Selector.SelectedValueProperty, description.GetBindingString());
-        return c;
-    }
-}
-
-/// <summary>
-/// Maps <see cref="Enum"/> properties for non-flag enums.
-/// </summary>
-public class FlagEnumMapping : CrudMappingBase, ICrudMapping<IEnumPropertyDescription>
+public class FlagEnumMapping : CrudMappingBase, ICrudMapping
 {
     bool ICrudMapping.MustSetValueManually => false;
 
     /// <inheritdoc/>
-    public bool CanMap(IEnumPropertyDescription description) => description.Flags;
+    public bool CanMap(IPropertyDescription description)
+    {
+        return description.Property.PropertyType.IsEnum
+            && ((description is IEnumPropertyDescription e && e.Flags)
+            || description.GetStructValue<bool>(nameof(IEnumPropertyDescription.Flags)) == true);
+    }
 
     /// <inheritdoc/>
-    public FrameworkElement CreateControl(IEnumPropertyDescription description)
+    public FrameworkElement CreateControl(IPropertyDescription description)
     {
         var pnl = new WrapPanel
         {

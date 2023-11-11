@@ -46,7 +46,7 @@ public interface IEntityProvider : IViewModel
     /// <summary>
     /// Gets a collection of search filters that can be applied to the query.
     /// </summary>
-    ICollection<FilterItem> Filters { get; }
+    IDictionary<ICrudDescription, Filter> Filters { get; }
 
     /// <summary>
     /// Gets a reference to the command used to navigate to the first page.
@@ -85,13 +85,18 @@ public interface IEntityProvider : IViewModel
     ICommand ClearFiltersCommand { get; }
 
     /// <summary>
-    /// Gets a reference to the model being returned by this provider.
+    /// Gets a reference to the models being returned by this provider.
     /// </summary>
-    ICrudDescription Model { get; }
+    ICrudDescription[] Models { get; }
 
     INavigationService? IViewModel.NavigationService { get => null; set { } }
 
     string? IViewModel.Title { get => null; set { } }
+
+    /// <summary>
+    /// Gets the count of filters currently being applied for all managed models.
+    /// </summary>
+    public int FiltersCount => Filters.Sum(p => p.Value.Items.Count);
 
     /// <summary>
     /// Creates the internal query used by this instance to generate the       

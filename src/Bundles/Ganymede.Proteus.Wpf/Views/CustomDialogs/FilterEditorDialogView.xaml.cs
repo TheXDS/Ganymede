@@ -15,4 +15,9 @@ public partial class FilterEditorDialogView : UserControl
     {
         InitializeComponent();
     }
+
+    private void TabControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ((TabControl)sender).SelectedIndex = 0;
+    }
 }

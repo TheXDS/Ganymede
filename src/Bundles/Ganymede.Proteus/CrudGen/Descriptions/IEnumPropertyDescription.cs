@@ -9,8 +9,8 @@ namespace TheXDS.Ganymede.CrudGen.Descriptions;
 public interface IEnumPropertyDescription : IPropertyDescription
 {
     /// <summary>
-    /// Gets a value that determines if the described Enum should be presented
-    /// as Flags.
+    /// Gets a value that explicitly determines if the described Enum should be
+    /// presented as Flags.
     /// </summary>
     bool Flags => GetStructValue<bool>() ?? Property.HasAttribute<FlagsAttribute>();
 }

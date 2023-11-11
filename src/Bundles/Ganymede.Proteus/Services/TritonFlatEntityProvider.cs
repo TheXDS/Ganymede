@@ -2,12 +2,12 @@
 using System.Reflection;
 using System.Windows.Input;
 using TheXDS.Ganymede.CrudGen;
-using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Services.Base;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels.CustomDialogs;
+using TheXDS.MCART.Exceptions;
 using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Base;
@@ -20,7 +20,8 @@ namespace TheXDS.Ganymede.Services;
 
 /// <summary>
 /// Implements an entity provider bound to a Triton service that fetches data
-/// for a single model.
+/// for a single model or a collection of related sibling models that do not
+/// belong to a tree structure.
 /// </summary>
 public class TritonFlatEntityProvider : ViewModelBase, IEntityProvider
 {
@@ -37,19 +38,25 @@ public class TritonFlatEntityProvider : ViewModelBase, IEntityProvider
     /// <param name="dataService">
     /// Data service to use when fetching data.
     /// </param>
-    /// <param name="model">
-    /// Model for which to fetch entities.
+    /// <param name="models">
+    /// Models for which to fetch entities.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if either <paramref name="dataService"/> or
-    /// <paramref name="model"/> are <see langword="null"/>.
+    /// Thrown if <paramref name="dataService"/> is <see langword="null"/>.
     /// </exception>
-    public TritonFlatEntityProvider(ITritonService dataService, ICrudDescription model)
+    /// <exception cref="EmptyCollectionException">
+    /// Thrown if <paramref name="models"/> does not contain any items.
+    /// </exception>
+    public TritonFlatEntityProvider(ITritonService dataService, params ICrudDescription[] models)
     {
         RegisterPropertyChangeBroadcast(nameof(ItemsPerPage), nameof(TotalPages));
-
-        _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
-        Model = model ?? throw new ArgumentNullException(nameof(model));
+        _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));        
+        
+        Models = models.OrNull()?.ToArray() ?? throw new EmptyCollectionException(models);
+        foreach (var model in Models)
+        {
+            Filters.Add(model, new Filter());
+        }
         var b = new CommandBuilder<TritonFlatEntityProvider>(this);
 
         FirstPageCommand = b.BuildSimple(OnFirst);
@@ -83,7 +90,10 @@ public class TritonFlatEntityProvider : ViewModelBase, IEntityProvider
     public ICommand ClearFiltersCommand { get; }
 
     /// <inheritdoc/>
-    public ICollection<FilterItem> Filters { get; } = new ObservableCollectionWrap<FilterItem>(new List<FilterItem>());
+    public IDictionary<ICrudDescription, Filter> Filters { get; } = new Dictionary<ICrudDescription, Filter>();
+
+    /// <inheritdoc/>
+    public int FiltersCount => Filters.Sum(p => p.Value.Items.Count) + Filters.Count(p => p.Value.Exclude);
 
     /// <inheritdoc/>
     public IEnumerable<Model> Results => _results;
@@ -133,7 +143,7 @@ public class TritonFlatEntityProvider : ViewModelBase, IEntityProvider
     public int TotalPages => ItemsPerPage > 0 ? (int)Math.Ceiling(TotalItems / (float)ItemsPerPage) : 1;
 
     /// <inheritdoc/>
-    public ICrudDescription Model { get; }
+    public ICrudDescription[] Models { get; }
 
     bool IViewModel.IsBusy { get => IsBusy; set => IsBusy = value; }
 
@@ -147,22 +157,39 @@ public class TritonFlatEntityProvider : ViewModelBase, IEntityProvider
     {
         status?.Report(St.FetchingData);
         await using var t = _dataService.GetReadTransaction();
-        var query = BuildQuery(Model.Model, t, Filters.Where(p => p.Property is not null && !p.Query.IsEmpty()).Select(ToLambda));
-        TotalItems = query.Count();
-        _results.Substitute(await query.Skip((Page - 1) * ItemsPerPage).Take(ItemsPerPage).ToListAsync());
+        List<Model> tempResults = new();
+        int totalItems = 0;
+        foreach (var j in Models)
+        {
+            var f = Filters[j];
+            if (f.Exclude) continue;
+            var query = BuildQuery(j.Model, t, f);
+            totalItems += query.Count();
+            tempResults.AddRange(await query.Skip((Page - 1) * (ItemsPerPage / Models.Length)).Take(ItemsPerPage).ToListAsync());
+        }
+        TotalItems = totalItems;
+        _results.Substitute(tempResults);
         Notify(nameof(Results));
     }
     
     private async Task OnEditFilters()
     {
-        var vm = new FilterEditorDialogViewModel(Filters, GetFilterableProperties());
+        var vm = new FilterEditorDialogViewModel(Filters);
         await (DialogService?.CustomDialog(vm) ?? Task.CompletedTask);
+        Notify(nameof(FiltersCount));
         await FetchDataAsync();
     }
 
     private Task OnClearFilters()
     {
-        Filters.Clear();
+        foreach( var j in Filters.Values)
+        {
+            j.Exclude = false;
+            j.AggregateWithOr = false;
+            j.Items.Clear();
+        }
+
+        Notify(nameof(FiltersCount));
         return FetchDataAsync();
     }
 
@@ -200,35 +227,35 @@ public class TritonFlatEntityProvider : ViewModelBase, IEntityProvider
         return Page > 1;
     }
 
-    private LambdaExpression ToLambda(FilterItem item)
+    private static IQueryable<Model> BuildQuery(Type model, ICrudReadTransaction t, Filter filter)
     {
-        return Expression.Lambda(ToFunc(Model.Model), GetFilter(Model.Model, out var entExp, item), entExp);
-    }
-
-    private IPropertyDescription[] GetFilterableProperties()
-    {
-        return Model.PropertyDescriptions.Where(IsValidSearchProperty).Select(p => p.Value.Description).ToArray();
-    }
-
-    private static bool IsValidSearchProperty(KeyValuePair<PropertyInfo, DescriptionEntry> prop)
-    {
-        var type = prop.Key.PropertyType;
-        return type == typeof(string) || type.IsNumericType() || type == typeof(Guid);
-    }
-
-    private static IQueryable<Model> BuildQuery(Type model, ICrudReadTransaction t, IEnumerable<LambdaExpression> expressions)
-    {
+        var expression = ToLambda(model, filter.Items.Where(IsValid).ToArray(), filter.AggregateWithOr ? Expression.OrElse : Expression.AndAlso);
         return (IQueryable<Model>)typeof(TritonFlatEntityProvider)
             .GetMethod(nameof(BuildQueryGeneric), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(model)
-            .Invoke(null, new object[] { t, expressions })!;
+            .Invoke(null, new object?[] { t, expression })!;
     }
 
-    private static IQueryable<T> BuildQueryGeneric<T>(ICrudReadTransaction t, IEnumerable<LambdaExpression> expressions)
+    private static bool IsValid(FilterItem item)
+    {
+        return item.Property is not null && !item.Query.IsEmpty();
+    }
+
+    private static LambdaExpression? ToLambda(Type model, FilterItem[] items, Func<Expression, Expression, BinaryExpression> aggregator)
+    {
+        if (!items.Any()) return null;
+        var entExp = Expression.Parameter(model);
+        return Expression.Lambda(ToFunc(model), items.Aggregate((Expression?)null,
+            (p, q) => p is not null ? aggregator.Invoke(p, GetFilter(entExp, q)) : GetFilter(entExp, q))!,
+            entExp);
+    }
+
+    private static IQueryable<T> BuildQueryGeneric<T>(ICrudReadTransaction t, LambdaExpression? expression)
         where T : Model
     {
-        IQueryable<T> o = t.All<T>();
-        return expressions.Aggregate(o, (p, q) => p.Where((Expression<Func<T, bool>>)q));
+        var q = (IQueryable<T>)t.All<T>();
+        if (expression is not null) q = q.Where((Expression<Func<T, bool>>)expression);
+        return q;
     }
 
     private static Type ToFunc(Type model)
@@ -251,11 +278,9 @@ public class TritonFlatEntityProvider : ViewModelBase, IEntityProvider
         return Expression.Property(source, property.GetMethod!);
     }
 
-    private static Expression GetFilter(Type model, out ParameterExpression entExp, FilterItem query)
+    private static Expression GetFilter(ParameterExpression entExp, FilterItem query)
     {
-        entExp = Expression.Parameter(model);
         var prop = query.Property!.Property;
-
         return prop.PropertyType.IsClass
             ? Expression.AndAlso(Expression.NotEqual(GetFromEntity(entExp, prop), Expression.Constant(null)), Contains(entExp, prop, query.Query!))
             : Contains(entExp, prop, query.Query!);

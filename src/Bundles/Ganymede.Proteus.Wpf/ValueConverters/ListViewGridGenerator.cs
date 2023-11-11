@@ -14,10 +14,10 @@ namespace TheXDS.Ganymede.ValueConverters;
 /// Converter that generates <see cref="GridView"/> objects to customize
 /// <see cref="ListView"/> presentation.
 /// </summary>
-public class ListViewGridGenerator : IOneWayValueConverter<ICrudDescription?, ViewBase?>
+public class ListViewGridGenerator : IOneWayValueConverter<ICrudDescription[]?, ViewBase?>
 {
     /// <inheritdoc/>
-    public ViewBase? Convert(ICrudDescription? value, object? parameter, CultureInfo? culture)
+    public ViewBase? Convert(ICrudDescription[]? value, object? parameter, CultureInfo? culture)
     {
         if (value is null) return null;
         var view = new GridView();
@@ -28,10 +28,10 @@ public class ListViewGridGenerator : IOneWayValueConverter<ICrudDescription?, Vi
         return view;
     }
 
-    private static IEnumerable<IPropertyDescription> GetListDescriptions(ICrudDescription description)
+    private static IEnumerable<IPropertyDescription> GetListDescriptions(ICrudDescription[] descriptions)
     {
-        var props = description.ListViewProperties.ToArray();
-        return description.PropertyDescriptions.Where(p => props.Contains(p.Key)).Select(p => p.Value.Description);
+        var props = descriptions.SelectMany(p => p.ListViewProperties).ToArray();
+        return descriptions.SelectMany(p => p.PropertyDescriptions).Where(p => props.Contains(p.Key)).Select(p => p.Value.Description);
     }
 
     private static GridViewColumn CreateColumn(IPropertyDescription p)

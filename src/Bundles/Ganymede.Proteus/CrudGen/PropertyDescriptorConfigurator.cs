@@ -90,6 +90,12 @@ public class PropertyDescriptorConfigurator<T> : IPropertyConfigurator<T> where 
         return NewDescriptor<SingleObjectPropertyDescriptor, T, Model?>(propertySelector);
     }
 
+    /// <inheritdoc/>
+    public IEnumPropertyDescriptor EnumProperty<TEnum>(Expression<Func<T, TEnum?>> propertySelector) where TEnum : Enum
+    {
+        return NewDescriptor<EnumPropertyDescriptor, T, TEnum?>(propertySelector);
+    }
+
     private TDescriptor NewDescriptor<TDescriptor, TObject, TProperty>(Expression<Func<TObject, TProperty>> propertySelector) where TDescriptor : class, IPropertyDescriptor, IPropertyDescription, new()
     {
         return RegisterDescription(propertySelector, prop =>

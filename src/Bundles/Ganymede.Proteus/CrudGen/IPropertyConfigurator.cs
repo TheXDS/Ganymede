@@ -100,6 +100,40 @@ public interface IPropertyConfigurator<T> where T : Model
     IBlobPropertyDescriptor Property(Expression<Func<T, byte[]>> propertySelector);
 
     /// <summary>
+    /// Begins the description of a <see cref="Model"/> property.
+    /// </summary>
+    /// <param name="propertySelector">
+    /// Lambda that selects the property to configure from the model.
+    /// </param>
+    /// <returns>
+    /// An <see cref="ITextPropertyDescriptor"/> instance that can be used to
+    /// configure the presentation and behavior of any visual elements used to
+    /// show and/or edit a property.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if any previous calls to configure this property used a
+    /// radically different kind of descriptor for the property.
+    /// </exception>
+    ISingleObjectPropertyDescriptor Property(Expression<Func<T, Model?>> propertySelector);
+
+    /// <summary>
+    /// Begins the description of an <see cref="Enum"/> property.
+    /// </summary>
+    /// <param name="propertySelector">
+    /// Lambda that selects the property to configure from the model.
+    /// </param>
+    /// <returns>
+    /// A <see cref="IPropertyDescriptor{T}"/> instance that can be used to
+    /// configure the presentation and behavior of any visual elements used to
+    /// show and/or edit a property.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if any previous calls to configure this property used a
+    /// radically different kind of descriptor for the property.
+    /// </exception>
+    IEnumPropertyDescriptor EnumProperty<TEnum>(Expression<Func<T, TEnum?>> propertySelector) where TEnum : Enum;
+
+    /// <summary>
     /// Begins the description of a simple, generic property.
     /// </summary>
     /// <typeparam name="TValue">Property value type.</typeparam>
@@ -158,21 +192,4 @@ public interface IPropertyConfigurator<T> where T : Model
     /// radically different kind of descriptor for the property.
     /// </exception>
     INullableNumericPropertyDescriptor<TValue> NullableNumericProperty<TValue>(Expression<Func<T, TValue?>> propertySelector) where TValue : unmanaged, IComparable<TValue>;
-
-    /// <summary>
-    /// Begins the description of a <see cref="Model"/> property.
-    /// </summary>
-    /// <param name="propertySelector">
-    /// Lambda that selects the property to configure from the model.
-    /// </param>
-    /// <returns>
-    /// An <see cref="ITextPropertyDescriptor"/> instance that can be used to
-    /// configure the presentation and behavior of any visual elements used to
-    /// show and/or edit a property.
-    /// </returns>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown if any previous calls to configure this property used a
-    /// radically different kind of descriptor for the property.
-    /// </exception>
-    ISingleObjectPropertyDescriptor Property(Expression<Func<T, Model?>> propertySelector);
 }

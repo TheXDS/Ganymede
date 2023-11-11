@@ -30,7 +30,7 @@
                             <StackPanel>
                                 <UniformGrid Rows="1">
                                     <TextBlock Margin="5,0" VerticalAlignment="Center">
-                                <Run Text="{Binding Provider.Filters.Count, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/> filters applied.
+                                <Run Text="{Binding Provider.FiltersCount, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/> filters applied.
                                     </TextBlock>
                                     <Button MinWidth="85" Command="{Binding Provider.EditFiltersCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" Content="Edit filters..." Margin="5"/>
                                     <Button MinWidth="85" Command="{Binding Provider.ClearFiltersCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" Content="Clear filters" Margin="5"/>
@@ -51,7 +51,7 @@
                             BorderBrush="{x:Null}"
                             BorderThickness="0"
                             Margin="5"
-                            View="{Binding Provider.Model, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource lvg}}"
+                            View="{Binding Provider.Models, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource lvg}}"
                             ItemsSource="{Binding Provider.Results, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                             SelectedItem="{Binding SelectedEntity, RelativeSource={RelativeSource TemplatedParent}}"/>
                         <Grid Grid.Row="2">

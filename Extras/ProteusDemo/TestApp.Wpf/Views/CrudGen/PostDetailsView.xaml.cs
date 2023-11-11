@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
 namespace TheXDS.Ganymede.Views.CrudGen
 {
     /// <summary>
-    /// Lógica de interacción para PostDetailsView.xaml
+    /// Business logic for PostDetailsView.xaml
     /// </summary>
     public partial class PostDetailsView : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostDetailsView"/>
+        /// class.
+        /// </summary>
         public PostDetailsView()
         {
             InitializeComponent();
