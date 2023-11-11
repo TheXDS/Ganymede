@@ -195,7 +195,7 @@ public class CrudPageViewModel : ViewModel
 
     private void PresentSelectedContent()
     {
-        var vm = Descriptions[0].DetailsViewModel?.New<EntityCrudViewModelBase>(SelectedEntity!) ?? ViewModelBuilder.BuildDetailsFrom(SelectedEntity!, GetCurrentDescription());
+        var vm = Descriptions[0].DetailsViewModel?.New<EntityCrudViewModelBase>() ?? ViewModelBuilder.BuildDetailsFrom(SelectedEntity!, GetCurrentDescription());
         vm.Entity = SelectedEntity!;
         vm.CrudActions = vm.CrudActions.Concat(new ButtonInteraction[] {
             UnselectInteraction,
