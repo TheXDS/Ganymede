@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels;
@@ -16,15 +18,7 @@ public abstract class CrudVisualBuilderBase<T> : IVisualResolver<FrameworkElemen
     /// <inheritdoc/>
     public virtual FrameworkElement? Resolve(IViewModel viewModel)
     {
-        return viewModel is T vm ? (FrameworkElement)UiInvoke(() =>
-        {
-            var pnl = new StackPanel();
-            foreach (var j in vm.ModelDescription.PropertyDescriptions)
-            {
-                if (GetControl(j.Value.Description, vm) is { } ctrl) pnl.Children.Add(ctrl);
-            }
-            return pnl;
-        }) : null;
+        return viewModel is T vm ? UiInvoke(() => CreateRoot(vm)) : null;
     }
 
     /// <summary>
@@ -43,4 +37,25 @@ public abstract class CrudVisualBuilderBase<T> : IVisualResolver<FrameworkElemen
     /// <see langword="null"/> if the property should not be presented.
     /// </returns>
     protected abstract FrameworkElement? GetControl(IPropertyDescription description, T viewModelContext);
+
+    private FrameworkElement CreateRoot(T vm)
+    {
+        var pnl = new StackPanel();
+        foreach (var j in vm.ModelDescription.PropertyDescriptions)
+        {
+            if (GetControl(j.Value.Description, vm) is { } ctrl) pnl.Children.Add(ctrl);
+        }
+        return new Border()
+        {
+            Background = Brushes.White,
+            Child = pnl,
+            CornerRadius = new CornerRadius(5),
+            Effect = new DropShadowEffect() { Color = Colors.Black, ShadowDepth = 0 },
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Margin = new Thickness(10),
+            MinWidth = 400,
+            Padding = new Thickness(20),
+            VerticalAlignment = VerticalAlignment.Top,
+        };
+    }
 }

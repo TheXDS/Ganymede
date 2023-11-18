@@ -50,8 +50,6 @@ public abstract class ObjectMappingBase<TControl, TDescription>
             CanSelect = description.Selectable,
             Models = description.AvailableModels,
             Label = description.Label,
-            LabelForeground = Brushes.White,
-            LabelEffect = new DropShadowEffect() { Color = Colors.Black, ShadowDepth = 0 }
         };
         control.CreateCommand = CreateNewCommand(control, description, OnAddNew);
         control.SelectCommand = CreateSelectCommand(control, description, OnAddNew);

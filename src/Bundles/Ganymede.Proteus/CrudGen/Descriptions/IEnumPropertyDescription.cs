@@ -6,7 +6,7 @@ namespace TheXDS.Ganymede.CrudGen.Descriptions;
 /// Defines a set of properties to be exposed by a descriptor for
 /// <see cref="Enum"/> properties.
 /// </summary>
-public interface IEnumPropertyDescription : IPropertyDescription
+public interface IEnumPropertyDescription : IPropertyDescription, IWidgetConfigurableDescription
 {
     /// <summary>
     /// Gets a value that explicitly determines if the described Enum should be

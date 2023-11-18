@@ -15,15 +15,3 @@ public class User : Model<string>
     public LikeFlags LikeFlags { get; set; }
     public override string ToString() => DisplayName ?? Id;
 }
-
-[Flags]
-public enum LikeFlags : byte
-{
-    None,
-    Dogs,
-    Cats,
-    Parrots = 4,
-    Turtle = 8,
-    Mamals = Dogs | Cats,
-    All = 255
-}

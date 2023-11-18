@@ -29,26 +29,28 @@ public class FlagEnumMapping : CrudMappingBase, ICrudMapping
     /// <inheritdoc/>
     public FrameworkElement CreateControl(IPropertyDescription description)
     {
+        var chkMargin = new Thickness(0, 0, 5, 5);
         var bxs = new HashSet<ToggleButton>();
         var pnl = new WrapPanel
         {
             Orientation = Orientation.Vertical,
-            MaxHeight = 150
+            MaxHeight = InferFlagPanelSize(description),
         };
         var groupBox = new GroupBox
         {
             Header = $"{description.Icon} {description.Label}",
+            Padding = new Thickness(5, 5, 0, 0),
             Content = new ScrollViewer
             {
                 Content = pnl,
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                VerticalScrollBarVisibility = ScrollBarVisibility.Disabled
             }
         };
         foreach (var j in description.Property.PropertyType.AsNamedEnum())
         {
             if (j.Value.ToUnderlyingType().Equals(0)) continue;
-            var chk = new CheckBox { Content = j.Name, Tag = j.Value };
+            var chk = new CheckBox { Content = j.Name, Tag = j.Value, Margin = chkMargin };
             chk.Click += (s, e) =>
             {
                 if (s != e.OriginalSource) return;
@@ -64,19 +66,31 @@ public class FlagEnumMapping : CrudMappingBase, ICrudMapping
         return groupBox;
     }
 
+    private static double InferFlagPanelSize(IPropertyDescription description)
+    {
+        return description is IWidgetConfigurableDescription d ? d.WidgetSize switch
+        {
+            WidgetSize.Small => 90,
+            WidgetSize.Medium => 120,
+            WidgetSize.Large => 150,
+            WidgetSize.Huge => 300,
+            _ => throw new NotImplementedException(),
+        } : 120;
+    }
+
     private static Enum GetFlags(FrameworkElement control, Enum oldValue, Type enumType)
     {
         var v = ((ToggleButton)control).IsChecked ?? false;
         string newValue = ((oldValue.ToUnderlyingType(), ((Enum)control.Tag).ToUnderlyingType()) switch
         {
-            (byte x, byte y)     => (byte)  (y != 0 ? (x ^ y) | (v ? y : default(int)) : 0),
-            (sbyte x, sbyte y)   => (sbyte) (y != 0 ? (x ^ y) | (v ? y : default(int)) : 0),
-            (short x, short y)   => (short) (y != 0 ? (x ^ y) | (v ? y : default(int)) : 0),
+            (byte x, byte y) => (byte)(y != 0 ? (x ^ y) | (v ? y : default(int)) : 0),
+            (sbyte x, sbyte y) => (sbyte)(y != 0 ? (x ^ y) | (v ? y : default(int)) : 0),
+            (short x, short y) => (short)(y != 0 ? (x ^ y) | (v ? y : default(int)) : 0),
             (ushort x, ushort y) => (ushort)(y != 0 ? (x ^ y) | (v ? y : default(int)) : 0),
-            (int x, int y)       => (int)   (y != 0 ? (x ^ y) | (v ? y : default) : 0),
-            (uint x, uint y)     => (uint)  (y != 0 ? (x ^ y) | (v ? y : default) : 0),
-            (long x, long y)     => (long)  (y != 0 ? (x ^ y) | (v ? y : default) : 0),
-            (ulong x, ulong y)   => (ulong) (y != 0 ? (x ^ y) | (v ? y : default) : 0),
+            (int x, int y) => (int)(y != 0 ? (x ^ y) | (v ? y : default) : 0),
+            (uint x, uint y) => (uint)(y != 0 ? (x ^ y) | (v ? y : default) : 0),
+            (long x, long y) => (long)(y != 0 ? (x ^ y) | (v ? y : default) : 0),
+            (ulong x, ulong y) => (ulong)(y != 0 ? (x ^ y) | (v ? y : default) : 0),
             _ => (object)oldValue
         }).ToString()!;
         return (Enum)Enum.Parse(enumType, newValue);
@@ -90,8 +104,8 @@ public class FlagEnumMapping : CrudMappingBase, ICrudMapping
         foreach (var j in boxes)
         {
             var t = (Enum)j.Tag;
-            j.IsChecked = 
-                (t.CompareTo(zero) == 0) 
+            j.IsChecked =
+                (t.CompareTo(zero) == 0)
                 ? value.CompareTo(zero) == 0
                 : value.HasFlag(t);
         }

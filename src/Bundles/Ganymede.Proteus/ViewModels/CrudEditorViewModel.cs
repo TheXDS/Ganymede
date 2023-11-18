@@ -57,7 +57,7 @@ public class CrudEditorViewModel : DynamicCrudViewModelBase
     /// </returns>
     public async Task OnCancel()
     {
-        if (await (DialogService?.Ask(St.WantToCancelChanges) ?? Task.FromResult(true)))
+        if (await (DialogService?.Ask(Title, St.WantToCancelChanges) ?? Task.FromResult(true)))
         {
             NavigationService?.NavigateBack();
             _resultAwaiter.SetResult(false);
