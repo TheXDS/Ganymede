@@ -1,12 +1,9 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen.Mappings.Base;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART.Types.Extensions;
-using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.CrudGen.Mappings;
 
@@ -41,52 +38,5 @@ public class PasswordTextMapping : CrudMappingBase, ICrudMapping
             }
         };
         return c;
-    }
-}
-
-/// <summary>
-/// Maps <see cref="Enum"/> properties for non-flag enums.
-/// </summary>
-public class FlagEnumMapping : CrudMappingBase, ICrudMapping
-{
-    bool ICrudMapping.MustSetValueManually => false;
-
-    /// <inheritdoc/>
-    public bool CanMap(IPropertyDescription description)
-    {
-        return description.Property.PropertyType.IsEnum
-            && ((description is IEnumPropertyDescription e && e.Flags)
-            || description.GetStructValue<bool>(nameof(IEnumPropertyDescription.Flags)) == true);
-    }
-
-    /// <inheritdoc/>
-    public FrameworkElement CreateControl(IPropertyDescription description)
-    {
-        var pnl = new WrapPanel
-        {
-            Orientation = Orientation.Vertical,
-            MaxHeight = 150
-        };
-        var groupBox = new GroupBox
-        {
-            Header = $"{description.Icon} {description.Label}",
-            Content = new ScrollViewer
-            {
-                Content = pnl,
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
-            }
-        };
-        foreach (var j in description.Property.PropertyType.AsNamedEnum())
-        {
-            if (j.Value.ToUnderlyingType().Equals(0)) continue;
-            var chk = new CheckBox { Content = j.Name, Tag = j.Value };
-            pnl.Children.Add(chk);
-        }
-        return groupBox;
-    }
-
-    void ICrudMapping.SetControlValue(FrameworkElement control, Model entity, IPropertyDescription description)
-    {
-
     }
 }

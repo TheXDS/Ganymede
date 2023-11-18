@@ -61,6 +61,33 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Add filter.
+        /// </summary>
+        public static string AddFilter {
+            get {
+                return ResourceManager.GetString("AddFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} filters applied..
+        /// </summary>
+        public static string AppliedFiltersCount {
+            get {
+                return ResourceManager.GetString("AppliedFiltersCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Apply and close.
+        /// </summary>
+        public static string ApplyAndClose {
+            get {
+                return ResourceManager.GetString("ApplyAndClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Are you sure you want to perform this operation?.
         /// </summary>
         public static string AreYouSure {
@@ -75,6 +102,33 @@ namespace TheXDS.Ganymede.Resources.Strings {
         public static string AreYouSureDelete {
             get {
                 return ResourceManager.GetString("AreYouSureDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Back.
+        /// </summary>
+        public static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Clear and close.
+        /// </summary>
+        public static string ClearAndClose {
+            get {
+                return ResourceManager.GetString("ClearAndClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Clear fitlers.
+        /// </summary>
+        public static string ClearFIlters {
+            get {
+                return ResourceManager.GetString("ClearFIlters", resourceCulture);
             }
         }
         
@@ -106,6 +160,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Edit filters....
+        /// </summary>
+        public static string EditFilters {
+            get {
+                return ResourceManager.GetString("EditFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Edit {0} &quot;{1}&quot;.
         /// </summary>
         public static string EditModel {
@@ -124,11 +187,74 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Filter.
+        /// </summary>
+        public static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Apply filters using &quot;AND&quot; expression.
+        /// </summary>
+        public static string FilterByAnd {
+            get {
+                return ResourceManager.GetString("FilterByAnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Apply filters using &quot;OR&quot; expression.
+        /// </summary>
+        public static string FilterByOr {
+            get {
+                return ResourceManager.GetString("FilterByOr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ({0} filters).
+        /// </summary>
+        public static string FilterCount {
+            get {
+                return ResourceManager.GetString("FilterCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Exclude all elements of this type from results.
+        /// </summary>
+        public static string FilterExcludeModel {
+            get {
+                return ResourceManager.GetString("FilterExcludeModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a {0} items..
         /// </summary>
         public static string ItemCount {
             get {
                 return ResourceManager.GetString("ItemCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} items, {1} in view.
+        /// </summary>
+        public static string ItemsCounter {
+            get {
+                return ResourceManager.GetString("ItemsCounter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Items per page.
+        /// </summary>
+        public static string ItemsPerPage {
+            get {
+                return ResourceManager.GetString("ItemsPerPage", resourceCulture);
             }
         }
         
@@ -174,6 +300,33 @@ namespace TheXDS.Ganymede.Resources.Strings {
         public static string PageCount {
             get {
                 return ResourceManager.GetString("PageCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Property.
+        /// </summary>
+        public static string Property {
+            get {
+                return ResourceManager.GetString("Property", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Refresh data.
+        /// </summary>
+        public static string RefreshData {
+            get {
+                return ResourceManager.GetString("RefreshData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Remove all.
+        /// </summary>
+        public static string RemoveAll {
+            get {
+                return ResourceManager.GetString("RemoveAll", resourceCulture);
             }
         }
         

@@ -3,6 +3,7 @@ using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Services;
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Types.Extensions;
+using St = TheXDS.Ganymede.Resources.Strings.ProteusCommon;
 
 namespace TheXDS.Ganymede.ViewModels.CustomDialogs;
 
@@ -23,9 +24,9 @@ public class FilterEditorDialogViewModel : AwaitableDialogViewModel
     public FilterEditorDialogViewModel(IDictionary<ICrudDescription, Filter> filterCollection)
     {
         FilterCollection = filterCollection.Select(p => new FilterEditorItem(p.Key, p.Value));
-        Interactions.Add(new(new SimpleCommand(OnClearAll), "Clear and close"));
-        Interactions.Add(new(new SimpleCommand(OnClose), "Apply and close"));
-        Title = "Filter";
+        Interactions.Add(new(new SimpleCommand(OnClearAll), St.ClearAndClose));
+        Interactions.Add(new(new SimpleCommand(OnClose), St.ApplyAndClose));
+        Title = St.Filter;
         IconBgColor = Color.Chocolate;
         Icon = "⛉";
     }
@@ -50,5 +51,6 @@ public class FilterEditorDialogViewModel : AwaitableDialogViewModel
         {
             j.Filter.Items.Clear();
         }
+        CloseDialog();
     }
 }

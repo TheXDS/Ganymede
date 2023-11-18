@@ -16,6 +16,13 @@ namespace TheXDS.Ganymede.CrudGen;
 public interface IModelConfigurator<T> where T : Model
 {
     /// <summary>
+    /// Sets the category that this model belongs to.
+    /// </summary>
+    /// <param name="category">Category to be set on this descriptor.</param>
+    /// <returns>This same instance.</returns>
+    IModelConfigurator<T> Category(CrudCategory category);
+
+    /// <summary>
     /// Sets a resource class to use when resolving labels.
     /// </summary>
     /// <typeparam name="TRes">Type of resource class.</typeparam>

@@ -177,4 +177,55 @@
   <data name="PageCount" xml:space="preserve">
     <value>Página {0} de {1}</value>
   </data>
+  <data name="ApplyAndClose" xml:space="preserve">
+    <value>Aplicar y cerrar</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Atrás</value>
+  </data>
+  <data name="ClearAndClose" xml:space="preserve">
+    <value>Restaurar y cerrar</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtrar</value>
+  </data>
+  <data name="FilterByAnd" xml:space="preserve">
+    <value>Aplicar filtros utilizando expresión "AND"</value>
+  </data>
+  <data name="FilterByOr" xml:space="preserve">
+    <value>Aplicar filtros utilizando expresión "OR"</value>
+  </data>
+  <data name="FilterExcludeModel" xml:space="preserve">
+    <value>Excluir todos los elementos de este tipo en los resultados</value>
+  </data>
+  <data name="FilterCount" xml:space="preserve">
+    <value>({0} filtros)</value>
+  </data>
+  <data name="AppliedFiltersCount" xml:space="preserve">
+    <value>{0} filtros aplicados.</value>
+  </data>
+  <data name="ItemsCounter" xml:space="preserve">
+    <value>{0} elementos, {1} a la vista</value>
+  </data>
+  <data name="ItemsPerPage" xml:space="preserve">
+    <value>Elementos por página</value>
+  </data>
+  <data name="ClearFIlters" xml:space="preserve">
+    <value>Restablecer</value>
+  </data>
+  <data name="EditFilters" xml:space="preserve">
+    <value>Editar filtros...</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Propiedad</value>
+  </data>
+  <data name="AddFilter" xml:space="preserve">
+    <value>Agregar filtro</value>
+  </data>
+  <data name="RemoveAll" xml:space="preserve">
+    <value>Quitar todo</value>
+  </data>
+  <data name="RefreshData" xml:space="preserve">
+    <value>Recargar datos</value>
+  </data>
 </root>

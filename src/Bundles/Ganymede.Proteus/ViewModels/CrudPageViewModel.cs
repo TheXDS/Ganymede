@@ -119,7 +119,7 @@ public class CrudPageViewModel : ViewModel
         _entityProvider = entityProvider;
         Descriptions = descriptions;
         var b = new CommandBuilder<CrudPageViewModel>(this);
-        UnselectInteraction = new(b.BuildSimple(() => SelectedEntity = null), "Back");
+        UnselectInteraction = new(b.BuildSimple(() => SelectedEntity = null), St.Back);
         NewEntityInteraction = new(b.BuildSimple(OnNew), St.NewItem);
         UpdateInteraction = new(b.BuildObserving(OnUpdate).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), St.Update);
         DeleteInteraction = new(b.BuildObserving(OnDelete).CanExecuteIfNotNull(p => p.SelectedEntity).Build(), St.Delete);

@@ -31,5 +31,5 @@ public class ModuleManagementViewModel : ViewModel
         var vm = new CrudPageViewModel(new[] { description }, _tritonService, ep) { DialogService = DialogService };
         NavigationService?.Navigate(vm);
     }
-
 }
+ 

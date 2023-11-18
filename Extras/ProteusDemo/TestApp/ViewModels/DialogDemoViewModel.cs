@@ -108,10 +108,10 @@ public class DialogDemoViewModel : ViewModel
 
     private async Task OnTestCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress)
     {
-        Task Simmulate(string text, int delay = 2000, double percent = double.NaN)
+        Task Simmulate(string text, int delay = 2000, double percent = double.NaN, CancellationToken? c = null)
         {
             progress.Report(new ProgressReport(percent, text));
-            return Task.Delay(delay, ct);
+            return Task.Delay(delay, c ?? ct);
         }
         try
         {
@@ -124,7 +124,7 @@ public class DialogDemoViewModel : ViewModel
         }
         catch (TaskCanceledException)
         {
-            await Simmulate(St.OperationDemo4);
+            await Simmulate(St.OperationDemo4, c: CancellationToken.None);
             await Task.Delay(1000);
         }
     }

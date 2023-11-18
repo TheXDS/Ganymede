@@ -17,7 +17,8 @@ public class EnumMapping : CrudMappingBase, ICrudMapping
     public bool CanMap(IPropertyDescription description)
     {
         return description.Property.PropertyType.IsEnum
-            && description.GetStructValue<bool>(nameof(IEnumPropertyDescription.Flags)) != true;
+            && ((description is IEnumPropertyDescription e && !e.Flags)
+            || !description.Property.PropertyType.HasAttribute<FlagsAttribute>());
     }
 
     /// <inheritdoc/>

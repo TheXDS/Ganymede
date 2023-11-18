@@ -24,7 +24,7 @@ public class InputDialogViewModel : DialogViewModel, IInputDialogViewModel<strin
     /// </summary>
     public int? MaxLength
     {
-        get => _maxLength;
+        get => _maxLength ?? int.MaxValue;
         set => Change(ref _maxLength, value);
     }
 }

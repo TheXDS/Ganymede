@@ -13,7 +13,6 @@ namespace TheXDS.Ganymede.ViewModels.CustomDialogs;
 /// </summary>
 public class FilterEditorItem
 {
-
     /// <summary>
     /// Initializes a new instance of the <see cref="FilterEditorItem"/> class.
     /// </summary>

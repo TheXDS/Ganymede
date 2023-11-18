@@ -11,6 +11,7 @@ public class UserDescriptor : CrudDescriptor<User>
     /// <inheritdoc/>
     protected override void OnDescribeModel(IModelConfigurator<User> m)
     {
+        m.Category(CrudCategory.Settings);
         m.LabelResource<St.User>();
         m.ConfigureProperties(c => { 
             c.Property(p => p.Id);
@@ -19,6 +20,7 @@ public class UserDescriptor : CrudDescriptor<User>
             c.Property(p => p.Enabled);
             c.Property(p => p.Description).Nullable().Kind(TextKind.Paragraph);
             c.Property(p => p.FavoriteDay);
+            c.Property(p => p.LikeFlags).Label("Animals liked");
         });
         m.ListViewProperties(p => p.Id, p => p.DisplayName);
     }

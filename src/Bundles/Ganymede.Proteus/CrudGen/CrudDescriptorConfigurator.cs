@@ -29,14 +29,10 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
         _propertyConfigurator = new PropertyDescriptorConfigurator<T>(_properties, this);
     }
 
-    /// <summary>
-    /// Enumerates the described properties for the model.
-    /// </summary>
+    /// <inheritdoc/>
     public IReadOnlyDictionary<PropertyInfo, DescriptionEntry> PropertyDescriptions => _properties;
 
-    /// <summary>
-    /// Gets a reference to the described model type.
-    /// </summary>
+    /// <inheritdoc/>
     public Type Model => typeof(T);
 
     /// <inheritdoc/>
@@ -59,6 +55,9 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
 
     /// <inheritdoc/>
     public IEnumerable<PropertyInfo> ListViewProperties => _listViewProps.Any() ? _listViewProps : InferListViewProps();
+
+    /// <inheritdoc/>
+    public CrudCategory? Category { get; private set; }
 
     private IEnumerable<PropertyInfo> InferListViewProps()
     {
@@ -112,6 +111,12 @@ public class CrudDescriptorConfigurator<T> : ICrudDescription, IModelConfigurato
     IModelConfigurator<T> IModelConfigurator<T>.ListViewProperties(params Expression<Func<T, object?>>[] propertySelectors)
     {
         _listViewProps.AddRange(propertySelectors.Select(ReflectionHelpers.GetProperty));
+        return this;
+    }
+
+    IModelConfigurator<T> IModelConfigurator<T>.Category(CrudCategory category)
+    {
+        Category = category;
         return this;
     }
 }

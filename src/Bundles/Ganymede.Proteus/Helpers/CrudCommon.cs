@@ -30,7 +30,12 @@ public static class CrudCommon
     /// </returns>
     public static string GetLabel(this Type? resourceType, string resourceId)
     {
-        return resourceType?.GetProperty(resourceId, BindingFlags.Static | BindingFlags.Public, null, typeof(string), Type.EmptyTypes, null)?.GetValue(null) as string ?? SplitByUppercase(resourceId);
+        string Infer()
+        {
+            var l = SplitByUppercase(resourceId);
+            return $"{l.ToUpper()[0]}{l.ToLower()[1..]}";
+        }
+        return resourceType?.GetProperty(resourceId, BindingFlags.Static | BindingFlags.Public, null, typeof(string), Type.EmptyTypes, null)?.GetValue(null) as string ?? Infer();
     }
 
     /// <summary>

@@ -15,6 +15,15 @@ public interface ICrudDescription
     Type Model { get; }
 
     /// <summary>
+    /// Gets a category that the described model might belong to.
+    /// </summary>
+    /// <remarks>
+    /// If set to <see langword="null"/>, the module builder might not present
+    /// this description in the UI.
+    /// </remarks>
+    CrudCategory? Category { get; }
+
+    /// <summary>
     /// Enumerates the described properties for the model.
     /// </summary>
     IReadOnlyDictionary<PropertyInfo, DescriptionEntry> PropertyDescriptions { get; }

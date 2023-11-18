@@ -3,7 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:st="clr-namespace:TheXDS.Ganymede.Resources.Strings;assembly=Ganymede.Proteus"
     mc:Ignorable="d"
     xmlns:vm="clr-namespace:TheXDS.Ganymede.ViewModels.CustomDialogs;assembly=Ganymede.Proteus"
     d:DataContext="{d:DesignInstance vm:FilterEditorDialogViewModel}"
@@ -12,22 +13,22 @@
         <TabControl.ContentTemplate>
             <DataTemplate>
                 <DockPanel x:Name="PART_root" Margin="10">
-                    <StackPanel DockPanel.Dock="Right" Margin="5" Width="80">
-                        <Button Margin="5" Content="Add filter" Command="{Binding AddFilterCommand, Mode=OneWay}"/>
-                        <Button Margin="5" Content="Remove all" Command="{Binding ClearFiltersCommand, Mode=OneWay}"/>
-                    </StackPanel>
                     <StackPanel Margin="5" DockPanel.Dock="Top">
-                        <CheckBox IsChecked="{Binding Filter.Exclude}">Exclude all elements of this type from results</CheckBox>
+                        <CheckBox IsChecked="{Binding Filter.Exclude}" Content="{x:Static st:ProteusCommon.FilterExcludeModel}"/>
                         <WrapPanel>
-                            <RadioButton Margin="5" IsChecked="{Binding Filter.AggregateWithAnd}">Apply filter using "AND"</RadioButton>
-                            <RadioButton Margin="5" IsChecked="{Binding Filter.AggregateWithOr}">Apply filter using "OR"</RadioButton>
+                            <RadioButton Margin="5" IsChecked="{Binding Filter.AggregateWithAnd}" Content="{x:Static st:ProteusCommon.FilterByAnd}"/>
+                            <RadioButton Margin="5" IsChecked="{Binding Filter.AggregateWithOr}" Content="{x:Static st:ProteusCommon.FilterByOr}"/>
                         </WrapPanel>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Right" Margin="5" Width="80">
+                        <Button Margin="5" Content="{x:Static st:ProteusCommon.AddFilter}" Command="{Binding AddFilterCommand, Mode=OneWay}"/>
+                        <Button Margin="5" Content="{x:Static st:ProteusCommon.RemoveAll}" Command="{Binding ClearFiltersCommand, Mode=OneWay}"/>
                     </StackPanel>
                     <ListView ItemsSource="{Binding Filter.Items, Mode=OneWay}">
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>
-                                    <GridViewColumn Header="Property" Width="166">
+                                    <GridViewColumn Header="{x:Static st:ProteusCommon.Property}" Width="166">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ComboBox
@@ -38,7 +39,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Filter" Width="166">
+                                    <GridViewColumn Header="{x:Static st:ProteusCommon.Filter}" Width="166">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBox MinWidth="150" Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}"/>
@@ -67,7 +68,7 @@
             <DataTemplate>
                 <TextBlock>
                     <Run  Text="{Binding Description.FriendlyName, Mode=OneWay}"/>
-                    (<Run  Text="{Binding Filter.Items.Count, Mode=OneWay}"/> filters)
+                    <Run  Text="{Binding Filter.Items.Count, Mode=OneWay, StringFormat={x:Static st:ProteusCommon.FilterCount}}"/>
                 </TextBlock>
             </DataTemplate>
         </TabControl.ItemTemplate>
