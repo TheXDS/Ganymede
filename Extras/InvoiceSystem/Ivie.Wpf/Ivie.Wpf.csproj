@@ -5,12 +5,17 @@
     <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <RootNamespace>TheXDS.Ivie</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Bundles\Ganymede.Proteus.Wpf\Ganymede.Proteus.Wpf.csproj" />
     <ProjectReference Include="..\..\..\src\Core\Ganymede.Wpf\Ganymede.Wpf.csproj" />
     <ProjectReference Include="..\Ivie\Ivie.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

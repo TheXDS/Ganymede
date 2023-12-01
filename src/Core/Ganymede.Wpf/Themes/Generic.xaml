@@ -8,5 +8,6 @@
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/TextBoxEx.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/PasswordBox.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/Window.xaml"/>
+        <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/DecoratedBorder/Default.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

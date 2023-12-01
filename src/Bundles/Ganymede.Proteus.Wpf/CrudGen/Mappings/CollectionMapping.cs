@@ -23,14 +23,17 @@ public class CollectionMapping : ObjectMappingBase<ListEditor, ICollectionProper
     /// <inheritdoc/>
     protected override void ConfigureControl(ListEditor control, ICollectionPropertyDescription description)
     {
-        control.Height = description.WidgetSize switch
+        if (description.WidgetSize != WidgetSize.Flex)
         {
-            WidgetSize.Small => 58,
-            WidgetSize.Medium => 90,
-            WidgetSize.Large => 200,
-            WidgetSize.Huge => 500,
-            _ => 0
-        };
+            control.Height = description.WidgetSize switch
+            {
+                WidgetSize.Small => 90,
+                WidgetSize.Medium => 150,
+                WidgetSize.Large => 250,
+                WidgetSize.Huge => 500,
+                _ => 0
+            };
+        }
         control.RemoveCommand = CreateRemoveCommand(control, description);
     }
 

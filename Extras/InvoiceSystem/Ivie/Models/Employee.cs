@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TheXDS.Triton.Models;
 using TheXDS.Triton.Models.Base;
 
 namespace TheXDS.Ganymede.Models;
@@ -10,6 +6,8 @@ namespace TheXDS.Ganymede.Models;
 public class Employee : Model<Guid>
 {
     public string? DisplayName { get; set; }
+
+    public LoginCredential? LoginCredential { get; set; }
 
     public override string ToString() => DisplayName ?? string.Empty;
 }
@@ -24,8 +22,6 @@ public class Product : Model<Guid>
     public string Description { get; set; }
 
     public decimal BasePrice { get; set; }
-
-
 
     public override string ToString() => Description ?? string.Empty;
 }
@@ -45,7 +41,6 @@ public class CaiRange : Model<long>
     public short NumInvoicer { get; set; }
     public int InitialRange { get; set; }
     public int FinalRange { get; set; }
-
 }
 
 public class Invoice : TimestampModel<long>
@@ -72,5 +67,10 @@ public class InvoiceItem : Model<long>
 public class Payment : Model<long>
 {
     public Invoice Parent { get; set; }
+    public PaymentMethod Method { get; set; }
     public decimal Amount { get; set; }
+}
+
+public class PaymentMethod : CatalogModel<Guid>
+{
 }

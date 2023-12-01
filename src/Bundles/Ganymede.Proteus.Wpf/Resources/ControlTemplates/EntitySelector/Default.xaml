@@ -16,50 +16,50 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Expander Margin="5" Background="White" Padding="5">
-                            <Expander.Effect>
-                                <DropShadowEffect Color="Black" ShadowDepth="0"/>
-                            </Expander.Effect>
-                            <Expander.Header>
-                                <TextBlock>
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{x:Static st:ProteusCommon.ItemsCounter}">
-                                            <Binding Path="Provider.TotalItems" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
-                                            <Binding Path="Provider.Results.Count" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </Expander.Header>
-                            <StackPanel>
-                                <UniformGrid Rows="1">
-                                    <TextBlock
-                                        Margin="5,0"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Provider.FiltersCount, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat={x:Static st:ProteusCommon.AppliedFiltersCount}}"/>
-                                    <Button
-                                        MinWidth="85"
+                        <gn:DecoratedBorder Margin="5">
+                            <Expander Padding="5">
+                                <Expander.Header>
+                                    <TextBlock Foreground="{TemplateBinding Foreground}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{x:Static st:ProteusCommon.ItemsCounter}">
+                                                <Binding Path="Provider.TotalItems" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                                                <Binding Path="Provider.Results.Count" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Expander.Header>
+                                <StackPanel>
+                                    <UniformGrid Rows="1">
+                                        <TextBlock
+                                            Margin="5,0"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Provider.FiltersCount, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat={x:Static st:ProteusCommon.AppliedFiltersCount}}"/>
+                                        <Button
+                                            MinWidth="85"
+                                            Margin="5"
+                                            Command="{Binding Provider.EditFiltersCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                            Content="{x:Static st:ProteusCommon.EditFilters}"/>
+                                        <Button
+                                            MinWidth="85"
+                                            Margin="5"
+                                            Command="{Binding Provider.ClearFiltersCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                            Content="{x:Static st:ProteusCommon.ClearFIlters}"/>
+                                    </UniformGrid>
+                                    <gn:Int16TextBox
                                         Margin="5"
-                                        Command="{Binding Provider.EditFiltersCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                        Content="{x:Static st:ProteusCommon.EditFilters}"/>
+                                        Minimum="1"
+                                        Maximum="1000"
+                                        Step="10"
+                                        Label="{x:Static st:ProteusCommon.ItemsPerPage}"
+                                        Value="{Binding Provider.ItemsPerPage, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     <Button
-                                        MinWidth="85"
                                         Margin="5"
-                                        Command="{Binding Provider.ClearFiltersCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                        Content="{x:Static st:ProteusCommon.ClearFIlters}"/>
-                                </UniformGrid>
-                                <gn:Int16TextBox
-                                    Margin="5"
-                                    Minimum="1"
-                                    Maximum="1000"
-                                    Step="10"
-                                    Label="{x:Static st:ProteusCommon.ItemsPerPage}"
-                                    Value="{Binding Provider.ItemsPerPage, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <Button
-                                    Margin="5"
-                                    Command="{Binding Provider.RefreshCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" Content="{x:Static st:ProteusCommon.RefreshData}"/>
-                            </StackPanel>
-                        </Expander>
-                        <ListView Grid.Row="1"
+                                        Command="{Binding Provider.RefreshCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" Content="{x:Static st:ProteusCommon.RefreshData}"/>
+                                </StackPanel>
+                            </Expander>
+                        </gn:DecoratedBorder>
+                        <ListView
+                            Grid.Row="1"
                             BorderBrush="{x:Null}"
                             BorderThickness="0"
                             Margin="5"
@@ -77,18 +77,21 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Grid.Resources>
-                                <Style TargetType="Button">
-                                    <Setter Property="Margin" Value="5"/>
-                                    <Setter Property="Width" Value="20"/>
-                                </Style>
-                            </Grid.Resources>
-                            <Button Content="|◀" Margin="5,5,0,5" Command="{Binding Provider.FirstPageCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                            <Button
+                                Margin="5,5,0,5"
+                                Padding="0"
+                                Width="20"
+                                Command="{Binding Provider.FirstPageCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                <TextBlock>|◀</TextBlock>
+                            </Button>
                             <Button
                                 Margin="0,5,5,5"
+                                Padding="0"
+                                Width="20"
                                 Grid.Column="1"
-                                Content="◀"
-                                Command="{Binding Provider.PreviousPageCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                Command="{Binding Provider.PreviousPageCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                <TextBlock>◀</TextBlock>
+                            </Button>
                             <TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{x:Static st:ProteusCommon.PageCount}">
@@ -99,14 +102,20 @@
                             </TextBlock>
                             <Button
                                 Margin="5,5,0,5"
+                                Padding="0"
+                                Width="20"
                                 Grid.Column="3"
-                                Content="▶"
-                                Command="{Binding Provider.NextPageCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                Command="{Binding Provider.NextPageCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                <TextBlock>▶</TextBlock>
+                            </Button>
                             <Button
                                 Margin="0,5,5,5"
+                                Padding="0"
+                                Width="20"
                                 Grid.Column="4"
-                                 Command="{Binding Provider.LastPageCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                Content="▶|"/>
+                                Command="{Binding Provider.LastPageCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
+                                <TextBlock>▶|</TextBlock>
+                            </Button>
                         </Grid>
                     </Grid>
                 </ControlTemplate>

@@ -9,6 +9,7 @@
     xmlns:gn="clr-namespace:TheXDS.Ganymede.ValueConverters"
     xmlns:gn1="clr-namespace:TheXDS.Ganymede.Markup" 
     xmlns:mcart="http://schemas.thexds.local/mcart"
+    xmlns:gn2="clr-namespace:TheXDS.Ganymede.Controls"
     mc:Ignorable="d" 
     Background="#80000000"
     VerticalAlignment="Stretch"
@@ -21,19 +22,11 @@
         <BooleanToVisibilityConverter x:Key="b2vc"/>
         <gn:DrawingColorToMediaBrushConverter x:Key="brc"/>
     </UserControl.Resources>
-    <Border
-        SnapsToDevicePixels="True"
-        BorderBrush="{x:Null}"
-        BorderThickness="0"
+    <gn2:DecoratedBorder
         Margin="50"
         VerticalAlignment="Center"
         HorizontalAlignment="Center"
-        CornerRadius="5"
-        MinWidth="200"
-        Background="White">
-        <Border.Effect>
-                <DropShadowEffect BlurRadius="20" Color="black" ShadowDepth="0"/>
-            </Border.Effect>
+        MinWidth="200">
         <Grid SnapsToDevicePixels="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -51,6 +44,7 @@
                 Grid.Column="1"
                 Margin="10 10 0 0">
                 <TextBlock
+                    Margin="0,0,10,0"
                     SnapsToDevicePixels="True"
 					Text="{Binding Title, Mode=OneWay}"
 					FontSize="16"
@@ -108,5 +102,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
-    </Border>
+    </gn2:DecoratedBorder>
 </UserControl>

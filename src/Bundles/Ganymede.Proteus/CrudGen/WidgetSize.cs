@@ -6,6 +6,11 @@
 public enum WidgetSize
 {
     /// <summary>
+    /// Let the widget builder decide.
+    /// </summary>
+    Flex,
+
+    /// <summary>
     /// Small size.
     /// </summary>
     Small,

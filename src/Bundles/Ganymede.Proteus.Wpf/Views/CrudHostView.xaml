@@ -23,14 +23,11 @@
         <vc:DescriptionCountVisibilityConverter VisibleIf="Multiple" x:Key="mdc2vc"/>
     </UserControl.Resources>
     <DockPanel Margin="5">
-        <Border Padding="5" Margin="10" CornerRadius="5" Background="White">
-            <Border.Effect>
-                <DropShadowEffect Color="Black" ShadowDepth="0"/>
-            </Border.Effect>
+        <gn:DecoratedBorder Padding="5" Margin="10">
             <controls:EntitySelector
                 Provider="{Binding EntityProvider}"
                 SelectedEntity="{Binding SelectedEntity}"/>
-        </Border>
+        </gn:DecoratedBorder>
         <DockPanel
             Visibility="{Binding CrudNavService.CurrentViewModel, Mode=OneWay, Converter={StaticResource nn2vc}}">
             <ItemsControl ItemsSource="{Binding CrudNavService.NavigationStack, Mode=OneWay}" DockPanel.Dock="Top" Margin="5">
@@ -50,17 +47,14 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Border
+            <gn:DecoratedBorder
+                UseLayoutRounding="True"
+                SnapsToDevicePixels="True"
                 Padding="5"
                 Margin="10"
-                CornerRadius="5"
                 DockPanel.Dock="Bottom"
                 HorizontalAlignment="Center"
-                Background="White"
                 Visibility="{Binding CrudNavService.CurrentViewModel.CrudActions.Count, Mode=OneWay, Converter={StaticResource c2vc}}">
-                <Border.Effect>
-                    <DropShadowEffect Color="Black" ShadowDepth="0"/>
-                </Border.Effect>
                 <ItemsControl
                     ItemsSource="{Binding CrudNavService.CurrentViewModel.CrudActions, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
@@ -74,9 +68,11 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </Border>
+            </gn:DecoratedBorder>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <gn:NavigationViewModelHost
+                    UseLayoutRounding="True"
+                    SnapsToDevicePixels="True"
                     VisualResolver="{gn2:ProteusCrudBuilder}"
                     Navigator="{Binding CrudNavService, Mode=OneWay}"/>
             </ScrollViewer>

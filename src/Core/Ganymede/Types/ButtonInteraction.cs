@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using TheXDS.MCART.Component;
 using TheXDS.MCART.Types.Base;
 
 namespace TheXDS.Ganymede.Types;
@@ -26,6 +27,16 @@ public class ButtonInteraction : NotifyPropertyChanged
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="ButtonInteraction"/>
+    /// class.
+    /// </summary>
+    /// <param name="action">Action to be executed by the interaction.</param>
+    /// <param name="text">Display text for the interaction.</param>
+    public ButtonInteraction(Action action, string text) : this(new SimpleCommand(action), text)
+    {
+    }
+
+    /// <summary>
     /// Gets a reference to the command to be executed by activating this
     /// interaction.
     /// </summary>
@@ -39,12 +50,5 @@ public class ButtonInteraction : NotifyPropertyChanged
     {
         get => _text;
         set => Change(ref _text, value);
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ButtonInteraction"/> class. For designer purposes only.
-    /// </summary>
-    public ButtonInteraction() : this(null!, string.Empty)
-    {
     }
 }

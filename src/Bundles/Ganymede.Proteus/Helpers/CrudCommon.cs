@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Reflection;
-using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.CrudGen;
+using TheXDS.Ganymede.CrudGen.Descriptions;
+using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Types.Extensions;
@@ -16,6 +17,25 @@ namespace TheXDS.Ganymede.Helpers;
 /// </summary>
 public static class CrudCommon
 {
+    /// <summary>
+    /// Navigates to a new Crud ViewModel.
+    /// </summary>
+    /// <typeparam name="TDescriptor">
+    /// Type of descriptor to use when building the new Crud ViewModel.
+    /// </typeparam>
+    /// <param name="navigationService">
+    /// Navigation service to use when navigating to the Crud ViewModel.
+    /// </param>
+    /// <param name="tritonService">
+    /// Triton Service to use for fetching and saving data.
+    /// </param>
+    public static void NavigateToCrud<TDescriptor>(this INavigationService navigationService, ITritonService tritonService) where TDescriptor : ICrudDescriptor, new()
+    {
+        var ep = new TritonFlatEntityProvider(tritonService, new TDescriptor().Description);
+        var vm = new CrudPageViewModel(new[] { new TDescriptor().Description }, tritonService, ep);
+        navigationService.Navigate(vm);
+    }
+
     /// <summary>
     /// Resolves a localized text from a resource ID, or infers the
     /// corresponding text from the resource ID.

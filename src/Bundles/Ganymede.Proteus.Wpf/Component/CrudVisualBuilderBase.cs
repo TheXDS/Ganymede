@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.CrudGen.Descriptions;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels;
@@ -45,12 +46,11 @@ public abstract class CrudVisualBuilderBase<T> : IVisualResolver<FrameworkElemen
         {
             if (GetControl(j.Value.Description, vm) is { } ctrl) pnl.Children.Add(ctrl);
         }
-        return new Border()
+        return new DecoratedBorder()
         {
-            Background = Brushes.White,
+            UseLayoutRounding = true,
+            SnapsToDevicePixels = true,
             Child = pnl,
-            CornerRadius = new CornerRadius(5),
-            Effect = new DropShadowEffect() { Color = Colors.Black, ShadowDepth = 0 },
             HorizontalAlignment = HorizontalAlignment.Left,
             Margin = new Thickness(10),
             MinWidth = 400,

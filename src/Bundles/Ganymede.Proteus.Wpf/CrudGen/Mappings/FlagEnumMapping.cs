@@ -68,7 +68,7 @@ public class FlagEnumMapping : CrudMappingBase, ICrudMapping
 
     private static double InferFlagPanelSize(IPropertyDescription description)
     {
-        return description is IWidgetConfigurableDescription d ? d.WidgetSize switch
+        return description is IWidgetConfigurableDescription d && d.WidgetSize != WidgetSize.Flex ? d.WidgetSize switch
         {
             WidgetSize.Small => 90,
             WidgetSize.Medium => 120,

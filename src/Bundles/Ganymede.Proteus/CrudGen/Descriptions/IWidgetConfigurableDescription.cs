@@ -10,5 +10,5 @@ public interface IWidgetConfigurableDescription : IPropertyDescription
     /// Indicated the desired widget size for properties that allow such
     /// configuration to be applied.
     /// </summary>
-    WidgetSize WidgetSize => GetStructValue<WidgetSize>() ?? WidgetSize.Medium;
+    WidgetSize WidgetSize => GetStructValue<WidgetSize>() ?? WidgetSize.Flex;
 }
