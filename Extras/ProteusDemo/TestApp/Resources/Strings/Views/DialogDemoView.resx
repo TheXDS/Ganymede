@@ -205,6 +205,9 @@ As this dialog system is expandable, the dialog service included in Ganymede.Wpf
   <data name="TestTextInput" xml:space="preserve">
     <value>Text input</value>
   </data>
+  <data name="TestWizard" xml:space="preserve">
+    <value>Test wizard dialog</value>
+  </data>
   <data name="TextInputPrompt" xml:space="preserve">
     <value>Please enter some text here.</value>
   </data>

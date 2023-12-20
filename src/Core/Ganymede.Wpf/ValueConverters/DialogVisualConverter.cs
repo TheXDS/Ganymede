@@ -40,6 +40,12 @@ public sealed class DialogVisualConverter : IOneWayValueConverter<DialogViewMode
         RegisterNumericTemplateBuilder<ulong, UInt64TextBox>();
         RegisterNumericTemplateBuilder<float, FloatTextBox>();
         RegisterNumericTemplateBuilder<double, DoubleTextBox>();
+
+        /* 
+         * Register non-discoverable dialog builders (intended for manual
+         * sorting of dialog builders)
+         */
+        Builders.Add(CustomDialogTemplateBuilder.Create());
     }
 
     /// <inheritdoc/>

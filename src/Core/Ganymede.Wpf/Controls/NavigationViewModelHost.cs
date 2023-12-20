@@ -161,7 +161,7 @@ public class NavigationViewModelHost : Control
         HandleNavigation(e.ViewModel, _dialogVisResolver, OverlayContentPropertyKey, DialogService as NavigatingDialogService, null, false);
     }
 
-    private void HandleNavigation<TNav>(ViewModel? vm, IVisualResolver<FrameworkElement>? resolver, DependencyPropertyKey contentProp, TNav? navSvc, IDialogService? dlgSvc, bool skipNavStack)
+    private void HandleNavigation<TNav>(IViewModel? vm, IVisualResolver<FrameworkElement>? resolver, DependencyPropertyKey contentProp, TNav? navSvc, IDialogService? dlgSvc, bool skipNavStack)
         where TNav : INavigationService
     {
         if (vm is not null && (skipNavStack || (navSvc?.NavigationStack.Contains(vm) ?? false)) && UiThread.Invoke(() => resolver?.Resolve(vm)) is { } view)

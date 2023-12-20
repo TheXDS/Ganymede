@@ -11,7 +11,7 @@ namespace TheXDS.Ganymede.Services;
 /// <summary>
 /// Implements a ViewModel-based navigation service.
 /// </summary>
-public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T> where T : ViewModel
+public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T> where T : class, IViewModel
 {
     private class ManualObserver : IEnumerable<T>, INotifyCollectionChanged
     {
@@ -134,6 +134,6 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
         NavigationCompleted?.Invoke(this, new(CurrentViewModel));
         Notify(nameof(CurrentViewModel));
         _navStackInfo.NotifyChange();
-        CurrentViewModel?.InvokeOnCreated();
+        (CurrentViewModel as IViewModel_Internal)?.InvokeOnCreated();
     }
 }

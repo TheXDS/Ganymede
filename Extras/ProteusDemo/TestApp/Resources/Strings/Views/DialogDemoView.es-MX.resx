@@ -220,4 +220,7 @@ Como el sistema de diálogos es expandible, el servicio de diálogos incluído e
   <data name="TestIntRangeInput" xml:space="preserve">
     <value>Entrada de rango de números</value>
   </data>
+  <data name="TestWizard" xml:space="preserve">
+    <value>Probar diálogo de asistente</value>
+  </data>
 </root>

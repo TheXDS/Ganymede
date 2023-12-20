@@ -54,7 +54,7 @@ public class LoginViewModel : ViewModel
         progress.Report("Logging in...");
         using var trans = SP.CommonPool.Resolve<ITritonService>()!.GetReadTransaction();
         var result = await trans.ReadAsync<User, string>(Username!);
-        if (result && result.ReturnValue is { } user && (PasswordStorage.VerifyPassword(Password!.ToSecureString(), user.Password) ?? false))
+        if (result && result.Result is { } user && (PasswordStorage.VerifyPassword(Password!.ToSecureString(), user.Password) ?? false))
         {
             NavigationService!.HomePage = new WelcomeViewModel();
         }

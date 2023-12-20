@@ -119,16 +119,14 @@ public class SplashViewModel : OperationDialogViewModel
     private static async Task<Configuration> LoadSettings(IProgress<ProgressReport> progress, Sp pool)
     {
         progress.Report(St.LoadingConfig);
-        var repo = new JsonConfiguration(new LocalFileSettingsStore(settingsFile)).RegisterInto(pool);
+        pool.Register(() => new JsonConfiguration(new LocalFileSettingsStore(settingsFile)), false);
+        var repo = pool.Resolve<JsonConfiguration>()!;
         return ((await repo.Load()) ?? Configuration.GetDefaults()).RegisterInto(pool);
     }
 
     private async Task RunInitialSetup(Sp pool)
     {
-            var vm = new DbConnectionSettingsViewModel(pool);
-            await DialogService!.CustomDialog(vm);
-            //if (vm.)
-
+        await DialogService!.CustomDialog(new DbConnectionSettingsViewModel(pool));
     }
 
     private void ReportProgress(ProgressReport p)

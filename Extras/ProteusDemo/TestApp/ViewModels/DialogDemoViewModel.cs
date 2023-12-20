@@ -5,6 +5,7 @@ using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Types.Extensions;
+using TheXDS.ProteusDemo.ViewModels.WizardTest;
 using St = TheXDS.Ganymede.Resources.Strings.Views.DialogDemoView;
 
 namespace TheXDS.Ganymede.ViewModels;
@@ -31,6 +32,7 @@ public class DialogDemoViewModel : ViewModel
         TestIntRangeInputCommand = NewDialogCmd(cb, OnTestRangeInput<int>);
         TestCredentialCommand = NewDialogCmd(cb, OnTestCredential);
         TestCustomDialogCommand = NewDialogCmd(cb, OnTestCustomDialog);
+        TestWizardCommand = NewDialogCmd(cb, OnTestWizard);
     }
 
     public ICommand TestOperationCommand { get; }
@@ -56,6 +58,8 @@ public class DialogDemoViewModel : ViewModel
     public ICommand TestCredentialCommand { get; }
 
     public ICommand TestCustomDialogCommand { get; }
+
+    public ICommand TestWizardCommand { get; }
 
     private Task OnTestMessage() => DialogService!.Message(St.Message, St.HelloWorld);
 
@@ -156,5 +160,19 @@ public class DialogDemoViewModel : ViewModel
         var vm = new CustomTestDialogViewModel();
         await DialogService.CustomDialog(vm);
         await DialogService.Message(St.CustomDialog1, vm.TimesRan.ToString());
+    }
+
+    private async Task OnTestWizard()
+    {
+        if (DialogService is null) return;
+        var state = new WizardDemoState();
+
+        var result = await DialogService.Wizard(state, 
+            new Wizard1ViewModel(),
+            new Wizard2ViewModel(),
+            new Wizard3ViewModel(),
+            new Wizard4ViewModel());
+
+        await DialogService.Message(result.ToString());
     }
 }

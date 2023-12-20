@@ -59,7 +59,7 @@
                 CornerRadius="5"
                 Background="{Binding IconBgColor, Converter={StaticResource brc}}"
                 Visibility="{Binding IsIconVisible, Converter={StaticResource b2vc}}">
-                <TextBlock Margin="10 10" Text="{Binding Icon, Mode=OneWay}" FontSize="36" Foreground="White"/>
+                <TextBlock Margin="10 10" Text="{Binding Icon, Mode=OneWay}" FontSize="36" Foreground="White" FontFamily="Segoe UI Emoji"/>
             </Border>
             <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" SnapsToDevicePixels="True">
                 <StackPanel Margin="10" SnapsToDevicePixels="True">

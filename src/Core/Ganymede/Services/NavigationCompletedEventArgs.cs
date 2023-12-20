@@ -14,18 +14,18 @@ public class NavigationCompletedEventArgs : EventArgs
     /// <see cref="NavigationCompletedEventArgs"/> class.
     /// </summary>
     /// <param name="viewModel">
-    /// <see cref="Types.Base.ViewModel"/> that was navigated
+    /// <see cref="IViewModel"/> that was navigated
     /// to.
     /// </param>
-    public NavigationCompletedEventArgs(ViewModel? viewModel)
+    public NavigationCompletedEventArgs(IViewModel? viewModel)
     {
         ViewModel = viewModel;
     }
 
     /// <summary>
     /// Gets a reference to the 
-    /// <see cref="Types.Base.ViewModel"/> that was navigated
+    /// <see cref="IViewModel"/> that was navigated
     /// to.
     /// </summary>
-    public ViewModel? ViewModel { get; }
+    public IViewModel? ViewModel { get; }
 }

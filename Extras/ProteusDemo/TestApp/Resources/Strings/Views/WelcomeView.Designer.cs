@@ -39,7 +39,7 @@ namespace TheXDS.Ganymede.Resources.Strings.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.Ganymede.Resources.Strings.Views.WelcomeView", typeof(WelcomeView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.ProteusDemo.Resources.Strings.Views.WelcomeView", typeof(WelcomeView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

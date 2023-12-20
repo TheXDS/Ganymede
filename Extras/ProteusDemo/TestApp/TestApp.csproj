@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TheXDS.MCART.Security" Version="0.17.1-a003" />
-    <PackageReference Include="TheXDS.MCART.Security.Argon2" Version="0.17.1-a003" />
+    <PackageReference Include="TheXDS.MCART.Security" Version="0.17.1-alpha.4" />
+    <PackageReference Include="TheXDS.MCART.Security.Argon2" Version="0.17.1-alpha.4" />
     <PackageReference Include="TheXDS.ServicePool" Version="1.0.5" />
-    <PackageReference Include="TheXDS.Triton.Diagnostics" Version="1.5.0" />
-    <PackageReference Include="TheXDS.Triton.Faker" Version="1.5.0" />
-    <PackageReference Include="TheXDS.Triton.InMemory" Version="1.5.0" />
+    <PackageReference Include="TheXDS.Triton.Diagnostics" Version="1.6.1-alpha3" />
+    <PackageReference Include="TheXDS.Triton.Faker" Version="1.6.1-alpha3" />
+    <PackageReference Include="TheXDS.Triton.InMemory" Version="1.6.1-alpha3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,10 +45,12 @@
     <EmbeddedResource Update="Resources\Strings\Views\DialogDemoView.resx">
       <LastGenOutput>DialogDemoView.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>TheXDS.Ganymede.Resources.Strings.Views</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Strings\Views\WelcomeView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WelcomeView.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>TheXDS.Ganymede.Resources.Strings.Views</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 

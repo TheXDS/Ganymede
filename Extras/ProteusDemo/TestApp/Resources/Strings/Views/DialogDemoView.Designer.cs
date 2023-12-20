@@ -39,7 +39,7 @@ namespace TheXDS.Ganymede.Resources.Strings.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.Ganymede.Resources.Strings.Views.DialogDemoView", typeof(DialogDemoView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.ProteusDemo.Resources.Strings.Views.DialogDemoView", typeof(DialogDemoView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -313,6 +313,15 @@ namespace TheXDS.Ganymede.Resources.Strings.Views {
         public static string TestTextInput {
             get {
                 return ResourceManager.GetString("TestTextInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Test wizard dialog.
+        /// </summary>
+        public static string TestWizard {
+            get {
+                return ResourceManager.GetString("TestWizard", resourceCulture);
             }
         }
         

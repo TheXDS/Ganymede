@@ -9,10 +9,10 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// <summary>
 /// Implements a dialog template builder that generates the content of an operation dialog.
 /// </summary>
-public class OperationDialogTemplateBuilder : IDialogTemplateBuilder<OperationDialogViewModel>
+public class OperationDialogTemplateBuilder : IDialogTemplateBuilder<IOperationDialogViewModel>
 {
     /// <inheritdoc/>
-    public FrameworkElement Build(OperationDialogViewModel viewModel)
+    public FrameworkElement Build(IOperationDialogViewModel viewModel)
     {
         var control = new ProgressBar
         {

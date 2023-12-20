@@ -29,6 +29,7 @@
     <EmbeddedResource Update="Resources\Strings\ProteusDemoView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ProteusDemoView.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>TheXDS.Ganymede.Resources.Strings</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 

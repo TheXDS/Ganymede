@@ -4,7 +4,7 @@
 /// Implements a <see cref="DialogViewModel"/> for dialogs that display the
 /// progress of long-running operations.
 /// </summary>
-public class OperationDialogViewModel : DialogViewModel
+public class OperationDialogViewModel : DialogViewModel, IOperationDialogViewModel
 {
     private double _progress = double.NaN;
 
@@ -16,18 +16,13 @@ public class OperationDialogViewModel : DialogViewModel
         RegisterPropertyChangeBroadcast(nameof(Progress), nameof(IsIndeterminate));
     }
 
-    /// <summary>
-    /// Gets or sets a value that indicates the progress of a long-running
-    /// operation.
-    /// </summary>
+    /// <inheritdoc/>
     public double Progress
     {
         get => IsIndeterminate ? 0 : _progress;
         set => Change(ref _progress, value);
     }
 
-    /// <summary>
-    /// Gets a value that indicates if the progress of the operation is not determined.
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsIndeterminate => double.IsNaN(_progress);
 }
