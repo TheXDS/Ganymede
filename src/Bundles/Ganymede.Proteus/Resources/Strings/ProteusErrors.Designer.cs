@@ -39,7 +39,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.Ganymede.Resources.Strings.ProteusErrors", typeof(ProteusErrors).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.Ivie.Resources.Strings.ProteusErrors", typeof(ProteusErrors).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

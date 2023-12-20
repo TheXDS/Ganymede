@@ -10,8 +10,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="c:NavigationViewModelHost">
                     <Grid>
-                        <mcart:BusyContainer IsBusy="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+                        <mcart:BusyContainer
+                            IsBusy="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter
+                                Margin="{TemplateBinding Padding}"
                                 Content="{TemplateBinding Content}"
                                 DataContext="{Binding Navigator.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 IsEnabled="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource binv}}"/>

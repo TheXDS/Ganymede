@@ -9,7 +9,7 @@ namespace TheXDS.Ganymede.Component;
 /// <typeparam name="TVisual">
 /// Type of visual container resolution to implement.
 /// </typeparam>
-public interface IVisualResolver<TVisual>
+public interface IVisualResolver<out TVisual>
 {
     /// <summary>
     /// Resolves a visual that can host the specified <see cref="IViewModel"/>.

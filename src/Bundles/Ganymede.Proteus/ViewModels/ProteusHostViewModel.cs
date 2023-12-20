@@ -1,9 +1,17 @@
 ﻿using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.CrudGen;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Types;
 using TheXDS.Triton.Services.Base;
 
 namespace TheXDS.Ganymede.ViewModels;
+
+public class DesignProteusHostViewModel : ProteusHostViewModel
+{
+    public DesignProteusHostViewModel() : base(null!)
+    {
+    }
+}
 
 /// <summary>
 /// Implements a <see cref="HostViewModelBase"/> that contains functionality to
@@ -16,6 +24,12 @@ public abstract class ProteusHostViewModel : HostViewModelBase
     /// available to all CRUD pages that are navigated to.
     /// </summary>
     protected ITritonService Service { get; }
+
+    /// <summary>
+    /// Gets a grouped enumeration of interactions to be made available on the
+    /// ViewModel.
+    /// </summary>
+    public IEnumerable<IGrouping<string, ButtonInteraction>>? SidebarInteractions { get; protected init; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProteusHostViewModel"/>

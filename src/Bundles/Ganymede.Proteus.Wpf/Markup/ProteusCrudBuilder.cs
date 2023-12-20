@@ -7,8 +7,8 @@ namespace TheXDS.Ganymede.Markup;
 
 /// <summary>
 /// Implements a markup extension that returns a
-/// <see cref="ConventionVisualResolver{TVisual}"/> adapted to resolve visuals
-/// of type <see cref="FrameworkElement"/>.
+/// <see cref="ProteusStackVisualResolver"/> adapted to resolve visuals of type
+/// <see cref="FrameworkElement"/>.
 /// </summary>
 public class ProteusCrudBuilder : MarkupExtension
 {

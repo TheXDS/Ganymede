@@ -39,7 +39,7 @@ namespace TheXDS.Ganymede.Resources.Strings {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.Ganymede.Resources.Strings.Common", typeof(Common).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheXDS.Ivie.Resources.Strings.Common", typeof(Common).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

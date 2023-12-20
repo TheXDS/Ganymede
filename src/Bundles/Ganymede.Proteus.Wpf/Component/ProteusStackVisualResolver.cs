@@ -111,6 +111,7 @@ public class ProteusStackVisualResolver : IVisualResolver<FrameworkElement>, IVi
     {
         _resolvers = new IVisualResolver<FrameworkElement>[]
         {
+            new ProteusHostVisualResolver(),
             new CrudPageVisualBuilder(),
             new CrudDetailsVisualBuilder(),
             new CrudEditorVisualBuilder(EditorSettings),

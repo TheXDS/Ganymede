@@ -64,6 +64,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{4B7619
 		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ganymede.Proteus.ServicePool", "Bundles\Ganymede.Proteus.ServicePool\Ganymede.Proteus.ServicePool.csproj", "{FC704033-EEB8-48DA-A49C-031399E340B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ganymede.Proteus.ServicePool.Ef", "Bundles\Ganymede.Proteus.ServicePool.Ef\Ganymede.Proteus.ServicePool.Ef.csproj", "{82B98467-606F-43F5-B551-591CB4FA9824}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +144,38 @@ Global
 		{55C5B4A7-B250-4DE0-AB00-AD60E278FD17}.Release|x64.Build.0 = Release|Any CPU
 		{55C5B4A7-B250-4DE0-AB00-AD60E278FD17}.Release|x86.ActiveCfg = Release|Any CPU
 		{55C5B4A7-B250-4DE0-AB00-AD60E278FD17}.Release|x86.Build.0 = Release|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Debug|arm64.Build.0 = Debug|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Debug|x64.Build.0 = Debug|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Debug|x86.Build.0 = Debug|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Release|arm64.ActiveCfg = Release|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Release|arm64.Build.0 = Release|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Release|x64.ActiveCfg = Release|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Release|x64.Build.0 = Release|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Release|x86.ActiveCfg = Release|Any CPU
+		{FC704033-EEB8-48DA-A49C-031399E340B9}.Release|x86.Build.0 = Release|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Debug|arm64.Build.0 = Debug|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Debug|x64.Build.0 = Debug|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Debug|x86.Build.0 = Debug|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Release|arm64.ActiveCfg = Release|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Release|arm64.Build.0 = Release|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Release|x64.ActiveCfg = Release|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Release|x64.Build.0 = Release|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Release|x86.ActiveCfg = Release|Any CPU
+		{82B98467-606F-43F5-B551-591CB4FA9824}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +193,8 @@ Global
 		{55C5B4A7-B250-4DE0-AB00-AD60E278FD17} = {5683A53B-B133-48C2-B294-91DF06903F6A}
 		{3469335D-5E43-4E69-9925-6655FB3BD1F2} = {3DEACF37-863F-486A-9E5B-07D5F6DAFD20}
 		{4B761973-3A72-4025-9D37-953C2D2FF5B0} = {3469335D-5E43-4E69-9925-6655FB3BD1F2}
+		{FC704033-EEB8-48DA-A49C-031399E340B9} = {5683A53B-B133-48C2-B294-91DF06903F6A}
+		{82B98467-606F-43F5-B551-591CB4FA9824} = {5683A53B-B133-48C2-B294-91DF06903F6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C9D4151-06CD-4360-BF3E-A420FD86250F}

@@ -52,7 +52,7 @@ public static class CrudCommon
     {
         string Infer()
         {
-            var l = SplitByUppercase(resourceId);
+            var l = string.Join(null, resourceId.SplitByCase());
             return $"{l.ToUpper()[0]}{l.ToLower()[1..]}";
         }
         return resourceType?.GetProperty(resourceId, BindingFlags.Static | BindingFlags.Public, null, typeof(string), Type.EmptyTypes, null)?.GetValue(null) as string ?? Infer();
@@ -189,20 +189,6 @@ public static class CrudCommon
             .GetAssemblies().Where(p => !p.IsDynamic)
             .SelectMany(p => p.ExportedTypes)
             .Where(t => t.IsAssignableTo(typeof(CrudDescriptor<>).MakeGenericType(type)) && t.IsInstantiable());
-    }
-
-    private static string SplitByUppercase(string name)
-    {
-        var sb = new System.Text.StringBuilder();
-        foreach (char c in name)
-        {
-            if (char.IsUpper(c))
-            {
-                sb.Append(' ');
-            }
-            sb.Append(c);
-        }
-        return sb.ToString().TrimStart();
     }
 
     private static void CollectionDynamicInvoke(object collection, object item, string methodName)
