@@ -12,6 +12,7 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
 		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
 		<DefineDebug>true</DefineDebug>
 		<DefineTrace>true</DefineTrace>
 	</PropertyGroup>

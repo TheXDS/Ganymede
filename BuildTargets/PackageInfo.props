@@ -18,6 +18,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(VersionSuffix)'!='' AND '$(Configuration)'!='Release'">
     <ActualPkgVersion>$(VersionPrefix)-$(VersionSuffix)</ActualPkgVersion>
-    <PackageReleaseNotes>Este paquete es una versión Pre-Release de $(Product), por lo que se recomienda que su uso se limite a pruebas y demostraciones de la API, ya que no se puede garantizar la estabilidad de la misma. Para más detalles, vea la documentación que acompaña a $(Product).</PackageReleaseNotes>
+    <PackageReleaseNotes>This is a pre-release version of $(Product). It is recommended that this package is not used on a production environment, and its use should be limited to testing and API demonstrations, due to the impossibility of assuring the quality and reliability of the code. For more information, please read the documentation included with $(Product).</PackageReleaseNotes>
   </PropertyGroup>
 </Project>
