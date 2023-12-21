@@ -1,4 +1,0 @@
-﻿[*.cs]
-
-# IDE0011: Agregar llaves
-csharp_prefer_braces = when_multiline

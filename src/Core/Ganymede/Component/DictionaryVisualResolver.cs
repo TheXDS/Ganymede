@@ -1,147 +1,57 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART.Types.Extensions;
+﻿using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Types.Base;
+using TheXDS.MCART.Types.Base;
 
-namespace TheXDS.Ganymede.Component
+namespace TheXDS.Ganymede.Component;
+
+/// <summary>
+/// Implements a <see cref="IVisualResolver{TVisual}"/> that requires explicit
+/// View/ViewModel registration for proper Visual resolution.
+/// </summary>
+/// <typeparam name="T">
+/// Type of visual to be registered and resolved by this class.
+/// </typeparam>
+public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewRegistry<T>
 {
-    /// <summary>
-    /// Implementa un <see cref="IVisualResolver"/> que contiene un
-    /// diccionario que mapea un <see cref="PageViewModel"/> por su tipo
-    /// con un contenedor visual de tipo <typeparamref name="T"/>.
-    /// </summary>
-    /// <typeparam name="T">
-    /// Tipo de contenedor visual a implementar.
-    /// </typeparam>
-    public class DictionaryVisualResolver<T> : IVisualResolver<T>, IEnumerable<KeyValuePair<Type, Type>> where T : notnull
+    private readonly Dictionary<Type, Type> _registry = new();
+
+    /// <inheritdoc/>
+    public virtual T? Resolve(IViewModel viewModel)
     {
-        private readonly Dictionary<Type, Type> _mappings = new();
+        return _registry.TryGetValue(viewModel.GetType(), out var visual)
+            ? UiThread.Invoke(() => (T)Activator.CreateInstance(visual)!)
+            : default!;
+    }
 
-        /// <summary>
-        /// Resuelve el contenedor visual a utilizar para alojar al 
-        /// <see cref="PageViewModel"/> especificado.
-        /// </summary>
-        /// <param name="viewModel">
-        /// <see cref="PageViewModel"/> que va a alojarse.
-        /// </param>
-        /// <returns>
-        /// Un contenedor visual fuertemente tipeado para el
-        /// <see cref="PageViewModel"/> especificado.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// Se produce si se intenta resolver el contenedor visual para un
-        /// valor nulo.
-        /// </exception>
-        /// <exception cref="KeyNotFoundException">
-        /// Se produce si se intenta resolver el contenedor visual para un
-        /// tipo de <see cref="PageViewModel"/> que no ha sido registrado.
-        /// </exception>
-        [DebuggerNonUserCode]
-        public T ResolveVisual(PageViewModel viewModel)
-        {
-            return ResolveVisual(viewModel.GetType());
-        }
+    /// <summary>
+    /// Registers a ViewModel type to resolve to the specified visual type.
+    /// </summary>
+    /// <typeparam name="TViewModel">
+    /// Type of ViewModel to map to the specified visual.
+    /// </typeparam>
+    /// <typeparam name="TVisual">
+    /// Type to register the specified <typeparamref name="TViewModel"/> to
+    /// resolve to.
+    /// </typeparam>
+    public void Register<TViewModel, TVisual>() where TViewModel : IViewModel where TVisual : T, new()
+    {
+        _registry.Add(typeof(TViewModel), typeof(TVisual));
+    }
 
-        /// <summary>
-        /// Resuelve el contenedor visual a utilizar para alojar a un 
-        /// <see cref="PageViewModel"/> del tipo especificado.
-        /// </summary>
-        /// <typeparam name="TViewModel">
-        /// Tipo de <see cref="PageViewModel"/> que va a alojarse.
-        /// </typeparam>
-        /// <returns>
-        /// Un contenedor visual fuertemente tipeado para el
-        /// <see cref="PageViewModel"/> especificado.
-        /// </returns>
-        /// <exception cref="KeyNotFoundException">
-        /// Se produce si se intenta resolver el contenedor visual para un
-        /// tipo de <see cref="PageViewModel"/> que no ha sido registrado.
-        /// </exception>
-        [DebuggerNonUserCode]
-        public T ResolveVisual<TViewModel>() where TViewModel : PageViewModel
-        {
-            return ResolveVisual(typeof(TViewModel));
-        }
-
-        /// <summary>
-        /// Resuelve el contenedor visual a utilizar para alojar al 
-        /// <see cref="PageViewModel"/> especificado.
-        /// </summary>
-        /// <param name="vmType">
-        /// Tipo <see cref="PageViewModel"/> que va a alojarse.
-        /// </param>
-        /// <returns>
-        /// Un contenedor visual fuertemente tipeado para el
-        /// <see cref="PageViewModel"/> especificado.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// Se produce si se intenta resolver el contenedor visual para un
-        /// valor nulo.
-        /// </exception>
-        /// <exception cref="KeyNotFoundException">
-        /// Se produce si se intenta resolver el contenedor visual para un
-        /// tipo de <see cref="PageViewModel"/> que no ha sido registrado.
-        /// </exception>
-        [DebuggerNonUserCode, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T ResolveVisual(Type vmType)
-        {
-            return _mappings[vmType].New<T>();
-        }
-
-        /// <summary>
-        /// Intenta resolver un contenedor visual a utilizar para alojar al
-        /// <see cref="PageViewModel"/> especificado.
-        /// </summary>
-        /// <param name="viewModel">
-        /// <see cref="PageViewModel"/> que va a alojarse.
-        /// </param>
-        /// <param name="visual">
-        /// Contenedor visual para el <see cref="PageViewModel"/> especificado.
-        /// </param>
-        /// <returns>
-        /// <see langword="true"/> si el contenedor visual pudo ser resuelto
-        /// por esta instancia, <see langword="false"/> en caso contrario.
-        /// </returns>
-        public bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)] out T? visual)
-        {
-            bool r; Type? t = viewModel.GetType();
-            visual = (r = _mappings.ContainsKey(t))
-                ? ResolveVisual(t) : default!;
-            return r;
-        }
-
-        /// <summary>
-        /// Registra la resolución de un <see cref="PageViewModel"/> a un tipo
-        /// de contenedor visual a utilizar para presentarlo.
-        /// </summary>
-        /// <typeparam name="TViewModel">
-        /// Tipo de <see cref="PageViewModel"/> que va a alojarse.
-        /// </typeparam>
-        /// <typeparam name="TVisual">
-        /// Tipo de contenedor visual a utilizar para mostrar el 
-        /// <see cref="PageViewModel"/> a registrar.
-        /// </typeparam>
-        /// <returns>
-        /// Esta misma instancia, permitiendo el uso de sintaxis Fluent.
-        /// </returns>
-        public DictionaryVisualResolver<T> RegisterVisual<TViewModel, TVisual>() where TViewModel : PageViewModel where TVisual : notnull, T, new()
-        {
-            _mappings.Add(typeof(TViewModel), typeof(TVisual));
-            return this;
-        }
-
-        IEnumerator<KeyValuePair<Type, Type>> IEnumerable<KeyValuePair<Type, Type>>.GetEnumerator()
-        {
-            return ((IEnumerable<KeyValuePair<Type, Type>>)_mappings).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable)_mappings).GetEnumerator();
-        }
+    /// <summary>
+    /// Creates and initializes a new instance of the required visual.
+    /// </summary>
+    /// <param name="visualType">
+    /// ViewModel that the visual type was resolved for.
+    /// </param>
+    /// <param name="viewModel">
+    /// Resolved visual type to initialize.
+    /// </param>
+    /// <returns>
+    /// A new instance of the resolved visual type.
+    /// </returns>
+    protected virtual T CreateVisual(Type visualType, IViewModel viewModel)
+    {
+        return (T)Activator.CreateInstance(visualType)!;
     }
 }

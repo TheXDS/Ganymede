@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/Window/ModernWindow.xaml"/>
+        <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/Window/AcrylicWindow.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup Condition="'$(MSBuildProjectExtension)'=='.csproj'">
+		<Company>TheXDS! non-Corp.</Company>
+		<Product>Ganymede</Product>
+		<AssemblyTitle>$(Description)</AssemblyTitle>
+		<Authors>César Andrés Morgan</Authors>
+		<Copyright>Copyright © 2021 - $([System.DateTime]::Today.Year) $(Authors)</Copyright>
+		<RepositoryUrl>https://github.com/TheXDS/$(Product)</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<Description>$(Product)</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageDescription>$(Description)</PackageDescription>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageIcon>Logo.png</PackageIcon>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
+	<PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)/README.md')">
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(VersionSuffix)'=='' OR '$(Configuration)'=='Release'">
+		<ActualPkgVersion>$(VersionPrefix)</ActualPkgVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(VersionSuffix)'!='' AND '$(Configuration)'!='Release'">
+		<ActualPkgVersion>$(VersionPrefix)-$(VersionSuffix)</ActualPkgVersion>
+		<PackageReleaseNotes>This is a pre-release version of $(Product). It is recommended that this package is not used on a production environment, and its use should be limited to testing and API demonstrations, due to the impossibility of assuring the quality and reliability of the code. For more information, please read the documentation included with $(Product).</PackageReleaseNotes>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="$(Root)/Art/Logo.png" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+	<ItemGroup Condition="Exists('$(MSBuildProjectDirectory)/README.md')">
+		<None Include="$(MSBuildProjectDirectory)/README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+</Project>

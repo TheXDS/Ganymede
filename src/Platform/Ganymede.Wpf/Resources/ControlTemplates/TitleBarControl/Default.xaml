@@ -1,0 +1,39 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:TheXDS.Ganymede.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/Button/TitleBarButton.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="{x:Type controls:TitleBarControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:TitleBarControl}">
+                    <DockPanel
+                        Background="{TemplateBinding Background}"
+                        Height="{TemplateBinding Height}">
+                        <Button 
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{StaticResource TitleBarButton}"
+                            DockPanel.Dock="Right"                            
+                            Command="{TemplateBinding CloseWindowCommand}"
+                            Content="❌"/>
+                        <Button 
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{StaticResource TitleBarButton}"
+                            DockPanel.Dock="Right"
+                            Command="{TemplateBinding ShowWindowCommand}">⬜</Button>
+                        <Button 
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{StaticResource TitleBarButton}"
+                            DockPanel.Dock="Right"
+                            Command="{TemplateBinding HideWindowCommand}">➖</Button>
+                        <ContentControl Foreground="{TemplateBinding Foreground}" Content="{TemplateBinding Content}"/>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+</ResourceDictionary>

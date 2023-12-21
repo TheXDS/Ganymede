@@ -1,78 +1,26 @@
-﻿using TheXDS.Ganymede.ViewModels;
-using System.Diagnostics.CodeAnalysis;
+﻿using TheXDS.Ganymede.Types.Base;
 
-namespace TheXDS.Ganymede.Component
+namespace TheXDS.Ganymede.Component;
+
+/// <summary>
+/// Defines a set of members to be implemented by a type that can resolve
+/// visual containers for instances of the <see cref="IViewModel"/>.
+/// </summary>
+/// <typeparam name="TVisual">
+/// Type of visual container resolution to implement.
+/// </typeparam>
+public interface IVisualResolver<out TVisual>
 {
     /// <summary>
-    /// Define una serie de miembros a implementar por un tipo que permita
-    /// resolver un contenedor visual a utilizar para alojar a un
-    /// <see cref="PageViewModel"/>.
+    /// Resolves a visual that can host the specified <see cref="IViewModel"/>.
     /// </summary>
-    public interface IVisualResolver
-    {
-        /// <summary>
-        /// Resuelve el contenedor visual a utilizar para alojar al 
-        /// <see cref="PageViewModel"/> especificado.
-        /// </summary>
-        /// <param name="viewModel">
-        /// <see cref="PageViewModel"/> que va a alojarse.
-        /// </param>
-        /// <returns>
-        /// Un contenedor visual para el <see cref="PageViewModel"/>
-        /// especificado.
-        /// </returns>
-        object ResolveVisual(PageViewModel viewModel);
-    }
-
-    /// <summary>
-    /// Define una serie de miembros a implementar por un tipo que permita
-    /// resolver un contenedor visual fuertemente tipeado a utilizar para
-    /// alojar a un <see cref="PageViewModel"/>.
-    /// </summary>
-    public interface IVisualResolver<T> : IVisualResolver where T : notnull
-    {
-        /// <summary>
-        /// Resuelve el contenedor visual a utilizar para alojar al 
-        /// <see cref="PageViewModel"/> especificado.
-        /// </summary>
-        /// <param name="viewModel">
-        /// <see cref="PageViewModel"/> que va a alojarse.
-        /// </param>
-        /// <returns>
-        /// Un contenedor visual fuertemente tipeado para el
-        /// <see cref="PageViewModel"/> especificado.
-        /// </returns>
-        new T ResolveVisual(PageViewModel viewModel);
-
-        /// <summary>
-        /// Intenta resolver un contenedor visual a utilizar para alojar al
-        /// <see cref="PageViewModel"/> especificado.
-        /// </summary>
-        /// <param name="viewModel">
-        /// <see cref="PageViewModel"/> que va a alojarse.
-        /// </param>
-        /// <param name="visual">
-        /// Contenedor visual para el <see cref="PageViewModel"/> especificado.
-        /// </param>
-        /// <returns>
-        /// <see langword="true"/> si el contenedor visual pudo ser resuelto
-        /// por esta instancia, <see langword="false"/> en caso contrario.
-        /// </returns>
-        bool TryResolveVisual(PageViewModel viewModel, [NotNullWhen(true)][MaybeNullWhen(false)] out T? visual)
-        {
-            try
-            {
-                visual = ResolveVisual(viewModel);
-                return true;
-            }
-            catch
-            {
-                visual = default;
-                return false;
-            }
-        }
-
-        /// <inheritdoc/>
-        object IVisualResolver.ResolveVisual(PageViewModel viewModel) => ResolveVisual(viewModel)!;
-    }
+    /// <param name="viewModel">
+    /// <see cref="IViewModel"/> for which to resolve a visual container.
+    /// </param>
+    /// <returns>
+    /// A visual container that can host the specified
+    /// <see cref="IViewModel"/>, or <see langword="null"/> if this instance is
+    /// unable to resolve a suitable visual container.
+    /// </returns>
+    TVisual? Resolve(IViewModel viewModel);
 }
