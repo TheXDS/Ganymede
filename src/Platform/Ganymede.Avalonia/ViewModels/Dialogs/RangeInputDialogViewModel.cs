@@ -8,7 +8,6 @@ public class RangeInputDialogViewModel<T> : InputDialogViewModelBase<T> where T 
 {
     private T _min;
     private T _max;
-    
 
     public T MinimumValue
     {

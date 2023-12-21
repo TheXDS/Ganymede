@@ -47,7 +47,6 @@ public abstract class HostViewModelBase : ViewModel
     /// </summary>
     protected HostViewModelBase() : this(new NavigationService<ViewModel>(), new NavigatingDialogService())
     {
-        
     }
 
     /// <summary>

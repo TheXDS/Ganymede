@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Win32;
 using System.Globalization;
-using System.Linq;
 using System.Management;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Win32;
 
 namespace TheXDS.Ganymede.Helpers;
 
 /// <summary>
 /// Implements Windows 10+ theme support methods.
 /// </summary>
-public class ThemeHelper
+public static class ThemeHelper
 {
     private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-
+    private const string ThemeQuery = @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'";
     private const string RegistryValueName = "AppsUseLightTheme";
 
     private enum WindowsTheme
@@ -28,22 +23,17 @@ public class ThemeHelper
     }
 
     /// <summary>
-    /// 
+    /// WIP: Watches and reacts to theme changes on Windows 10 and later.
     /// </summary>
-    public void WatchTheme()
+    public static void WatchTheme()
     {
         WindowsIdentity currentUser = WindowsIdentity.GetCurrent();
         var query = string.Format(
             CultureInfo.InvariantCulture,
-            @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'",
+            ThemeQuery,
             currentUser.User?.Value ?? "S-1-5-32-544",
             RegistryKeyPath.Replace(@"\", @"\\"),
             RegistryValueName);
-
-
-
-
-
         bool isHighContrast = SystemParameters.HighContrast;
         SystemParameters.StaticPropertyChanged += (sender, args) =>
         {
@@ -68,7 +58,6 @@ public class ThemeHelper
         {
             // This can fail on Windows 7
         }
-
         var initialTheme = GetWindowsTheme();
     }
 

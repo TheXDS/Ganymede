@@ -24,9 +24,18 @@ public sealed class TranslationSource : MarkupExtension
     /// <inheritdoc/>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        if (Id.IsEmpty()) { return string.Empty; }
-        return ResourceClass?.GetProperty(Id, Static | Public)?.GetValue(null) as string
-            ?? (ResourceClass?.GetProperty(nameof(ResourceManager), Static | Public)?.GetValue(null) is ResourceManager r
-            ? r.GetString(Id) ?? Id: Id);
+        if (Id.IsEmpty()) return string.Empty;
+        if (ResourceClass == null) return Id;
+        return ReadByProperty() ?? ReadByResManager() ?? Id;
+    }
+
+    private string? ReadByProperty()
+    {
+        return ResourceClass!.GetProperty(Id!, Static | Public)?.GetValue(null) as string;
+    }
+
+    private string? ReadByResManager()
+    {
+        return (ResourceClass!.GetProperty(nameof(ResourceManager), Static | Public)?.GetValue(null) as ResourceManager)?.GetString(Id!);
     }
 }

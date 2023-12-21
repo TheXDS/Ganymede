@@ -21,4 +21,3 @@ public sealed class ConventionVisualConverter : IOneWayValueConverter<IViewModel
         return value is not null ? _resolver.Resolve(value) : null;
     }
 }
-

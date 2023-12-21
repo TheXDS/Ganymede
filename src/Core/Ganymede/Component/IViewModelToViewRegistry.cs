@@ -11,7 +11,6 @@ namespace TheXDS.Ganymede.Component;
 /// </typeparam>
 public interface IViewModelToViewRegistry<T>
 {
-
     /// <summary>
     /// Registers a ViewModel type to resolve to the specified visual type.
     /// </summary>
