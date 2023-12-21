@@ -23,7 +23,7 @@
 	  <EmbeddedResource Update="Resources\Strings\Common.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Common.Designer.cs</LastGenOutput>
-	    <CustomToolNamespace>TheXDS.Ganymede.Resources.Strings</CustomToolNamespace>
+	    <CustomToolNamespace></CustomToolNamespace>
 	  </EmbeddedResource>
 	</ItemGroup>
 	

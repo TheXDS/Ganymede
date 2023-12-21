@@ -10,8 +10,14 @@ namespace TheXDS.Ganymede.ViewModels;
 /// <typeparam name="T">Type of state information to use.</typeparam>
 public abstract class WizardViewModel<T> : AwaitableDialogViewModel<WizardAction>, IWizardViewModel<T>
 {
+    private T _state = default!;
+
     /// <inheritdoc/>
-    public T State { get; set; } = default!;
+    public virtual T State
+    { 
+        get => _state;
+        set => Change(ref _state, value);
+    }
 
     /// <summary>
     /// Adds an interaction used to navigate back on the wizard.

@@ -205,13 +205,14 @@ public class CommandBuilder<TViewModel> where TViewModel : IViewModel
     /// the specified cancellable async operation with progress report in a
     /// busy context.
     /// </summary>
+    /// <param name="title">Title to use on the operation dialog.</param>
     /// <param name="action">Operation to execute.</param>
     /// <returns>A new <see cref="SimpleCommand"/> that will execute the
     /// specified operation.
     /// </returns>
-    public SimpleCommand BuildBusyOperation(Func<CancellationToken, IProgress<ProgressReport>, Task> action)
+    public SimpleCommand BuildBusyOperation(Func<CancellationToken, IProgress<ProgressReport>, Task> action, string? title = null)
     {
-        return new(() => RunBusyOp(RunInOperationDialog(action)));
+        return new(() => RunBusyOp(RunInOperationDialog(action, title)));
     }
 
     /// <summary>
@@ -220,12 +221,13 @@ public class CommandBuilder<TViewModel> where TViewModel : IViewModel
     /// context.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
+    /// <param name="title">Title to use on the operation dialog.</param>
     /// <returns>A new <see cref="SimpleCommand"/> that will execute the
     /// specified operation.
     /// </returns>
-    public SimpleCommand BuildBusyOperation(Action<CancellationToken, IProgress<ProgressReport>> action)
+    public SimpleCommand BuildBusyOperation(Action<CancellationToken, IProgress<ProgressReport>> action, string? title = null)
     {
-        return new(() => RunBusyOp(RunInOperationDialog(action)));
+        return new(() => RunBusyOp(RunInOperationDialog(action, title)));
     }
 
     /// <summary>
@@ -233,12 +235,13 @@ public class CommandBuilder<TViewModel> where TViewModel : IViewModel
     /// the specified async operation with progress report in a busy context.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
+    /// <param name="title">Title to use on the operation dialog.</param>
     /// <returns>A new <see cref="SimpleCommand"/> that will execute the
     /// specified operation.
     /// </returns>
-    public SimpleCommand BuildBusyOperation(Func<IProgress<ProgressReport>, Task> action)
+    public SimpleCommand BuildBusyOperation(Func<IProgress<ProgressReport>, Task> action, string? title = null)
     {
-        return new(() => RunBusyOp(RunInOperationDialog(action)));
+        return new(() => RunBusyOp(RunInOperationDialog(action, title)));
     }
 
     /// <summary>
@@ -246,12 +249,13 @@ public class CommandBuilder<TViewModel> where TViewModel : IViewModel
     /// the specified operation with progress report in a busy context.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
+    /// <param name="title">Title to use on the operation dialog.</param>
     /// <returns>A new <see cref="SimpleCommand"/> that will execute the
     /// specified operation.
     /// </returns>
-    public SimpleCommand BuildBusyOperation(Action<IProgress<ProgressReport>> action)
+    public SimpleCommand BuildBusyOperation(Action<IProgress<ProgressReport>> action, string? title = null)
     {
-        return new(() => RunBusyOp(RunInOperationDialog(action)));
+        return new(() => RunBusyOp(RunInOperationDialog(action, title)));
     }
 
     /// <summary>
@@ -295,24 +299,24 @@ public class CommandBuilder<TViewModel> where TViewModel : IViewModel
         return new(() => _vm.NavigationService?.Navigate<T>());
     }
 
-    private Task RunInOperationDialog(Func<IProgress<ProgressReport>, Task> action)
+    private Task RunInOperationDialog(Func<IProgress<ProgressReport>, Task> action, string? title = null)
     {
-        return _vm.DialogService?.RunOperation(action) ?? action(new Progress<ProgressReport>());
+        return _vm.DialogService?.RunOperation(title, action) ?? action(new Progress<ProgressReport>());
     }
 
-    private Task RunInOperationDialog(Func<CancellationToken, IProgress<ProgressReport>, Task> action)
+    private Task RunInOperationDialog(Func<CancellationToken, IProgress<ProgressReport>, Task> action, string? title = null)
     {
-        return _vm.DialogService?.RunOperation(action) ?? action(new CancellationToken(), new Progress<ProgressReport>());
+        return _vm.DialogService?.RunOperation(title, action) ?? action(new CancellationToken(), new Progress<ProgressReport>());
     }
 
-    private Task RunInOperationDialog(Action<IProgress<ProgressReport>> action)
+    private Task RunInOperationDialog(Action<IProgress<ProgressReport>> action, string? title = null)
     {
-        return _vm.DialogService?.RunOperation(action) ?? Task.Run(() => action(new Progress<ProgressReport>()));
+        return _vm.DialogService?.RunOperation(title, action) ?? Task.Run(() => action(new Progress<ProgressReport>()));
     }
 
-    private Task RunInOperationDialog(Action<CancellationToken, IProgress<ProgressReport>> action)
+    private Task RunInOperationDialog(Action<CancellationToken, IProgress<ProgressReport>> action, string? title = null)
     {
-        return _vm.DialogService?.RunOperation(action) ?? Task.Run(() => action(new CancellationToken(), new Progress<ProgressReport>()));
+        return _vm.DialogService?.RunOperation(title, action) ?? Task.Run(() => action(new CancellationToken(), new Progress<ProgressReport>()));
     }
 
     private async Task RunBusyOp(Task callback)
