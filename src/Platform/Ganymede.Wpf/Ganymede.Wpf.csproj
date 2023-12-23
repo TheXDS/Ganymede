@@ -1,28 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.1-alpha.4" />
-    <PackageReference Include="TheXDS.MCART.UI" Version="0.17.1-alpha.4" />
-    <PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.17.1-alpha.4" />
-    <PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.17.1-alpha.4" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.1-alpha.4" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.1-alpha.4" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.17.1-alpha.4" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.17.1-alpha.4" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Resources\ControlTemplates\IntegerTextBox\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Resources\ControlTemplates\IntegerTextBox\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+	</ItemGroup>
 
 </Project>
