@@ -13,7 +13,7 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
 {
     private async Task SimpleMessage(string icon, Color brush, string? title, string message)
     {
-        _ = await GetButtonValue<object?>(icon, brush, title, message, ("OK", null));
+        _ = await GetButtonValue<object?>(icon, brush, title, message, (Common.Ok, null));
     }
 
     private Task<T> GetButtonValue<T>(string icon, Color color, string? title, string message, params (string Text, T Value)[] interactions)
@@ -28,7 +28,7 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
         };
         foreach (var (text, value) in interactions)
         {
-            vm.Interactions.Add(new(CloseDialogCommand(dialogAwaiter, value), text));
+            vm.Interactions.Add(new(CloseDialogCommand(dialogAwaiter, value), text) { IsPrimary = interactions.Length == 1 });
         }
         Navigate(vm);
         return dialogAwaiter.Task;
@@ -53,7 +53,7 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
             IconBgColor = Color.DarkGray,
             Interactions =
             {
-                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok),
+                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok) { IsPrimary = true },
                 new(CloseDialogCommand(dialogAwaiter, false), Common.Cancel)
             }
         };

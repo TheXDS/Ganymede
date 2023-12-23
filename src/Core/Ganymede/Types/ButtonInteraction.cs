@@ -11,6 +11,7 @@ namespace TheXDS.Ganymede.Types;
 public class ButtonInteraction : NotifyPropertyChanged
 {
     private string _text;
+    private bool _isPrimary;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ButtonInteraction"/>
@@ -50,5 +51,16 @@ public class ButtonInteraction : NotifyPropertyChanged
     {
         get => _text;
         set => Change(ref _text, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value that indicates if this interaction should be
+    /// treated as a primary interaction (useful for dialogs and UI elements in
+    /// a contrained context)
+    /// </summary>
+    public bool IsPrimary
+    { 
+        get => _isPrimary;
+        set => Change(ref _isPrimary, value);
     }
 }

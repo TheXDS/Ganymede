@@ -101,7 +101,7 @@ public partial class NavigatingDialogService
             IconBgColor = Color.MediumAquamarine,
             Interactions =
             {
-                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok),
+                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok) { IsPrimary = true },
                 new(CloseDialogCommand(dialogAwaiter, false), Common.Cancel)
             },
             User = defaultUser ?? string.Empty
