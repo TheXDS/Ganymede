@@ -34,13 +34,14 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public Task RunOperation(string? title, Func<IProgress<ProgressReport>, Task> operation)
+    public async Task RunOperation(string? title, Func<IProgress<ProgressReport>, Task> operation)
     {
         var (vm, progress) = CreateOperationVm(title);
         Navigate(vm);
         var task = operation.Invoke(progress);
-        try { return task.ContinueWith(_ => NavigateBack()); }
-        catch (Exception ex) { return ((IDialogService)this).Error(ex).ContinueWith(_ => NavigateBack()); }
+        try { await task; }
+        catch (Exception ex) { await ((IDialogService)this).Error(ex); }
+        finally { NavigateBack(); }
     }
 
     private static (OperationDialogViewModel viewModel, IProgress<ProgressReport> progress) CreateOperationVm(string? title)
