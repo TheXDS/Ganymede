@@ -2,17 +2,17 @@
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART.Component;
 using St = TheXDS.Ganymede.Resources.Strings.Common;
 
 namespace TheXDS.Ganymede.Services;
+
 public partial class NavigatingDialogService
 {
     /// <inheritdoc/>
     public async Task<bool> RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation)
     {
         CancellationTokenSource ct = new();
-        ButtonInteraction cancel = new(new SimpleCommand(ct.Cancel), St.Cancel);
+        ButtonInteraction cancel = new(ct.Cancel, St.Cancel) { IsPrimary = true };
         var (vm, progress) = CreateOperationVm(title);
         vm.Interactions.Add(cancel);
         Navigate(vm);

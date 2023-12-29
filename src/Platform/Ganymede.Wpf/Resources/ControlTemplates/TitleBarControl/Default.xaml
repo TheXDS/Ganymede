@@ -6,29 +6,36 @@
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/Button/TitleBarButton.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <Style TargetType="{x:Type controls:TitleBarControl}">
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:TitleBarControl}">
                     <DockPanel
                         Background="{TemplateBinding Background}"
                         Height="{TemplateBinding Height}">
-                        <Button 
+                        <Button
+                            Focusable="False"
+                            IsTabStop="False"
                             Foreground="{TemplateBinding Foreground}"
                             Style="{StaticResource TitleBarButton}"
                             DockPanel.Dock="Right"                            
                             Command="{TemplateBinding CloseWindowCommand}"
                             Content="❌"/>
                         <Button 
+                            Focusable="False"
+                            IsTabStop="False"
                             Foreground="{TemplateBinding Foreground}"
                             Style="{StaticResource TitleBarButton}"
                             DockPanel.Dock="Right"
                             Command="{TemplateBinding ShowWindowCommand}">⬜</Button>
                         <Button 
+                            Focusable="False"
+                            IsTabStop="False"
                             Foreground="{TemplateBinding Foreground}"
                             Style="{StaticResource TitleBarButton}"
                             DockPanel.Dock="Right"
                             Command="{TemplateBinding HideWindowCommand}">➖</Button>
-                        <ContentControl Foreground="{TemplateBinding Foreground}" Content="{TemplateBinding Content}"/>
+                        <ContentControl IsTabStop="False" Foreground="{TemplateBinding Foreground}" Content="{TemplateBinding Content}"/>
                     </DockPanel>
                 </ControlTemplate>
             </Setter.Value>

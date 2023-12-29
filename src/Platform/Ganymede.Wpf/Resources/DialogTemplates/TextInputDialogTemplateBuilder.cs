@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using TheXDS.Ganymede.Resources.Strings;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
 
@@ -16,7 +15,7 @@ public class TextInputDialogTemplateBuilder : IDialogTemplateBuilder<InputDialog
     public FrameworkElement Build(InputDialogViewModel viewModel)
     {
         var control = new TextBox();
-        control.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)));
+        control.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
         control.SetBinding(TextBox.MaxLengthProperty, new Binding(nameof(viewModel.MaxLength)));
         return control;
     }
