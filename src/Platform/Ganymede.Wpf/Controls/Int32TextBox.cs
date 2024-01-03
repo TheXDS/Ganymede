@@ -1,4 +1,5 @@
-﻿using TheXDS.Ganymede.Controls.Primitives;
+﻿using System.Windows.Controls.Primitives;
+using TheXDS.Ganymede.Controls.Primitives;
 using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
 
 namespace TheXDS.Ganymede.Controls;

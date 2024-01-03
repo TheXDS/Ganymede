@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.Controls.Primitives;
 using TheXDS.Ganymede.Resources.DialogTemplates;
@@ -48,7 +49,20 @@ public sealed class DialogVisualConverter : IOneWayValueConverter<DialogViewMode
     public FrameworkElement? Convert(DialogViewModel value, object? parameter, CultureInfo? culture)
     {
         var builder = Builders.FirstOrDefault(p => p.CanBuild(value));
-        return builder?.Build(value)!;
+        var result = builder?.Build(value);
+        if (result is not null)
+        {
+            result.Loaded += DialogContent_Loaded;
+        }
+        return result;
+    }
+
+    private void DialogContent_Loaded(object sender, RoutedEventArgs e)
+    {
+        FrameworkElement control = (FrameworkElement)sender;
+        control.Focus();
+        Keyboard.Focus(control);
+        control.Loaded -= DialogContent_Loaded;
     }
 
     /// <summary>

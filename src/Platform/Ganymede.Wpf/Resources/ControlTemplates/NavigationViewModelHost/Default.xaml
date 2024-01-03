@@ -7,6 +7,7 @@
     <vc:BooleanInverter x:Key="binv"/>
     <vc:NullToBooleanConverter x:Key="n2vc"/>
     <Style TargetType="c:NavigationViewModelHost">
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="c:NavigationViewModelHost">

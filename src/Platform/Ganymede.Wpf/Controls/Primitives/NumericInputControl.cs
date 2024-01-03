@@ -137,7 +137,7 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
         }
     }
 
-    private TextBoxEx? _tb;
+    private TextBox? _tb;
 
     /// <summary>
     /// Gets or sets the maximum allowed value on this control.
@@ -180,11 +180,12 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        _tb = Template.FindName("PART_input", this) as TextBoxEx;
+        _tb = Template.FindName("PART_input", this) as TextBox;
         if (_tb is not null) 
         {
             _tb.Text = Value.ToString();
             _tb.TextChanged += Tb_TextChanged;
+            _tb.GotKeyboardFocus += (_, _) => _tb.SelectAll();
         }
         WireUp("increase", _Settings.Add);
         WireUp("decrease", _Settings.Subtract);
@@ -209,6 +210,7 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
             else
             {
                 _tb.Text = Value.ToString();
+                _tb.SelectAll();
             }
         }
     }

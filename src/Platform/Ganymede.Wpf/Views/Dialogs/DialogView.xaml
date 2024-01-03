@@ -75,6 +75,7 @@
                 </StackPanel>
             </ScrollViewer>
             <ItemsControl
+                IsTabStop="False"
                 HorizontalAlignment="Center"
                 Margin="5"
                 Grid.Row="2"
@@ -95,6 +96,7 @@
                             SnapsToDevicePixels="True"
                             Padding="10,5"
                             Margin="5"
+                            IsDefault="{Binding IsPrimary, Mode=OneWay}"
                             Content="{Binding Text, Mode=OneWay}"
                             Command="{Binding Command, Mode=OneWay}"/>
                     </DataTemplate>

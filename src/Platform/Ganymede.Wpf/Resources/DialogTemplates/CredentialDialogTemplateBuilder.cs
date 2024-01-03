@@ -25,7 +25,6 @@ public class CredentialDialogTemplateBuilder : IDialogTemplateBuilder<Credential
             viewModel.Password = pwd.SecurePassword;
         };
         usr.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.User)));
-
         return new StackPanel() {  Children = { usr, pwd } };
     }
 }
