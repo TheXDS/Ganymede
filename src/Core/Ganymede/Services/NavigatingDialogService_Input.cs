@@ -112,9 +112,21 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task<InputResult<string>> GetFilePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    public Task<InputResult<string>> GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
     {
-        return default;
+        return GetInput<FileOpenDialogViewModel, string>(title, message, defaultPath ?? string.Empty, vm => vm.FileFilters = filters);
+    }
+
+    /// <inheritdoc/>
+    public Task<InputResult<string>> GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    {
+        return GetInput<FileSaveDialogViewModel, string>(title, message, defaultPath ?? string.Empty, vm => vm.FileFilters = filters);
+    }
+
+    /// <inheritdoc/>
+    public Task<InputResult<string>> GetDirectoryPath(string? title, string message, string? defaultPath = null)
+    {
+        return GetInput<DirectoryDialogViewModel, string>(title, message, defaultPath ?? string.Empty);
     }
 
     /// <inheritdoc/>

@@ -234,9 +234,9 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFilePath(string message)
+    Task<InputResult<string>> GetFileOpenPath(string message)
     {
-        return GetFilePath(null, message);
+        return GetFileOpenPath(null, message);
     }
 
     /// <summary>
@@ -248,9 +248,9 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFilePath(string? title, string message)
+    Task<InputResult<string>> GetFileOpenPath(string? title, string message)
     {
-        return GetFilePath(title, message, null);
+        return GetFileOpenPath(title, message, null);
     }
 
     /// <summary>
@@ -263,9 +263,9 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFilePath(string? title, string message, string? defaultPath)
+    Task<InputResult<string>> GetFileOpenPath(string? title, string message, string? defaultPath)
     {
-        return GetFilePath(title, message, new[] { FileFilterItem.AllFiles }, defaultPath);
+        return GetFileOpenPath(title, message, new[] { FileFilterItem.AllFiles }, defaultPath);
     }
 
     /// <summary>
@@ -278,9 +278,9 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFilePath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    Task<InputResult<string>> GetFileOpenPath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
     {
-        return GetFilePath(null, message, filters, defaultPath);
+        return GetFileOpenPath(null, message, filters, defaultPath);
     }
 
     /// <summary>
@@ -294,7 +294,102 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFilePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
+    Task<InputResult<string>> GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="message">Dialog message.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFileSavePath(string message)
+    {
+        return GetFileSavePath(null, message);
+    }
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFileSavePath(string? title, string message)
+    {
+        return GetFileSavePath(title, message, null);
+    }
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="defaultPath">Initial default file path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFileSavePath(string? title, string message, string? defaultPath)
+    {
+        return GetFileSavePath(title, message, new[] { FileFilterItem.AllFiles }, defaultPath);
+    }
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
+    /// <param name="defaultPath">Initial default file path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFileSavePath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    {
+        return GetFileSavePath(null, message, filters, defaultPath);
+    }
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
+    /// <param name="defaultPath">Initial default file path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
+
+    /// <summary>
+    /// Gets a path to a directory.
+    /// </summary>
+    /// <param name="message">Dialog message.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetDirectoryPath(string message)
+    {
+        return GetDirectoryPath(null, message);
+    }
+
+    /// <summary>
+    /// Gets a path to a directory.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="defaultPath">Initial default directory path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetDirectoryPath(string? title, string message, string? defaultPath = null);
 
     /// <summary>
     /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
