@@ -147,4 +147,7 @@
   <data name="Next" xml:space="preserve">
     <value>Siguiente</value>
   </data>
+  <data name="AllFiles" xml:space="preserve">
+    <value>Todos los archivos</value>
+  </data>
 </root>

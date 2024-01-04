@@ -112,6 +112,12 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
+    public async Task<InputResult<string>> GetFilePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    {
+        return default;
+    }
+
+    /// <inheritdoc/>
     public async Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : DialogViewModel, IAwaitableDialogViewModel
     {
         Navigate(dialogVm);

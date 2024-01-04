@@ -61,6 +61,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a All files.
+        /// </summary>
+        public static string AllFiles {
+            get {
+                return ResourceManager.GetString("AllFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Back.
         /// </summary>
         public static string Back {

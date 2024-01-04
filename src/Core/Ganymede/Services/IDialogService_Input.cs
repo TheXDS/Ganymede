@@ -227,6 +227,76 @@ public partial interface IDialogService
     Task<InputResult<Credential>> GetCredential(string message) => GetCredential(null, message);
 
     /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="message">Dialog message.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFilePath(string message)
+    {
+        return GetFilePath(null, message);
+    }
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFilePath(string? title, string message)
+    {
+        return GetFilePath(title, message, null);
+    }
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="defaultPath">Initial default file path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFilePath(string? title, string message, string? defaultPath)
+    {
+        return GetFilePath(title, message, new[] { FileFilterItem.AllFiles }, defaultPath);
+    }
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
+    /// <param name="defaultPath">Initial default file path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFilePath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    {
+        return GetFilePath(null, message, filters, defaultPath);
+    }
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="title">Dialog title.</param>
+    /// <param name="message">Dialog message.</param>
+    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
+    /// <param name="defaultPath">Initial default file path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<InputResult<string>> GetFilePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
+
+    /// <summary>
     /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
     /// dialog navigation system.
     /// </summary>
