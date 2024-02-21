@@ -13,14 +13,9 @@ namespace TheXDS.Ganymede.Services;
 /// </summary>
 public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T> where T : class, IViewModel
 {
-    private class ManualObserver : IEnumerable<T>, INotifyCollectionChanged
+    private class ManualObserver(IEnumerable<T> source) : IEnumerable<T>, INotifyCollectionChanged
     {
-        private readonly IEnumerable<T> _source;
-
-        public ManualObserver(IEnumerable<T> source)
-        {
-            _source = source;
-        }
+        private readonly IEnumerable<T> _source = source;
 
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
@@ -49,7 +44,7 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     public event EventHandler<NavigationCompletedEventArgs>? NavigationCompleted;
 
     /// <inheritdoc/>
-    public T? CurrentViewModel => _navStack.Any() && _navStack.TryPeek(out var vm) ? vm : _homePage;
+    public T? CurrentViewModel => _navStack.Count != 0 && _navStack.TryPeek(out var vm) ? vm : _homePage;
 
     /// <inheritdoc/>
     public int NavigationStackDepth => _navStack.Count;
@@ -70,7 +65,7 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
         get => _homePage;
         set
         {
-            if (Change(ref _homePage, value) && !_navStack.Any())
+            if (Change(ref _homePage, value) && _navStack.Count == 0)
             {
                 Refresh();
             }

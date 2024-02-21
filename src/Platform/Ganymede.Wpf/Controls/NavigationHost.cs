@@ -5,14 +5,13 @@ using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Types.Extensions;
-using static TheXDS.Ganymede.Helpers.Common;
 
 namespace TheXDS.Ganymede.Controls;
 
 /// <summary>
 /// Hosts a ViewModel navigation service and renders its visual container.
 /// </summary>
-public class NavigationViewModelHost : Control
+public class NavigationHost : Control
 {
     private static readonly DependencyPropertyKey ContentPropertyKey;
     private static readonly DependencyPropertyKey OverlayContentPropertyKey;
@@ -43,39 +42,39 @@ public class NavigationViewModelHost : Control
     /// </summary>
     public static readonly DependencyProperty DialogServiceProperty;
 
-    static NavigationViewModelHost()
+    static NavigationHost()
     {
         ContentPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(Content),
             typeof(object),
-            typeof(NavigationViewModelHost),
+            typeof(NavigationHost),
             new PropertyMetadata(null));
 
         OverlayContentPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(OverlayContent),
             typeof(object),
-            typeof(NavigationViewModelHost),
+            typeof(NavigationHost),
             new PropertyMetadata(null));
 
         DialogServiceProperty = DependencyProperty.Register(
             nameof(DialogService),
             typeof(IDialogService),
-            typeof(NavigationViewModelHost),
+            typeof(NavigationHost),
             new PropertyMetadata(null, OnDialogServiceChanged));
 
         NavigatorProperty = DependencyProperty.Register(
             nameof(Navigator),
             typeof(INavigationService),
-            typeof(NavigationViewModelHost),
+            typeof(NavigationHost),
             new PropertyMetadata(null, OnNavigatorChanged));
 
         VisualResolverProperty = DependencyProperty.Register(
             nameof(VisualResolver),
             typeof(IVisualResolver<FrameworkElement>),
-            typeof(NavigationViewModelHost),
+            typeof(NavigationHost),
             new PropertyMetadata(null, OnVisualResolverChanged));
 
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(NavigationViewModelHost), new FrameworkPropertyMetadata(typeof(NavigationViewModelHost)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(NavigationHost), new FrameworkPropertyMetadata(typeof(NavigationHost)));
 
         ContentProperty = ContentPropertyKey.DependencyProperty;
         OverlayContentProperty = OverlayContentPropertyKey.DependencyProperty;
@@ -97,7 +96,7 @@ public class NavigationViewModelHost : Control
     /// </summary>
     public IDialogService? DialogService
     {
-        get => UiInvoke(() => (IDialogService?)GetValue(DialogServiceProperty));
+        get => UiThread.Invoke(() => (IDialogService?)GetValue(DialogServiceProperty));
         set => SetValue(DialogServiceProperty, value);
     }
 
@@ -106,7 +105,7 @@ public class NavigationViewModelHost : Control
     /// </summary>
     public INavigationService? Navigator
     {
-        get => UiInvoke(() => (INavigationService?)GetValue(NavigatorProperty));
+        get => UiThread.Invoke(() => (INavigationService?)GetValue(NavigatorProperty));
         set => SetValue(NavigatorProperty, value);
     }
 
@@ -117,7 +116,7 @@ public class NavigationViewModelHost : Control
     /// </summary>
     public IVisualResolver<FrameworkElement>? VisualResolver
     {
-        get => UiInvoke(() => (IVisualResolver<FrameworkElement>?)GetValue(VisualResolverProperty));
+        get => UiThread.Invoke(() => (IVisualResolver<FrameworkElement>?)GetValue(VisualResolverProperty));
         set => SetValue(VisualResolverProperty, value);
     }
 
@@ -125,11 +124,11 @@ public class NavigationViewModelHost : Control
     {
         if (e.OldValue is INavigationService oldNav)
         {
-            oldNav.NavigationCompleted -= ((NavigationViewModelHost)d).OnNavigationCompleted;
+            oldNav.NavigationCompleted -= ((NavigationHost)d).OnNavigationCompleted;
         }
         if (e.NewValue is INavigationService newNav)
         {
-            newNav.NavigationCompleted += ((NavigationViewModelHost)d).OnNavigationCompleted;
+            newNav.NavigationCompleted += ((NavigationHost)d).OnNavigationCompleted;
             newNav.Refresh();
         }
     }
@@ -138,17 +137,17 @@ public class NavigationViewModelHost : Control
     {
         if (e.OldValue is INavigationService oldNav)
         {
-            oldNav.NavigationCompleted -= ((NavigationViewModelHost)d).OnDialogNavigationCompleted;
+            oldNav.NavigationCompleted -= ((NavigationHost)d).OnDialogNavigationCompleted;
         }
         if (e.NewValue is INavigationService newNav)
         {
-            newNav.NavigationCompleted += ((NavigationViewModelHost)d).OnDialogNavigationCompleted;
+            newNav.NavigationCompleted += ((NavigationHost)d).OnDialogNavigationCompleted;
         }
     }
 
     private static void OnVisualResolverChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((NavigationViewModelHost)d).Navigator?.Refresh();
+        ((NavigationHost)d).Navigator?.Refresh();
     }
 
     private void OnNavigationCompleted(object? sender, NavigationCompletedEventArgs e)

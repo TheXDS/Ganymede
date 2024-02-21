@@ -6,11 +6,11 @@
     xmlns:mcart="http://schemas.thexds.local/mcart">
     <vc:BooleanInverter x:Key="binv"/>
     <vc:NullToBooleanConverter x:Key="n2vc"/>
-    <Style TargetType="c:NavigationViewModelHost">
+    <Style TargetType="c:NavigationHost">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="c:NavigationViewModelHost">
+                <ControlTemplate TargetType="c:NavigationHost">
                     <Grid>
                         <mcart:BusyContainer
                             IsEnabled="{TemplateBinding OverlayContent, Converter={StaticResource n2vc}}"

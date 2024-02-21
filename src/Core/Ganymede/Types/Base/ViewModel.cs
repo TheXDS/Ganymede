@@ -38,7 +38,7 @@ public abstract class ViewModel : ViewModelBase, IViewModel, IViewModel_Internal
     public IDialogService? DialogService
     {
         get => dialogService;
-        set => dialogService = value;
+        set => Change(ref dialogService, value);
     }
 
     /// <summary>

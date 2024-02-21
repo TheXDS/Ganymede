@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Types.Base;
-using static TheXDS.Ganymede.Helpers.Common;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -22,7 +22,7 @@ public abstract class TypedVisualResolverBase<TViewModel, TVisual> : IVisualReso
     /// <inheritdoc/>
     public TVisual? Resolve(IViewModel viewModel)
     {
-        return (viewModel is TViewModel vm) ? UiInvoke(() =>
+        return (viewModel is TViewModel vm) ? UiThread.Invoke(() =>
         {
             var page = new TVisual() { DataContext = vm };
             return page;

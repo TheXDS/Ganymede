@@ -8,8 +8,12 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// <summary>
 /// Base class for all Template builders that generate simple value controls.
 /// </summary>
-/// <typeparam name="TValue"></typeparam>
-/// <typeparam name="TControl"></typeparam>
+/// <typeparam name="TValue">
+/// Type of value to generate a set of range controls for.
+/// </typeparam>
+/// <typeparam name="TControl">
+/// Type of control to generate for both the minimum and maximum values.
+/// </typeparam>
 public abstract class ValueRangeDialogTemplateBuilder<TValue, TControl>
     : ValueDialogTemplateBuilderBase<RangeInputDialogViewModel<TValue>, TValue, TControl>
     where TValue : struct, IComparable<TValue>
