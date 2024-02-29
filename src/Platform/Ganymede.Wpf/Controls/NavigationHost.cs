@@ -5,6 +5,7 @@ using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Types.Extensions;
+using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
 
 namespace TheXDS.Ganymede.Controls;
 
@@ -49,6 +50,8 @@ public class NavigationHost : Control
             typeof(object),
             typeof(NavigationHost),
             new PropertyMetadata(null));
+
+
 
         OverlayContentPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(OverlayContent),

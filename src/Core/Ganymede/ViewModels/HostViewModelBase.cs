@@ -7,10 +7,16 @@ namespace TheXDS.Ganymede.ViewModels;
 /// <summary>
 /// Defines a <see cref="ViewModel"/> with nested navigation capabilities.
 /// </summary>
-public abstract class HostViewModelBase : ViewModel
+/// <param name="navigationService">
+/// Navigation service to use for children navigation.
+/// </param>
+/// <param name="dialogService">
+/// Dialog service to expose to ViewModels being navigated to.
+/// </param>
+public abstract class HostViewModelBase(INavigationService? navigationService, IDialogService? dialogService) : ViewModel
 {
-    private INavigationService? childNavService;
-    private IDialogService? childDlgService;
+    private INavigationService? childNavService = navigationService;
+    private IDialogService? childDlgService = dialogService;
 
     /// <summary>
     /// Gets or sets a reference to the child navigation service on this
@@ -43,26 +49,13 @@ public abstract class HostViewModelBase : ViewModel
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HostViewModelBase"/>
-    /// class.
+    /// class, setting a new instance for the child navigation service and 
+    /// reusing the dialog service from this instance to expose them to any
+    /// children ViewModels.
     /// </summary>
-    protected HostViewModelBase() : this(new NavigationService<ViewModel>(), new NavigatingDialogService())
+    protected HostViewModelBase() : this(new HostNavigationService<ViewModel>(), null)
     {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HostViewModelBase"/>
-    /// class.
-    /// </summary>
-    /// <param name="navigationService">
-    /// Navigation serice to use for children navigation.
-    /// </param>
-    /// <param name="dialogService">
-    /// Dialog service to expose to ViewModels being navigated to.
-    /// </param>
-    protected HostViewModelBase(INavigationService navigationService, IDialogService dialogService)
-    {
-        childNavService = navigationService;
-        childDlgService = dialogService;
+        ((HostNavigationService<ViewModel>)ChildNavService!).SetHost(this);
     }
 
     /// <summary>

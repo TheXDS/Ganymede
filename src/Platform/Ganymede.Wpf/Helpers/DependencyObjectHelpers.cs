@@ -127,14 +127,27 @@ public static class DependencyObjectHelpers
     /// <param name="defaultValue">
     /// Optional. Defines a default value to use for this dependency property.
     /// </param>
-    /// <param name="changedValue">Callback to execute whenever this dependency property changes its value.</param>
-    /// <param name="coerceValue">Callback to execute whenever a value needs to be coerced.</param>
-    /// <param name="validate">Callback to execute whenever a value need to be validated before assigning the dependency property.</param>
-    /// <returns>A new <see cref="DependencyPropertyKey"/> that represents</returns>
-    public static DependencyPropertyKey NewDpRo<TValue, TOwner>(string name, [MaybeNull] TValue defaultValue = default!, PropertyChangedCallback? changedValue = null, CoerceValueCallback? coerceValue = null, ValidateValueCallback? validate = null)
+    /// <param name="changedValue">
+    /// Callback to execute whenever this dependency property changes its
+    /// value.
+    /// </param>
+    /// <param name="coerceValue">
+    /// Callback to execute whenever a value needs to be coerced.
+    /// </param>
+    /// <param name="validate">
+    /// Callback to execute whenever a value need to be validated before
+    /// assigning the dependency property.
+    /// </param>
+    /// <returns>
+    /// A tuple consisting of a new <see cref="DependencyPropertyKey"/> and its
+    /// corresponding <see cref="DependencyProperty"/> that represents the
+    /// dependency property.
+    /// </returns>
+    public static (DependencyPropertyKey, DependencyProperty) NewDpRo<TValue, TOwner>(string name, [MaybeNull] TValue defaultValue = default!, PropertyChangedCallback? changedValue = null, CoerceValueCallback? coerceValue = null, ValidateValueCallback? validate = null)
         where TOwner : DependencyObject
     {
-        return DependencyProperty.RegisterReadOnly(name, typeof(TValue), typeof(TOwner), new PropertyMetadata(defaultValue, changedValue, coerceValue), validate);
+        var dpk = DependencyProperty.RegisterReadOnly(name, typeof(TValue), typeof(TOwner), new PropertyMetadata(defaultValue, changedValue, coerceValue), validate);
+        return (dpk, dpk.DependencyProperty);
     }
 
     /// <summary>

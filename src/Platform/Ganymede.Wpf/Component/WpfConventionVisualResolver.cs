@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using TheXDS.Ganymede.Types.Base;
+using TheXDS.Ganymede.Views;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -8,4 +10,11 @@ namespace TheXDS.Ganymede.Component;
 /// </summary>
 public class WpfConventionVisualResolver : ConventionVisualResolver<FrameworkElement>
 {
+#if DEBUG
+    /// <inheritdoc/>
+    public override FrameworkElement? Resolve(IViewModel viewModel)
+    {
+        return base.Resolve(viewModel) ?? new GanymedeNavErrorFallbackView();
+    }
+#endif
 }

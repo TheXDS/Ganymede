@@ -2,6 +2,7 @@
 using System.Windows;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Types.Base;
+using TheXDS.Ganymede.Views;
 using TheXDS.MCART.ValueConverters.Base;
 
 namespace TheXDS.Ganymede.ValueConverters;

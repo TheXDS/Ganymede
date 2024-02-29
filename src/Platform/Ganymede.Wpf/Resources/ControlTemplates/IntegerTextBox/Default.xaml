@@ -7,7 +7,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:Int8TextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -15,8 +15,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -26,7 +26,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:UInt8TextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -34,8 +34,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -45,7 +45,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:Int16TextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -53,8 +53,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -64,7 +64,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:UInt16TextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -72,8 +72,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -84,7 +84,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Int32TextBox}">
                     <DockPanel>
-                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
                             <RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
                                 <Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
                             </RepeatButton>
@@ -92,7 +92,7 @@
                                 <Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
                             </RepeatButton>
                         </UniformGrid>
-                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
                     </DockPanel>
                 </ControlTemplate>
             </Setter.Value>
@@ -103,7 +103,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:UInt32TextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -111,8 +111,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -122,7 +122,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:Int64TextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -130,8 +130,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -141,7 +141,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:UInt64TextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -149,8 +149,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -160,7 +160,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:FloatTextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -168,8 +168,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -179,7 +179,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:DoubleTextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -187,8 +187,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -198,7 +198,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type controls:DecimalTextBox}">
 					<DockPanel>
-						<UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <UniformGrid Columns="1" Rows="2" DockPanel.Dock="Right" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="{TemplateBinding UpDownButtonsVisibility}">
 							<RepeatButton VerticalContentAlignment="Center" x:Name="PART_increase" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent">
 								<Path Fill="Black" Data="M 0 3 L 6 3 L 3 0 Z"/>
 							</RepeatButton>
@@ -206,8 +206,8 @@
 								<Path Fill="Black" Data="M 0 0 L 3 3 L 6 0 Z"/>
 							</RepeatButton>
 						</UniformGrid>
-                        <controls:TextBoxEx TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input"/>
-					</DockPanel>
+                        <controls:TextBoxEx IsTabStop="True" Focusable="True" TabIndex="1" Icon="{TemplateBinding Icon}" Label="{TemplateBinding Label}" x:Name="PART_input" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </DockPanel>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

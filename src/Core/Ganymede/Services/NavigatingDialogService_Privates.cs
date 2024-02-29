@@ -1,8 +1,7 @@
 ﻿using System.Drawing;
-using System.Windows.Input;
+using TheXDS.Ganymede.Resources.Strings;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Component;
-using TheXDS.Ganymede.Resources.Strings;
 
 namespace TheXDS.Ganymede.Services;
 
@@ -34,11 +33,11 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
         return dialogAwaiter.Task;
     }
 
-    private ICommand CloseDialogCommand<T>(TaskCompletionSource<T> task, T result)
+    private SimpleCommand CloseDialogCommand<T>(TaskCompletionSource<T> task, T result)
     {
-        return new SimpleCommand(() =>
+        return new(async () =>
         {
-            NavigateBack();
+            await NavigateBack();
             task.SetResult(result);
         });
     }

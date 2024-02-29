@@ -1,4 +1,5 @@
-﻿using St = TheXDS.Ganymede.Resources.Strings.Common;
+﻿using static System.Net.Mime.MediaTypeNames;
+using St = TheXDS.Ganymede.Resources.Strings.Common;
 
 namespace TheXDS.Ganymede.Models;
 
@@ -16,6 +17,22 @@ public record struct FileFilterItem(string Name, string[] Extensions)
     /// Represents a file filter for all files.
     /// </summary>
     public static readonly FileFilterItem AllFiles = new(St.AllFiles, "*.*");
+
+    /// <summary>
+    /// Creates a new, simple <see cref="FileFilterItem"/> from a file
+    /// extension.
+    /// </summary>
+    /// <param name="extension">
+    /// File extension. Avoid including wildcards and the dot separating
+    /// filename and extension.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="FileFilterItem"/> for the specified file extension.
+    /// </returns>
+    public static FileFilterItem Simple(string extension)
+    {
+        return new FileFilterItem(string.Format(St.SimpleFileFilter, extension.ToUpper()), $"*.{extension}");
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FileFilterItem"/> struct.

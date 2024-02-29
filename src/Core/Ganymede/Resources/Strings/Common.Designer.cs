@@ -97,6 +97,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a There is no resolvable View for this ViewModel..
+        /// </summary>
+        public static string GanymedeNavErrorFallback {
+            get {
+                return ResourceManager.GetString("GanymedeNavErrorFallback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Next.
         /// </summary>
         public static string Next {
@@ -138,6 +147,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} file.
+        /// </summary>
+        public static string SimpleFileFilter {
+            get {
+                return ResourceManager.GetString("SimpleFileFilter", resourceCulture);
             }
         }
         

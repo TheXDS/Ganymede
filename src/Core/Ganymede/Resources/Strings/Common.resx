@@ -129,6 +129,9 @@
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="GanymedeNavErrorFallback" xml:space="preserve">
+    <value>There is no resolvable View for this ViewModel.</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>Next</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SimpleFileFilter" xml:space="preserve">
+    <value>{0} file</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>User</value>

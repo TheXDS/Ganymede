@@ -84,6 +84,12 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
     /// </summary>
     public static readonly DependencyProperty ValueProperty;
 
+    /// <summary>
+    /// Identifies the <see cref="UpDownButtonsVisibility"/> dependency
+    /// property.
+    /// </summary>
+    public static readonly DependencyProperty UpDownButtonsVisibilityProperty;
+
     private static readonly Settings _Settings = new();
 
     static NumericInputControl()
@@ -92,6 +98,7 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
         MinimumProperty = NewDp2Way<T, NumericInputControl<T>>(nameof(Minimum), _Settings.MinValue, OnRangeChanged, OnMinimumCoerce);
         StepProperty = NewDp2Way<T, NumericInputControl<T>>(nameof(Step), _Settings.One, coerceValue: OnStepCoerce, validate: OnStepValidate);
         ValueProperty = NewDp2Way<T, NumericInputControl<T>>(nameof(Value), default, OnValueChanged, OnValueCoerce);
+        UpDownButtonsVisibilityProperty = NewDp<Visibility, NumericInputControl<T>>(nameof(UpDownButtonsVisibility), Visibility.Visible);
     }
 
     private static object OnStepCoerce(DependencyObject d, object baseValue)
@@ -174,6 +181,16 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
     {
         get => (T)GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value that indicates the desired visibility for the
+    /// Up/Down arrow buttons.
+    /// </summary>
+    public Visibility UpDownButtonsVisibility
+    {
+        get => (Visibility)GetValue(UpDownButtonsVisibilityProperty);
+        set => SetValue(UpDownButtonsVisibilityProperty, value);
     }
 
     /// <inheritdoc/>

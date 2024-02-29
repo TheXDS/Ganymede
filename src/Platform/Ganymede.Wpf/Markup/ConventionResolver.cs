@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Markup;
 using TheXDS.Ganymede.Component;
-using TheXDS.Ganymede.ValueConverters;
 namespace TheXDS.Ganymede.Markup;
 
 /// <summary>
@@ -15,6 +14,6 @@ public sealed class ConventionResolver : MarkupExtension
     /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
-        return new ConventionVisualConverter();
+        return new WpfConventionVisualResolver();
     }
 }

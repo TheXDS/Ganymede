@@ -18,7 +18,7 @@ public partial class NavigatingDialogService
         Navigate(vm);
         var task = operation.Invoke(ct.Token, progress);
         try { await task; }
-        finally { NavigateBack(); }
+        finally { await NavigateBack(); }
         return !(ct.IsCancellationRequested || task.IsFaulted);
     }
 
@@ -30,7 +30,7 @@ public partial class NavigatingDialogService
         var task = operation.Invoke(progress);
         try { return await task; }
         catch (Exception ex) { await ((IDialogService)this).Error(ex); return default!; }
-        finally { NavigateBack(); }
+        finally { await NavigateBack(); }
     }
 
     /// <inheritdoc/>
@@ -41,7 +41,7 @@ public partial class NavigatingDialogService
         var task = operation.Invoke(progress);
         try { await task; }
         catch (Exception ex) { await ((IDialogService)this).Error(ex); }
-        finally { NavigateBack(); }
+        finally { await NavigateBack(); }
     }
 
     private static (OperationDialogViewModel viewModel, IProgress<ProgressReport> progress) CreateOperationVm(string? title)

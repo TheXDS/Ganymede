@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Windows.Input;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types.Base;
@@ -11,6 +12,9 @@ namespace TheXDS.Ganymede.Services;
 /// <summary>
 /// Implements a ViewModel-based navigation service.
 /// </summary>
+/// <typeparam name="T">
+/// ViewModel type to expose.
+/// </typeparam>
 public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T> where T : class, IViewModel
 {
     private class ManualObserver(IEnumerable<T> source) : IEnumerable<T>, INotifyCollectionChanged
@@ -35,7 +39,6 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
         }
     }
 
-    //private readonly ConcurrentStack<ViewModel> _navStack;
     private readonly Stack<T> _navStack;
     private readonly ManualObserver _navStackInfo;
     private T? _homePage;
@@ -115,8 +118,14 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     }
 
     /// <inheritdoc/>
-    public void NavigateBack()
+    public async Task NavigateBack()
     {
+        if (CurrentViewModel is { } vm)
+        {
+            var f = new CancelFlag(false);
+            await vm.OnNavigateBack(f);
+            if (f.IsCancelled) return;
+        }
         if (_navStack.TryPop(out _))
         {
             Refresh();

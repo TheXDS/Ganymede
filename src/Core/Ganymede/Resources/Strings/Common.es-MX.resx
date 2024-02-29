@@ -150,4 +150,10 @@
   <data name="AllFiles" xml:space="preserve">
     <value>Todos los archivos</value>
   </data>
+  <data name="GanymedeNavErrorFallback" xml:space="preserve">
+    <value>No existe un View que se pueda resolver para este ViewModel.</value>
+  </data>
+  <data name="SimpleFileFilter" xml:space="preserve">
+    <value>Archivo {0}</value>
+  </data>
 </root>

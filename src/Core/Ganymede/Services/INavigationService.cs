@@ -75,7 +75,7 @@ public interface INavigationService
     /// </typeparam>
     void Navigate<TViewModel, TState>(TState state) where TViewModel : class, IStatefulViewModel<TState>, new()
     {
-        NavigateAndReset(new TViewModel() { State = state });
+        Navigate(new TViewModel() { State = state });
     }
 
     /// <summary>
@@ -131,7 +131,7 @@ public interface INavigationService
     /// <remarks>
     /// If the navigation stack is empty, This method will do nothing.
     /// </remarks>
-    void NavigateBack();
+    Task NavigateBack();
 
     /// <summary>
     /// Manually triggers the <see cref="NavigationCompleted"/> event.

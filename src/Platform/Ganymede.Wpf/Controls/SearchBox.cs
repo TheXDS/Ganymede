@@ -33,10 +33,9 @@ public class SearchBox : TextBoxEx
     static SearchBox()
     {
         SetControlStyle<SearchBox>(DefaultStyleKeyProperty);
-        IsSearchActivePropertyKey = NewDpRo<bool, SearchBox>(nameof(IsSearchActive));
+        (IsSearchActivePropertyKey, IsSearchActiveProperty) = NewDpRo<bool, SearchBox>(nameof(IsSearchActive));
         SearchCommandProperty = NewDp<ICommand, SearchBox>(nameof(SearchCommand));
         CloseSearchCommandProperty = NewDp<ICommand, SearchBox>(nameof(CloseSearchCommand));
-        IsSearchActiveProperty = IsSearchActivePropertyKey.DependencyProperty;
     }
 
     /// <summary>

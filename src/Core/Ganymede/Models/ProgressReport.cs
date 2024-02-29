@@ -11,7 +11,7 @@ namespace TheXDS.Ganymede.Models;
 /// Description of the current status. May be <see langword="null"/> or omitted
 /// to indicate that the current status description has not changed.
 /// </param>
-public record struct ProgressReport(double Progress, string? Status = null)
+public readonly record struct ProgressReport(double Progress, string? Status = null)
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ProgressReport"/> class,

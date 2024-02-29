@@ -11,20 +11,22 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="c:NavigationHost">
-                    <Grid>
-                        <mcart:BusyContainer
-                            IsEnabled="{TemplateBinding OverlayContent, Converter={StaticResource n2vc}}"
-                            IsBusy="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <mcart:BusyContainer
+                                IsEnabled="{TemplateBinding OverlayContent, Converter={StaticResource n2vc}}"
+                                IsBusy="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ContentPresenter
+                                    Margin="{TemplateBinding Padding}"
+                                    Content="{TemplateBinding Content}"
+                                    DataContext="{Binding Navigator.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    IsEnabled="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource binv}}"/>
+                            </mcart:BusyContainer>
                             <ContentPresenter
-                                Margin="{TemplateBinding Padding}"
-                                Content="{TemplateBinding Content}"
-                                DataContext="{Binding Navigator.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                IsEnabled="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource binv}}"/>
-                        </mcart:BusyContainer>
-                        <ContentPresenter
-                            Content="{TemplateBinding OverlayContent}"
-                            DataContext="{Binding DialogService.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                    </Grid>
+                                Content="{TemplateBinding OverlayContent}"
+                                DataContext="{Binding DialogService.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

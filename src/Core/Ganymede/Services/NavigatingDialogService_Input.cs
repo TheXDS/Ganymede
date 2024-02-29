@@ -9,12 +9,15 @@ namespace TheXDS.Ganymede.Services;
 public partial class NavigatingDialogService
 {
     /// <inheritdoc/>
-    public Task<bool> Ask(string question) => Ask(null, question);
-
-    /// <inheritdoc/>
     public Task<bool> Ask(string? title, string question)
     {
         return GetButtonValue("?", Color.DarkGreen, title, question, (Common.Yes, true), (Common.No, false));
+    }
+
+    /// <inheritdoc/>
+    public Task<bool?> AskYnc(string? title, string question)
+    {
+        return GetButtonValue("?", Color.DarkGreen, title, question, (Common.Yes, true), (Common.No, false), (Common.Cancel, (bool?)null));
     }
 
     /// <inheritdoc/>
@@ -41,15 +44,6 @@ public partial class NavigatingDialogService
         Navigate(vm);
         var result = await dialogAwaiter.Task;
         return result ? options.FindIndexOf(vm.Value) : -1;
-    }
-
-    /// <inheritdoc/>
-    public Task<bool?> AskYnc(string question) => AskYnc(null, question);
-
-    /// <inheritdoc/>
-    public Task<bool?> AskYnc(string? title, string question)
-    {
-        return GetButtonValue("?", Color.DarkGreen, title, question, (Common.Yes, true), (Common.No, false), (Common.Cancel, (bool?)null));
     }
 
     /// <inheritdoc/>
@@ -134,7 +128,7 @@ public partial class NavigatingDialogService
     {
         Navigate(dialogVm);
         try { await dialogVm.DialogAwaiter; }
-        finally { NavigateBack(); }
+        finally { await NavigateBack(); }
     }
 
     /// <inheritdoc/>
