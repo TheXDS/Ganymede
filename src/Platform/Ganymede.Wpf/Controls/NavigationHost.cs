@@ -51,8 +51,6 @@ public class NavigationHost : Control
             typeof(NavigationHost),
             new PropertyMetadata(null));
 
-
-
         OverlayContentPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(OverlayContent),
             typeof(object),

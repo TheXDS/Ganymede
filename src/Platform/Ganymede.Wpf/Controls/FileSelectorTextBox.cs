@@ -17,7 +17,6 @@ namespace TheXDS.Ganymede.Controls;
 /// </typeparam>
 public abstract class FileSelectorTextBox<T> : FilesystemSelectorTextBox<T> where T : FileDialog, new()
 {
-
     /// <summary>
     /// Identifies the <see cref="FileFilters"/> dependency property.
     /// </summary>

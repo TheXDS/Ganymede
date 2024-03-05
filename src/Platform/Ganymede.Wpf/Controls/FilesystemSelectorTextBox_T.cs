@@ -12,7 +12,6 @@ namespace TheXDS.Ganymede.Controls;
 /// </typeparam>
 public abstract class FilesystemSelectorTextBox<T> : FilesystemSelectorTextBox where T : CommonItemDialog, new()
 {
-
     /// <summary>
     /// Creates a new dialog.
     /// </summary>
