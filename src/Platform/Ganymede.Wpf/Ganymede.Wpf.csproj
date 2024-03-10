@@ -8,10 +8,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.2-alpha.3" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.2-alpha.3" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.17.2-alpha.3" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.17.2-alpha.3" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.2-alpha.7" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.2-alpha.7" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.17.2-alpha.7" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.17.2-alpha.7" />
 	</ItemGroup>
 
 	<ItemGroup>
