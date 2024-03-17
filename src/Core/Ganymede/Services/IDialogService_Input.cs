@@ -89,7 +89,11 @@ public partial interface IDialogService
     /// options may contain several items.
     /// </remarks>
     /// <see cref="GetOption(string?, string, string[])"/>
-    Task<int> SelectOption(string? title, string prompt, params string[] options) => GetOption(title, prompt, options);
+    async Task<InputResult<int>> SelectOption(string? title, string prompt, params string[] options)
+    {
+        var result = await GetOption(title, prompt, options);
+        return new(result >= 0, result);
+    }
 
     /// <summary>
     /// Gets a value from the user.
@@ -265,7 +269,7 @@ public partial interface IDialogService
     /// </returns>
     Task<InputResult<string>> GetFileOpenPath(string? title, string message, string? defaultPath)
     {
-        return GetFileOpenPath(title, message, new[] { FileFilterItem.AllFiles }, defaultPath);
+        return GetFileOpenPath(title, message, [FileFilterItem.AllFiles], defaultPath);
     }
 
     /// <summary>

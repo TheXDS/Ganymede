@@ -36,14 +36,14 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task<int> SelectOption(string? title, string prompt, params string[] options)
+    public async Task<InputResult<int>> SelectOption(string? title, string prompt, params string[] options)
     {
         TaskCompletionSource<bool> dialogAwaiter = new();
         var vm = CreateInputDialogVm<SelectionDialogViewModel>(title, prompt, dialogAwaiter);
         vm.Options = options;
         Navigate(vm);
         var result = await dialogAwaiter.Task;
-        return result ? options.FindIndexOf(vm.Value) : -1;
+        return new(result, result ? options.FindIndexOf(vm.Value) : -1);
     }
 
     /// <inheritdoc/>
