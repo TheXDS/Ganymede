@@ -1,5 +1,4 @@
-﻿using TheXDS.Ganymede.Models;
-using TheXDS.Ganymede.Services;
+﻿using TheXDS.Ganymede.Services;
 using TheXDS.MCART.Types.Base;
 
 namespace TheXDS.Ganymede.Types.Base;

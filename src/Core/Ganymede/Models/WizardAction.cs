@@ -16,8 +16,8 @@ public enum WizardAction : byte
     Back,
 
     /// <summary>
-    /// The user navigated forward on the wizard. ALso used for the "finish"
-    /// iteraction.
+    /// The user navigated forward on the wizard. Also used for the "finish"
+    /// interaction.
     /// </summary>
     Next
 }

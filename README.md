@@ -34,16 +34,11 @@ paket add TheXDS.Ganymede
 <PackageReference Include="TheXDS.Ganymede" Version="1.0.0" />
 ```
 
-**C# interactive window (CSI)**  
-```
-#r "nuget: TheXDS.Ganymede, 1.0.0"
-```
-
 ## Building
 Ganymede can be built on any platform or CI environment supported by dotnet.
 
 ### Prerequisites
-- [.Net SDK 6.0](https://dotnet.microsoft.com/).
+- [.Net SDK 8.0](https://dotnet.microsoft.com/).
 
 ### Build Ganymede
 ```sh
@@ -51,6 +46,88 @@ dotnet build ./src/Ganymede.sln
 ```
 The resulting binaries will be in the `./Build/bin` directory.
 
+## Usage
+Ganymede provides a few library implementations to build apps on different frameworks. As of now, a library for [WPF](https://github.com/dotnet/wpf) has been implemented in an experimental state, one for [Avalonia UI](https://www.avaloniaui.net/) is in very early stages of development and other UI frameworks are under consideration.
+
+### Usage (With WPF bindings)
+To use the WPF implementation of Ganymede, you can install the [`TheXDS.Ganymede.Wpf`](https://www.nuget.org/packages/TheXDS.Ganymede.Wpf/) NuGet package.
+
+#### TL;DR for WPF
+
+- Create a new .NET 8 WPF project. Make sure that the project targets at least `net8.0-windows10.0.19041`
+- Install `TheXDS.Ganymede.Wpf` on the project.
+- On `App.xaml.cs`:  
+    ```csharp
+    using System.Windows;
+    using TheXDS.Ganymede.Helpers;
+    using TheXDS.Ganymede.Services;
+
+    namespace WpfApp1;
+
+    public partial class App : Application
+    {
+        public App()
+        {
+            UiThread.SetProxy(new DispatcherUiThreadProxy());
+        }
+    }
+    ```
+- On `MainWindow.xaml`:  
+    ```xml
+    <Window
+        x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gn="http://schemas.thexds.local/ganymede"
+        xmlns:local="clr-namespace:WpfApp1"
+        Width="500" Height="400" >
+        <gn:NavigationHost
+            DialogService="{gn:WpfNavDialogService}"
+            Navigator="{gn:NavService Home={x:Type local:TestViewModel}}"
+            VisualResolver="{gn:ConventionResolver}"/>
+    </Window>
+    ```
+- On `TestViewModel.cs` (new file):  
+    ```csharp
+    using System.Windows.Input;
+    using TheXDS.Ganymede.Helpers;
+    using TheXDS.Ganymede.Types.Base;
+    
+    namespace WpfApp1;
+    
+    public class TestViewModel : ViewModel
+    {
+        public ICommand HelloCommand { get; }
+
+        public TestViewModel()
+        {
+            var cb = CommandBuilder.For(this);
+            HelloCommand = cb.BuildSimple(OnHello);
+        }
+
+        private async Task OnHello()
+        {
+            await DialogService.Message("Hello!", "This is a dialog message");
+        }
+    }
+    ```
+- On `TestView.xaml` (new user control):  
+    ```xml
+    <UserControl
+        x:Class="WpfApp1.TestView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=local:TestViewModel}"
+        xmlns:local="clr-namespace:WpfApp1">
+        <Button
+            Command="{Binding HelloCommand, Mode=OneWay}"
+            Content="Click me"
+            Width="120" Height="30"/>
+    </UserControl>
+    ```
 ## Contribute
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://www.buymeacoffee.com/xdsxpsivx)
 

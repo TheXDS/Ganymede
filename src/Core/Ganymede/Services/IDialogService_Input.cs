@@ -339,7 +339,7 @@ public partial interface IDialogService
     /// </returns>
     Task<InputResult<string>> GetFileSavePath(string? title, string message, string? defaultPath)
     {
-        return GetFileSavePath(title, message, new[] { FileFilterItem.AllFiles }, defaultPath);
+        return GetFileSavePath(title, message, [FileFilterItem.AllFiles], defaultPath);
     }
 
     /// <summary>
@@ -418,14 +418,15 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null) where TViewModel : DialogViewModel, IInputDialogViewModel<TValue>, new();
+    Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null)
+        where TViewModel : IInputDialogViewModel<TValue>, new();
 
     /// <summary>
     /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
     /// dialog navigation system.
     /// </summary>
     /// <typeparam name="TViewModel">
-    /// Type of <see cref="DialogViewModel"/> to navigate to. It must implement
+    /// Type of <see cref="IViewModel"/> to navigate to. It must implement
     /// <see cref="IAwaitableDialogViewModel"/> to be able to notify of its own
     /// completion.
     /// </typeparam>
@@ -434,5 +435,5 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : DialogViewModel, IAwaitableDialogViewModel;
+    Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : IAwaitableDialogViewModel;
 }

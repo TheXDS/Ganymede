@@ -1,0 +1,4 @@
+- name: "Example: Hello world using Ganymede"
+  href: example-hello-world.md
+- name: "Example: Simple navigation"
+  href: example-navigation.md

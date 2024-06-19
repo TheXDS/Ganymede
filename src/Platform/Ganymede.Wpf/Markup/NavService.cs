@@ -23,15 +23,15 @@ public sealed class NavService : MarkupExtension
     /// <inheritdoc/>
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
-        return new NavigationService<ViewModel> { HomePage = GetViewModel() };
+        return new NavigationService<IViewModel> { HomePage = GetViewModel() };
     }
 
-    private ViewModel? GetViewModel()
+    private IViewModel? GetViewModel()
     {
         return Home switch
         {
-            ViewModel vm => vm,
-            Type vmType when vmType.Implements<ViewModel>() => vmType.New<ViewModel>(),
+            IViewModel vm => vm,
+            Type vmType when vmType.Implements<IViewModel>() => vmType.New<IViewModel>(),
             string vmName => GetByName(vmName),
             _ => null
         };

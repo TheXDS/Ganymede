@@ -8,24 +8,14 @@ namespace TheXDS.Ganymede.Types;
 /// Represents a button interaction inside the application. These might include
 /// buttons in dialog boxes, dynamically generated menus, etc. 
 /// </summary>
-public class ButtonInteraction : NotifyPropertyChanged
+/// <param name="command">
+/// Command to associate with the interaction.
+/// </param>
+/// <param name="text">Display text for the interaction.</param>
+public class ButtonInteraction(ICommand command, string text) : NotifyPropertyChanged
 {
-    private string _text;
+    private string _text = text;
     private bool _isPrimary;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ButtonInteraction"/>
-    /// class.
-    /// </summary>
-    /// <param name="command">
-    /// Command to associate with the interaction.
-    /// </param>
-    /// <param name="text">Display text for the interaction.</param>
-    public ButtonInteraction(ICommand command, string text)
-    {
-        Command = command;
-        _text = text;
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ButtonInteraction"/>
@@ -41,7 +31,7 @@ public class ButtonInteraction : NotifyPropertyChanged
     /// Gets a reference to the command to be executed by activating this
     /// interaction.
     /// </summary>
-    public ICommand Command { get; }
+    public ICommand Command { get; } = command;
 
     /// <summary>
     /// Gets or sets the text to be displayed on the control used to activate

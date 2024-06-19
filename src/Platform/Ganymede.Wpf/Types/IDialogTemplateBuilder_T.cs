@@ -26,7 +26,37 @@ public interface IDialogTemplateBuilder<in T> : IDialogTemplateBuilder where T :
     /// </returns>
     FrameworkElement? Build(T viewModel);
 
+    /// <summary>
+    /// Gets a value that indicates if this dialog template builder can be used
+    /// for generating the dialog's UI for the specified
+    /// <see cref="IDialogViewModel"/>.
+    /// </summary>
+    /// <param name="vm">
+    /// <see cref="IDialogViewModel"/> instance to verify.
+    /// </param>
+    /// <returns>
+    /// <see langword="true"/> if this template builder can be used to generate
+    /// the dialog's UI for the specified <see cref="IDialogViewModel"/>,
+    /// <see langword="false"/> otherwise.
+    /// </returns>
+    /// <remarks>
+    /// The default interface implementation will just check that the ViewModel
+    /// type matches <typeparamref name="T"/>. Implement this method directly
+    /// to customize the logic based on your requirements.
+    /// </remarks>
     bool IDialogTemplateBuilder.CanBuild(IDialogViewModel vm) => vm is T;
 
+    /// <summary>
+    /// Builds the dialog's UI for the specified
+    /// <see cref="IDialogViewModel"/>.
+    /// </summary>
+    /// <param name="vm">
+    /// <see cref="IDialogViewModel"/> to build the dialog UI for.
+    /// </param>
+    /// <returns>
+    /// A <see cref="FrameworkElement"/> that defines the dialog UI for the
+    /// specified <see cref="IDialogViewModel"/>, or <see langword="null"/> if
+    /// no UI was generated.
+    /// </returns>
     FrameworkElement? IDialogTemplateBuilder.Build(IDialogViewModel vm) => Build((T)vm);
 }

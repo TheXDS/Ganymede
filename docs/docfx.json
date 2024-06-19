@@ -3,7 +3,9 @@
 		{
 			"src": {
 				"files": [
-					"ServicePool/**.csproj"
+					"Core/**.csproj",
+					"Platform/**.csproj"
+
 				],
 				"src": "../src"
 			},

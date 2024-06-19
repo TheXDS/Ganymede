@@ -124,7 +124,7 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : DialogViewModel, IAwaitableDialogViewModel
+    public async Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : IAwaitableDialogViewModel
     {
         Navigate(dialogVm);
         try { await dialogVm.DialogAwaiter; }
@@ -132,7 +132,8 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null) where TViewModel : DialogViewModel, IInputDialogViewModel<TValue>, new()
+    public async Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null)
+        where TViewModel : IInputDialogViewModel<TValue>, new()
     {
         TaskCompletionSource<bool> dialogAwaiter = new();
         var vm = CreateInputDialogVm<TViewModel>(title, message, dialogAwaiter);

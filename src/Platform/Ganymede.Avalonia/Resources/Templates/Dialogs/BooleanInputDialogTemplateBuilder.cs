@@ -6,8 +6,12 @@ using TheXDS.Ganymede.ViewModels.Dialogs;
 
 namespace TheXDS.Ganymede.Resources.Templates.Dialogs;
 
+/// <summary>
+/// Implements a template builder for <see cref="bool"/> values.
+/// </summary>
 public class BooleanInputDialogTemplateBuilder : IDialogTemplateBuilder<InputDialogViewModel<bool>>
 {
+    /// <inheritdoc/>
     public Control Build(InputDialogViewModel<bool> viewModel)
     {
         return new ToggleSwitch

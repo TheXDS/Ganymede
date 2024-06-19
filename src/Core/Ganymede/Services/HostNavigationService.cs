@@ -15,7 +15,7 @@ public class HostNavigationService<T> : NavigationService<T>, INavigationService
     /// <summary>
     /// Sets the Host on this navigation service.
     /// </summary>
-    /// <param name="host"></param>
+    /// <param name="host">Host to be set on this navigation service.</param>
     public void SetHost(IViewModel host)
     {
         _host = host;

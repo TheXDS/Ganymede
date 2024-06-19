@@ -53,7 +53,6 @@ public class WpfNavCustomDialogService : NavigatingDialogService, IDialogService
                 }
             }
         }
-
         return CallNativeItemDialog<T>(title, defaultPath, ConfigureDialog, d => d.FileName);
     }
 

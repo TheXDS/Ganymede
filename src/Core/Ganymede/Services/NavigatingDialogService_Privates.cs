@@ -42,7 +42,7 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
         });
     }
 
-    private T CreateInputDialogVm<T>(string? title, string message, TaskCompletionSource<bool> dialogAwaiter) where T : DialogViewModel, new()
+    private T CreateInputDialogVm<T>(string? title, string message, TaskCompletionSource<bool> dialogAwaiter) where T : IDialogViewModel, new()
     {
         return new()
         {

@@ -1,6 +1,5 @@
 ﻿using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Types.Base;
-using TheXDS.MCART.Types.Base;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -13,7 +12,7 @@ namespace TheXDS.Ganymede.Component;
 /// </typeparam>
 public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewRegistry<T>
 {
-    private readonly Dictionary<Type, Type> _registry = new();
+    private readonly Dictionary<Type, Type> _registry = [];
 
     /// <inheritdoc/>
     public virtual T? Resolve(IViewModel viewModel)

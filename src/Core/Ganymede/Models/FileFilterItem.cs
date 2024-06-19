@@ -1,5 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-using St = TheXDS.Ganymede.Resources.Strings.Common;
+﻿using St = TheXDS.Ganymede.Resources.Strings.Common;
 
 namespace TheXDS.Ganymede.Models;
 

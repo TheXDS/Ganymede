@@ -3,6 +3,7 @@ using System.Windows.Markup;
 using TheXDS.MCART.Types.Extensions;
 using System.Resources;
 using static System.Reflection.BindingFlags;
+
 namespace TheXDS.Ganymede.Markup;
 
 /// <summary>

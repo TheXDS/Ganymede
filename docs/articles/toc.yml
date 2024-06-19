@@ -1,2 +1,7 @@
-- name: Introduction
+- name: "Ganymede's history'"
+  href: history.md
+- name: "Introduction to Ganymede"
   href: intro.md
+- name: Getting started guides
+  href: getting-started/
+  homepage: getting-started/index.md

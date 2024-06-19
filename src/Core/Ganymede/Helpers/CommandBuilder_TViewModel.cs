@@ -8,14 +8,14 @@ namespace TheXDS.Ganymede.Helpers;
 
 /// <summary>
 /// Class that simplifies the creation of several kinds of 
-/// <see cref="ICommand"/> objects to be used inside a <see cref="ViewModel"/>.
+/// <see cref="ICommand"/> objects to be used inside a <see cref="IViewModel"/>.
 /// </summary>
 /// <typeparam name="TViewModel">
-/// Type of <see cref="ViewModel"/> for which to generate
+/// Type of <see cref="IViewModel"/> for which to generate
 /// <see cref="ICommand"/> instances.
 /// </typeparam>
 /// <param name="vm">
-/// <see cref="ViewModel"/> instance to use when defining new
+/// <see cref="IViewModel"/> instance to use when defining new
 /// <see cref="ICommand"/> instances.
 /// </param>
 public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewModel
@@ -278,15 +278,15 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
 
     /// <summary>
     /// Creates a new <see cref="SimpleCommand"/> instance that will navigate
-    /// to the specified <see cref="ViewModel"/> type upon execution.
+    /// to the specified <see cref="IViewModel"/> type upon execution.
     /// </summary>
     /// <typeparam name="T">
-    /// Type of <see cref="ViewModel"/> to navigate to.
+    /// Type of <see cref="IViewModel"/> to navigate to.
     /// </typeparam>
     /// <returns>A new <see cref="SimpleCommand"/> that will navigate to the
-    /// specified <see cref="ViewModel"/>.
+    /// specified <see cref="IViewModel"/>.
     /// </returns>
-    public SimpleCommand BuildNavigate<T>() where T: ViewModel, new()
+    public SimpleCommand BuildNavigate<T>() where T : class, IViewModel, new()
     {
         return new(() => _vm.NavigationService?.Navigate<T>());
     }

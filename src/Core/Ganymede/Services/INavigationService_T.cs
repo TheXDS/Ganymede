@@ -12,7 +12,8 @@ namespace TheXDS.Ganymede.Services;
 public interface INavigationService<TViewModel> : INavigationService where TViewModel : class, IViewModel
 {
     /// <summary>
-    /// Gets a reference to the currently active <see cref="ViewModel"/>.
+    /// Gets a reference to the currently active
+    /// <typeparamref name="TViewModel"/>.
     /// </summary>
     new TViewModel? CurrentViewModel { get; }
 

@@ -22,7 +22,7 @@ public static class CommandBuilder
     /// A new <see cref="CommandBuilder{TViewModel}"/> that can be used to
     /// create commands bound to the specified ViewModel.
     /// </returns>
-    public static CommandBuilder<T> For<T>(T viewModel) where T : ViewModel
+    public static CommandBuilder<T> For<T>(T viewModel) where T : IViewModel
     {
         return new CommandBuilder<T>(viewModel);
     }

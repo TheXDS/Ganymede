@@ -9,7 +9,7 @@ namespace TheXDS.Ganymede.Component.Locators;
 /// </summary>
 public class DictionaryViewLocator : IViewLocator
 {
-    private readonly Dictionary<Type, Type> _registry = new();
+    private readonly Dictionary<Type, Type> _registry = [];
 
     /// <summary>
     /// Registers a ViewModel type with a corresponding View type.
