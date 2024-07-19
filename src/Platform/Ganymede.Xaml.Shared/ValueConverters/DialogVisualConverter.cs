@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TheXDS.Ganymede.Resources.DialogTemplates;
 using TheXDS.Ganymede.Types;
 using TheXDS.MCART.Helpers;
@@ -40,5 +40,4 @@ public sealed partial class DialogVisualConverter
     }
 
     private static partial void ManualRegistrations();
-
 }
