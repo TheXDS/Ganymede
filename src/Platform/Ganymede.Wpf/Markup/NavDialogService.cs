@@ -1,18 +1,7 @@
-﻿using System;
-using System.Windows.Markup;
-using TheXDS.Ganymede.Services;
+﻿using System.Windows.Markup;
 
 namespace TheXDS.Ganymede.Markup;
 
-/// <summary>
-/// Markup extension that allows quick definition of a dialog service of
-/// type <see cref="NavigatingDialogService"/>.
-/// </summary>
-public sealed class NavDialogService : MarkupExtension
+public sealed partial class NavDialogService : MarkupExtension
 {
-    /// <inheritdoc/>
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return new NavigatingDialogService();
-    }
 }

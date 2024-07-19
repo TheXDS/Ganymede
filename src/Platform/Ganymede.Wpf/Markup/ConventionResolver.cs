@@ -13,7 +13,7 @@ namespace TheXDS.Ganymede.Markup;
 public sealed class ConventionResolver : MarkupExtension
 {
     /// <inheritdoc/>
-    public override object? ProvideValue(IServiceProvider serviceProvider)
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return new WpfConventionVisualResolver();
     }

@@ -1,8 +1,9 @@
 ﻿using System.Windows.Controls;
 
 namespace TheXDS.Ganymede.Views.Dialogs;
+
 /// <summary>
-/// Business logic for DialogView.xaml
+/// View that defines the layout for a dialog overlay in Ganymede.
 /// </summary>
 public partial class DialogView : UserControl
 {

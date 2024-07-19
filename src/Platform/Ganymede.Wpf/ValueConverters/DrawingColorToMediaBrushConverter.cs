@@ -8,7 +8,7 @@ using SB = System.Windows.Media.SolidColorBrush;
 namespace TheXDS.Ganymede.ValueConverters;
 
 /// <summary>
-/// Implements a value converter that connverts between <see cref="DC"/> and <see cref="MB"/> objects.
+/// Implements a value converter that converts between <see cref="DC"/> and <see cref="MB"/> objects.
 /// </summary>
 public class DrawingColorToMediaBrushConverter : IValueConverter<DC, MB>
 {

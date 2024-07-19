@@ -1,0 +1,41 @@
+<Styles
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mcart="http://schemas.thexds.local/mcart"
+  xmlns:controls="using:TheXDS.Ganymede.Controls">
+  <Design.PreviewWith>
+    <StackPanel Width="400" Spacing="10">      
+        <StackPanel Background="{DynamicResource SystemRegionBrush}">
+        <TextBlock Text="Templated Control1" />
+          <controls:NavigationHost />
+        <TextBlock Text="Templated Control3" />
+        </StackPanel>
+    </StackPanel>
+  </Design.PreviewWith>
+  <Style Selector="controls|NavigationHost">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Panel.Resources>
+            <mcart:NullToBooleanConverter x:Key="N2Bc"/>
+            <mcart:BooleanInverter x:Key="BoolInv"/>
+          </Panel.Resources>          
+          <controls:BusyContainer
+            IsBusy="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+            IsEnabled="{TemplateBinding OverlayContent, Converter={StaticResource N2Bc}}">
+            <ContentPresenter
+              Margin="{TemplateBinding Padding}"
+              Content="{Binding Content, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+              ContentTemplate="{TemplateBinding ContentTemplate}"
+              DataContext="{Binding Navigator.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+              IsEnabled="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolInv}}"/>
+          </controls:BusyContainer>
+        <ContentPresenter
+            Content="{TemplateBinding OverlayContent}"
+            ContentTemplate="{TemplateBinding OverlayContentTemplate}"
+            DataContext="{Binding DialogService.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

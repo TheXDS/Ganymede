@@ -71,6 +71,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "getting-started", "getting-
 		..\docs\articles\getting-started\toc.yml = ..\docs\articles\getting-started\toc.yml
 	EndProjectSection
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Ganymede.Xaml.Shared", "Platform\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.shproj", "{0E5AB919-7107-4FDA-B8CA-B1D92A8579F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -148,8 +150,14 @@ Global
 		{9B0F524B-2E42-4C95-BEAB-AAE40427E277} = {263E7DD9-7B38-4308-8473-4C9A842663B9}
 		{3FA45C03-5859-4669-B1AC-B9A4792337E5} = {263E7DD9-7B38-4308-8473-4C9A842663B9}
 		{B1B48D81-BE55-446E-A81F-7F540DA5997D} = {3AD0A7C7-0585-48B7-8789-B882F2440368}
+		{0E5AB919-7107-4FDA-B8CA-B1D92A8579F5} = {263E7DD9-7B38-4308-8473-4C9A842663B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C9D4151-06CD-4360-BF3E-A420FD86250F}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Platform\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems*{0e5ab919-7107-4fda-b8ca-b1d92a8579f5}*SharedItemsImports = 13
+		Platform\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems*{3fa45c03-5859-4669-b1ac-b9a4792337e5}*SharedItemsImports = 5
+		Platform\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems*{9b0f524b-2e42-4c95-beab-aae40427e277}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

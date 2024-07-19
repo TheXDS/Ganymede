@@ -25,7 +25,7 @@ public class CustomDialogTemplateBuilder : IDialogTemplateBuilder<IAwaitableDial
     /// class.
     /// </summary>
     /// <returns>
-    /// A new isntance of the <see cref="CustomDialogTemplateBuilder"/> class.
+    /// A new instance of the <see cref="CustomDialogTemplateBuilder"/> class.
     /// </returns>
     public static CustomDialogTemplateBuilder Create() 
     { 
