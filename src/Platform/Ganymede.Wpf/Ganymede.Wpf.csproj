@@ -8,10 +8,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.2" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.2" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.17.2" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.17.2" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.3-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.3-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.17.3-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.17.3-alpha.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -25,5 +25,7 @@
 	<ItemGroup>
 		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 	</ItemGroup>
+
+	<Import Project="..\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems" Label="Shared" />
 
 </Project>

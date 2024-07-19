@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:st="clr-namespace:TheXDS.Ganymede.Resources.Strings;assembly=Ganymede"
     mc:Ignorable="d"
+    x:Name="Root"
     HorizontalAlignment="Center"
     VerticalAlignment="Center">
     <Grid>
@@ -15,7 +16,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock Foreground="Red" FontSize="48">❌</TextBlock>
         <StackPanel Grid.Column="1" Margin="10">
-            <TextBlock Text="{Binding}" FontSize="16"/>
+            <TextBlock Text="{Binding DataContext, ElementName=Root}" FontSize="16"/>
             <Separator/>
             <TextBlock Text="{x:Static st:Common.GanymedeNavErrorFallback}"/>
         </StackPanel>

@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using Avalonia;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
@@ -12,9 +12,9 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 public class CustomDialogTemplateBuilder : IDialogTemplateBuilder<IAwaitableDialogViewModel>
 {
     /// <inheritdoc/>
-    public FrameworkElement? Build(IAwaitableDialogViewModel viewModel)
+    public StyledElement? Build(IAwaitableDialogViewModel viewModel)
     {
-        return new ConventionVisualResolver<FrameworkElement>().Resolve(viewModel);
+        return new ConventionVisualResolver<StyledElement>().Resolve(viewModel);
     }
 
     // Constructor made private to disallow reflection discovery on this type.
@@ -27,8 +27,8 @@ public class CustomDialogTemplateBuilder : IDialogTemplateBuilder<IAwaitableDial
     /// <returns>
     /// A new instance of the <see cref="CustomDialogTemplateBuilder"/> class.
     /// </returns>
-    public static CustomDialogTemplateBuilder Create() 
-    { 
+    public static CustomDialogTemplateBuilder Create()
+    {
         return new CustomDialogTemplateBuilder();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using Avalonia;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Types.Base;
 
@@ -17,7 +17,7 @@ namespace TheXDS.Ganymede.Component;
 /// If you need to register many strictly-mapped types, consider using a <see cref="DictionaryVisualResolver{T}"/> instead.
 /// </remarks>
 /// <seealso cref="DictionaryVisualResolver{T}"/>
-public abstract class TypedVisualResolverBase<TViewModel, TVisual> : IVisualResolver<TVisual> where TViewModel : IViewModel where TVisual : FrameworkElement, new()
+public abstract class TypedVisualResolverBase<TViewModel, TVisual> : IVisualResolver<TVisual> where TViewModel : IViewModel where TVisual : StyledElement, new()
 {
     /// <inheritdoc/>
     public TVisual? Resolve(IViewModel viewModel)

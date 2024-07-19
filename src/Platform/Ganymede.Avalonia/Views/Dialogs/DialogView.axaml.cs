@@ -1,16 +1,14 @@
-using Avalonia.ReactiveUI;
-using TheXDS.Ganymede.ViewModels.Dialogs;
+using Avalonia.Controls;
 
 namespace TheXDS.Ganymede.Views.Dialogs;
 
 /// <summary>
-/// View for the <see cref="MessageDialogViewModel"/>.
+/// View that defines the layout for a dialog overlay in Ganymede.
 /// </summary>
-public partial class DialogView : ReactiveUserControl<DialogViewModelBase>
+public partial class DialogView : UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DialogView"/>
-    /// class.
+    /// Initializes a new instance of the <see cref="DialogView"/> class.
     /// </summary>
     public DialogView()
     {

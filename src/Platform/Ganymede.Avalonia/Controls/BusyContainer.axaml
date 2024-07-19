@@ -1,0 +1,59 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mcart="http://schemas.thexds.local/mcart"
+        xmlns:controls="using:TheXDS.Ganymede.Controls">
+    <Design.PreviewWith>
+        <UniformGrid Columns="2">
+            <controls:BusyContainer>
+                <controls:BusyContainer.Content>
+                    <TextBlock Margin="20" Text="Non-busy content here" />
+                </controls:BusyContainer.Content>
+            </controls:BusyContainer>
+            <controls:BusyContainer IsBusy="True">
+                <controls:BusyContainer.Content>
+                    <TextBlock Margin="20" Text="Non-busy content here" />
+                </controls:BusyContainer.Content>
+            </controls:BusyContainer>
+            <controls:BusyContainer>
+                <controls:BusyContainer.Content>
+                    <TextBlock Margin="20" Text="Non-busy content here" />
+                </controls:BusyContainer.Content>
+                <controls:BusyContainer.BusyContent>
+                    <Ellipse Fill="Red" Width="20" Height="20"/>
+                </controls:BusyContainer.BusyContent>
+            </controls:BusyContainer>
+            <controls:BusyContainer IsBusy="True">
+                <controls:BusyContainer.Content>
+                    <TextBlock Margin="20" Text="Non-busy content here" />
+                </controls:BusyContainer.Content>
+                <controls:BusyContainer.BusyContent>
+                    <Ellipse Fill="Red" Width="20" Height="20"/>
+                </controls:BusyContainer.BusyContent>
+            </controls:BusyContainer>
+        </UniformGrid>
+    </Design.PreviewWith>
+    <Style Selector="controls|BusyContainer">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Panel.Resources>
+                        <mcart:BooleanInverter x:Key="binv"/>
+                    </Panel.Resources>
+                    <ContentControl
+                        IsEnabled="{TemplateBinding IsBusy, Converter={StaticResource binv}}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Effect="{TemplateBinding CurrentBusyEffect}"
+                        Content="{TemplateBinding Content}"/>
+                    <Rectangle Opacity="{TemplateBinding BusyOpacity}" IsVisible="{TemplateBinding IsBusy}" Fill="{TemplateBinding BusyBackground}"/>
+                    <ContentControl
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{TemplateBinding BusyContent}"
+                        IsVisible="{TemplateBinding IsBusy}"/>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

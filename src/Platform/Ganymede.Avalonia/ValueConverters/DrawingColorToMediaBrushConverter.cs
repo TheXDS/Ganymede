@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using TheXDS.MCART.ValueConverters.Base;
 using DC = System.Drawing.Color;
-using MB = System.Windows.Media.Brush;
-using MC = System.Windows.Media.Color;
-using SB = System.Windows.Media.SolidColorBrush;
+using MB = Avalonia.Media.Brush;
+using MC = Avalonia.Media.Color;
+using SB = Avalonia.Media.SolidColorBrush;
 
 namespace TheXDS.Ganymede.ValueConverters;
 

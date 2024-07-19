@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0e5ab919-7107-4fda-b8ca-b1d92a8579f5</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Ganymede.Xaml.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\NavigationHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markup/DialogVc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markup\NavDialogService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markup\NavService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ValueConverters/DialogVisualConverter.cs" />
+  </ItemGroup>
+</Project>

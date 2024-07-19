@@ -7,8 +7,8 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.2" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.2" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.3-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.3-alpha.1" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -23,7 +23,6 @@
 	  <EmbeddedResource Update="Resources\Strings\Common.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Common.Designer.cs</LastGenOutput>
-	    <CustomToolNamespace></CustomToolNamespace>
 	  </EmbeddedResource>
 	</ItemGroup>
 	
