@@ -11,4 +11,9 @@ public interface IAwaitableDialogViewModel : IDialogViewModel
     /// completion of the dialog.
     /// </summary>
     Task DialogAwaiter { get; }
+
+    /// <summary>
+    /// Closes the dialog.
+    /// </summary>
+    void CloseDialog();
 }

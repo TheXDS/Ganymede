@@ -12,8 +12,9 @@ public abstract class AwaitableDialogViewModel : DialogViewModel, IAwaitableDial
     /// <summary>
     /// Closes the dialog.
     /// </summary>
-    protected void CloseDialog()
+    public void CloseDialog()
     {
+        IsBusy = false;
         awaiter.SetResult();
         awaiter = new TaskCompletionSource();
     }

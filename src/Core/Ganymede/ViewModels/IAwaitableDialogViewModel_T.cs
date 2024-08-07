@@ -13,4 +13,14 @@ public interface IAwaitableDialogViewModel<T> : IAwaitableDialogViewModel
     new Task<T> DialogAwaiter { get; }
     
     Task IAwaitableDialogViewModel.DialogAwaiter => DialogAwaiter;
+
+    /// <summary>
+    /// Closes the dialog.
+    /// </summary>
+    /// <param name="result">
+    /// Result of the dialog.
+    /// </param>
+    void CloseDialog(T result);
+
+    void IAwaitableDialogViewModel.CloseDialog() => CloseDialog(default!);
 }

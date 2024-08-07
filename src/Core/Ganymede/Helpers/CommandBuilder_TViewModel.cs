@@ -20,11 +20,15 @@ namespace TheXDS.Ganymede.Helpers;
 /// </param>
 public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewModel
 {
-    private readonly TViewModel _vm = vm;
+    /// <summary>
+    /// Gets a reference to the <see cref="IViewModel"/> for which commands
+    /// will be built.
+    /// </summary>
+    public TViewModel ViewModelReference { get; } = vm;
 
     /// <summary>
     /// Creates a new <see cref="ObservingCommandBuilder{T}"/> that observes
-    /// the <see cref="ViewModel"/> and executes the specified operation.
+    /// the <see cref="IViewModel"/> and executes the specified operation.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
     /// <returns>
@@ -33,12 +37,12 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ObservingCommandBuilder<TViewModel> BuildObserving(Action action)
     {
-        return ObservingCommandBuilder.Create(_vm, action);
+        return ObservingCommandBuilder.Create(ViewModelReference, action);
     }
 
     /// <summary>
     /// Creates a new <see cref="ObservingCommandBuilder{T}"/> that observes
-    /// the <see cref="ViewModel"/> and executes the specified asyncronous
+    /// the <see cref="IViewModel"/> and executes the specified asyncronous
     /// operation.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
@@ -48,12 +52,12 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ObservingCommandBuilder<TViewModel> BuildObserving(Func<Task> action)
     {
-        return ObservingCommandBuilder.Create(_vm, action);
+        return ObservingCommandBuilder.Create(ViewModelReference, action);
     }
 
     /// <summary>
     /// Creates a new <see cref="ObservingCommandBuilder{T}"/> that observes
-    /// the <see cref="ViewModel"/> and executes the specified operation.
+    /// the <see cref="IViewModel"/> and executes the specified operation.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
     /// <returns>
@@ -62,12 +66,12 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ObservingCommandBuilder<TViewModel> BuildObserving(Action<object?> action)
     {
-        return ObservingCommandBuilder.Create(_vm, action);
+        return ObservingCommandBuilder.Create(ViewModelReference, action);
     }
 
     /// <summary>
     /// Creates a new <see cref="ObservingCommandBuilder{T}"/> that observes
-    /// the <see cref="ViewModel"/> and executes the specified asyncronous
+    /// the <see cref="IViewModel"/> and executes the specified asyncronous
     /// operation.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
@@ -77,12 +81,12 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ObservingCommandBuilder<TViewModel> BuildObserving(Func<object?, Task> action)
     {
-        return ObservingCommandBuilder.Create(_vm, action);
+        return ObservingCommandBuilder.Create(ViewModelReference, action);
     }
 
     /// <summary>
     /// Creates a new <see cref="ObservingCommandBuilder{T}"/> that observes
-    /// the <see cref="ViewModel"/> and executes the specified asyncronous
+    /// the <see cref="IViewModel"/> and executes the specified asyncronous
     /// operation with support for progress reporting.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
@@ -92,12 +96,12 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ObservingCommandBuilder<TViewModel> BuildObserving(Func<IProgress<ProgressReport>, Task> action)
     {
-        return ObservingCommandBuilder.Create(_vm, () => RunBusyOp(RunInOperationDialog(action)));
+        return ObservingCommandBuilder.Create(ViewModelReference, () => RunBusyOp(RunInOperationDialog(action)));
     }
 
     /// <summary>
     /// Creates a new <see cref="ObservingCommandBuilder{T}"/> that observes
-    /// the <see cref="ViewModel"/> and executes the specified cancellable
+    /// the <see cref="IViewModel"/> and executes the specified cancellable
     /// asyncronous operation with support for progress reporting.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
@@ -107,12 +111,12 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ObservingCommandBuilder<TViewModel> BuildObserving(Func<CancellationToken, IProgress<ProgressReport>, Task> action)
     {
-        return ObservingCommandBuilder.Create(_vm, () => RunBusyOp(RunInOperationDialog(action)));
+        return ObservingCommandBuilder.Create(ViewModelReference, () => RunBusyOp(RunInOperationDialog(action)));
     }
 
     /// <summary>
     /// Creates a new <see cref="ObservingCommandBuilder{T}"/> that observes
-    /// the <see cref="ViewModel"/> and executes the specified operation with
+    /// the <see cref="IViewModel"/> and executes the specified operation with
     /// support for progress reporting.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
@@ -122,12 +126,12 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ObservingCommandBuilder<TViewModel> BuildObserving(Action<IProgress<ProgressReport>> action)
     {
-        return ObservingCommandBuilder.Create(_vm, () => RunBusyOp(RunInOperationDialog(action)));
+        return ObservingCommandBuilder.Create(ViewModelReference, () => RunBusyOp(RunInOperationDialog(action)));
     }
 
     /// <summary>
     /// Creates a new <see cref="ObservingCommandBuilder{T}"/> that observes
-    /// the <see cref="ViewModel"/> and executes the specified cancellable
+    /// the <see cref="IViewModel"/> and executes the specified cancellable
     /// operation with support for progress reporting.
     /// </summary>
     /// <param name="action">Operation to execute.</param>
@@ -137,7 +141,7 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ObservingCommandBuilder<TViewModel> BuildObserving(Action<CancellationToken, IProgress<ProgressReport>> action)
     {
-        return ObservingCommandBuilder.Create(_vm, () => RunBusyOp(RunInOperationDialog(action)));
+        return ObservingCommandBuilder.Create(ViewModelReference, () => RunBusyOp(RunInOperationDialog(action)));
     }
 
     /// <summary>
@@ -288,39 +292,39 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public SimpleCommand BuildNavigate<T>() where T : class, IViewModel, new()
     {
-        return new(() => _vm.NavigationService?.Navigate<T>());
+        return new(() => ViewModelReference.NavigationService?.Navigate<T>());
     }
 
     private Task RunInOperationDialog(Func<IProgress<ProgressReport>, Task> action, string? title = null)
     {
-        return _vm.DialogService?.RunOperation(title, action) ?? action(new Progress<ProgressReport>());
+        return ViewModelReference.DialogService?.RunOperation(title, action) ?? action(new Progress<ProgressReport>());
     }
 
     private Task RunInOperationDialog(Func<CancellationToken, IProgress<ProgressReport>, Task> action, string? title = null)
     {
-        return _vm.DialogService?.RunOperation(title, action) ?? action(new CancellationToken(), new Progress<ProgressReport>());
+        return ViewModelReference.DialogService?.RunOperation(title, action) ?? action(new CancellationToken(), new Progress<ProgressReport>());
     }
 
     private Task RunInOperationDialog(Action<IProgress<ProgressReport>> action, string? title = null)
     {
-        return _vm.DialogService?.RunOperation(title, action) ?? Task.Run(() => action(new Progress<ProgressReport>()));
+        return ViewModelReference.DialogService?.RunOperation(title, action) ?? Task.Run(() => action(new Progress<ProgressReport>()));
     }
 
     private Task RunInOperationDialog(Action<CancellationToken, IProgress<ProgressReport>> action, string? title = null)
     {
-        return _vm.DialogService?.RunOperation(title, action) ?? Task.Run(() => action(new CancellationToken(), new Progress<ProgressReport>()));
+        return ViewModelReference.DialogService?.RunOperation(title, action) ?? Task.Run(() => action(new CancellationToken(), new Progress<ProgressReport>()));
     }
 
     private async Task RunBusyOp(Task callback)
     {
-        _vm.IsBusy = true;
+        ViewModelReference.IsBusy = true;
         try 
         {
             await callback;
         }
         finally
         {
-            _vm.IsBusy = false;
+            ViewModelReference.IsBusy = false;
         }
     }
 }

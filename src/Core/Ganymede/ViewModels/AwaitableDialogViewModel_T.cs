@@ -16,8 +16,9 @@ public abstract class AwaitableDialogViewModel<T> : DialogViewModel, IAwaitableD
     /// <param name="result">
     /// Result of the dialog.
     /// </param>
-    protected void CloseDialog(T result)
+    public void CloseDialog(T result)
     {
+        IsBusy = false;
         awaiter.SetResult(result);
         awaiter = new TaskCompletionSource<T>();
     }
