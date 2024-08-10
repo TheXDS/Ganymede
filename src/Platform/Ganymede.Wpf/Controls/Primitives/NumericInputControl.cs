@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using TheXDS.MCART.Math;
-using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
+using static TheXDS.MCART.Helpers.DependencyObjectHelpers;
 using Exp = System.Linq.Expressions.Expression;
 
 namespace TheXDS.Ganymede.Controls.Primitives;

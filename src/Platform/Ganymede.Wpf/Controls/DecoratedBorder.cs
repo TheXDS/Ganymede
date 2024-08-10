@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
+using static TheXDS.MCART.Helpers.DependencyObjectHelpers;
 
 namespace TheXDS.Ganymede.Controls;
 

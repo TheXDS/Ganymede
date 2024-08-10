@@ -4,7 +4,7 @@ using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
-using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
+using static TheXDS.MCART.Helpers.DependencyObjectHelpers;
 
 namespace TheXDS.Ganymede.Controls;
 

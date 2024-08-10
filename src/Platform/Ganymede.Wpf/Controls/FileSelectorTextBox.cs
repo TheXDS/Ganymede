@@ -4,8 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Extensions;
-using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
-using Dp = TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
+using static TheXDS.MCART.Helpers.DependencyObjectHelpers;
+using Dp = TheXDS.MCART.Helpers.DependencyObjectHelpers;
 
 namespace TheXDS.Ganymede.Controls;
 

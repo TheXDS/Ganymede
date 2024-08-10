@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using TheXDS.MCART.Types.Extensions;
-using static TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
+using static TheXDS.MCART.Helpers.DependencyObjectHelpers;
 
 namespace TheXDS.Ganymede.Controls;
 

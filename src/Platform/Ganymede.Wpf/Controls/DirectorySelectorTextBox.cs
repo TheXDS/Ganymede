@@ -1,5 +1,5 @@
 ﻿using Microsoft.Win32;
-using Dp = TheXDS.Ganymede.Helpers.DependencyObjectHelpers;
+using Dp = TheXDS.MCART.Helpers.DependencyObjectHelpers;
 
 namespace TheXDS.Ganymede.Controls;
 
