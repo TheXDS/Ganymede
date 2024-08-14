@@ -425,15 +425,31 @@ public partial interface IDialogService
     /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
     /// dialog navigation system.
     /// </summary>
-    /// <typeparam name="TViewModel">
-    /// Type of <see cref="IViewModel"/> to navigate to. It must implement
-    /// <see cref="IAwaitableDialogViewModel"/> to be able to notify of its own
-    /// completion.
-    /// </typeparam>
-    /// <param name="dialogVm">Dialog ViewModel to navigate to.</param>
+    /// <param name="dialogVm">Dialog ViewModel to navigate to. It must
+    /// implement <see cref="IAwaitableDialogViewModel"/> to be able to notify
+    /// of its own completion.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task CustomDialog<TViewModel>(TViewModel dialogVm) where TViewModel : IAwaitableDialogViewModel;
+    Task CustomDialog(IAwaitableDialogViewModel dialogVm);
+
+    /// <summary>
+    /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
+    /// dialog navigation system.
+    /// </summary>
+    /// <param name="dialogVm">Dialog ViewModel to navigate to. It must
+    /// implement <see cref="IAwaitableDialogViewModel{T}"/> to be able to
+    /// notify of its own completion.</param>
+    /// <returns>
+    /// A <see cref="Task{T}"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    /// <remarks>
+    /// Depending on your use case, you may want to implement a custom dialog
+    /// that has a return type of <see cref="InputResult{T}"/> to support
+    /// dialog cancellation.
+    /// </remarks>
+    /// <seealso cref="InputResult{T}"/>
+    Task<TValue> CustomDialog<TValue>(IAwaitableDialogViewModel<TValue> dialogVm);
 }
