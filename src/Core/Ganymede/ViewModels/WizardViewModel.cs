@@ -14,7 +14,7 @@ public abstract class WizardViewModel<T> : AwaitableDialogViewModel<WizardAction
 
     /// <inheritdoc/>
     public virtual T State
-    { 
+    {
         get => _state;
         set => Change(ref _state, value);
     }

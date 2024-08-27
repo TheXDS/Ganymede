@@ -49,7 +49,8 @@ public partial class NavigatingDialogService
     /// <inheritdoc/>
     public Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>
     {
-        return GetInput<InputDialogViewModel<T>, T>(title, message, defaultValue, p => {
+        return GetInput<InputDialogViewModel<T>, T>(title, message, defaultValue, p =>
+        {
             p.Minimum = minimum;
             p.Maximum = maximum;
         });
@@ -135,7 +136,7 @@ public partial class NavigatingDialogService
     public async Task<TValue> CustomDialog<TValue>(IAwaitableDialogViewModel<TValue> dialogVm)
     {
         Navigate(dialogVm);
-        try { return await dialogVm.DialogAwaiter; }        
+        try { return await dialogVm.DialogAwaiter; }
         finally { await NavigateBack(); }
     }
 

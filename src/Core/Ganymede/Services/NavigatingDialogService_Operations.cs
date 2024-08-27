@@ -53,8 +53,8 @@ public partial class NavigatingDialogService
         }
         finally
         {
-            await NavigateBack(); 
-        }        
+            await NavigateBack();
+        }
     }
 
     /// <inheritdoc/>

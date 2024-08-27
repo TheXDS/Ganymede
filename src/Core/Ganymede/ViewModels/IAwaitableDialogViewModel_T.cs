@@ -11,7 +11,7 @@ public interface IAwaitableDialogViewModel<T> : IAwaitableDialogViewModel
     /// completion of the dialog.
     /// </summary>
     new Task<T> DialogAwaiter { get; }
-    
+
     Task IAwaitableDialogViewModel.DialogAwaiter => DialogAwaiter;
 
     /// <summary>

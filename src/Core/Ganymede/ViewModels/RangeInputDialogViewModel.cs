@@ -26,7 +26,7 @@ public class RangeInputDialogViewModel<T> : InputDialogViewModelBase<T>, IInputD
         get => _max;
         set => Change(ref _max, value);
     }
-    
+
     /// <inheritdoc/>
     public (T Min, T Max) Value
     {

@@ -14,7 +14,8 @@ namespace TheXDS.Ganymede.Component;
 /// Type of visual element to be returned.
 /// </typeparam>
 /// <remarks>
-/// If you need to register many strictly-mapped types, consider using a <see cref="DictionaryVisualResolver{T}"/> instead.
+/// If you need to register many strictly-mapped types, consider using a
+/// <see cref="DictionaryVisualResolver{T}"/> instead.
 /// </remarks>
 /// <seealso cref="DictionaryVisualResolver{T}"/>
 public abstract class TypedVisualResolverBase<TViewModel, TVisual> : IVisualResolver<TVisual> where TViewModel : IViewModel where TVisual : FrameworkElement, new()

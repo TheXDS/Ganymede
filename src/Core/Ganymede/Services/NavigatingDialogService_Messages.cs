@@ -13,7 +13,7 @@ public partial class NavigatingDialogService
     /// A <see cref="Task"/> that can be used to await the dialog.
     /// </returns>
     public Task Message(string? title, string message) => SimpleMessage("i", Color.SteelBlue, title, message);
-    
+
     /// <summary>
     /// Displays a warning to the user.
     /// </summary>
@@ -23,7 +23,7 @@ public partial class NavigatingDialogService
     /// A <see cref="Task"/> that can be used to await the dialog.
     /// </returns>
     public Task Warning(string? title, string message) => SimpleMessage("⚠", Color.Orange, title, message);
-    
+
     /// <summary>
     /// Displays an error message to the user.
     /// </summary>

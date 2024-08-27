@@ -69,7 +69,7 @@ public abstract class ViewModel : ViewModelBase, IViewModel, IViewModel_Internal
 
     bool IViewModel.IsBusy
     {
-        get => IsBusy; 
+        get => IsBusy;
         set => IsBusy = value;
     }
 }

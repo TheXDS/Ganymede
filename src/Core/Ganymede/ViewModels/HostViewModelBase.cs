@@ -28,7 +28,7 @@ public abstract class HostViewModelBase(INavigationService? navigationService, I
     /// <see cref="ViewModel.NavigationService"/> instance will be returned.
     /// </value>
     public INavigationService? ChildNavService
-    { 
+    {
         get => childNavService ?? NavigationService;
         set => childNavService = value;
     }

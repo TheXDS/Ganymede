@@ -16,7 +16,7 @@ public static class ButtonInteractionCollectionExtensions
     /// <param name="command">Command to add.</param>
     /// <param name="label">Command label.</param>
     public static void Add(this ICollection<ButtonInteraction> collection, ICommand command, string label)
-    { 
+    {
         collection.Add(new ButtonInteraction(command, label));
     }
 }

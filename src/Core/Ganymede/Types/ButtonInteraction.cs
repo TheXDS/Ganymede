@@ -49,7 +49,7 @@ public class ButtonInteraction(ICommand command, string text) : NotifyPropertyCh
     /// a contrained context)
     /// </summary>
     public bool IsPrimary
-    { 
+    {
         get => _isPrimary;
         set => Change(ref _isPrimary, value);
     }
