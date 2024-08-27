@@ -7,8 +7,8 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.3-alpha.6" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.3-alpha.6" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.3-alpha.7" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.3-alpha.7" />
 	</ItemGroup>
 	
 	<ItemGroup>

@@ -36,7 +36,7 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task<InputResult<int>> SelectOption(string? title, string prompt, params string[] options)
+    public async Task<DialogResult<int>> SelectOption(string? title, string prompt, params string[] options)
     {
         TaskCompletionSource<bool> dialogAwaiter = new();
         var vm = CreateInputDialogVm<SelectionDialogViewModel>(title, prompt, dialogAwaiter);
@@ -47,7 +47,7 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public Task<InputResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>
+    public Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>
     {
         return GetInput<InputDialogViewModel<T>, T>(title, message, defaultValue, p => {
             p.Minimum = minimum;
@@ -56,25 +56,25 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public Task<InputResult<T>> GetInputValue<T>(string? title, string message, T defaultValue = default) where T : struct, IComparable<T>
+    public Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T defaultValue = default) where T : struct, IComparable<T>
     {
         return GetInput<InputDialogViewModel<T>, T>(title, message, defaultValue);
     }
 
     /// <inheritdoc/>
-    public Task<InputResult<string?>> GetInputText(string? title, string message, string? defaultValue = null)
+    public Task<DialogResult<string?>> GetInputText(string? title, string message, string? defaultValue = null)
     {
         return GetInput<InputDialogViewModel, string?>(title, message, defaultValue);
     }
 
     /// <inheritdoc/>
-    public Task<InputResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>
+    public Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>
     {
         return GetInput<RangeInputDialogViewModel<T>, (T, T)>(title, message, (defaultMin, defaultMax));
     }
 
     /// <inheritdoc/>
-    public Task<InputResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T minimum, T maximum, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>
+    public Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T minimum, T maximum, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>
     {
         return GetInput<RangeInputDialogViewModel<T>, (T, T)>(title, message, (defaultMin, defaultMax), p =>
         {
@@ -84,7 +84,7 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task<InputResult<Credential>> GetCredential(string? title, string message, string? defaultUser = null)
+    public async Task<DialogResult<Credential>> GetCredential(string? title, string message, string? defaultUser = null)
     {
         TaskCompletionSource<bool> dialogAwaiter = new();
         var vm = new CredentialInputDialogViewModel()
@@ -106,19 +106,19 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public Task<InputResult<string>> GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    public Task<DialogResult<string>> GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
     {
         return GetInput<FileOpenDialogViewModel, string>(title, message, defaultPath ?? string.Empty, vm => vm.FileFilters = filters);
     }
 
     /// <inheritdoc/>
-    public Task<InputResult<string>> GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    public Task<DialogResult<string>> GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
     {
         return GetInput<FileSaveDialogViewModel, string>(title, message, defaultPath ?? string.Empty, vm => vm.FileFilters = filters);
     }
 
     /// <inheritdoc/>
-    public Task<InputResult<string>> GetDirectoryPath(string? title, string message, string? defaultPath = null)
+    public Task<DialogResult<string>> GetDirectoryPath(string? title, string message, string? defaultPath = null)
     {
         return GetInput<DirectoryDialogViewModel, string>(title, message, defaultPath ?? string.Empty);
     }
@@ -140,7 +140,7 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null)
+    public async Task<DialogResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null)
         where TViewModel : IInputDialogViewModel<TValue>, new()
     {
         TaskCompletionSource<bool> dialogAwaiter = new();

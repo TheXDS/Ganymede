@@ -15,7 +15,7 @@ namespace TheXDS.Ganymede.Services;
 /// </summary>
 public class WpfNavCustomDialogService : NavigatingDialogService, IDialogService
 {
-    private static Task<InputResult<string>> CallNativeItemDialog<T>(string? title, string? defaultPath, Action<T>? dialogSetupCallback, Func<T, string> resultCallback) where T : CommonItemDialog, new()
+    private static Task<DialogResult<string>> CallNativeItemDialog<T>(string? title, string? defaultPath, Action<T>? dialogSetupCallback, Func<T, string> resultCallback) where T : CommonItemDialog, new()
     {
         var dialog = new T()
         {
@@ -23,12 +23,12 @@ public class WpfNavCustomDialogService : NavigatingDialogService, IDialogService
             Title = title,
         };
         dialogSetupCallback?.Invoke(dialog);
-        return Task.FromResult<InputResult<string>>(dialog.ShowDialog() == true
+        return Task.FromResult<DialogResult<string>>(dialog.ShowDialog() == true
             ? new(true, resultCallback(dialog))
             : new(false, string.Empty));
     }
 
-    private static Task<InputResult<string>> CallFileDialog<T>(string? title, IEnumerable<FileFilterItem> filters, string? defaultPath) where T : FileDialog, new()
+    private static Task<DialogResult<string>> CallFileDialog<T>(string? title, IEnumerable<FileFilterItem> filters, string? defaultPath) where T : FileDialog, new()
     {
         void ConfigureDialog(FileDialog dialog)
         {
@@ -56,17 +56,17 @@ public class WpfNavCustomDialogService : NavigatingDialogService, IDialogService
         return CallNativeItemDialog<T>(title, defaultPath, ConfigureDialog, d => d.FileName);
     }
 
-    Task<InputResult<string>> IDialogService.GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath)
+    Task<DialogResult<string>> IDialogService.GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath)
     {
         return CallFileDialog<OpenFileDialog>(title, filters, defaultPath);
     }
 
-    Task<InputResult<string>> IDialogService.GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath)
+    Task<DialogResult<string>> IDialogService.GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath)
     {
         return CallFileDialog<SaveFileDialog>(title, filters, defaultPath);
     }
 
-    Task<InputResult<string>> IDialogService.GetDirectoryPath(string? title, string message, string? defaultPath)
+    Task<DialogResult<string>> IDialogService.GetDirectoryPath(string? title, string message, string? defaultPath)
     {
         return CallNativeItemDialog<OpenFolderDialog>(title, defaultPath, null, d => d.FolderName);
     }

@@ -89,7 +89,7 @@ public partial interface IDialogService
     /// options may contain several items.
     /// </remarks>
     /// <see cref="GetOption(string?, string, string[])"/>
-    async Task<InputResult<int>> SelectOption(string? title, string prompt, params string[] options)
+    async Task<DialogResult<int>> SelectOption(string? title, string prompt, params string[] options)
     {
         var result = await GetOption(title, prompt, options);
         return new(result >= 0, result);
@@ -105,15 +105,15 @@ public partial interface IDialogService
     /// <param name="defaultValue">Default value.</param>
     /// <typeparam name="T">Type of value to get.</typeparam>
     /// <returns>
-    /// A new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the value entered by the
-    /// user, or a new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the default value for
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
+    /// user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the default value for
     /// <typeparamref name="T"/> if the user cancels the input dialog.
     /// </returns>
-    Task<InputResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>;
+    Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>;
     
     /// <summary>
     /// Gets a value from the user.
@@ -123,15 +123,15 @@ public partial interface IDialogService
     /// <param name="defaultValue">Default value.</param>
     /// <typeparam name="T">Type of value to get.</typeparam>
     /// <returns>
-    /// A new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the value entered by the
-    /// user, or a new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the default value for
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
+    /// user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the default value for
     /// <typeparamref name="T"/> if the user cancels the input dialog.
     /// </returns>
-    Task<InputResult<T>> GetInputValue<T>(string? title, string message, T defaultValue = default) where T : struct, IComparable<T>;
+    Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T defaultValue = default) where T : struct, IComparable<T>;
 
     /// <summary>
     /// Gets a string from the user.
@@ -140,15 +140,15 @@ public partial interface IDialogService
     /// <param name="message">Dialog message.</param>
     /// <param name="defaultValue">Default value.</param>
     /// <returns>
-    /// A new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the value entered by the
-    /// user, or a new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="InputResult{T}.Result"/> set to
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
+    /// user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to
     /// <paramref name="defaultValue"/> if the user cancels the input dialog.
     /// </returns>
-    Task<InputResult<string?>> GetInputText(string? title, string message, string? defaultValue = null);
+    Task<DialogResult<string?>> GetInputText(string? title, string message, string? defaultValue = null);
 
     /// <summary>
     /// Gets a range of values from the user.
@@ -163,15 +163,15 @@ public partial interface IDialogService
     /// </param>
     /// <typeparam name="T">Type of value to get.</typeparam>
     /// <returns>
-    /// A new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the range of values entered
-    /// by the user, or a new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="InputResult{T}.Result"/> set to <see langword="null"/> if
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the range of values entered
+    /// by the user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
     /// the user cancels the input dialog.
     /// </returns>
-    Task<InputResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>;
+    Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>;
 
     /// <summary>
     /// Gets a range of values from the user.
@@ -188,15 +188,15 @@ public partial interface IDialogService
     /// </param>
     /// <typeparam name="T">Type of value to get.</typeparam>
     /// <returns>
-    /// A new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the range of values entered
-    /// by the user, or a new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="InputResult{T}.Result"/> set to <see langword="null"/> if
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the range of values entered
+    /// by the user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
     /// the user cancels the input dialog.
     /// </returns>
-    Task<InputResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T minimum, T maximum, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>;
+    Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T minimum, T maximum, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>;
 
     /// <summary>
     /// Gets a credential from the user.
@@ -205,30 +205,30 @@ public partial interface IDialogService
     /// <param name="message">Dialog message.</param>
     /// <param name="defaultUser">Default username to present.</param>
     /// <returns>
-    /// A new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the credential entered by
-    /// the user, or a new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="InputResult{T}.Result"/> set to <see langword="null"/> if
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the credential entered by
+    /// the user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
     /// the user cancels the input dialog.
     /// </returns>
-    Task<InputResult<Credential>> GetCredential(string? title, string message, string? defaultUser = null);
+    Task<DialogResult<Credential>> GetCredential(string? title, string message, string? defaultUser = null);
 
     /// <summary>
     /// Gets a credential from the user.
     /// </summary>
     /// <param name="message">Dialog message.</param>
     /// <returns>
-    /// A new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="InputResult{T}.Result"/> set to the credential entered by
-    /// the user, or a new <see cref="InputResult{T}"/> with
-    /// <see cref="InputResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="InputResult{T}.Result"/> set to <see langword="null"/> if
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the credential entered by
+    /// the user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
     /// the user cancels the input dialog.
     /// </returns>
-    Task<InputResult<Credential>> GetCredential(string message) => GetCredential(null, message);
+    Task<DialogResult<Credential>> GetCredential(string message) => GetCredential(null, message);
 
     /// <summary>
     /// Gets a path to a file.
@@ -238,7 +238,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileOpenPath(string message)
+    Task<DialogResult<string>> GetFileOpenPath(string message)
     {
         return GetFileOpenPath(null, message);
     }
@@ -252,7 +252,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileOpenPath(string? title, string message)
+    Task<DialogResult<string>> GetFileOpenPath(string? title, string message)
     {
         return GetFileOpenPath(title, message, null);
     }
@@ -267,7 +267,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileOpenPath(string? title, string message, string? defaultPath)
+    Task<DialogResult<string>> GetFileOpenPath(string? title, string message, string? defaultPath)
     {
         return GetFileOpenPath(title, message, [FileFilterItem.AllFiles], defaultPath);
     }
@@ -282,7 +282,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileOpenPath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    Task<DialogResult<string>> GetFileOpenPath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
     {
         return GetFileOpenPath(null, message, filters, defaultPath);
     }
@@ -298,7 +298,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
+    Task<DialogResult<string>> GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
 
     /// <summary>
     /// Gets a path to a file.
@@ -308,7 +308,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileSavePath(string message)
+    Task<DialogResult<string>> GetFileSavePath(string message)
     {
         return GetFileSavePath(null, message);
     }
@@ -322,7 +322,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileSavePath(string? title, string message)
+    Task<DialogResult<string>> GetFileSavePath(string? title, string message)
     {
         return GetFileSavePath(title, message, null);
     }
@@ -337,7 +337,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileSavePath(string? title, string message, string? defaultPath)
+    Task<DialogResult<string>> GetFileSavePath(string? title, string message, string? defaultPath)
     {
         return GetFileSavePath(title, message, [FileFilterItem.AllFiles], defaultPath);
     }
@@ -352,7 +352,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileSavePath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
+    Task<DialogResult<string>> GetFileSavePath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
     {
         return GetFileSavePath(null, message, filters, defaultPath);
     }
@@ -368,7 +368,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
+    Task<DialogResult<string>> GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
 
     /// <summary>
     /// Gets a path to a directory.
@@ -378,7 +378,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetDirectoryPath(string message)
+    Task<DialogResult<string>> GetDirectoryPath(string message)
     {
         return GetDirectoryPath(null, message);
     }
@@ -393,7 +393,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<string>> GetDirectoryPath(string? title, string message, string? defaultPath = null);
+    Task<DialogResult<string>> GetDirectoryPath(string? title, string message, string? defaultPath = null);
 
     /// <summary>
     /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
@@ -418,7 +418,7 @@ public partial interface IDialogService
     /// A <see cref="Task"/> that can be used to await for the completion of
     /// the dialog.
     /// </returns>
-    Task<InputResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null)
+    Task<DialogResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null)
         where TViewModel : IInputDialogViewModel<TValue>, new();
 
     /// <summary>
@@ -447,9 +447,9 @@ public partial interface IDialogService
     /// </returns>
     /// <remarks>
     /// Depending on your use case, you may want to implement a custom dialog
-    /// that has a return type of <see cref="InputResult{T}"/> to support
+    /// that has a return type of <see cref="DialogResult{T}"/> to support
     /// dialog cancellation.
     /// </remarks>
-    /// <seealso cref="InputResult{T}"/>
+    /// <seealso cref="DialogResult{T}"/>
     Task<TValue> CustomDialog<TValue>(IAwaitableDialogViewModel<TValue> dialogVm);
 }

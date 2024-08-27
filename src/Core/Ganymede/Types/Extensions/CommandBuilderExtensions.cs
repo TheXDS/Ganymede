@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Helpers;
 
@@ -122,5 +123,34 @@ public static class CommandBuilderExtensions
     public static ICommand BuildResultCommand<TViewModel, TValue>(this CommandBuilder<TViewModel> cb, TValue result) where TViewModel : IAwaitableDialogViewModel<TValue>
     {
         return cb.BuildSimple(() => cb.ViewModelReference.CloseDialog(result));
+    }
+
+    /// <summary>
+    /// Builds a simple command that will set the dialog result to
+    /// the provided value.
+    /// </summary>
+    /// <typeparam name="TViewModel">
+    /// Type of <see cref="IAwaitableDialogViewModel{T}"/> to build the command
+    /// for.
+    /// </typeparam>
+    /// <typeparam name="TResult">
+    /// Type of value to be returned by the dialog.
+    /// </typeparam>
+    /// <param name="cb">
+    /// Command builder to use when creating the command.
+    /// </param>
+    /// <param name="configCallback">
+    /// Callback to invoke when configuring the underlying
+    /// <see cref="TheXDS.MCART.Component.ObservingCommand"/>.
+    /// </param>
+    /// <param name="result">Result to be set for the dialog.</param>
+    /// <returns>
+    /// A new command that will set the dialog result to
+    /// <paramref name="result"/> and close the dialog.
+    /// </returns>
+    public static ICommand BuildResultCommand<TViewModel, TResult>(this CommandBuilder<TViewModel> cb, Func<ObservingCommandBuilder<TViewModel>, ObservingCommandBuilder<TViewModel>> configCallback, Func<TViewModel, TResult> result) where TViewModel : IAwaitableDialogViewModel<DialogResult<TResult>>
+    {
+        var cmd = cb.BuildObserving(() => cb.ViewModelReference.CloseDialog(result.Invoke(cb.ViewModelReference)));
+        return configCallback.Invoke(cmd).Build();
     }
 }

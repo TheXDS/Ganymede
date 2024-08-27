@@ -8,9 +8,7 @@ public partial interface IDialogService
     /// Runs a long-running, non-cancellable operation and displays a dialog
     /// that shows the progress of it.
     /// </summary>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the operation.
     /// </returns>
@@ -21,9 +19,7 @@ public partial interface IDialogService
     /// that shows the progress of it.
     /// </summary>
     /// <param name="title">Title of the dialog.</param>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the operation.
     /// </returns>
@@ -33,9 +29,7 @@ public partial interface IDialogService
     /// Runs a long-running, non-cancellable operation and displays a dialog
     /// that shows the progress of it.
     /// </summary>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the operation.
     /// </returns>
@@ -46,9 +40,7 @@ public partial interface IDialogService
     /// that shows the progress of it.
     /// </summary>
     /// <param name="title">Title of the dialog.</param>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the operation.
     /// </returns>
@@ -58,9 +50,7 @@ public partial interface IDialogService
     /// Runs a long-running, non-cancellable operation and displays a dialog
     /// that shows the progress of it.
     /// </summary>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the operation.
     /// </returns>
@@ -71,9 +61,7 @@ public partial interface IDialogService
     /// that shows the progress of it.
     /// </summary>
     /// <param name="title">Title of the dialog.</param>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await the operation.
     /// </returns>
@@ -83,9 +71,28 @@ public partial interface IDialogService
     /// Runs a long-running operation and displays a dialog that shows the
     /// progress of it.
     /// </summary>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that can be used to await the operation.
+    /// </returns>
+    Task<T> RunOperation<T>(Func<IProgress<ProgressReport>, T> operation) => RunOperation(null, operation);
+
+    /// <summary>
+    /// Runs a long-running operation and displays a dialog that shows the
+    /// progress of it.
+    /// </summary>
+    /// <param name="title">Title of the dialog.</param>
+    /// <param name="operation">Operation to execute.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that can be used to await the operation.
+    /// </returns>
+    Task<T> RunOperation<T>(string? title, Func<IProgress<ProgressReport>, T> operation) => RunOperation(title, (p) => Task.Run(() => operation(p)));
+
+    /// <summary>
+    /// Runs a long-running operation and displays a dialog that shows the
+    /// progress of it.
+    /// </summary>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that can be used to await the operation.
     /// The task will return <see langword="true"/> if the operation ran
@@ -99,9 +106,7 @@ public partial interface IDialogService
     /// progress of it.
     /// </summary>
     /// <param name="title">Title of the dialog.</param>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that can be used to await the operation.
     /// The task will return <see langword="true"/> if the operation ran
@@ -114,9 +119,7 @@ public partial interface IDialogService
     /// Runs a long-running operation and displays a dialog that shows the
     /// progress of it.
     /// </summary>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that can be used to await the operation.
     /// The task will return <see langword="true"/> if the operation ran
@@ -130,9 +133,7 @@ public partial interface IDialogService
     /// progress of it.
     /// </summary>
     /// <param name="title">Title of the dialog.</param>
-    /// <param name="operation">
-    /// Operation to execute.
-    /// </param>
+    /// <param name="operation">Operation to execute.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that can be used to await the operation.
     /// The task will return <see langword="true"/> if the operation ran
@@ -140,4 +141,68 @@ public partial interface IDialogService
     /// user.
     /// </returns>
     Task<bool> RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation);
+
+    /// <summary>
+    /// Runs a long-running operation and displays a dialog that shows the
+    /// progress of it.
+    /// </summary>
+    /// <param name="title">Title of the dialog.</param>
+    /// <param name="operation"> Operation to execute.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that can be used to await the operation.
+    /// The task will return a <see cref="DialogResult{T}"/> where the
+    /// <see cref="DialogResult{T}.Success"/> property will be
+    /// <see langword="true"/> if the operation ran successfully, or
+    /// <see langword="false"/> if it was cancelled by the user. At the same
+    /// time, the <see cref="DialogResult{T}.Result"/> property will be equal
+    /// to either the value produced by the operation or
+    /// <see langword="default"/> for the <typeparamref name="T"/> type
+    /// respectively.
+    /// </returns>
+    Task<DialogResult<T>> RunOperation<T>(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task<T>> operation);
+
+    /// <summary>
+    /// Runs a long-running operation and displays a dialog that shows the
+    /// progress of it.
+    /// </summary>
+    /// <param name="operation"> Operation to execute.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that can be used to await the operation.
+    /// The task will return a <see cref="DialogResult{T}"/> where the
+    /// <see cref="DialogResult{T}.Success"/> property will be
+    /// <see langword="true"/> if the operation ran successfully, or
+    /// <see langword="false"/> if it was cancelled by the user. At the same
+    /// time, the <see cref="DialogResult{T}.Result"/> property will be equal
+    /// to either the value produced by the operation or
+    /// <see langword="default"/> for the <typeparamref name="T"/> type
+    /// respectively.
+    /// </returns>
+    Task<DialogResult<T>> RunOperation<T>(Func<CancellationToken, IProgress<ProgressReport>, Task<T>> operation) => RunOperation(null, operation);
+
+    /// <summary>
+    /// Runs a long-running operation and displays a dialog that shows the
+    /// progress of it.
+    /// </summary>
+    /// <param name="operation">Operation to execute.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that can be used to await the operation.
+    /// The task will return <see langword="true"/> if the operation ran
+    /// successfully, or <see langword="false"/> if it was cancelled by the
+    /// user.
+    /// </returns>
+    Task<DialogResult<T>> RunOperation<T>(Func<CancellationToken, IProgress<ProgressReport>, T> operation) => RunOperation(null, operation);
+
+    /// <summary>
+    /// Runs a long-running operation and displays a dialog that shows the
+    /// progress of it.
+    /// </summary>
+    /// <param name="title">Title of the dialog.</param>
+    /// <param name="operation">Operation to execute.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that can be used to await the operation.
+    /// The task will return <see langword="true"/> if the operation ran
+    /// successfully, or <see langword="false"/> if it was cancelled by the
+    /// user.
+    /// </returns>
+    Task<DialogResult<T>> RunOperation<T>(string? title, Func<CancellationToken, IProgress<ProgressReport>, T> operation) => RunOperation(title, (ct, p) => Task.Run(() => operation(ct, p), ct));
 }

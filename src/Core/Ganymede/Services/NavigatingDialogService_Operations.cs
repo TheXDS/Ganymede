@@ -18,6 +18,7 @@ public partial class NavigatingDialogService
         Navigate(vm);
         var task = operation.Invoke(ct.Token, progress);
         try { await task; }
+        catch (Exception ex) { await ((IDialogService)this).Error(ex); }
         finally { await NavigateBack(); }
         return !(ct.IsCancellationRequested || task.IsFaulted);
     }
@@ -31,6 +32,29 @@ public partial class NavigatingDialogService
         try { return await task; }
         catch (Exception ex) { await ((IDialogService)this).Error(ex); return default!; }
         finally { await NavigateBack(); }
+    }
+
+    /// <inheritdoc/>
+    public async Task<DialogResult<T>> RunOperation<T>(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task<T>> operation)
+    {
+        CancellationTokenSource ct = new();
+        ButtonInteraction cancel = new(ct.Cancel, St.Cancel) { IsPrimary = true };
+        var (vm, progress) = CreateOperationVm(title);
+        vm.Interactions.Add(cancel);
+        Navigate(vm);
+        try
+        {
+            return new(true, await operation.Invoke(ct.Token, progress));
+        }
+        catch (Exception ex)
+        {
+            await ((IDialogService)this).Error(ex);
+            return new(false, default!);
+        }
+        finally
+        {
+            await NavigateBack(); 
+        }        
     }
 
     /// <inheritdoc/>

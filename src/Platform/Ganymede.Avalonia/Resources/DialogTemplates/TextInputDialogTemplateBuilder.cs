@@ -12,12 +12,9 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 public class TextInputDialogTemplateBuilder : IDialogTemplateBuilder<InputDialogViewModel>
 {
     /// <inheritdoc/>
-    public StyledElement Build(InputDialogViewModel viewModel)
+    public StyledElement Build(InputDialogViewModel viewModel) => new TextBox
     {
-        return new TextBox
-        {
-            [!TextBox.MaxLengthProperty] = new Binding(nameof(viewModel.MaxLength)),
-            [!TextBox.TextProperty] = new Binding(nameof(viewModel.Value)),
-        };
-    }
+        [!TextBox.MaxLengthProperty] = new Binding(nameof(viewModel.MaxLength)),
+        [!TextBox.TextProperty] = new Binding(nameof(viewModel.Value)),
+    };
 }
