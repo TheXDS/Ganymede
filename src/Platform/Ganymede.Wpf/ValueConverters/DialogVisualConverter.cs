@@ -3,15 +3,17 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.Controls.Primitives;
 using TheXDS.Ganymede.Resources.DialogTemplates;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.ValueConverters.Base;
 
 namespace TheXDS.Ganymede.ValueConverters;
 
-public sealed partial class DialogVisualConverter : IOneWayValueConverter<DialogViewModel, FrameworkElement?>
+public sealed partial class DialogVisualConverter : IOneWayValueConverter<DialogViewModel, FrameworkElement?>, IVisualResolver<FrameworkElement>
 {
     private static partial void ManualRegistrations()
     {
@@ -54,5 +56,12 @@ public sealed partial class DialogVisualConverter : IOneWayValueConverter<Dialog
     {
         RegisterTemplateBuilder<NumericInputDialogTemplateBuilder<TValue, TControl>>();
         RegisterTemplateBuilder<NumericRangeInputDialogTemplateBuilder<TValue, TControl>> ();
+    }
+
+    FrameworkElement? IVisualResolver<FrameworkElement>.Resolve(IViewModel viewModel)
+    {
+        return viewModel is DialogViewModel vm
+            ? Convert(vm, null, CultureInfo.InvariantCulture)
+            : null;
     }
 }

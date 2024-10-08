@@ -52,7 +52,7 @@ public static class CommandBuilderExtensions
     /// </returns>
     public static ICommand BuildOkCommand<TViewModel>(this CommandBuilder<TViewModel> cb, Action<ObservingCommandBuilder<TViewModel>> configCallback) where TViewModel : IAwaitableDialogViewModel<bool>
     {
-        var cmd = cb.BuildObserving(() => cb.ViewModelReference.CloseDialog(true));
+        var cmd = cb.BuildObserving(() => cb.ViewModelReference.Close(true));
         configCallback.Invoke(cmd);
         return cmd.Build();
     }
@@ -77,7 +77,7 @@ public static class CommandBuilderExtensions
     /// </returns>
     public static ICommand BuildOkCommand<TViewModel>(this CommandBuilder<TViewModel> cb, Func<ObservingCommandBuilder<TViewModel>, ObservingCommandBuilder<TViewModel>> configCallback) where TViewModel : IAwaitableDialogViewModel<bool>
     {
-        var cmd = cb.BuildObserving(() => cb.ViewModelReference.CloseDialog(true));
+        var cmd = cb.BuildObserving(() => cb.ViewModelReference.Close(true));
         return configCallback.Invoke(cmd).Build();
     }
 
@@ -122,7 +122,7 @@ public static class CommandBuilderExtensions
     /// </returns>
     public static ICommand BuildResultCommand<TViewModel, TValue>(this CommandBuilder<TViewModel> cb, TValue result) where TViewModel : IAwaitableDialogViewModel<TValue>
     {
-        return cb.BuildSimple(() => cb.ViewModelReference.CloseDialog(result));
+        return cb.BuildSimple(() => cb.ViewModelReference.Close(result));
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ public static class CommandBuilderExtensions
     /// </returns>
     public static ICommand BuildResultCommand<TViewModel, TResult>(this CommandBuilder<TViewModel> cb, Func<ObservingCommandBuilder<TViewModel>, ObservingCommandBuilder<TViewModel>> configCallback, Func<TViewModel, TResult> result) where TViewModel : IAwaitableDialogViewModel<DialogResult<TResult>>
     {
-        var cmd = cb.BuildObserving(() => cb.ViewModelReference.CloseDialog(result.Invoke(cb.ViewModelReference)));
+        var cmd = cb.BuildObserving(() => cb.ViewModelReference.Close(result.Invoke(cb.ViewModelReference)));
         return configCallback.Invoke(cmd).Build();
     }
 }

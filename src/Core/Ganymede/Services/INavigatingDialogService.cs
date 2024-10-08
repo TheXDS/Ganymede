@@ -1,3 +1,6 @@
+using TheXDS.Ganymede.Models;
+using TheXDS.Ganymede.ViewModels;
+
 namespace TheXDS.Ganymede.Services;
 
 /// <summary>
@@ -5,4 +8,6 @@ namespace TheXDS.Ganymede.Services;
 /// implementation of <see cref="IDialogService"/> by using navigation
 /// implementing <see cref="INavigationService"/> as well.
 /// </summary>
-public interface INavigatingDialogService : INavigationService, IDialogService { }
+public interface INavigatingDialogService : INavigationService, IDialogService
+{
+}

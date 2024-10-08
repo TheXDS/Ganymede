@@ -1,9 +1,12 @@
-﻿namespace TheXDS.Ganymede.ViewModels;
+﻿using TheXDS.MCART.Types.Base;
+
+namespace TheXDS.Ganymede.ViewModels;
 
 /// <summary>
-/// Base class for all dialogs that implement their own await logic.
+/// Defines a <see cref="IDialogViewModel"/> for all dialogs that implement 
+/// their own await logic.
 /// </summary>
-public abstract class AwaitableDialogViewModel : DialogViewModel, IAwaitableDialogViewModel
+public class AwaitableDialogViewModel : DialogViewModel, IAwaitableDialogViewModel
 {
     private TaskCompletionSource awaiter = new();
 
@@ -12,7 +15,7 @@ public abstract class AwaitableDialogViewModel : DialogViewModel, IAwaitableDial
     /// <summary>
     /// Closes the dialog.
     /// </summary>
-    public void CloseDialog()
+    public void Close()
     {
         IsBusy = false;
         awaiter.SetResult();

@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\NavigationHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Markup/DialogVc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)markup\CustomDialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Markup\NavDialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Markup\NavService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters/DialogVisualConverter.cs" />

@@ -22,13 +22,13 @@ public class DateTimeRangeInputDialogTemplateBuilder : IDialogTemplateBuilder<Ra
                 {
                     [!CalendarDatePicker.DisplayDateStartProperty] = new Binding(nameof(viewModel.Minimum)),
                     [!CalendarDatePicker.DisplayDateEndProperty] = new Binding(nameof(viewModel.Maximum)),
-                    [!CalendarDatePicker.SelectedDateProperty] = new Binding(nameof(viewModel.MinimumValue)),
+                    [!CalendarDatePicker.SelectedDateProperty] = new Binding(nameof(viewModel.RangeStart)),
                 },
                 new CalendarDatePicker
                 {
                     [!CalendarDatePicker.DisplayDateStartProperty] = new Binding(nameof(viewModel.Minimum)),
                     [!CalendarDatePicker.DisplayDateEndProperty] = new Binding(nameof(viewModel.Maximum)),
-                    [!CalendarDatePicker.SelectedDateProperty] = new Binding(nameof(viewModel.MaximumValue)),
+                    [!CalendarDatePicker.SelectedDateProperty] = new Binding(nameof(viewModel.RangeEnd)),
                 },
             }
         };

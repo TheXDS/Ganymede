@@ -1,13 +1,15 @@
 ﻿using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
+using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Resources.DialogTemplates;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.ValueConverters.Base;
 
 namespace TheXDS.Ganymede.ValueConverters;
 
-public sealed partial class DialogVisualConverter : IOneWayValueConverter<DialogViewModel, StyledElement?>
+public sealed partial class DialogVisualConverter : IOneWayValueConverter<DialogViewModel, StyledElement?>, IVisualResolver<StyledElement>
 {
     private static partial void ManualRegistrations()
     {
@@ -50,5 +52,12 @@ public sealed partial class DialogVisualConverter : IOneWayValueConverter<Dialog
     {
         RegisterTemplateBuilder<NumericInputDialogTemplateBuilder<TValue>>();
         RegisterTemplateBuilder<NumericRangeInputDialogTemplateBuilder<TValue>> ();
+    }
+
+    StyledElement? IVisualResolver<StyledElement>.Resolve(IViewModel viewModel)
+    {
+        return viewModel is DialogViewModel vm
+            ? Convert(vm, null, CultureInfo.InvariantCulture)
+            : null;
     }
 }

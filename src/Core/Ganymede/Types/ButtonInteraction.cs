@@ -46,7 +46,7 @@ public class ButtonInteraction(ICommand command, string text) : NotifyPropertyCh
     /// <summary>
     /// Gets or sets a value that indicates if this interaction should be
     /// treated as a primary interaction (useful for dialogs and UI elements in
-    /// a contrained context)
+    /// a constrained context)
     /// </summary>
     public bool IsPrimary
     {

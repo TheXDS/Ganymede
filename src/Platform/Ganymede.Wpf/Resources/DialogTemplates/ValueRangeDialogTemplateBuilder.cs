@@ -26,8 +26,8 @@ public abstract class ValueRangeDialogTemplateBuilder<TValue, TControl>
         {
             Children =
             {
-                NewControl(GetValueProperty(), nameof(viewModel.MinimumValue)),
-                NewControl(GetValueProperty(), nameof(viewModel.MaximumValue), c => c.Margin = new Thickness(0, 10, 0, 0))
+                NewControl(GetValueProperty(), nameof(viewModel.RangeStart)),
+                NewControl(GetValueProperty(), nameof(viewModel.RangeEnd), c => c.Margin = new Thickness(0, 10, 0, 0))
             }
         };
     }

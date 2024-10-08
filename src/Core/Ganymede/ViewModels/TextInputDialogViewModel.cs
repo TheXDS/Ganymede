@@ -1,22 +1,14 @@
-﻿namespace TheXDS.Ganymede.ViewModels;
+﻿using TheXDS.Ganymede.Models;
+
+namespace TheXDS.Ganymede.ViewModels;
 
 /// <summary>
 /// Implements a <see cref="DialogViewModel"/> for dialogs that lets a user
 /// input text data.
 /// </summary>
-public class InputDialogViewModel : DialogViewModel, IInputDialogViewModel<string?>
+public class TextInputDialogViewModel : OkCancelValueDialogViewModel<string?>
 {
-    private string? _value;
     private int? _maxLength;
-
-    /// <summary>
-    /// Gets or sets the actual value associated with this instance.
-    /// </summary>
-    public string? Value
-    {
-        get => _value;
-        set => Change(ref _value, value);
-    }
 
     /// <summary>
     /// Gets or sets the maximum alloed length of text to be entered in the

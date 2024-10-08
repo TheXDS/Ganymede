@@ -66,6 +66,6 @@ public abstract class WizardViewModel<T> : AwaitableDialogViewModel<WizardAction
     /// <param name="label">Label to be displayed on the interaction.</param>
     protected void AddWizardInteraction(WizardAction action, string label)
     {
-        Interactions.Add(new(() => CloseDialog(action), label));
+        Interactions.Add(new(() => Close(action), label));
     }
 }

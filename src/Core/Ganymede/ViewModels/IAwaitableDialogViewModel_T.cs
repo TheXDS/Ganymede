@@ -1,4 +1,6 @@
-﻿namespace TheXDS.Ganymede.ViewModels;
+﻿using TheXDS.MCART.Types.Base;
+
+namespace TheXDS.Ganymede.ViewModels;
 
 /// <summary>
 /// Defines a set of members to be implemented by a type that includes an
@@ -20,7 +22,7 @@ public interface IAwaitableDialogViewModel<T> : IAwaitableDialogViewModel
     /// <param name="result">
     /// Result of the dialog.
     /// </param>
-    void CloseDialog(T result);
+    void Close(T result);
 
-    void IAwaitableDialogViewModel.CloseDialog() => CloseDialog(default!);
+    void ICloseable.Close() => Close(default!);
 }

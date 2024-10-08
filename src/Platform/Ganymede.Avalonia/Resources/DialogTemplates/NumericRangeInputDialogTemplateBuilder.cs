@@ -24,13 +24,13 @@ public class NumericRangeInputDialogTemplateBuilder<T> : IDialogTemplateBuilder<
                 {
                     [!NumericUpDown.MinimumProperty] = new Binding(nameof(viewModel.Minimum)),
                     [!NumericUpDown.MaximumProperty] = new Binding(nameof(viewModel.Maximum)),
-                    [!NumericUpDown.ValueProperty] = new Binding(nameof(viewModel.MinimumValue)),
+                    [!NumericUpDown.ValueProperty] = new Binding(nameof(viewModel.RangeStart)),
                 },
                 new NumericUpDown
                 {
                     [!NumericUpDown.MinimumProperty] = new Binding(nameof(viewModel.Minimum)),
                     [!NumericUpDown.MaximumProperty] = new Binding(nameof(viewModel.Maximum)),
-                    [!NumericUpDown.ValueProperty] = new Binding(nameof(viewModel.MaximumValue)),
+                    [!NumericUpDown.ValueProperty] = new Binding(nameof(viewModel.RangeEnd)),
                 }
             }
         };

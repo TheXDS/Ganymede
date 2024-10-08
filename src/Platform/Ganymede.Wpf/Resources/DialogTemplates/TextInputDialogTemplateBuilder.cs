@@ -9,10 +9,10 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// <summary>
 /// Implements a dialog template builder that can generate text input controls.
 /// </summary>
-public class TextInputDialogTemplateBuilder : IDialogTemplateBuilder<InputDialogViewModel>
+public class TextInputDialogTemplateBuilder : IDialogTemplateBuilder<TextInputDialogViewModel>
 {
     /// <inheritdoc/>
-    public FrameworkElement Build(InputDialogViewModel viewModel)
+    public FrameworkElement Build(TextInputDialogViewModel viewModel)
     {
         var control = new TextBox();
         control.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });

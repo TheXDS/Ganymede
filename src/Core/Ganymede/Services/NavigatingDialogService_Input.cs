@@ -1,155 +1,107 @@
-﻿using System.Drawing;
-using TheXDS.Ganymede.Models;
-using TheXDS.Ganymede.Resources.Strings;
+﻿using TheXDS.Ganymede.Models;
+using TheXDS.Ganymede.Resources;
+using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Extensions;
+using St = TheXDS.Ganymede.Resources.Strings.Common;
 
 namespace TheXDS.Ganymede.Services;
 
-public partial class NavigatingDialogService
+public partial class NavigatingDialogService : NavigationService<IDialogViewModel>, INavigatingDialogService
 {
     /// <inheritdoc/>
-    public Task<bool> Ask(string? title, string question)
+    public Task<TResult> Show<TResult>(DialogTemplate template, NamedObject<TResult>[] values)
     {
-        return GetButtonValue("?", Color.DarkGreen, title, question, (Common.Yes, true), (Common.No, false));
+        return Show<AwaitableDialogViewModel<TResult>, TResult>(template, values);
     }
 
     /// <inheritdoc/>
-    public Task<bool?> AskYnc(string? title, string question)
+    public Task<TResult> Show<TViewModel, TResult>(DialogTemplate template, NamedObject<TResult>[] values) where TViewModel : IAwaitableDialogViewModel<TResult>, new()
     {
-        return GetButtonValue("?", Color.DarkGreen, title, question, (Common.Yes, true), (Common.No, false), (Common.Cancel, (bool?)null));
+        NamedObject<Func<TViewModel, TResult>> GetResult(NamedObject<TResult> p) => new(_ => p.Value, p.Name);
+        return Show(template, values.Select(GetResult).ToArray());
     }
 
     /// <inheritdoc/>
-    public Task<int> GetOption(string? title, string prompt, params string[] options)
+    public Task<TResult> Show<TViewModel, TResult>(DialogTemplate template, NamedObject<Func<TViewModel, TResult>>[] values) where TViewModel : IAwaitableDialogViewModel<TResult>, new()
     {
-        static IEnumerable<(string, int)> GetOptions(string[] o)
-        {
-            var c = 0;
-            foreach (var p in o)
-            {
-                yield return (p, c);
-                c++;
-            }
-        }
-        return GetButtonValue("?", Color.DarkGreen, title, prompt, GetOptions(options).ToArray());
+        var vm = template.Configure(new TViewModel());
+        vm.Interactions.AddRange(values.Select(i => new ButtonInteraction(() => vm.Close(i.Value.Invoke(vm)), i.Name)));
+        return Show(vm);
     }
 
     /// <inheritdoc/>
-    public async Task<DialogResult<int>> SelectOption(string? title, string prompt, params string[] options)
-    {
-        TaskCompletionSource<bool> dialogAwaiter = new();
-        var vm = CreateInputDialogVm<SelectionDialogViewModel>(title, prompt, dialogAwaiter);
-        vm.Options = options;
-        Navigate(vm);
-        var result = await dialogAwaiter.Task;
-        return new(result, result ? options.FindIndexOf(vm.Value) : -1);
-    }
-
-    /// <inheritdoc/>
-    public Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>
-    {
-        return GetInput<InputDialogViewModel<T>, T>(title, message, defaultValue, p =>
-        {
-            p.Minimum = minimum;
-            p.Maximum = maximum;
-        });
-    }
-
-    /// <inheritdoc/>
-    public Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T defaultValue = default) where T : struct, IComparable<T>
-    {
-        return GetInput<InputDialogViewModel<T>, T>(title, message, defaultValue);
-    }
-
-    /// <inheritdoc/>
-    public Task<DialogResult<string?>> GetInputText(string? title, string message, string? defaultValue = null)
-    {
-        return GetInput<InputDialogViewModel, string?>(title, message, defaultValue);
-    }
-
-    /// <inheritdoc/>
-    public Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>
-    {
-        return GetInput<RangeInputDialogViewModel<T>, (T, T)>(title, message, (defaultMin, defaultMax));
-    }
-
-    /// <inheritdoc/>
-    public Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T minimum, T maximum, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>
-    {
-        return GetInput<RangeInputDialogViewModel<T>, (T, T)>(title, message, (defaultMin, defaultMax), p =>
-        {
-            p.Minimum = minimum;
-            p.Maximum = maximum;
-        });
-    }
-
-    /// <inheritdoc/>
-    public async Task<DialogResult<Credential>> GetCredential(string? title, string message, string? defaultUser = null)
-    {
-        TaskCompletionSource<bool> dialogAwaiter = new();
-        var vm = new CredentialInputDialogViewModel()
-        {
-            Title = title,
-            Message = message,
-            Icon = "👤",
-            IconBgColor = Color.MediumAquamarine,
-            Interactions =
-            {
-                new(CloseDialogCommand(dialogAwaiter, true), Common.Ok) { IsPrimary = true },
-                new(CloseDialogCommand(dialogAwaiter, false), Common.Cancel)
-            },
-            User = defaultUser ?? string.Empty
-        };
-        Navigate(vm);
-        var result = await dialogAwaiter.Task;
-        return new(result, result ? new Credential(vm.User, vm.Password) : null!);
-    }
-
-    /// <inheritdoc/>
-    public Task<DialogResult<string>> GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
-    {
-        return GetInput<FileOpenDialogViewModel, string>(title, message, defaultPath ?? string.Empty, vm => vm.FileFilters = filters);
-    }
-
-    /// <inheritdoc/>
-    public Task<DialogResult<string>> GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
-    {
-        return GetInput<FileSaveDialogViewModel, string>(title, message, defaultPath ?? string.Empty, vm => vm.FileFilters = filters);
-    }
-
-    /// <inheritdoc/>
-    public Task<DialogResult<string>> GetDirectoryPath(string? title, string message, string? defaultPath = null)
-    {
-        return GetInput<DirectoryDialogViewModel, string>(title, message, defaultPath ?? string.Empty);
-    }
-
-    /// <inheritdoc/>
-    public async Task CustomDialog(IAwaitableDialogViewModel dialogVm)
-    {
-        Navigate(dialogVm);
-        try { await dialogVm.DialogAwaiter; }
-        finally { await NavigateBack(); }
-    }
-
-    /// <inheritdoc/>
-    public async Task<TValue> CustomDialog<TValue>(IAwaitableDialogViewModel<TValue> dialogVm)
+    public async Task<TResult> Show<TResult>(IAwaitableDialogViewModel<TResult> dialogVm)
     {
         Navigate(dialogVm);
         try { return await dialogVm.DialogAwaiter; }
         finally { await NavigateBack(); }
     }
 
-    /// <inheritdoc/>
-    public async Task<DialogResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null)
-        where TViewModel : IInputDialogViewModel<TValue>, new()
+    Task<bool> IDialogService.AskYn(string? title, string question)
     {
-        TaskCompletionSource<bool> dialogAwaiter = new();
-        var vm = CreateInputDialogVm<TViewModel>(title, message, dialogAwaiter);
-        vm.Value = defaultValue;
-        initCallback?.Invoke(vm);
-        Navigate(vm);
-        var result = await dialogAwaiter.Task;
-        return new(result, result ? vm.Value : defaultValue);
+        return Show<bool>(CommonDialogTemplates.Question with { Title = title, Text = question }, [(St.Yes, true), (St.No, false)]);
+    }
+
+    Task<bool> IDialogService.AskYn(string question)
+    {
+        return Show<bool>(CommonDialogTemplates.Question with { Text = question }, [(St.Yes, true), (St.No, false)]);
+    }
+
+    Task<bool?> IDialogService.AskYnc(string? title, string question)
+    {
+        return Show<bool?>(CommonDialogTemplates.Question with { Title = title, Text = question }, [(St.Yes, true), (St.No, false), (St.Cancel, null)]);
+    }
+
+    Task<bool?> IDialogService.AskYnc(string question)
+    {
+        return Show<bool?>(CommonDialogTemplates.Question with { Text = question }, [(St.Yes, true), (St.No, false), (St.Cancel, null)]);
+    }
+
+    Task<DialogResult<T>> IDialogService.SelectOption<T>(DialogTemplate template, NamedObject<T>[] options)
+    {
+        return Show(template.Configure(new SelectionDialogViewModel<T>() { Options = options }));
+    }
+
+    Task<DialogResult<string?>> IDialogService.GetInputText(DialogTemplate template, string? defaultValue)
+    {
+        return Show(template.Configure(new TextInputDialogViewModel() { Value = defaultValue }));
+    }
+
+    Task<DialogResult<Credential?>> IDialogService.GetCredential(DialogTemplate template, string? defaultUser, bool isUserEditable)
+    {
+        return Show(template.Configure(new CredentialInputDialogViewModel() { User = defaultUser ?? string.Empty, IsUserEditable = isUserEditable }));
+    }
+
+    Task<DialogResult<string?>> IDialogService.GetFileOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath)
+    {
+        return Show(template.Configure(new FileOpenDialogViewModel() { FileFilters = filters, Value = defaultPath }));
+    }
+
+    Task<DialogResult<string?>> IDialogService.GetFileSavePath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath)
+    {
+        return Show(template.Configure(new FileSaveDialogViewModel() { FileFilters = filters, Value = defaultPath }));
+    }
+
+    Task<DialogResult<string?>> IDialogService.GetDirectoryPath(DialogTemplate template, string? defaultPath)
+    {
+        return Show(template.Configure(new DirectoryDialogViewModel() { Value = defaultPath }));
+    }
+
+    Task<DialogResult<T>> IDialogService.GetInputValue<T>(DialogTemplate template, T? minimum, T? maximum, T defaultValue)
+    {
+        return Show(template.Configure(new InputDialogViewModel<T>() { Minimum = minimum, Maximum = maximum, Value = defaultValue }));
+    }
+
+    Task<DialogResult<(T Min, T Max)>> IDialogService.GetInputRange<T>(DialogTemplate template, T? minimum, T? maximum, T defaultRangeStart, T defaultRangeEnd)
+    {
+        return Show(template.Configure(new RangeInputDialogViewModel<T>()
+        { 
+            Minimum = minimum,
+            Maximum = maximum,
+            RangeStart = defaultRangeStart,
+            RangeEnd = defaultRangeEnd
+        }));
     }
 }

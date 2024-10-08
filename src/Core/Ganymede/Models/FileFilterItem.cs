@@ -40,7 +40,7 @@ public record struct FileFilterItem(string Name, string[] Extensions)
     /// <param name="extension">
     /// File extensions that the specified file should have.
     /// </param>
-    public FileFilterItem(string name, string extension) : this(name, new[] { extension })
+    public FileFilterItem(string name, string extension) : this(name, [extension])
     {
     }
 }

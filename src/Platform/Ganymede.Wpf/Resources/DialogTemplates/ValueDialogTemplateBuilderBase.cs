@@ -15,7 +15,7 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// <typeparam name="TControl"></typeparam>
 public abstract class ValueDialogTemplateBuilderBase<TViewModel, TValue, TControl>
     : IDialogTemplateBuilder<TViewModel>
-    where TViewModel : InputDialogViewModelBase<TValue>
+    where TViewModel : IInputDialogViewModel<TValue>
     where TValue : struct, IComparable<TValue>
     where TControl : Control, new()
 {
@@ -91,8 +91,8 @@ public abstract class ValueDialogTemplateBuilderBase<TViewModel, TValue, TContro
         ConfigureControl(control);
         ConfigureValueBinding(binding);
         control.SetBinding(valueProperty, binding);
-        control.SetBinding(GetMinProperty(), new Binding(nameof(InputDialogViewModelBase<TValue>.Minimum)));
-        control.SetBinding(GetMaxProperty(), new Binding(nameof(InputDialogViewModelBase<TValue>.Maximum)));
+        control.SetBinding(GetMinProperty(), new Binding(nameof(IInputDialogViewModel<TValue>.Minimum)));
+        control.SetBinding(GetMaxProperty(), new Binding(nameof(IInputDialogViewModel<TValue>.Maximum)));
         return control;
     }
 }

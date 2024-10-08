@@ -1,5 +1,6 @@
 ﻿using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Types;
 
 namespace TheXDS.Ganymede.Services;
 
@@ -13,7 +14,7 @@ public partial interface IDialogService
     /// <see langword="true"/> if the user answers "Yes",
     /// <see langword="false"/> otherwise.
     /// </returns>
-    Task<bool> Ask(string question) => Ask(null, question);
+    Task<bool> AskYn(string question);
 
     /// <summary>
     /// Asks the user a question with a Yes/No answer.
@@ -24,7 +25,7 @@ public partial interface IDialogService
     /// <see langword="true"/> if the user answers "Yes",
     /// <see langword="false"/> otherwise.
     /// </returns>
-    Task<bool> Ask(string? title, string question);
+    Task<bool> AskYn(string? title, string question);
 
     /// <summary>
     /// Asks the user a question with a Yes/No/Cancel answer.
@@ -35,7 +36,7 @@ public partial interface IDialogService
     /// <see langword="false"/> if the user answers "No", or
     /// <see langword="null"/> if the user does not answer the question.
     /// </returns>
-    Task<bool?> AskYnc(string question) => AskYnc(null, question);
+    Task<bool?> AskYnc(string question);
 
     /// <summary>
     /// Asks the user a question with a Yes/No/Cancel answer.
@@ -50,392 +51,73 @@ public partial interface IDialogService
     Task<bool?> AskYnc(string? title, string question);
 
     /// <summary>
-    /// Gets the index of a selected option by the user.
-    /// </summary>
-    /// <param name="title">Title of the question.</param>
-    /// <param name="prompt">Prompt to ask.</param>
-    /// <param name="options">
-    /// Collection of available options to choose from.
-    /// </param>
-    /// <returns>
-    /// The index of the selected option in the <paramref name="options"/>
-    /// array.
-    /// </returns>
-    /// <remarks>
-    /// This method works well when the pool of available options is small. If
-    /// the pool of available options contains several items, consider using
-    /// <see cref="SelectOption(string?, string, string[])"/> instead.
-    /// </remarks>
-    /// <seealso cref="SelectOption(string?, string, string[])"/>
-    Task<int> GetOption(string? title, string prompt, params string[] options);
-
-    /// <summary>
     /// Alternate value selection method that allows the user to select a value
     /// from a larger pool of items.
     /// </summary>
-    /// <param name="title">Title of the question.</param>
-    /// <param name="prompt">Prompt to ask.</param>
+    /// <param name="template">
+    /// Template that describes the visual properties of the dialog.
+    /// </param>
     /// <param name="options">
     /// Collection of available options to choose from.
     /// </param>
     /// <returns>
-    /// The index of the selected option in the <paramref name="options"/>
-    /// array.
+    /// The selected option value in the <paramref name="options"/> array.
     /// </returns>
-    /// <remarks>
-    /// The UI for this dialog should be
-    /// different, and modeled under the asumption that the list of available
-    /// options may contain several items.
-    /// </remarks>
-    /// <see cref="GetOption(string?, string, string[])"/>
-    async Task<DialogResult<int>> SelectOption(string? title, string prompt, params string[] options)
-    {
-        var result = await GetOption(title, prompt, options);
-        return new(result >= 0, result);
-    }
+    Task<DialogResult<T>> SelectOption<T>(DialogTemplate template, params NamedObject<T>[] options);
 
     /// <summary>
-    /// Gets a value from the user.
+    /// Displays a simple message dialog from a pre-configured visual template.
     /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="minimum">Minimum allowed value.</param>
-    /// <param name="maximum">Maximum allowed value.</param>
-    /// <param name="defaultValue">Default value.</param>
-    /// <typeparam name="T">Type of value to get.</typeparam>
-    /// <returns>
-    /// A new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
-    /// user, or a new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the default value for
-    /// <typeparamref name="T"/> if the user cancels the input dialog.
-    /// </returns>
-    Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T minimum, T maximum, T defaultValue = default) where T : struct, IComparable<T>;
-    
-    /// <summary>
-    /// Gets a value from the user.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="defaultValue">Default value.</param>
-    /// <typeparam name="T">Type of value to get.</typeparam>
-    /// <returns>
-    /// A new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
-    /// user, or a new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the default value for
-    /// <typeparamref name="T"/> if the user cancels the input dialog.
-    /// </returns>
-    Task<DialogResult<T>> GetInputValue<T>(string? title, string message, T defaultValue = default) where T : struct, IComparable<T>;
-
-    /// <summary>
-    /// Gets a string from the user.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="defaultValue">Default value.</param>
-    /// <returns>
-    /// A new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
-    /// user, or a new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to
-    /// <paramref name="defaultValue"/> if the user cancels the input dialog.
-    /// </returns>
-    Task<DialogResult<string?>> GetInputText(string? title, string message, string? defaultValue = null);
-
-    /// <summary>
-    /// Gets a range of values from the user.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="defaultMin">
-    /// Default value for the lower bound of the range.
+    /// <param name="template">
+    /// Template that describes the visual properties of the dialog.
     /// </param>
-    /// <param name="defaultMax">
-    /// Default value for the upper bound of the range.
+    /// <param name="values">
+    /// Array of values that can be selected on the dialog.
     /// </param>
-    /// <typeparam name="T">Type of value to get.</typeparam>
     /// <returns>
-    /// A new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the range of values entered
-    /// by the user, or a new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
-    /// the user cancels the input dialog.
+    /// A task that can be used to await the completion of the dialog.
     /// </returns>
-    Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>;
+    Task<TResult> Show<TResult>(DialogTemplate template, NamedObject<TResult>[] values);
 
     /// <summary>
-    /// Gets a range of values from the user.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="minimum">Minimum allowed value.</param>
-    /// <param name="maximum">Maximum allowed value.</param>
-    /// <param name="defaultMin">
-    /// Default value for the lower bound of the range.
-    /// </param>
-    /// <param name="defaultMax">
-    /// Default value for the upper bound of the range.
-    /// </param>
-    /// <typeparam name="T">Type of value to get.</typeparam>
-    /// <returns>
-    /// A new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the range of values entered
-    /// by the user, or a new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
-    /// the user cancels the input dialog.
-    /// </returns>
-    Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(string? title, string message, T minimum, T maximum, T defaultMin = default, T defaultMax = default) where T : struct, IComparable<T>;
-
-    /// <summary>
-    /// Gets a credential from the user.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="defaultUser">Default username to present.</param>
-    /// <returns>
-    /// A new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the credential entered by
-    /// the user, or a new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
-    /// the user cancels the input dialog.
-    /// </returns>
-    Task<DialogResult<Credential>> GetCredential(string? title, string message, string? defaultUser = null);
-
-    /// <summary>
-    /// Gets a credential from the user.
-    /// </summary>
-    /// <param name="message">Dialog message.</param>
-    /// <returns>
-    /// A new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to the credential entered by
-    /// the user, or a new <see cref="DialogResult{T}"/> with
-    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
-    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
-    /// the user cancels the input dialog.
-    /// </returns>
-    Task<DialogResult<Credential>> GetCredential(string message) => GetCredential(null, message);
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="message">Dialog message.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileOpenPath(string message)
-    {
-        return GetFileOpenPath(null, message);
-    }
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileOpenPath(string? title, string message)
-    {
-        return GetFileOpenPath(title, message, null);
-    }
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="defaultPath">Initial default file path.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileOpenPath(string? title, string message, string? defaultPath)
-    {
-        return GetFileOpenPath(title, message, [FileFilterItem.AllFiles], defaultPath);
-    }
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
-    /// <param name="defaultPath">Initial default file path.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileOpenPath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
-    {
-        return GetFileOpenPath(null, message, filters, defaultPath);
-    }
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
-    /// <param name="defaultPath">Initial default file path.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileOpenPath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="message">Dialog message.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileSavePath(string message)
-    {
-        return GetFileSavePath(null, message);
-    }
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileSavePath(string? title, string message)
-    {
-        return GetFileSavePath(title, message, null);
-    }
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="defaultPath">Initial default file path.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileSavePath(string? title, string message, string? defaultPath)
-    {
-        return GetFileSavePath(title, message, [FileFilterItem.AllFiles], defaultPath);
-    }
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
-    /// <param name="defaultPath">Initial default file path.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileSavePath(string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null)
-    {
-        return GetFileSavePath(null, message, filters, defaultPath);
-    }
-
-    /// <summary>
-    /// Gets a path to a file.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
-    /// <param name="defaultPath">Initial default file path.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetFileSavePath(string? title, string message, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
-
-    /// <summary>
-    /// Gets a path to a directory.
-    /// </summary>
-    /// <param name="message">Dialog message.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetDirectoryPath(string message)
-    {
-        return GetDirectoryPath(null, message);
-    }
-
-    /// <summary>
-    /// Gets a path to a directory.
-    /// </summary>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="defaultPath">Initial default directory path.</param>
-    /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
-    /// </returns>
-    Task<DialogResult<string>> GetDirectoryPath(string? title, string message, string? defaultPath = null);
-
-    /// <summary>
-    /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
-    /// dialog navigation system.
+    /// Displays a simple dialog without additional interaction UI from a
+    /// pre-configured template.
     /// </summary>
     /// <typeparam name="TViewModel">
-    /// Type of <see cref="DialogViewModel"/> to navigate to. It must implement
-    /// <see cref="IAwaitableDialogViewModel"/> to be able to notify of its own
-    /// completion.
+    /// Type of ViewModel to use as the awaitable dialog instance.
     /// </typeparam>
-    /// <typeparam name="TValue">
-    /// Type of value to get from the input dialog.
+    /// <typeparam name="TResult">
+    /// Type of value returned by the awaitable dialog.
     /// </typeparam>
-    /// <param name="title">Dialog title.</param>
-    /// <param name="message">Dialog message.</param>
-    /// <param name="defaultValue">Default value to set and/or return.</param>
-    /// <param name="initCallback">
-    /// Optional callback invoked to further configure the ViewModel before
-    /// presentation.
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
     /// </param>
+    /// <param name="values">Collection of values to associate to each dialog option.</param>
     /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
+    /// A <see cref="Task"/> that can be used to await the dialog.
     /// </returns>
-    Task<DialogResult<TValue>> GetInput<TViewModel, TValue>(string? title, string message, TValue defaultValue = default!, Action<TViewModel>? initCallback = null)
-        where TViewModel : IInputDialogViewModel<TValue>, new();
+    Task<TResult> Show<TViewModel, TResult>(DialogTemplate template, NamedObject<TResult>[] values) where TViewModel : IAwaitableDialogViewModel<TResult>, new();
 
     /// <summary>
-    /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
-    /// dialog navigation system.
+    /// Displays a dialog from a pre-configured template.
     /// </summary>
-    /// <param name="dialogVm">Dialog ViewModel to navigate to. It must
-    /// implement <see cref="IAwaitableDialogViewModel"/> to be able to notify
-    /// of its own completion.</param>
+    /// <typeparam name="TViewModel">
+    /// Type of ViewModel to use as the awaitable dialog instance.
+    /// </typeparam>
+    /// <typeparam name="TResult">
+    /// Type of value returned by the awaitable dialog.
+    /// </typeparam>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="values">Collection of values to associate to each dialog option.</param>
     /// <returns>
-    /// A <see cref="Task"/> that can be used to await for the completion of
-    /// the dialog.
+    /// A <see cref="Task"/> that can be used to await the dialog.
     /// </returns>
-    Task CustomDialog(IAwaitableDialogViewModel dialogVm);
+    Task<TResult> Show<TViewModel, TResult>(DialogTemplate template, NamedObject<Func<TViewModel, TResult>>[] values) where TViewModel : IAwaitableDialogViewModel<TResult>, new();
 
     /// <summary>
-    /// Navigates to a user-defined <see cref="DialogViewModel"/> under the
-    /// dialog navigation system.
+    /// Navigates to a user-defined dialog under the navigation system.
     /// </summary>
     /// <param name="dialogVm">Dialog ViewModel to navigate to. It must
     /// implement <see cref="IAwaitableDialogViewModel{T}"/> to be able to
@@ -450,5 +132,134 @@ public partial interface IDialogService
     /// dialog cancellation.
     /// </remarks>
     /// <seealso cref="DialogResult{T}"/>
-    Task<TValue> CustomDialog<TValue>(IAwaitableDialogViewModel<TValue> dialogVm);
+    Task<TResult> Show<TResult>(IAwaitableDialogViewModel<TResult> dialogVm);
+
+    /// <summary>
+    /// Gets a string from the user.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="defaultValue">Default value.</param>
+    /// <returns>
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
+    /// user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to
+    /// <paramref name="defaultValue"/> if the user cancels the input dialog.
+    /// </returns>
+    Task<DialogResult<string?>> GetInputText(DialogTemplate template, string? defaultValue = null);
+
+    /// <summary>
+    /// Gets a credential from the user.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="defaultUser">Default username to present.</param>
+    /// <param name="isUserEditable">
+    /// <see langword="true"/> to indicate that the username field should be
+    /// editable, <see langword="false"/> to set the username field as
+    /// read-only.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the credential entered by
+    /// the user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
+    /// the user cancels the input dialog.
+    /// </returns>
+    Task<DialogResult<Credential?>> GetCredential(DialogTemplate template, string? defaultUser = null, bool isUserEditable = true);
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
+    /// <param name="defaultPath">Initial default file path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<DialogResult<string?>> GetFileOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
+
+    /// <summary>
+    /// Gets a path to a file.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
+    /// <param name="defaultPath">Initial default file path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<DialogResult<string?>> GetFileSavePath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
+
+    /// <summary>
+    /// Gets a path to a directory.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="defaultPath">Initial default directory path.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<DialogResult<string?>> GetDirectoryPath(DialogTemplate template, string? defaultPath = null);
+
+    /// <summary>
+    /// Gets a value from the user.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="minimum">Minimum allowed value.</param>
+    /// <param name="maximum">Maximum allowed value.</param>
+    /// <param name="defaultValue">Default value.</param>
+    /// <typeparam name="T">Type of value to get.</typeparam>
+    /// <returns>
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
+    /// user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the default value for
+    /// <typeparamref name="T"/> if the user cancels the input dialog.
+    /// </returns>
+    Task<DialogResult<T>> GetInputValue<T>(DialogTemplate template, T? minimum, T? maximum, T defaultValue = default) where T : struct, IComparable<T>;
+
+    /// <summary>
+    /// Gets a range of values from the user.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="minimum">Minimum allowed value.</param>
+    /// <param name="maximum">Maximum allowed value.</param>
+    /// <param name="defaultRangeStart">
+    /// Default value for the lower bound of the range.
+    /// </param>
+    /// <param name="defaultRangeEnd">
+    /// Default value for the upper bound of the range.
+    /// </param>
+    /// <typeparam name="T">Type of value to get.</typeparam>
+    /// <returns>
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the range of values entered
+    /// by the user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
+    /// the user cancels the input dialog.
+    /// </returns>
+    Task<DialogResult<(T Min, T Max)>> GetInputRange<T>(DialogTemplate template, T? minimum, T? maximum, T defaultRangeStart = default, T defaultRangeEnd = default) where T : struct, IComparable<T>;
 }

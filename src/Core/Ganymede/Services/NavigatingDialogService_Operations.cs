@@ -8,8 +8,7 @@ namespace TheXDS.Ganymede.Services;
 
 public partial class NavigatingDialogService
 {
-    /// <inheritdoc/>
-    public async Task<bool> RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation)
+    async Task<bool> IDialogService.RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation)
     {
         CancellationTokenSource ct = new();
         ButtonInteraction cancel = new(ct.Cancel, St.Cancel) { IsPrimary = true };
@@ -23,8 +22,7 @@ public partial class NavigatingDialogService
         return !(ct.IsCancellationRequested || task.IsFaulted);
     }
 
-    /// <inheritdoc/>
-    public async Task<T> RunOperation<T>(string? title, Func<IProgress<ProgressReport>, Task<T>> operation)
+    async Task<T> IDialogService.RunOperation<T>(string? title, Func<IProgress<ProgressReport>, Task<T>> operation)
     {
         var (vm, progress) = CreateOperationVm(title);
         Navigate(vm);

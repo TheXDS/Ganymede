@@ -23,14 +23,14 @@ public class DecimalRangeInputDialogTemplateBuilder : IDialogTemplateBuilder<Ran
                     FormatString = "{0:0.00}",
                     [!NumericUpDown.MinimumProperty] = new Binding(nameof(viewModel.Minimum)),
                     [!NumericUpDown.MaximumProperty] = new Binding(nameof(viewModel.Maximum)),
-                    [!NumericUpDown.ValueProperty] = new Binding(nameof(viewModel.MinimumValue)),
+                    [!NumericUpDown.ValueProperty] = new Binding(nameof(viewModel.RangeStart)),
                 },
                 new NumericUpDown
                 {
                     FormatString = "{0:0.00}",
                     [!NumericUpDown.MinimumProperty] = new Binding(nameof(viewModel.Minimum)),
                     [!NumericUpDown.MaximumProperty] = new Binding(nameof(viewModel.Maximum)),
-                    [!NumericUpDown.ValueProperty] = new Binding(nameof(viewModel.MaximumValue)),
+                    [!NumericUpDown.ValueProperty] = new Binding(nameof(viewModel.RangeEnd)),
                 }
             }
         };

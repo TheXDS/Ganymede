@@ -34,7 +34,7 @@ public abstract class WizardOperationViewModel<T> : WizardViewModel<T>, IOperati
     protected override async Task OnCreated()
     {
         await RunOperation();
-        CloseDialog(WizardAction.Next);
+        Close(WizardAction.Next);
     }
 
     /// <summary>
