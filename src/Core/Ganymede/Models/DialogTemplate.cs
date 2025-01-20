@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.Models;

@@ -8,12 +8,10 @@ public class OperationDialogViewModel : DialogViewModel, IOperationDialogViewMod
 {
     private double _progress = double.NaN;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="OperationDialogViewModel"/> class.
-    /// </summary>
-    public OperationDialogViewModel()
+    /// <inheritdoc/>
+    protected override void OnInitialize(IPropertyBroadcastSetup broadcastSetup)
     {
-        RegisterPropertyChangeBroadcast(nameof(Progress), nameof(IsIndeterminate));
+        broadcastSetup.RegisterPropertyChangeBroadcast(() => Progress, () => IsIndeterminate);
     }
 
     /// <inheritdoc/>

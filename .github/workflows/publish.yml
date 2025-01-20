@@ -15,7 +15,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     - name: Create NuGet Packages
       run: dotnet pack $env:Solution_Name --configuration=${{ env.Configuration }} -p:Version=${{ github.ref_name }} -p:RepositoryBranch=${{ github.ref }} -p:ContinuousIntegrationBuild=true
     - name: Push packages to GitHub

@@ -9,7 +9,7 @@ namespace TheXDS.Ganymede.Component;
 /// <typeparam name="T">
 /// Base type for the visual elements to be registered.
 /// </typeparam>
-public interface IViewModelToViewRegistry<T>
+public interface IViewModelToViewRegistry<in T>
 {
     /// <summary>
     /// Registers a ViewModel type to resolve to the specified visual type.

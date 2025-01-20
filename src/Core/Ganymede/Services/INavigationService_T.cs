@@ -36,11 +36,11 @@ public interface INavigationService<TViewModel> : INavigationService where TView
     }
 
     /// <summary>
-    /// Gets the current Navigation Stack.
+    /// Gets the current Navigation set.
     /// </summary>
-    new IEnumerable<TViewModel> NavigationStack { get; }
+    new IEnumerable<TViewModel> NavigationSet { get; }
 
-    IEnumerable<IViewModel> INavigationService.NavigationStack => NavigationStack;
+    IEnumerable<IViewModel> INavigationService.NavigationSet => NavigationSet;
 
     /// <summary>
     /// Navigates to a specific ViewModel instance.

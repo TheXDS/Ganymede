@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Diagnostics.CodeAnalysis;
+using TheXDS.Ganymede.Resources.Strings;
 
 namespace TheXDS.Ganymede.Configuration;
 
@@ -10,6 +12,8 @@ namespace TheXDS.Ganymede.Configuration;
 /// <typeparam name="T">Type of configuration object.</typeparam>
 /// <param name="store">Configuration store to use.</param>
 /// <param name="jsonOptions">Json serialization options to use.</param>
+[RequiresDynamicCode(AttributeErrorMessages.JsonConfigurationRepository_DynCode)]
+[RequiresUnreferencedCode(AttributeErrorMessages.JsonConfigurationReposotory_UnrefCode)]
 public class JsonConfigurationRepository<T>(IConfigurationStore store, JsonSerializerOptions jsonOptions) : IConfigurationRepository<T> where T : notnull
 {
     private static JsonSerializerOptions GetDefaultSerializationOptions() => new() { Converters = { new JsonStringEnumConverter() } };

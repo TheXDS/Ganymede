@@ -90,7 +90,7 @@ public partial class NavigationHost
         where TNav : INavigationService
         where TVisual : class
     {
-        if (vm is not null && (skipNavStack || (navSvc?.NavigationStack.Contains(vm) ?? false)) && UiThread.Invoke(() => resolver?.Resolve(vm)) is { } view)
+        if (vm is not null && (skipNavStack || (navSvc?.NavigationSet.Contains(vm) ?? false)) && UiThread.Invoke(() => resolver?.Resolve(vm)) is { } view)
         {
             UiThread.Invoke(() => SetDataContext(view, vm));
             UiThread.Invoke(() => setContent.Invoke(view));

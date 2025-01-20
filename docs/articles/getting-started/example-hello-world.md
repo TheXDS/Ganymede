@@ -7,15 +7,15 @@ Ganymede was built using [.NET 8](https://dotnet.microsoft.com/), so if you have
 Also, while multi-platform support is in development, this tutorial will use the WPF bindings. Therefore, you should follow this tutorial on Windows 10 build 19041 or later (Windows 7 does not support .NET 8). Linux distributions *may* work through [Wine](https://www.winehq.org/) but there could be major rendering issues trying to draw the main app window.
 
 ## Starting a new project
-The current implementation of Ganymede provides of bindings for WPF, so we'll be looking at creating a WPF app.
+The current implementation of Ganymede provides bindings for WPF, so we'll be looking at creating a WPF app.
 
 To start with, you can use the `dotnet` command in a terminal to create your new WPF project: 
 ```sh
 dotnet new wpf
 ```
-You may use Visual Studio, or your preferred IDE for this task.
+You may use Visual Studio, or your preferred IDE for this task instead of using `dotnet`.
 
-After creating the new WPF project, make sure that it targets `net8.0-windows10.0.19041`, as this is the minimum version supported by Ganymede.
+After creating the new WPF project, make sure that it targets at least `net8.0-windows10.0.19041`, as this is the minimum version supported by Ganymede.
 
 At this point, you may build and run your project to make sure that your tooling is working properly.
 
@@ -44,6 +44,8 @@ using TheXDS.Ganymede.Services;
 You may as well use [global usings](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-directive#global-modifier) to import these two namespaces everywhere on your project.
 
 Upon registering the thread proxy, Ganymede (as well as yourself) can make use of the methods contained in the helper static class `UiThread`.
+
+The reason to have a UI thread proxy is to standardize the way in which different UI frameworks expose a UI thread dispatcher. For example, WPF uses a `Dispatcher` property on any object that inherits from the `DispatcherObject` abstract class, while Avalonia has a property called `UIThread` on the `Avalonia.Threading.Dispatcher` class. The proxy is a predictable and static API that will allow you access to the UI thread of your application independently of the UI framework you use.
 
 ## Creating a `ViewModel`
 As per the [MVVM pattern](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm), we need to define a ViewModel that will contain the business logic for our view. While it's true that MVVM may be considered overkill for small apps, Ganymede removes a lot of guesswork and boilerplate code that would otherwise fall into a developer to properly implement.
@@ -78,10 +80,10 @@ public HelloViewModel()
 ```
 The `CommandBuilder` class is available under the `TheXDS.Ganymede.Helpers` namespace. It's a handy helper class that allows you to simplify the syntax required to create commands, and it includes a variety of methods that will generate either [`SimpleCommand`](https://thexds.github.io/MCART/api/TheXDS.MCART.Component.SimpleCommand.html) or [`ObservingCommand`](https://thexds.github.io/MCART/api/TheXDS.MCART.Component.ObservingCommand.html) instances.
 
-In this case, we are creating a `SimpleCommand` bound to the `OnHello` method. It's not necessary to use the `CommandBuilder` class, but it's helpful when defining commands that may require some configuration or want to execute operations using the integrated busy operation dialogs available on Ganymede.
+In this case, we are creating a `SimpleCommand` bound to the `OnHello` method. It's not necessary to use the `CommandBuilder` class, but it's helpful when defining commands that may require some configuration or want to execute operations using the integrated busy operation dialogs available on Ganymede. Still, Ganymede is compatible with any kind of `ICommand` you use.
 
 ## Setting up a navigation host
-The *Navigation Host* is the component that will actually present Views for your app. You may define and place it wherever you need to have a navigation stack, but typically it is placed as the sole child of a `Window` control (normally the `MainWindow` class or whichever `Window` definition is your startup window).
+The *Navigation Host* is the component that will actually present Views for your app. You may define and place it wherever you need to have navigation, but it's typically placed as the sole child of a `Window` control (normally the `MainWindow` class or whichever `Window` definition is your startup window).
 
 In our case, using the default template for a WPF app, we'll be opening the `MainWindow.xaml` file and adding the following:
 ```xml
@@ -111,7 +113,9 @@ The `NavService` markup extension allows you to specify a ViewModel to be used a
 ### Visual resolver
 The visual resolver is the component in charge of obtaining the view to be presented for a given ViewModel. In our case, it's a `ConventionVisualResolver` (using the `ConventionResolver` markup extenison). This resolver does not require additional setup, but requires Views and ViewModels to have matching names, differring only in the `View`/`ViewModel` suffix.
 
-Other resolvers are available on Ganymede, like the `DictionaryVisualResolver` which requires explicit ViewModel to View mapping, or the `VisualResolverStack` class which allows you to specify a collection of resolers to be used sequentially when trying to resolve a view (useful when using a dictionary resolver and providing a canvention resolver as a fallback)
+Other resolvers are available on Ganymede, like the `DictionaryVisualResolver` which requires explicit ViewModel to View mapping, or the `VisualResolverStack` class which allows you to specify a collection of resolers to be used sequentially when trying to resolve a view (useful when using a dictionary resolver and providing a convention resolver as a fallback)
+
+Please note that using convention resolution will make your app incompatible with [assembly trimming](https://learn.microsoft.com/en-us/dotnet/core/deploying/trimming/trim-self-contained), due to the convention resolver needing to scan the AppDomain for a view with the same name as the ViewModel. If you don't plan on distributing your app as a self-contained/trimmed app, you can use convention resolution without any problems.
 
 You can also implement your own resolver by implementing the `IVisualResolver<T>` interface from the `TheXDS.Ganymede.Types.Base` namespace.
 
@@ -138,6 +142,6 @@ In our case, this is going to be a simple user control with bindings to ViewMode
 ```
 
 ## Conclusion
-After defining the ViewModels and Views, we can run our app. when you execute it, you'll see a window containing a button. In reality, this is the navigation stack being presented on the main window, and then it navigating to the *home page* as set up on the navigation stack by resolving the corresponding View for the ViewModel.
+After defining the ViewModels and Views, we can run our app. When you execute it, you'll see a window containing a button. In reality, this is the navigation stack being presented on the main window, which will navigate to the *home page* as set up on the navigation stack by resolving the corresponding View for the ViewModel.
 
 When clicking on the `Click me` button, the hello command gets invoked, and a dialog message is presented on the UI. As you can see, this is a custom dialog that lives within the main window, instead of being a regular WPF dialog box. This paradigm can translate well when porting your apps to other platforms (there's some work in progress already to bring support for Xamarin, Uno Platform and Avalonia into Ganymede) and have a uniform experience on platforms that do not support additional separate windows (like web and mobile platforms).

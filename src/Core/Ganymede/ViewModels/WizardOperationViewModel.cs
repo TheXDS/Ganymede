@@ -12,12 +12,11 @@ public abstract class WizardOperationViewModel<T> : WizardViewModel<T>, IOperati
 {
     private double _progress = double.NaN;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="WizardOperationViewModel{T}"/> class.
-    /// </summary>
-    protected WizardOperationViewModel()
+    /// <inheritdoc/>
+    protected override void OnInitialize(IPropertyBroadcastSetup broadcastSetup)
     {
-        RegisterPropertyChangeBroadcast(nameof(Progress), nameof(IsIndeterminate));
+        base.OnInitialize(broadcastSetup);
+        broadcastSetup.RegisterPropertyChangeBroadcast(() => Progress, () => IsIndeterminate);
     }
 
     /// <inheritdoc/>

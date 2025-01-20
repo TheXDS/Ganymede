@@ -59,7 +59,7 @@ public static class CommonDialogTemplates
     /// <remarks>
     /// Critical error messages are meant to be displayed when a severe error
     /// occurs that may compromise the ability for the application to run
-    /// reliably, while not closing it inmediately and maybe giving a chance of
+    /// reliably, while not closing it immediately and maybe giving a chance of
     /// recovery or some other preparations before forcefully closing the app.
     /// </remarks>
     public static readonly DialogTemplate Critical = Error with
@@ -73,7 +73,7 @@ public static class CommonDialogTemplates
     /// <remarks>
     /// Fatal error messages are meant to be displayed when an error occurs
     /// where it forces the application to forcefully quit. These are
-    /// non-recoverable, and result in the application to inmediately stop
+    /// non-recoverable, and result in the application to immediately stop
     /// execution upon being thrown.
     /// </remarks>
     public static readonly DialogTemplate Fatal = Error with

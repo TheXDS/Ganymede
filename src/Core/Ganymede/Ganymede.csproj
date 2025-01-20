@@ -4,11 +4,14 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<IsTrimmable>true</IsTrimmable>
+		<IsAotCompatible>true</IsAotCompatible>		
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.3-alpha.10" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="0.17.3-alpha.10" />
+		<PackageReference Include="TheXDS.MCART" Version="0.18.0-alpha.5" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0-alpha.5" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0-alpha.5" />
 	</ItemGroup>
 	
 	<ItemGroup>

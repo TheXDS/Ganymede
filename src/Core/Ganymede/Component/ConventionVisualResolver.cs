@@ -1,4 +1,6 @@
-﻿using TheXDS.Ganymede.Types.Base;
+﻿using System.Diagnostics.CodeAnalysis;
+using TheXDS.Ganymede.Resources.Strings;
+using TheXDS.Ganymede.Types.Base;
 
 namespace TheXDS.Ganymede.Component;
 
@@ -9,6 +11,7 @@ namespace TheXDS.Ganymede.Component;
 /// <typeparam name="TVisual">
 /// Type of visual container resolution to implement.
 /// </typeparam>
+[RequiresUnreferencedCode(AttributeErrorMessages.ClassScansForTypes)]
 public class ConventionVisualResolver<TVisual> : TypeScaningVisualResolver<TVisual>, IVisualResolver<TVisual> where TVisual : new()
 {
     private static string GetName(IViewModel viewModel)

@@ -1,4 +1,5 @@
-﻿using TheXDS.Ganymede.Helpers;
+﻿using System.Diagnostics.CodeAnalysis;
+using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Types.Base;
 
 namespace TheXDS.Ganymede.Component;
@@ -49,7 +50,7 @@ public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewR
     /// <returns>
     /// A new instance of the resolved visual type.
     /// </returns>
-    protected virtual T CreateVisual(Type visualType, IViewModel viewModel)
+    protected virtual T CreateVisual([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]Type visualType, IViewModel viewModel)
     {
         return (T)Activator.CreateInstance(visualType)!;
     }

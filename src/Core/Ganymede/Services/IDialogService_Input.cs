@@ -1,4 +1,5 @@
 ﻿using TheXDS.Ganymede.Models;
+using TheXDS.Ganymede.Resources;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Types;
 
@@ -195,7 +196,10 @@ public partial interface IDialogService
     /// <param name="template">
     /// Template to use when generating the dialog to be displayed.
     /// </param>
-    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
+    /// <param name="filters">
+    /// Collection of filters that can be used to filter for specific file
+    /// types.
+    /// </param>
     /// <param name="defaultPath">Initial default file path.</param>
     /// <returns>
     /// A <see cref="Task"/> that can be used to await for the completion of

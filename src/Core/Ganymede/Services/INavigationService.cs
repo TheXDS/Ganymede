@@ -20,37 +20,37 @@ public interface INavigationService
     IViewModel? CurrentViewModel { get; }
 
     /// <summary>
-    /// Gets or sets the Navigation Stack's home page.
+    /// Gets or sets the Navigation set's home page.
     /// </summary>
     /// <remarks>
-    /// When setting this property, the active navigation stack will remain
-    /// as-is, and upon a request to navigate back until the navigation stack
-    /// is empty, the active page will be set to this value.
+    /// When setting this property, the active navigation set will remain
+    /// as-is, and upon a request to navigate back until the navigation set is
+    /// empty, the active page will be set to this value.
     /// </remarks>
     IViewModel? HomePage { get; set; }
 
     /// <summary>
     /// Gets a reference to a command that can be used to navigate back in the
-    /// navigation stack.
+    /// navigation set.
     /// </summary>
     ICommand NavigateBackCommand { get; }
 
     /// <summary>
-    /// Gets a value that indicates the depth of the current navigation stack.
+    /// Gets a value that indicates the size of the current navigation set.
     /// </summary>
-    int NavigationStackDepth { get; }
+    int NavigationSetCount { get; }
 
     /// <summary>
-    /// Gets the current Navigation Stack.
+    /// Gets the current Navigation set.
     /// </summary>
-    IEnumerable<IViewModel> NavigationStack { get; }
+    IEnumerable<IViewModel> NavigationSet { get; }
 
     /// <summary>
     /// Navigates to a specific ViewModel instance.
     /// </summary>
     /// <param name="viewModel">
     /// ViewModel to navigate to. If already present in the navigation
-    /// stack, the navigation will activate the existing ViewModel instance.
+    /// set, the navigation will activate the existing ViewModel instance.
     /// </param>
     void Navigate(IViewModel viewModel);
 
@@ -79,17 +79,17 @@ public interface INavigationService
     }
 
     /// <summary>
-    /// Clears the navigation stack and inmediately navigates to the specified
+    /// Clears the navigation set and inmediately navigates to the specified
     /// ViewModel instance.
     /// </summary>
     /// <param name="viewModel">
     /// ViewModel to navigate to. If <see langword="null"/>, the navigation
-    /// stack will be cleared.
+    /// set will be cleared.
     /// </param>
     void NavigateAndReset(IViewModel? viewModel);
 
     /// <summary>
-    /// Clears the navigation stack and inmeditely navigates to a new instance
+    /// Clears the navigation set and inmeditely navigates to a new instance
     /// of the specified ViewModel type.
     /// </summary>
     /// <typeparam name="TViewModel">
@@ -98,7 +98,7 @@ public interface INavigationService
     void NavigateAndReset<TViewModel>() where TViewModel : class, IViewModel, new() => NavigateAndReset(new TViewModel());
 
     /// <summary>
-    /// Clears the navigation stack and inmeditely navigates to a new instance
+    /// Clears the navigation set and inmeditely navigates to a new instance
     /// of the specified ViewModel type.
     /// </summary>
     /// <typeparam name="TViewModel">
@@ -113,7 +113,7 @@ public interface INavigationService
     }
 
     /// <summary>
-    /// Clears the navigation stack and inmeditely navigates to a new instance
+    /// Clears the navigation set and inmeditely navigates to a new instance
     /// of the specified ViewModel type.
     /// </summary>
     /// <typeparam name="TViewModel">
@@ -125,11 +125,11 @@ public interface INavigationService
     }
 
     /// <summary>
-    /// Pops the current ViewModel out of the navigation stack, and navigates
+    /// Pops the current ViewModel out of the navigation set, and navigates
     /// to the previously active ViewModel.
     /// </summary>
     /// <remarks>
-    /// If the navigation stack is empty, This method will do nothing.
+    /// If the navigation set is empty, This method will do nothing.
     /// </remarks>
     Task NavigateBack();
 
@@ -139,7 +139,7 @@ public interface INavigationService
     void Refresh();
 
     /// <summary>
-    /// Clears the navigation stack completely, navigating to the
+    /// Clears the navigation set completely, navigating to the
     /// <see cref="ViewModel"/> set as the <see cref="HomePage"/>, or
     /// <see langword="null"/> if the home ViewModel has not been set.
     /// </summary>

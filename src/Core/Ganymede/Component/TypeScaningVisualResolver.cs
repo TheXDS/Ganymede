@@ -1,12 +1,20 @@
-﻿using TheXDS.Ganymede.Helpers;
+﻿using System.Diagnostics.CodeAnalysis;
+using TheXDS.Ganymede.Helpers;
+using TheXDS.Ganymede.Resources.Strings;
 using TheXDS.MCART.Types.Extensions;
 using static TheXDS.MCART.Helpers.ReflectionHelpers;
 
 namespace TheXDS.Ganymede.Component;
 
 /// <summary>
-/// Base class for all type-scanning implementations of <see cref="IVisualResolver{TVisual}"/>.
+/// Base class for all type-scanning implementations of
+/// <see cref="IVisualResolver{TVisual}"/>.
 /// </summary>
+/// <remarks>
+/// You may want to switch to a resolver with static type registration if you
+/// intend to use assembly trimming.
+/// </remarks>
+/// <seealso cref="DictionaryVisualResolver{T}"/>
 public abstract class TypeScaningVisualResolver<TVisual> where TVisual : new()
 {
     /// <summary>
@@ -28,6 +36,7 @@ public abstract class TypeScaningVisualResolver<TVisual> where TVisual : new()
     /// <item>An exception was thrown by the type's constructor</item>
     /// </list>
     /// </returns>
+    [RequiresUnreferencedCode(AttributeErrorMessages.ClassScansForTypes)]
     protected TVisual? FindView(Func<Type, bool> condition)
     {
         var vmType = PublicTypes().FirstOrDefault(condition);

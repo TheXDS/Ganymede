@@ -50,10 +50,10 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     public T? CurrentViewModel => _navStack.Count != 0 && _navStack.TryPeek(out var vm) ? vm : _homePage;
 
     /// <inheritdoc/>
-    public int NavigationStackDepth => _navStack.Count;
+    public int NavigationSetCount => _navStack.Count;
 
     /// <inheritdoc/>
-    public IEnumerable<T> NavigationStack => _navStackInfo;
+    public IEnumerable<T> NavigationSet => _navStackInfo;
 
     /// <summary>
     /// Gets or sets the Navigation Stack's home page.
@@ -88,12 +88,17 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     public NavigationService()
     {
         _navStack = UiThread.Invoke(() => new Stack<T>());
-        RegisterPropertyChangeBroadcast(nameof(CurrentViewModel), nameof(NavigationStackDepth), nameof(NavigationStack));
         NavigateBackCommand = this.Create(NavigateBack)
             .ListensTo(p => p.CurrentViewModel)
             .CanExecute(_navStack.Any)
             .Build();
         _navStackInfo = UiThread.Invoke(() => new ManualObserver(_navStack));
+    }
+
+    /// <inheritdoc/>
+    protected override void OnInitialize(IPropertyBroadcastSetup broadcastSetup)
+    {
+        broadcastSetup.RegisterPropertyChangeBroadcast(() => CurrentViewModel, () => NavigationSetCount, () => NavigationSet);
     }
 
     /// <inheritdoc/>

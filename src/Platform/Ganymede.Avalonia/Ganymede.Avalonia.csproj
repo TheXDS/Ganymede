@@ -8,12 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="11.1.3" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="11.1.3" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.3" />
-    <PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="0.17.3-alpha.10" />
- 	<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.17.3-alpha.10" />
-	<PackageReference Include="TheXDS.MCART.UI" Version="0.17.3-alpha.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.3" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.2.3" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.3" />
+    <PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="0.18.0-alpha.5" />
+ 	<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0-alpha.5" />
+	<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0-alpha.5" />
   </ItemGroup>
 
   <ItemGroup>

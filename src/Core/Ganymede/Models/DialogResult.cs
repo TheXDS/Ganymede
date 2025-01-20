@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace TheXDS.Ganymede.Models;
 
 /// <summary>
@@ -16,7 +18,7 @@ namespace TheXDS.Ganymede.Models;
 /// <typeparam name="T">
 /// Type of value to be returned by the dialog.
 /// </typeparam>
-public record struct DialogResult<T>(bool Success, T Result)
+public record struct DialogResult<T>([property:MemberNotNullWhen(true, "Result")]bool Success, T Result)
 {
     /// <summary>
     /// Returns a new <see cref="DialogResult{T}"/> value that indicates
@@ -52,7 +54,7 @@ public record struct DialogResult<T>(bool Success, T Result)
     public static implicit operator T(DialogResult<T> value) => value.Result;
 
     /// <summary>
-    /// Inplicitly converts a value of type <typeparamref name="T"/> into a
+    /// Implicitly converts a value of type <typeparamref name="T"/> into a
     /// new <see cref="DialogResult{T}"/> instance that indicates success.
     /// </summary>
     /// <param name="result">Result of the input dialog.</param>

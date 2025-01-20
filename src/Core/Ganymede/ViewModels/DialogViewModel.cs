@@ -14,14 +14,11 @@ public class DialogViewModel : ViewModel, IDialogViewModel
     private string? _icon;
     private Color? _iconBgColor;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DialogViewModel"/>
-    /// class.
-    /// </summary>
-    public DialogViewModel()
+    /// <inheritdoc/>
+    protected override void OnInitialize(IPropertyBroadcastSetup broadcastSetup)
     {
-        RegisterPropertyChangeBroadcast(nameof(Title), nameof(IsTitleVisible));
-        RegisterPropertyChangeBroadcast(nameof(Icon), nameof(IsIconVisible));
+        broadcastSetup.RegisterPropertyChangeBroadcast(() => Title, () => IsTitleVisible);
+        broadcastSetup.RegisterPropertyChangeBroadcast(() => Icon, () => IsIconVisible);
     }
 
     /// <summary>
