@@ -66,7 +66,7 @@ public partial class NavigatingDialogService
         finally { await NavigateBack(); }
     }
 
-    private static (OperationDialogViewModel viewModel, IProgress<ProgressReport> progress) CreateOperationVm(string? title)
+    private (OperationDialogViewModel viewModel, IProgress<ProgressReport> progress) CreateOperationVm(string? title)
     {
         var ivm = new OperationDialogViewModel
         {
@@ -75,6 +75,7 @@ public partial class NavigatingDialogService
             Progress = double.NaN,
             Icon = "⚙",
             IconBgColor = Color.DarkGray,
+            DialogService = this
         };
         void ReportProgress(ProgressReport p)
         {

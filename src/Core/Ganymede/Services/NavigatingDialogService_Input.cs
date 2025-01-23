@@ -34,6 +34,7 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
     /// <inheritdoc/>
     public async Task<TResult> Show<TResult>(IAwaitableDialogViewModel<TResult> dialogVm)
     {
+        dialogVm.DialogService = this;
         Navigate(dialogVm);
         try { return await dialogVm.DialogAwaiter; }
         finally { await NavigateBack(); }

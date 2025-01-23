@@ -3,8 +3,6 @@ using TheXDS.Ganymede.Resources;
 using TheXDS.Ganymede.Services;
 using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types;
-using TheXDS.MCART.Types.Extensions;
-using St = TheXDS.Ganymede.Resources.Strings.Common;
 
 namespace TheXDS.Ganymede.Types.Extensions;
 

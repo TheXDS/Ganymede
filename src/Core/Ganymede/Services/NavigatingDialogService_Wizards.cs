@@ -14,15 +14,16 @@ public partial class NavigatingDialogService
             vm.State ??= state;
             vm.Icon ??= "\xD83E\xDE84";
             vm.IconBgColor ??= System.Drawing.Color.MediumPurple;
-            NavigateAndReset(vm);
+            vm.DialogService = this;
+            Navigate(vm);
             switch (await vm.DialogAwaiter)
             {
-                case Models.WizardAction.Cancel: NavigateAndReset(null); return false;
+                case Models.WizardAction.Cancel: await NavigateBack(); return false;
                 case Models.WizardAction.Back when i > 0: i--; break;
                 case Models.WizardAction.Next when i < viewModels.Length: i++; break;
             }
         }
-        NavigateAndReset(null);
+        await NavigateBack();
         return true;
     }
 }
