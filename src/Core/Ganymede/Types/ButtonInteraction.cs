@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using TheXDS.MCART.Component;
+using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Base;
 
 namespace TheXDS.Ganymede.Types;
@@ -52,5 +53,25 @@ public class ButtonInteraction(ICommand command, string text) : NotifyPropertyCh
     {
         get => _isPrimary;
         set => Change(ref _isPrimary, value);
+    }
+
+    /// <summary>
+    /// Implicitly converts a <see cref="ButtonInteraction"/> into a
+    /// <see cref="NamedObject{T}"/>.
+    /// </summary>
+    /// <param name="buttonInteraction">Object to be converted.</param>
+    public static implicit operator NamedObject<ICommand>(ButtonInteraction buttonInteraction)
+    {
+        return new NamedObject<ICommand>(buttonInteraction.Command, buttonInteraction.Text);
+    }
+
+    /// <summary>
+    /// Implicitly converts a <see cref="NamedObject{T}"/> into a
+    /// <see cref="ButtonInteraction"/>.
+    /// </summary>
+    /// <param name="obj">Object to be converted.</param>
+    public static implicit operator ButtonInteraction (NamedObject<ICommand> obj)
+    {
+        return new(obj.Value, obj.Name);
     }
 }

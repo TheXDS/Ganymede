@@ -6,10 +6,10 @@
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0-alpha.5" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0-alpha.5" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.18.0-alpha.5" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.18.0-alpha.5" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0-alpha.7" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0-alpha.7" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.18.0-alpha.7" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.18.0-alpha.7" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
