@@ -295,6 +295,18 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
         return new(() => ViewModelReference.NavigationService?.Navigate<T>());
     }
 
+    /// <summary>
+    /// Creates a new <see cref="SimpleCommand"/> instance that will navigate
+    /// to the previous page upon invocation.
+    /// </summary>
+    /// <returns>A new <see cref="SimpleCommand"/> that will navigate to the
+    /// previous page.
+    /// </returns>
+    public SimpleCommand BuildNavigateBack()
+    {
+        return new(() => ViewModelReference.NavigationService?.NavigateBack() ?? Task.CompletedTask);
+    }
+
     private Task RunInOperationDialog(Func<IProgress<ProgressReport>, Task> action, string? title = null)
     {
         return ViewModelReference.DialogService?.RunOperation(title, action) ?? action(new Progress<ProgressReport>());
