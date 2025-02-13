@@ -15,8 +15,6 @@ internal static class AttributeErrorMessages
     public const string MethodLoadsAssemblyResources = "The method dynamically loads resources from the assembly, so it is not compatible with trimming.";
     public const string Net6Deprecation = "This class uses deprecated methods in .Net 6.";
     public const string UseLicenseUriAttributeInstead = "Use LicenseUriAttribute instead.";
-
     public const string JsonConfigurationRepository_DynCode = "JSON serialization and deserialization might require types that cannot be statically analyzed and might need runtime code generation. You may choose to implement your own IConfigurationRepository<T> and use System.Text.Json source generation for native AOT applications.";
     public const string JsonConfigurationReposotory_UnrefCode = "JSON serialization and deserialization might require types that cannot be statically analyzed. You may choose to implement your own IConfigurationRepository<T> and serialize Json data using a JsonTypeInfo or JsonSerializerContext, or make sure all of the required types are preserved.";
-
 }
