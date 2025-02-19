@@ -18,12 +18,12 @@ public partial class NavigatingDialogService
             Navigate(vm);
             switch (await vm.DialogAwaiter)
             {
-                case Models.WizardAction.Cancel: await NavigateBack(); return false;
+                case Models.WizardAction.Cancel: NavigateAndReset(null); return false;
                 case Models.WizardAction.Back when i > 0: i--; break;
                 case Models.WizardAction.Next when i < viewModels.Length: i++; break;
             }
         }
-        await NavigateBack();
+        NavigateAndReset(null);
         return true;
     }
 }
