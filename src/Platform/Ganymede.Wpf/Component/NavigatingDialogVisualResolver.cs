@@ -6,4 +6,4 @@ namespace TheXDS.Ganymede.Component;
 /// Implements a <see cref="IVisualResolver{TVisual}"/> tailored to resolve
 /// dialog-specific ViewModels.
 /// </summary>
-public class NavigatingDialogVisualResolver : StaticVisualResolver<DialogView>;
+public class NavigatingDialogVisualResolver : ConstVisualResolver<DialogView>;

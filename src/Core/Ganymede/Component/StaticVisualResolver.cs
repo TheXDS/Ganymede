@@ -3,11 +3,16 @@
 namespace TheXDS.Ganymede.Component;
 
 /// <summary>
-/// Implements a <see cref="IVisualResolver{TVisual}"/> that will always return
-/// a new instance of the specified type.
+/// Implements a <see cref="IVisualResolver{TVisual}"/> that will resolve a
+/// view only for the specified ViewModel type, returning
+/// <see langword="null"/> otherwise.
 /// </summary>
-/// <typeparam name="TVisual">Type of visual element to return.</typeparam>
-public class StaticVisualResolver<TVisual> : IVisualResolver<TVisual> where TVisual : new()
+/// <typeparam name="TViewModel">Specific type of ViewModel to resolve.</typeparam>
+/// <typeparam name="TVisual">View to be resolved.</typeparam>
+public class StaticVisualResolver<TViewModel, TVisual> : IVisualResolver<TVisual> where TViewModel : IViewModel where TVisual : new()
 {
-    TVisual? IVisualResolver<TVisual>.Resolve(IViewModel viewModel) => new();
+    TVisual? IVisualResolver<TVisual>.Resolve(IViewModel viewModel)
+    {
+        return viewModel is TViewModel ? new TVisual() : default;
+    }
 }

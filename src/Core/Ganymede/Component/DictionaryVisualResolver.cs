@@ -13,12 +13,16 @@ namespace TheXDS.Ganymede.Component;
 /// </typeparam>
 public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewRegistry<T>
 {
-    private readonly Dictionary<Type, Type> _registry = [];
+    /// <summary>
+    /// Gets a reference to the underlying dictionary that contains
+    /// ViewModel-to-View registrations.
+    /// </summary>
+    protected readonly Dictionary<Type, Type> Registry = [];
 
     /// <inheritdoc/>
     public virtual T? Resolve(IViewModel viewModel)
     {
-        return _registry.TryGetValue(viewModel.GetType(), out var visual)
+        return Registry.TryGetValue(viewModel.GetType(), out var visual)
             ? UiThread.Invoke(() => (T)Activator.CreateInstance(visual)!)
             : default!;
     }
@@ -35,7 +39,7 @@ public class DictionaryVisualResolver<T> : IVisualResolver<T>, IViewModelToViewR
     /// </typeparam>
     public void Register<TViewModel, TVisual>() where TViewModel : IViewModel where TVisual : T, new()
     {
-        _registry.Add(typeof(TViewModel), typeof(TVisual));
+        Registry.Add(typeof(TViewModel), typeof(TVisual));
     }
 
     /// <summary>
