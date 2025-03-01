@@ -66,6 +66,19 @@ public class WpfNavCustomDialogService : NavigatingDialogService, IDialogService
         return CallFileDialog<SaveFileDialog>(template.Title, filters, defaultPath);
     }
 
+    Task<DialogResult<string[]?>> IDialogService.GetFilesOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters)
+    {
+        var dialog = new OpenFileDialog()
+        {
+            Filter = filters.ToWin32Filter(),
+            Title = template.Title,
+            Multiselect = true
+        };
+        return Task.FromResult<DialogResult<string[]?>>(dialog.ShowDialog() == true
+            ? new(true, dialog.FileNames)
+            : new(false, null));
+    }
+
     Task<DialogResult<string?>> IDialogService.GetDirectoryPath(DialogTemplate template, string? defaultPath)
     {
         return CallNativeItemDialog<OpenFolderDialog>(template.Title, defaultPath, null, d => d.FolderName);

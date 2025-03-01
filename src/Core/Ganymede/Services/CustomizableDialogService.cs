@@ -60,6 +60,13 @@ public class CustomizableDialogService : IDialogService
 
     /// <summary>
     /// Defines the implementation override for the
+    /// <see cref="IDialogService.GetFilesOpenPath(DialogTemplate, IEnumerable{FileFilterItem})"/>
+    /// method and its overloads.
+    /// </summary>
+    public IDialogService? GetFilesOpenPathOverride { get; set; }
+
+    /// <summary>
+    /// Defines the implementation override for the
     /// <see cref="IDialogService.GetFileSavePath(DialogTemplate, IEnumerable{FileFilterItem}, string?)"/>
     /// method and its overloads.
     /// </summary>
@@ -138,6 +145,7 @@ public class CustomizableDialogService : IDialogService
     Task<DialogResult<Credential?>> IDialogService.GetCredential(DialogTemplate template, string? defaultUser, bool isUserEditable) => GetService(GetCredentialOverride).GetCredential(template, defaultUser, isUserEditable);
     Task<DialogResult<string?>> IDialogService.GetDirectoryPath(DialogTemplate template, string? defaultPath) => GetService(GetDirectoryPathOverride).GetDirectoryPath(template, defaultPath);
     Task<DialogResult<string?>> IDialogService.GetFileOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath) => GetService(GetFileOpenPathOverride).GetFileOpenPath(template, filters, defaultPath);
+    Task<DialogResult<string[]?>> IDialogService.GetFilesOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters) => GetService(GetFilesOpenPathOverride).GetFilesOpenPath(template, filters);
     Task<DialogResult<string?>> IDialogService.GetFileSavePath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath) => GetService(GetFileSavePathOverride).GetFileSavePath(template, filters, defaultPath);
     Task<DialogResult<(T Min, T Max)>> IDialogService.GetInputRange<T>(DialogTemplate template, T? minimum, T? maximum, T defaultRangeStart, T defaultRangeEnd) => GetService(GetInputRangeOverride).GetInputRange(template, minimum, maximum, defaultRangeStart, defaultRangeEnd);
     Task<DialogResult<string?>> IDialogService.GetInputText(DialogTemplate template, string? defaultValue) => GetService(GetInputTextOverride).GetInputText(template, defaultValue);

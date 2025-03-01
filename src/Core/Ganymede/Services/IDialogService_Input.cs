@@ -191,6 +191,19 @@ public partial interface IDialogService
     Task<DialogResult<string?>> GetFileOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath = null);
 
     /// <summary>
+    /// Gets multiple file paths.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="filters">Collection of filters that can be used to filter for specific file types.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that can be used to await for the completion of
+    /// the dialog.
+    /// </returns>
+    Task<DialogResult<string[]?>> GetFilesOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters);
+
+    /// <summary>
     /// Gets a path to a file.
     /// </summary>
     /// <param name="template">

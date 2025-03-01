@@ -3,24 +3,22 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.Types;
+using TheXDS.Ganymede.ValueConverters;
 using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;
 
 /// <summary>
 /// Implements a dialog template that creates a control that allows the user to
-/// select a file path.
+/// select multiple file paths.
 /// </summary>
-/// <typeparam name="T">
-/// Type of ViewModel to use for file path selection.
-/// </typeparam>
-public abstract class FileDialogTemplateBuilder<T> : IDialogTemplateBuilder<T> where T : FileDialogViewModel
+public class FileMultiSelectDialogTemplateBuilder : IDialogTemplateBuilder<FileMultiSelectDialogViewModel>
 {
     /// <inheritdoc/>
-    public virtual FrameworkElement? Build(T viewModel)
+    public FrameworkElement? Build(FileMultiSelectDialogViewModel viewModel)
     {
-        var txt = new FileOpenSelectorTextBox();
-        txt.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { Mode = BindingMode.TwoWay });
+        var txt = new FileOpenSelectorTextBox() { AllowMultiSelect = true };
+        txt.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { Mode = BindingMode.TwoWay, Converter = new StringArrayToStringConverter() });
         txt.SetBinding(FileOpenSelectorTextBox.FileFiltersProperty, new Binding(nameof(viewModel.FileFilters)) { Mode = BindingMode.OneWay });
         return txt;
     }

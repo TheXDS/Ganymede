@@ -121,6 +121,17 @@ public class WpfNativeDialogService : IDialogService
         return Task.FromResult<DialogResult<string?>>(dlg.ShowDialog() == true ? new(true, dlg.SafeFileName) : new(false, null));
     }
 
+    Task<DialogResult<string[]?>> IDialogService.GetFilesOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters)
+    {
+        var dlg = new OpenFileDialog()
+        {
+            FileName = string.Empty,
+            Title = template.Title ?? template.Text,
+            ValidateNames = true,
+        };
+        return Task.FromResult<DialogResult<string[]?>>(dlg.ShowDialog() == true ? new(true, dlg.FileNames) : new(false, null));
+    }
+
     Task<DialogResult<string?>> IDialogService.GetFileSavePath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath)
     {
         var dlg = new SaveFileDialog()

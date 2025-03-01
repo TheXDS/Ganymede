@@ -80,6 +80,11 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
         return Show(template.Configure(new FileOpenDialogViewModel() { FileFilters = filters, Value = defaultPath }));
     }
 
+    Task<DialogResult<string[]?>> IDialogService.GetFilesOpenPath(DialogTemplate template, IEnumerable<FileFilterItem> filters)
+    {
+        return Show(template.Configure(new FileMultiSelectDialogViewModel() { FileFilters = filters, Value = [] }));
+    }
+
     Task<DialogResult<string?>> IDialogService.GetFileSavePath(DialogTemplate template, IEnumerable<FileFilterItem> filters, string? defaultPath)
     {
         return Show(template.Configure(new FileSaveDialogViewModel() { FileFilters = filters, Value = defaultPath }));

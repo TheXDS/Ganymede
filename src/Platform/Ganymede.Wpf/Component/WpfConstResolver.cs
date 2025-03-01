@@ -6,12 +6,16 @@ using TheXDS.MCART.Exceptions;
 namespace TheXDS.Ganymede.Component;
 
 /// <summary>
-/// Implements a <see cref="IVisualResolver{TVisual}"/> that resolves 
+/// Implements a <see cref="IVisualResolver{TVisual}"/> that resolves a
+/// specific view for any ViewModel.
 /// </summary>
 public class WpfConstResolver : IVisualResolver<FrameworkElement>
 {
     private Type? view;
 
+    /// <summary>
+    /// Gets or sets the view that this instance will always resolve.
+    /// </summary>
     public Type? View
     {
         get => view;
