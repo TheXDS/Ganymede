@@ -1,5 +1,4 @@
 ﻿using TheXDS.Ganymede.Models;
-using TheXDS.Ganymede.Resources;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Types;
 

@@ -39,10 +39,29 @@ public interface IViewModel : INotifyPropertyChanged
     /// <param name="navigation">
     /// Flag used to request cancellation of the navigation action.
     /// </param>
+    /// <returns>
+    /// A task that can be used to await the async operation.
+    /// </returns>
     /// <remarks>
     /// This method will be invoked only when executing a normal navigation
     /// back in the stack from the currently active ViewModel. This method is
     /// not triggered upon navigation stack reset, nor application termination.
     /// </remarks>
     Task OnNavigateBack(CancelFlag navigation) => Task.CompletedTask;
+
+    /// <summary>
+    /// When implemented in a ViewModel, allows for custom logic to be applied
+    /// upon navigating awaiy in the stack.
+    /// </summary>
+    /// <param name="navigation">
+    /// Flag used to request cancellation of the navigation action.
+    /// </param>
+    /// <returns>
+    /// A task that can be used to await the async operation.
+    /// </returns>
+    /// <remarks>
+    /// This method will be invoked when the stack is navigating away from this
+    /// ViewModel.
+    /// </remarks>
+    Task OnNavigateAway(CancelFlag navigation) => Task.CompletedTask;
 }

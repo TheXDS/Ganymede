@@ -49,9 +49,9 @@ public interface INavigationService<TViewModel> : INavigationService where TView
     /// ViewModel to navigate to. If already present in the navigation
     /// stack, the navigation will activate the existing ViewModel instance.
     /// </param>
-    void Navigate(TViewModel viewModel);
+    Task Navigate(TViewModel viewModel);
 
-    void INavigationService.Navigate(IViewModel viewModel) => Navigate((TViewModel)viewModel);
+    Task INavigationService.Navigate(IViewModel viewModel) => Navigate((TViewModel)viewModel);
 
     /// <summary>
     /// Navigates to a new instance of the specified ViewModel.
@@ -60,9 +60,9 @@ public interface INavigationService<TViewModel> : INavigationService where TView
     /// Type of ViewModel to navigate to. This method will always navigate to a
     /// new ViewModel instance.
     /// </typeparam>
-    new void Navigate<T>() where T : TViewModel, new() => Navigate(new T());
+    new Task Navigate<T>() where T : TViewModel, new() => Navigate(new T());
 
-    void INavigationService.Navigate<T>() => Navigate(new T());
+    Task INavigationService.Navigate<T>() => Navigate(new T());
 
     /// <summary>
     /// Clears the navigation stack and inmediately navigates to the specified
@@ -72,9 +72,9 @@ public interface INavigationService<TViewModel> : INavigationService where TView
     /// ViewModel to navigate to. If <see langword="null"/>, the navigation
     /// stack will be cleared.
     /// </param>
-    void NavigateAndReset(TViewModel? viewModel);
+    Task NavigateAndReset(TViewModel? viewModel);
 
-    void INavigationService.NavigateAndReset(IViewModel? viewModel) => NavigateAndReset(viewModel as TViewModel);
+    Task INavigationService.NavigateAndReset(IViewModel? viewModel) => NavigateAndReset(viewModel as TViewModel);
 
     /// <summary>
     /// Clears the navigation stack and inmeditely navigates to a new instance
@@ -83,7 +83,7 @@ public interface INavigationService<TViewModel> : INavigationService where TView
     /// <typeparam name="T">
     /// Type of ViewModel to navigate to.
     /// </typeparam>
-    new void NavigateAndReset<T>() where T : TViewModel, new() => NavigateAndReset(new T());
+    new Task NavigateAndReset<T>() where T : TViewModel, new() => NavigateAndReset(new T());
 
-    void INavigationService.NavigateAndReset<T>() => NavigateAndReset(new T());
+    Task INavigationService.NavigateAndReset<T>() => NavigateAndReset(new T());
 }

@@ -48,14 +48,20 @@ public class SingletonNavigationService<T> : NotifyPropertyChanged, INavigationS
     }
 
     /// <inheritdoc/>
-    public void Navigate(T viewModel)
+    public async Task Navigate(T viewModel)
     {
+        var f = new CancelFlag(false);
+        await (CurrentViewModel?.OnNavigateAway(f) ?? Task.CompletedTask);
+        if (f.IsCancelled) return;
         CurrentViewModel = viewModel;
     }
 
     /// <inheritdoc/>
-    public void NavigateAndReset(T? viewModel)
+    public async Task NavigateAndReset(T? viewModel)
     {
+        var f = new CancelFlag(false);
+        await (CurrentViewModel?.OnNavigateAway(f) ?? Task.CompletedTask);
+        if (f.IsCancelled) return;
         CurrentViewModel = viewModel;
     }
 

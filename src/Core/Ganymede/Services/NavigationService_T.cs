@@ -102,19 +102,22 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     }
 
     /// <inheritdoc/>
-    public void Navigate(T viewModel)
+    public async Task Navigate(T viewModel)
     {
+        var f = new CancelFlag(false);
+        await (CurrentViewModel?.OnNavigateAway(f) ?? Task.CompletedTask);
+        if (f.IsCancelled) return;
         UiThread.Invoke(() => _navStack.Push(viewModel ?? throw new ArgumentNullException(nameof(viewModel))));
         Refresh();
     }
 
     /// <inheritdoc/>
-    public void NavigateAndReset(T? viewModel)
+    public async Task NavigateAndReset(T? viewModel)
     {
         _navStack.Clear();
         if (viewModel is { })
         {
-            Navigate(viewModel);
+            await Navigate(viewModel);
         }
         else
         {

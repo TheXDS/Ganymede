@@ -21,15 +21,15 @@ public class HostNavigationService<T> : NavigationService<T>, INavigationService
         _host = host;
     }
 
-    void INavigationService<T>.Navigate(T viewModel)
+    Task INavigationService<T>.Navigate(T viewModel)
     {
         viewModel.DialogService = _host?.DialogService;
-        Navigate(viewModel);
+        return Navigate(viewModel);
     }
 
-    void INavigationService<T>.NavigateAndReset(T? viewModel)
+    Task INavigationService<T>.NavigateAndReset(T? viewModel)
     {
         if (viewModel is not null) viewModel.DialogService = _host?.DialogService;
-        NavigateAndReset(viewModel);
+        return NavigateAndReset(viewModel);
     }
 }

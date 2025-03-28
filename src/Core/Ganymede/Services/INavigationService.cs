@@ -52,7 +52,7 @@ public interface INavigationService
     /// ViewModel to navigate to. If already present in the navigation
     /// set, the navigation will activate the existing ViewModel instance.
     /// </param>
-    void Navigate(IViewModel viewModel);
+    Task Navigate(IViewModel viewModel);
 
     /// <summary>
     /// Navigates to a new instance of the specified ViewModel.
@@ -61,7 +61,7 @@ public interface INavigationService
     /// Type of ViewModel to navigate to. This method will always navigate to a
     /// new ViewModel instance.
     /// </typeparam>
-    void Navigate<TViewModel>() where TViewModel : class, IViewModel, new() => Navigate(new TViewModel());
+    Task Navigate<TViewModel>() where TViewModel : class, IViewModel, new() => Navigate(new TViewModel());
 
     /// <summary>
     /// Navigates to a new instance of the specified ViewModel.
@@ -73,9 +73,9 @@ public interface INavigationService
     /// <typeparam name="TState">
     /// State to be set onto the ViewModel.
     /// </typeparam>
-    void Navigate<TViewModel, TState>(TState state) where TViewModel : class, IStatefulViewModel<TState>, new()
+    Task Navigate<TViewModel, TState>(TState state) where TViewModel : class, IStatefulViewModel<TState>, new()
     {
-        Navigate(new TViewModel() { State = state });
+        return Navigate(new TViewModel() { State = state });
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public interface INavigationService
     /// ViewModel to navigate to. If <see langword="null"/>, the navigation
     /// set will be cleared.
     /// </param>
-    void NavigateAndReset(IViewModel? viewModel);
+    Task NavigateAndReset(IViewModel? viewModel);
 
     /// <summary>
     /// Clears the navigation set and inmeditely navigates to a new instance
@@ -95,7 +95,7 @@ public interface INavigationService
     /// <typeparam name="TViewModel">
     /// Type of ViewModel to navigate to.
     /// </typeparam>
-    void NavigateAndReset<TViewModel>() where TViewModel : class, IViewModel, new() => NavigateAndReset(new TViewModel());
+    Task NavigateAndReset<TViewModel>() where TViewModel : class, IViewModel, new() => NavigateAndReset(new TViewModel());
 
     /// <summary>
     /// Clears the navigation set and inmeditely navigates to a new instance
@@ -107,9 +107,9 @@ public interface INavigationService
     /// <typeparam name="TState">
     /// State to be set onto the ViewModel.
     /// </typeparam>
-    void NavigateAndReset<TViewModel, TState>(TState state) where TViewModel : class, IStatefulViewModel<TState>, new()
+    Task NavigateAndReset<TViewModel, TState>(TState state) where TViewModel : class, IStatefulViewModel<TState>, new()
     {
-        NavigateAndReset(new TViewModel() { State = state });
+        return NavigateAndReset(new TViewModel() { State = state });
     }
 
     /// <summary>
@@ -119,9 +119,9 @@ public interface INavigationService
     /// <typeparam name="TViewModel">
     /// Type of ViewModel to navigate to.
     /// </typeparam>
-    void NavigateAndReset<TViewModel>(object? state) where TViewModel : class, IStatefulViewModel<object?>, new()
+    Task NavigateAndReset<TViewModel>(object? state) where TViewModel : class, IStatefulViewModel<object?>, new()
     {
-        NavigateAndReset<TViewModel, object?>(state);
+        return NavigateAndReset<TViewModel, object?>(state);
     }
 
     /// <summary>
@@ -143,5 +143,5 @@ public interface INavigationService
     /// <see cref="ViewModel"/> set as the <see cref="HomePage"/>, or
     /// <see langword="null"/> if the home ViewModel has not been set.
     /// </summary>
-    void Reset() => NavigateAndReset(null);
+    Task Reset() => NavigateAndReset(null);
 }
