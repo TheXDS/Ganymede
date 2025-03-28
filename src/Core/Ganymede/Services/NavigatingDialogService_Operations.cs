@@ -14,7 +14,7 @@ public partial class NavigatingDialogService
         ButtonInteraction cancel = new(ct.Cancel, St.Cancel) { IsPrimary = true };
         var (vm, progress) = CreateOperationVm(title);
         vm.Interactions.Add(cancel);
-        Navigate(vm);
+        await Navigate(vm);
         var task = operation.Invoke(ct.Token, progress);
         try { await task; }
         catch (Exception ex) { await ((IDialogService)this).Error(ex); }
@@ -25,7 +25,7 @@ public partial class NavigatingDialogService
     async Task<T> IDialogService.RunOperation<T>(string? title, Func<IProgress<ProgressReport>, Task<T>> operation)
     {
         var (vm, progress) = CreateOperationVm(title);
-        Navigate(vm);
+        await Navigate(vm);
         var task = operation.Invoke(progress);
         try { return await task; }
         catch (Exception ex) { await ((IDialogService)this).Error(ex); return default!; }
@@ -39,7 +39,7 @@ public partial class NavigatingDialogService
         ButtonInteraction cancel = new(ct.Cancel, St.Cancel) { IsPrimary = true };
         var (vm, progress) = CreateOperationVm(title);
         vm.Interactions.Add(cancel);
-        Navigate(vm);
+        await Navigate(vm);
         try
         {
             return new(true, await operation.Invoke(ct.Token, progress));
@@ -59,7 +59,7 @@ public partial class NavigatingDialogService
     public async Task RunOperation(string? title, Func<IProgress<ProgressReport>, Task> operation)
     {
         var (vm, progress) = CreateOperationVm(title);
-        Navigate(vm);
+        await Navigate(vm);
         var task = operation.Invoke(progress);
         try { await task; }
         catch (Exception ex) { await ((IDialogService)this).Error(ex); }

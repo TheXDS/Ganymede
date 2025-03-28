@@ -292,7 +292,7 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public SimpleCommand BuildNavigate<T>() where T : class, IViewModel, new()
     {
-        return new(() => ViewModelReference.NavigationService?.Navigate<T>());
+        return new(() => ViewModelReference.NavigationService?.Navigate<T>() ?? Task.CompletedTask);
     }
 
     /// <summary>

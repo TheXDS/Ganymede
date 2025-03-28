@@ -28,7 +28,7 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
     public async Task Show(IAwaitableDialogViewModel dialogVm)
     {
         dialogVm.DialogService = this;
-        Navigate(dialogVm);
+        await Navigate(dialogVm);
         try { await dialogVm.DialogAwaiter; }
         finally { await NavigateBack(); }
     }
