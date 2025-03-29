@@ -87,7 +87,7 @@ public abstract class ValueDialogTemplateBuilderBase<TViewModel, TValue, TContro
     {
         var control = new TControl();
         uniqueConfig?.Invoke(control);
-        var binding = new Binding(valuePath);
+        var binding = new Binding(valuePath) { Mode = BindingMode.TwoWay };
         ConfigureControl(control);
         ConfigureValueBinding(binding);
         control.SetBinding(valueProperty, binding);
