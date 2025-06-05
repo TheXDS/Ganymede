@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,12 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="11.2.7" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="11.2.7" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.7" />
-    <PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="0.18.0-alpha.12" />
- 	<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0-alpha.12" />
-	<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0-alpha.12" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.1" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.1" />
+    <PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="0.18.0" />
+ 	<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0" />
+	<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,51 +1,22 @@
 ﻿using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.Types.Base;
+using TheXDS.MCART.Types.Base;
 
 namespace TheXDS.Ganymede.ViewModels;
 
 /// <summary>
 /// Defines a <see cref="ViewModel"/> with nested navigation capabilities.
 /// </summary>
-/// <param name="navigationService">
-/// Navigation service to use for children navigation.
-/// </param>
-/// <param name="dialogService">
-/// Dialog service to expose to ViewModels being navigated to.
-/// </param>
-public abstract class HostViewModelBase(INavigationService? navigationService, IDialogService? dialogService) : ViewModel
+public class HostViewModel : ViewModelBase
 {
-    private INavigationService? childNavService = navigationService;
-    private IDialogService? childDlgService = dialogService;
+    private readonly HostNavigationService<ViewModel> _navService = new();
 
     /// <summary>
-    /// Gets or sets a reference to the child navigation service on this
+    /// Gets a reference to the child navigation service on this
     /// instance.
     /// </summary>
-    /// <value>
-    /// If the local instance of a navigation serivce is set to
-    /// <see langword="null"/>, the parent
-    /// <see cref="ViewModel.NavigationService"/> instance will be returned.
-    /// </value>
-    public INavigationService? ChildNavService
-    {
-        get => childNavService ?? NavigationService;
-        set => childNavService = value;
-    }
-
-    /// <summary>
-    /// Gets or sets a reference to the child dialog service on this instance.
-    /// </summary>
-    /// <value>
-    /// If the local instance of a dialog serivce is set to
-    /// <see langword="null"/>, the parent
-    /// <see cref="ViewModel.DialogService"/> instance will be returned.
-    /// </value>
-    public IDialogService? ChildDialogService
-    {
-        get => childDlgService ?? DialogService;
-        set => childDlgService = value;
-    }
+    public INavigationService NavigationService => _navService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HostViewModelBase"/>
@@ -53,9 +24,9 @@ public abstract class HostViewModelBase(INavigationService? navigationService, I
     /// reusing the dialog service from this instance to expose them to any
     /// children ViewModels.
     /// </summary>
-    protected HostViewModelBase() : this(new HostNavigationService<ViewModel>(), null)
+    public HostViewModel(IViewModel parent)
     {
-        ((HostNavigationService<ViewModel>)ChildNavService!).SetHost(this);
+        _navService.SetHost(parent);
     }
 
     /// <summary>
@@ -73,7 +44,7 @@ public abstract class HostViewModelBase(INavigationService? navigationService, I
     /// </returns>
     protected ButtonInteraction CreateNavInteraction<TViewModel>(string label) where TViewModel : class, IViewModel, new()
     {
-        return new(() => ChildNavService?.Navigate<TViewModel>(), label);
+        return new(() => NavigationService.Navigate<TViewModel>(), label);
     }
 
     /// <summary>
@@ -98,6 +69,6 @@ public abstract class HostViewModelBase(INavigationService? navigationService, I
     /// </returns>
     protected ButtonInteraction CreateNavInteraction<TViewModel, TState>(TState state, string label) where TViewModel : class, IStatefulViewModel<TState>, new()
     {
-        return new(() => ChildNavService?.Navigate<TViewModel, TState>(state), label);
+        return new(() => NavigationService.Navigate<TViewModel, TState>(state), label);
     }
 }
