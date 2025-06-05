@@ -19,7 +19,7 @@ public class HostViewModel : ViewModelBase
     public INavigationService NavigationService => _navService;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="HostViewModelBase"/>
+    /// Initializes a new instance of the <see cref="HostViewModel"/>
     /// class, setting a new instance for the child navigation service and 
     /// reusing the dialog service from this instance to expose them to any
     /// children ViewModels.

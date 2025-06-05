@@ -51,7 +51,7 @@ public interface IViewModel : INotifyPropertyChanged
 
     /// <summary>
     /// When implemented in a ViewModel, allows for custom logic to be applied
-    /// upon navigating awaiy in the stack.
+    /// upon navigating away in the stack.
     /// </summary>
     /// <param name="navigation">
     /// Flag used to request cancellation of the navigation action.
