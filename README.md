@@ -11,8 +11,8 @@ Ganymede is an app-template using common MVVM-frameworks. It includes helpers fo
 ## Releases
 Release | Link
 --- | ---
-Latest public release: | [![Latest stable NuGet package](https://buildstats.info/nuget/TheXDS.Ganymede)](https://www.nuget.org/packages/TheXDS.Ganymede/)  
-Latest development release: | [![Latest development NuGet package](https://buildstats.info/nuget/TheXDS.Ganymede?includePreReleases=true)](https://www.nuget.org/packages/TheXDS.Ganymede/)
+Latest stable version: | [![Stable Version](https://img.shields.io/nuget/v/TheXDS.Ganymede)](https://www.nuget.org/packages/TheXDS.Ganymede/)
+Latest development version: | [![Development version](https://img.shields.io/nuget/vpre/TheXDS.Ganymede)](https://www.nuget.org/stats/packages/TheXDS.Ganymede?groupby=Version)
 
 **Package Manager**  
 ```sh
