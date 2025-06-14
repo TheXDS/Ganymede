@@ -5,6 +5,7 @@
 [![Publish Ganymede](https://github.com/TheXDS/Ganymede/actions/workflows/publish.yml/badge.svg)](https://github.com/TheXDS/Ganymede/actions/workflows/publish.yml)
 [![Issues](https://img.shields.io/github/issues/TheXDS/Ganymede)](https://github.com/TheXDS/Ganymede/issues)
 [![MIT](https://img.shields.io/github/license/TheXDS/Ganymede)](https://mit-license.org/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/TheXDS/Ganymede)
 
 Ganymede is an app-template using common MVVM-frameworks. It includes helpers for navigation, base ViewModel classes, custom dialog services and common entry points. You just need to provide your actual ViewModels and views, not having to worry about implementing auxiliary UI services for them.
 
