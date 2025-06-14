@@ -2,6 +2,7 @@
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.MCART.Component;
+using TheXDS.MCART.Exceptions;
 using TheXDS.MCART.Helpers;
 
 namespace TheXDS.Ganymede.Helpers;
@@ -305,6 +306,21 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     public SimpleCommand BuildNavigateBack()
     {
         return new(() => ViewModelReference.NavigationService?.NavigateBack() ?? Task.CompletedTask);
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="SimpleCommand"/> instance that will throw an
+    /// exception if forced to be executed. This command is useful for testing
+    /// purposes or when you want to create a command that is intentionally
+    /// invalid.
+    /// </summary>
+    /// <returns>
+    /// A command that cannot be executed; and if forced to, will throw an
+    /// <see cref="InvalidOperationException"/>.
+    /// </returns>
+    public ICommand BuildInvalid()
+    {
+        return new SimpleCommand(() => throw new InvalidOperationException(), false);
     }
 
     private Task RunInOperationDialog(Func<IProgress<ProgressReport>, Task> action, string? title = null)
