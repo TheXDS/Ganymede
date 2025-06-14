@@ -104,9 +104,7 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     /// <inheritdoc/>
     public async Task Navigate(T viewModel)
     {
-        var f = new CancelFlag(false);
-        await (CurrentViewModel?.OnNavigateAway(f) ?? Task.CompletedTask);
-        if (f.IsCancelled) return;
+        if (await ShouldCancelNavigateAway()) return;
         UiThread.Invoke(() => _navStack.Push(viewModel ?? throw new ArgumentNullException(nameof(viewModel))));
         Refresh();
     }
@@ -114,6 +112,7 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     /// <inheritdoc/>
     public async Task NavigateAndReset(T? viewModel)
     {
+        if (await ShouldCancelNavigateAway()) return;
         _navStack.Clear();
         if (viewModel is { })
         {
@@ -128,12 +127,7 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     /// <inheritdoc/>
     public async Task NavigateBack()
     {
-        if (CurrentViewModel is { } vm)
-        {
-            var f = new CancelFlag(false);
-            await vm.OnNavigateBack(f);
-            if (f.IsCancelled) return;
-        }
+        if (await ShouldCancelNavigateBack()) return;
         if (_navStack.TryPop(out _))
         {
             Refresh();
@@ -147,5 +141,22 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
         Notify(nameof(CurrentViewModel));
         _navStackInfo.NotifyChange();
         (CurrentViewModel as IViewModel_Internal)?.InvokeOnCreated();
+    }
+
+    private async Task<bool> ShouldCancelNavigateBack()
+    {
+        return CurrentViewModel is { } vm && await ShouldCancelNavigation(vm.OnNavigateBack);
+    }
+
+    private async Task<bool> ShouldCancelNavigateAway()
+    {
+        return CurrentViewModel is { } vm && await ShouldCancelNavigation(vm.OnNavigateAway);
+    }
+
+    private static async Task<bool> ShouldCancelNavigation(Func<CancelFlag, Task> cancelCallback)
+    {
+        var f = new CancelFlag(false);
+        await cancelCallback.Invoke(f);
+        return f.IsCancelled;
     }
 }
