@@ -24,6 +24,11 @@ public class LocalFileSettingsStore(string fileName) : IConfigurationStore
     /// <inheritdoc/>
     public Stream GetWriteStream()
     {
+        var dir = Path.GetDirectoryName(fileName);
+        if (dir is not null && !Directory.Exists(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
         return new FileStream(fileName, FileMode.Create);
     }
 }

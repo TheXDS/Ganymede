@@ -61,6 +61,7 @@ public abstract class ViewModel : ViewModelBase, IViewModel, IViewModel_Internal
 
     async Task IViewModel_Internal.InvokeOnCreated()
     {
+        if (IsInitialized || DialogService is null || NavigationService is null) return;
         IsBusy = true;
         await OnCreated();
         IsInitialized = true;
