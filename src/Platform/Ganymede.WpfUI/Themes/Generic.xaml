@@ -1,5 +1,9 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <ResourceDictionary.MergedDictionaries>
+        <ui:ControlsDictionary />
+        <ResourceDictionary Source="/Ganymede.Wpf.Core;component/Themes/Generic.xaml"/>
         <ResourceDictionary Source="/Ganymede.WpfUI;component/Resources/ControlTemplates/FileSelectorTextBox/Default.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

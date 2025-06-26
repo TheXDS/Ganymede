@@ -17,10 +17,10 @@ public static class GanymedeInitializer
     public static void Initialize()
     {
         UiThread.SetProxy(new DispatcherUiThreadProxy());
-        InitializeDialogVisualConverter();
+        InitializeDialogVisualConverters();
     }
 
-    private static void InitializeDialogVisualConverter()
+    private static void InitializeDialogVisualConverters()
     {
         RegisterNumericTemplateBuilder<byte, UInt8TextBox>();
         RegisterNumericTemplateBuilder<sbyte, Int8TextBox>();

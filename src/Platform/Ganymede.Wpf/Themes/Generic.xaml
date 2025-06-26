@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Ganymede.Wpf.Core;component/Themes/Generic.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/FileSelectorTextBox.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/IntegerTextBox/Default.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf;component/Resources/ControlTemplates/PasswordBox.xaml"/>
