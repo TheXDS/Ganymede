@@ -94,7 +94,7 @@ public partial class NavigationHost : ContentControl
         instance.Navigator?.Refresh();
     }
 
-    private partial void SetDataContext<TVisual>(TVisual visual, IViewModel vm)
+    private static partial void SetDataContext<TVisual>(TVisual visual, IViewModel vm)
     {
         if (visual is StyledElement v) v.DataContext = vm;
     }

@@ -80,7 +80,7 @@ public partial class NavigationHost
             false);
     }
 
-    private void HandleNavigation<TNav, TVisual>(
+    private static void HandleNavigation<TNav, TVisual>(
         IViewModel? vm,
         IVisualResolver<TVisual>? resolver,
         Action<TVisual?> setContent,
@@ -103,5 +103,5 @@ public partial class NavigationHost
         }
     }
 
-    private partial void SetDataContext<TVisual>(TVisual visual, IViewModel vm);
+    private static partial void SetDataContext<TVisual>(TVisual visual, IViewModel vm);
 }

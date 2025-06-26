@@ -1,5 +1,3 @@
-using System;
-using System.Windows;
 using TheXDS.Ganymede.Controls.Primitives;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;

@@ -15,5 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Markup/NavDialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Markup/NavService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters/DialogVisualConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\StringArrayToStringConverter.cs" />
   </ItemGroup>
 </Project>

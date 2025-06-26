@@ -1,5 +1,3 @@
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;

@@ -4,6 +4,7 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0" />
@@ -13,9 +14,10 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
+		<ProjectReference Include="..\Ganymede.Wpf.Core\Ganymede.Wpf.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+		<Using Include="System.Windows" />
+		<Using Include="System.Windows.Controls" />
 	</ItemGroup>
-	<Import Project="..\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems" Label="Shared" />
 </Project>

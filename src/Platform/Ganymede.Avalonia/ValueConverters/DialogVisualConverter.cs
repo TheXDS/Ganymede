@@ -11,20 +11,20 @@ namespace TheXDS.Ganymede.ValueConverters;
 
 public sealed partial class DialogVisualConverter : IOneWayValueConverter<DialogViewModel, StyledElement?>, IVisualResolver<StyledElement>
 {
-    private static partial void ManualRegistrations()
-    {
-        //Register well-known input dialog builders
-        RegisterNumericTemplateBuilder<byte>();
-        RegisterNumericTemplateBuilder<sbyte>();
-        RegisterNumericTemplateBuilder<short>();
-        RegisterNumericTemplateBuilder<ushort>();
-        RegisterNumericTemplateBuilder<int>();
-        RegisterNumericTemplateBuilder<uint>();
-        RegisterNumericTemplateBuilder<long>();
-        RegisterNumericTemplateBuilder<ulong>();
-        RegisterNumericTemplateBuilder<float>();
-        RegisterNumericTemplateBuilder<double>();
-    }
+    //private static partial void ManualRegistrations()
+    //{
+    //    //Register well-known input dialog builders
+    //    RegisterNumericTemplateBuilder<byte>();
+    //    RegisterNumericTemplateBuilder<sbyte>();
+    //    RegisterNumericTemplateBuilder<short>();
+    //    RegisterNumericTemplateBuilder<ushort>();
+    //    RegisterNumericTemplateBuilder<int>();
+    //    RegisterNumericTemplateBuilder<uint>();
+    //    RegisterNumericTemplateBuilder<long>();
+    //    RegisterNumericTemplateBuilder<ulong>();
+    //    RegisterNumericTemplateBuilder<float>();
+    //    RegisterNumericTemplateBuilder<double>();
+    //}
 
     /// <inheritdoc/>
     public StyledElement? Convert(DialogViewModel value, object? parameter, CultureInfo? culture)
@@ -47,12 +47,12 @@ public sealed partial class DialogVisualConverter : IOneWayValueConverter<Dialog
         }
     }
     
-    private static void RegisterNumericTemplateBuilder<TValue>()
-        where TValue : unmanaged, IComparable<TValue>
-    {
-        RegisterTemplateBuilder<NumericInputDialogTemplateBuilder<TValue>>();
-        RegisterTemplateBuilder<NumericRangeInputDialogTemplateBuilder<TValue>> ();
-    }
+    //private static void RegisterNumericTemplateBuilder<TValue>()
+    //    where TValue : unmanaged, IComparable<TValue>
+    //{
+    //    RegisterTemplateBuilder<NumericInputDialogTemplateBuilder<TValue>>();
+    //    RegisterTemplateBuilder<NumericRangeInputDialogTemplateBuilder<TValue>> ();
+    //}
 
     StyledElement? IVisualResolver<StyledElement>.Resolve(IViewModel viewModel)
     {

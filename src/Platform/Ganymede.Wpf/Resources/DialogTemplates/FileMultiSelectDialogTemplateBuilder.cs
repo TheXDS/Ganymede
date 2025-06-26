@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows.Data;
 using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ValueConverters;

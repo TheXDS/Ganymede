@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Management;
 using System.Security.Principal;
-using System.Windows;
 
 namespace TheXDS.Ganymede.Helpers;
 

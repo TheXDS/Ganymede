@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Reflection;
 using System.Windows.Controls.Primitives;
 using TheXDS.MCART.Math;
 using static TheXDS.MCART.Helpers.DependencyObjectHelpers;
@@ -34,7 +31,7 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
 
         private static Func<T, T> GetAbsMethod()
         {
-            return typeof(Math).GetMethod("Abs", BindingFlags.Static | BindingFlags.Public, new[] { typeof(T) }) is { } abs
+            return typeof(Math).GetMethod("Abs", BindingFlags.Static | BindingFlags.Public, [typeof(T)]) is { } abs
                 ? (Func<T, T>)Delegate.CreateDelegate(typeof(Func<T, T>), abs)
                 : x => x;
         }
@@ -55,12 +52,12 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
 
         private static TryParseCallback GetTryParseMethod()
         {
-            return (TryParseCallback)Delegate.CreateDelegate(typeof(TryParseCallback), typeof(T).GetMethod("TryParse", BindingFlags.Static | BindingFlags.Public, new Type[] { typeof(string), typeof(T).MakeByRefType() })!);
+            return (TryParseCallback)Delegate.CreateDelegate(typeof(TryParseCallback), typeof(T).GetMethod("TryParse", BindingFlags.Static | BindingFlags.Public, [typeof(string), typeof(T).MakeByRefType()])!);
         }
 
         private static T GetNumber(string input)
         {
-            return (T)typeof(T).GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, new[] { typeof(string) })!.Invoke(null, new object[] { input })!;
+            return (T)typeof(T).GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, [typeof(string)])!.Invoke(null, [input])!;
         }
     }
 

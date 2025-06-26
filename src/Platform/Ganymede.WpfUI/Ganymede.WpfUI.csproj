@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.18.0" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.18.0" />
+		<ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
+		<ProjectReference Include="..\Ganymede.Wpf.Core\Ganymede.Wpf.Core.csproj" />
+		<PackageReference Include="WPF-UI" Version="4.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<Using Include="System.Windows" />
+		<Using Include="System.Windows.Controls" />
+	</ItemGroup>
+</Project>

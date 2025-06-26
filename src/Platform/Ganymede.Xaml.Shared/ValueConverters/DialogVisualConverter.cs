@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using TheXDS.Ganymede.Resources.DialogTemplates;
 using TheXDS.Ganymede.Types;
+using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Helpers;
 
 namespace TheXDS.Ganymede.ValueConverters;
@@ -11,20 +11,16 @@ namespace TheXDS.Ganymede.ValueConverters;
 public sealed partial class DialogVisualConverter
 {
     private static readonly List<IDialogTemplateBuilder> Builders = [];
+    private static readonly CustomDialogTemplateBuilder _customBuilder = CustomDialogTemplateBuilder.Create();
+
+    private static IDialogTemplateBuilder? GetBuilder(DialogViewModel value)
+    {
+        return Builders.Concat([_customBuilder]).FirstOrDefault(p => p.CanBuild(value));
+    }
 
     static DialogVisualConverter()
     {
-        // Automatically add ready-to-use standard dialog builders 
         Builders.AddRange(ReflectionHelpers.FindAllObjects<IDialogTemplateBuilder>());
-
-        // Register platform-specific and manually configured dialog builders
-        ManualRegistrations();
-
-        /* 
-         * Register non-discoverable dialog builders (intended for manual
-         * sorting of dialog builders)
-         */
-        Builders.Add(CustomDialogTemplateBuilder.Create());
     }
 
     /// <summary>
@@ -38,6 +34,4 @@ public sealed partial class DialogVisualConverter
     {
         Builders.Add(new T());
     }
-
-    private static partial void ManualRegistrations();
 }

@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace TheXDS.Ganymede.Controls;
+﻿namespace TheXDS.Ganymede.Controls;
 
 /// <summary>
 /// Includes a set of attached properties that can be used to customize the
