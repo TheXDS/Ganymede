@@ -57,21 +57,22 @@ To use the WPF implementation of Ganymede, you can install the [`TheXDS.Ganymede
 
 - Create a new .NET 8 WPF project. Make sure that the project targets at least `net8.0-windows10.0.19041`
 - Install `TheXDS.Ganymede.Wpf` on the project.
-- On `App.xaml.cs`:  
-    ```csharp
-    using System.Windows;
-    using TheXDS.Ganymede.Helpers;
-    using TheXDS.Ganymede.Services;
-
-    namespace WpfApp1;
-
-    public partial class App : Application
-    {
-        public App()
-        {
-            UiThread.SetProxy(new DispatcherUiThreadProxy());
-        }
-    }
+- On `App.xaml`:
+    ``` xaml
+    <Application
+        x:Class="WpfApp1.App"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:gn="http://schemas.thexds.local/ganymede"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        StartupUri="MainWindow.xaml">
+        <Application.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <gn:GanymedeDictionary/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Application.Resources>
+    </Application>
     ```
 - On `MainWindow.xaml`:  
     ```xml
