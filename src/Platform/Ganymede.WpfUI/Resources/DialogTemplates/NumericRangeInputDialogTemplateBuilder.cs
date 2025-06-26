@@ -9,9 +9,6 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// <typeparam name="TValue">
 /// Type of value to generate a set of range controls for.
 /// </typeparam>
-/// <typeparam name="TControl">
-/// Type of control to generate for both the minimum and maximum values.
-/// </typeparam>
 public class NumericRangeInputDialogTemplateBuilder<TValue> : ValueRangeDialogTemplateBuilder<TValue, NumberBox>
     where TValue : unmanaged, IComparable<TValue>
 {

@@ -7,7 +7,6 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// numeric input control.
 /// </summary>
 /// <typeparam name="TValue">Type of numeric value.</typeparam>
-/// <typeparam name="TControl">Type of control to bind to.</typeparam>
 public class NumericInputDialogTemplateBuilder<TValue> : ComparableValueDialogTemplateBuilder<TValue, NumberBox>
     where TValue : unmanaged, IComparable<TValue>
 {
