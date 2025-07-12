@@ -65,6 +65,7 @@ public abstract class ValueDialogTemplateBuilderBase<TViewModel, TValue, TContro
     /// <param name="binding">Binding to configure.</param>
     protected virtual void ConfigureValueBinding(Binding binding)
     {
+        binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
     }
 
     /// <summary>

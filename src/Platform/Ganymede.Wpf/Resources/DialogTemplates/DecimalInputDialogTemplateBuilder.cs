@@ -11,6 +11,7 @@ public class DecimalInputDialogTemplateBuilder : NumericInputDialogTemplateBuild
     /// <inheritdoc/>
     protected override void ConfigureValueBinding(Binding binding)
     {
+        base.ConfigureValueBinding(binding);
         binding.StringFormat = "{0:0.00}";
     }
 }
