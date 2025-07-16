@@ -20,5 +20,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Platform\Ganymede.Avalonia\Ganymede.Avalonia.csproj" />
+	  <ProjectReference Include="..\Ganymede.Playground\Ganymede.Playground.csproj" />
 	</ItemGroup>
 </Project>

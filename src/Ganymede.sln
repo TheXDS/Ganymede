@@ -95,6 +95,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ganymede.WpfUI", "Platform\
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Ganymede.Wpf.Shared", "Platform\Wpf\Ganymede.Wpf.Shared\Ganymede.Wpf.Shared.shproj", "{42AA691C-499B-4099-B99D-A33CCEA7008B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ganymede.Playground", "Tests\Ganymede.Playground\Ganymede.Playground.csproj", "{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -235,6 +237,22 @@ Global
 		{C3A5CDBC-2741-B38E-CB53-97F1B45890CB}.Release|x64.Build.0 = Release|Any CPU
 		{C3A5CDBC-2741-B38E-CB53-97F1B45890CB}.Release|x86.ActiveCfg = Release|Any CPU
 		{C3A5CDBC-2741-B38E-CB53-97F1B45890CB}.Release|x86.Build.0 = Release|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Debug|arm64.Build.0 = Debug|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Debug|x64.Build.0 = Debug|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Debug|x86.Build.0 = Debug|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Release|arm64.ActiveCfg = Release|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Release|arm64.Build.0 = Release|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Release|x64.ActiveCfg = Release|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Release|x64.Build.0 = Release|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Release|x86.ActiveCfg = Release|Any CPU
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -263,6 +281,7 @@ Global
 		{05C12435-9971-3B71-0658-8D2A2AF54AA9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{C3A5CDBC-2741-B38E-CB53-97F1B45890CB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{42AA691C-499B-4099-B99D-A33CCEA7008B} = {FBF0AD55-5726-4AD2-B117-0BD25DFA6DDA}
+		{4A42FB34-C5A2-40CD-9DEB-973E9BBD808E} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C9D4151-06CD-4360-BF3E-A420FD86250F}

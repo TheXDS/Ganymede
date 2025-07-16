@@ -5,10 +5,11 @@
         xmlns:gn="http://schemas.thexds.local/ganymede"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ganymede.Wpf.Playground"
+        xmlns:vm="clr-namespace:Ganymede.Playground.ViewModels;assembly=Ganymede.Playground"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <gn:NavigationHost
         DialogService="{gn:WpfNavDialogService}"
-        Navigator="{gn:NavService Home={x:Type local:TestViewModel}}"
+        Navigator="{gn:NavService Home={x:Type vm:TestViewModel}}"
         VisualResolver="{gn:ConventionResolver}"/>
 </Window>

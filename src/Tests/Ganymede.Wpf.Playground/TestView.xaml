@@ -4,19 +4,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:Ganymede.Wpf.Playground"
+    xmlns:vm="clr-namespace:Ganymede.Playground.ViewModels;assembly=Ganymede.Playground"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance Type=local:TestViewModel}">
-    <StackPanel>
-        <Button
-            Command="{Binding HelloCommand, Mode=OneWay}"
-            Content="Click me"
-            Margin="20"
-            Width="120" Height="30"/>
-        <Button
-            Command="{Binding GoodByeCommand, Mode=OneWay}"
-            Content="Close"
-            Margin="20"
-            Width="120" Height="30"/>
-    </StackPanel>
+    d:DataContext="{d:DesignInstance Type=vm:TestViewModel}">
+    <ItemsControl Margin="5" ItemsSource="{Binding DemoInteractions}" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Button
+					HorizontalAlignment="Stretch"
+					Margin="5"
+                    Content="{Binding Text, Mode=OneWay}"
+                    Command="{Binding Command, Mode=OneWay}"/>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>

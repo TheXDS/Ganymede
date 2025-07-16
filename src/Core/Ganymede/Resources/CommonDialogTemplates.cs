@@ -107,6 +107,7 @@ public static class CommonDialogTemplates
     {
         Icon = "👤",
         Color = Color.MediumAquamarine,
+        Title = Common.Login
     };
 
     /// <summary>

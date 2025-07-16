@@ -254,6 +254,35 @@ public partial interface IDialogService
     Task<DialogResult<T>> GetInputValue<T>(DialogTemplate template, T? minimum, T? maximum, T defaultValue = default) where T : struct, IComparable<T>;
 
     /// <summary>
+    /// Gets a <see cref="DateTime"/> value from the user.
+    /// </summary>
+    /// <param name="template">
+    /// Template to use when generating the dialog to be displayed.
+    /// </param>
+    /// <param name="minimum">Minimum allowed <see cref="DateTime"/> value.</param>
+    /// <param name="maximum">Maximum allowed <see cref="DateTime"/> value.</param>
+    /// <returns>
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the<see cref="DateTime"/>
+    /// value entered by the user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to a default
+    /// <see cref="DateTime"/> value if the user cancels the input dialog.
+    /// </returns>
+    /// <remarks>
+    /// This overload was specifically created to handle default
+    /// <see cref="DateTime"/> values properly. While it is possible to keep
+    /// using the generic version of this method for <see cref="DateTime"/>
+    /// values, use it only if you're also specifying a default value.
+    /// Otherwise, stick to this overload.
+    /// </remarks>
+    Task<DialogResult<DateTime>> GetInputValue(DialogTemplate template, DateTime? minimum = null, DateTime? maximum = null)
+    {
+        return GetInputValue<DateTime>(template, minimum ?? DateTime.MinValue, maximum = DateTime.MaxValue, DateTime.Now);
+    }
+
+    /// <summary>
     /// Gets a range of values from the user.
     /// </summary>
     /// <param name="template">

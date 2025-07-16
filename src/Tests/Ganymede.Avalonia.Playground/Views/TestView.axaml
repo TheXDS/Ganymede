@@ -3,18 +3,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:Ganymede.Playground.ViewModels"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="Ganymede.Avalonia.Playground.TestView">
-	<StackPanel>
-		<Button
-            Command="{Binding HelloCommand, Mode=OneWay}"
-            Content="Click me"
-            Margin="20"
-            Width="120" Height="30"/>
-		<Button
-            Command="{Binding GoodByeCommand, Mode=OneWay}"
-            Content="Close"
-            Margin="20"
-            Width="120" Height="30"/>
-	</StackPanel>
+	<Design.DataContext>
+		<vm:TestViewModel />
+	</Design.DataContext>
+	<ItemsControl Margin="5" ItemsSource="{Binding DemoInteractions}" HorizontalAlignment="Left" VerticalAlignment="Top">
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<UniformGrid/>
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
+		<ItemsControl.ItemTemplate>
+			<DataTemplate>
+				<Button
+					HorizontalAlignment="Stretch"
+					Margin="5"
+                    Content="{Binding Text, Mode=OneWay}"
+                    Command="{Binding Command, Mode=OneWay}"/>
+			</DataTemplate>
+		</ItemsControl.ItemTemplate>
+	</ItemsControl>
+
 </UserControl>

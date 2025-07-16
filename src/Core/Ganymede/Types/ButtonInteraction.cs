@@ -2,6 +2,7 @@
 using TheXDS.MCART.Component;
 using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Base;
+using TheXDS.MCART.Types.Extensions;
 
 namespace TheXDS.Ganymede.Types;
 
@@ -25,6 +26,16 @@ public class ButtonInteraction(ICommand command, string text) : NotifyPropertyCh
     /// <param name="action">Action to be executed by the interaction.</param>
     /// <param name="text">Display text for the interaction.</param>
     public ButtonInteraction(Action action, string text) : this(new SimpleCommand(action), text)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ButtonInteraction"/>
+    /// class.
+    /// </summary>
+    /// <param name="task">Task to be executed by the interaction.</param>
+    /// <param name="text">Display text for the interaction.</param>
+    public ButtonInteraction(Func<Task> task, string text) : this(new SimpleCommand(task), text)
     {
     }
 
@@ -73,5 +84,24 @@ public class ButtonInteraction(ICommand command, string text) : NotifyPropertyCh
     public static implicit operator ButtonInteraction (NamedObject<ICommand> obj)
     {
         return new(obj.Value, obj.Name);
+    }
+
+    /// <summary>
+    /// Implicitly converts an <see cref="Action"/> delegate into a
+    /// <see cref="ButtonInteraction"/>.
+    /// </summary>
+    /// <param name="action">Object to be converted.</param>
+    public static implicit operator ButtonInteraction (Action action)
+    {
+        return new(action, action.NameOf());
+    }
+    /// <summary>
+    /// Implicitly converts an <see cref="Action"/> delegate into a
+    /// <see cref="ButtonInteraction"/>.
+    /// </summary>
+    /// <param name="action">Object to be converted.</param>
+    public static implicit operator ButtonInteraction(Func<Task> action)
+    {
+        return new(action, action.NameOf());
     }
 }

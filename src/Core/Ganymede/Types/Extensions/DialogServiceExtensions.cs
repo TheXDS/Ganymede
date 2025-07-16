@@ -73,6 +73,56 @@ public static class DialogServiceExtensions
     }
 
     /// <summary>
+    /// Gets a credential from the user.
+    /// </summary>
+    /// <param name="svc">
+    /// Dialog service onto which to invoke the dialog.
+    /// </param>
+    /// <param name="defaultUser">Default username to present.</param>
+    /// <param name="isUserEditable">
+    /// <see langword="true"/> to indicate that the username field should be
+    /// editable, <see langword="false"/> to set the username field as
+    /// read-only.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the credential entered by
+    /// the user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to <see langword="null"/> if
+    /// the user cancels the input dialog.
+    /// </returns>
+    public static Task<DialogResult<Credential?>> GetCredential(this IDialogService svc, string? defaultUser = null, bool isUserEditable = true)
+    {
+        return svc.GetCredential(CommonDialogTemplates.Login, defaultUser, isUserEditable);
+    }
+
+    /// <summary>
+    /// Gets a string from the user.
+    /// </summary>
+    /// <param name="svc">
+    /// Dialog service onto which to invoke the dialog.
+    /// </param>
+    /// <param name="prompt">
+    /// Simple string prompt to ask the user for input.
+    /// </param>
+    /// <param name="defaultValue">Default value.</param>
+    /// <returns>
+    /// A new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="true"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to the value entered by the
+    /// user, or a new <see cref="DialogResult{T}"/> with
+    /// <see cref="DialogResult{T}.Success"/> set to <see langword="false"/> and
+    /// <see cref="DialogResult{T}.Result"/> set to
+    /// <paramref name="defaultValue"/> if the user cancels the input dialog.
+    /// </returns>
+    public static Task<DialogResult<string?>> GetInputText(this IDialogService svc, string prompt, string? defaultValue = null)
+    {
+        return svc.GetInputText(CommonDialogTemplates.Input with { Title = prompt }, defaultValue);
+    }
+
+    /// <summary>
     /// Displays a dialog that prompts the user to select a value from a
     /// <see cref="Enum"/> definition.
     /// </summary>
@@ -88,9 +138,9 @@ public static class DialogServiceExtensions
     /// A task that can be used to await the completion of the dialog, which
     /// includes the selected <see cref="Enum"/> value.
     /// </returns>
-    public static async Task<T> GetOption<T>(this IDialogService svc, string? title, string prompt) where T : struct, Enum
+    public static Task<T> GetOption<T>(this IDialogService svc, string? title, string prompt) where T : struct, Enum
     {
-        return await svc.Show(CommonDialogTemplates.Question with { Title = title, Text = prompt }, NamedObject.FromEnum<T>().ToArray());
+        return svc.Show(CommonDialogTemplates.Question with { Title = title, Text = prompt }, NamedObject.FromEnum<T>().ToArray());
     }
 
     /// <summary>

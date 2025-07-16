@@ -11,6 +11,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Platform\Wpf\Ganymede.Wpf\Ganymede.Wpf.csproj" />
+	  <ProjectReference Include="..\Ganymede.Playground\Ganymede.Playground.csproj" />
 	</ItemGroup>
 
 </Project>

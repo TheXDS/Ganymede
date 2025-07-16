@@ -174,4 +174,7 @@
   <data name="Question" xml:space="preserve">
     <value>Pregunta</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
 </root>
