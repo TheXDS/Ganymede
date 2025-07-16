@@ -27,8 +27,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-      - name: Build Ganymede
-        run: dotnet build $env:Solution_Name --configuration=$env:Configuration
       - name: build-docfx
         uses: clFaster/docfx-build-action@v1
         with:
