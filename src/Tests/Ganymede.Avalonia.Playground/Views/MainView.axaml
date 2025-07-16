@@ -17,5 +17,4 @@
 		DialogService="{gn2:NavDialogService}"
 		Navigator="{gn2:NavService Home={x:Type vm2:TestViewModel}}"
 		VisualResolver="{gn2:ConventionResolver}"/>
-
 </UserControl>

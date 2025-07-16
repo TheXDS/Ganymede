@@ -63,8 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ganymede.Avalonia", "Platfo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "getting-started", "getting-started", "{B1B48D81-BE55-446E-A81F-7F540DA5997D}"
 	ProjectSection(SolutionItems) = preProject
-		..\docs\articles\getting-started\example-hello-world.md = ..\docs\articles\getting-started\example-hello-world.md
+		..\docs\articles\getting-started\example-hello-world-avalonia.md = ..\docs\articles\getting-started\example-hello-world-avalonia.md
 		..\docs\articles\getting-started\example-navigation.md = ..\docs\articles\getting-started\example-navigation.md
+		..\docs\articles\getting-started\example-hello-world-wpf.md = ..\docs\articles\getting-started\example-hello-world-wpf.md
 		..\docs\articles\getting-started\index.md = ..\docs\articles\getting-started\index.md
 		..\docs\articles\getting-started\toc.yml = ..\docs\articles\getting-started\toc.yml
 	EndProjectSection

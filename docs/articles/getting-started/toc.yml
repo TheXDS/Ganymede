@@ -1,4 +1,6 @@
-- name: "Example: Hello world using Ganymede"
-  href: example-hello-world.md
+- name: "Example: Hello world using Ganymede in WPF"
+  href: example-hello-world-wpf.md
+- name: "Example: Hello world using Ganymede in Avalonia"
+  href: example-hello-world-avalonia.md
 - name: "Example: Simple navigation"
   href: example-navigation.md
