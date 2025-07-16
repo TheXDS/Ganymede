@@ -11,9 +11,6 @@
     xmlns:mcart="http://schemas.thexds.local/mcart"
     xmlns:gn2="clr-namespace:TheXDS.Ganymede.Controls"
     mc:Ignorable="d" 
-    Background="#80000000"
-    VerticalAlignment="Stretch"
-    HorizontalAlignment="Stretch"
     UseLayoutRounding="True"
     d:DataContext="{d:DesignInstance Type=vm:DialogViewModel}"
     d:DesignHeight="450" d:DesignWidth="600">

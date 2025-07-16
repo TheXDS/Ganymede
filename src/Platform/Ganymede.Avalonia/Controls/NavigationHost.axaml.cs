@@ -7,6 +7,7 @@ using TheXDS.Ganymede.Services;
 using TheXDS.MCART.Types.Extensions;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Types.Base;
+using System.Collections.ObjectModel;
 
 namespace TheXDS.Ganymede.Controls;
 
@@ -16,7 +17,11 @@ public partial class NavigationHost : ContentControl
     /// Represents the <see cref="OverlayContent"/> Avalonia property.
     /// </summary>
     public static readonly DirectProperty<NavigationHost, StyledElement?> OverlayContentProperty;
-    
+    /// <summary>
+    /// Represents the <see cref="OverlayContent"/> Avalonia property.
+    /// </summary>
+    public static readonly DirectProperty<NavigationHost, ObservableCollection<StyledElement>> OverlayBackgroundStackProperty;
+
     /// <summary>
     /// Represents the <see cref="OverlayContentTemplate"/> property.
     /// </summary>
@@ -42,6 +47,9 @@ public partial class NavigationHost : ContentControl
         OverlayContentProperty =
             AvaloniaProperty.RegisterDirect<NavigationHost, StyledElement?>(nameof(OverlayContent),
                 o => o.OverlayContent);
+        OverlayBackgroundStackProperty =
+            AvaloniaProperty.RegisterDirect<NavigationHost, ObservableCollection<StyledElement>>(nameof(OverlayBackgroundStack),
+                o => o.OverlayBackgroundStack);
         DialogServiceProperty =
             AvaloniaProperty.Register<NavigationHost, INavigatingDialogService?>(nameof(DialogService));
         DialogServiceProperty.OnChanged<NavigationHost, INavigatingDialogService?>(OnDialogServiceChanged);
@@ -56,6 +64,7 @@ public partial class NavigationHost : ContentControl
     }
 
     private StyledElement? _overlayContent;
+    private ObservableCollection<StyledElement> _overlayBackgroundStack = [];
 
     /// <summary>
     /// Gets the current overlay content of this control.
@@ -66,7 +75,18 @@ public partial class NavigationHost : ContentControl
          get => UiThread.Invoke(() => _overlayContent);
          private set => SetAndRaise(OverlayContentProperty, ref _overlayContent, value);
     }
-    
+
+    /// <summary>
+    /// Gets a reference to the stack of views that have been sent to the
+    /// background.
+    /// </summary>
+    [DependsOn(nameof(OverlayContentTemplate))]
+    public ObservableCollection<StyledElement> OverlayBackgroundStack
+    {
+        get => UiThread.Invoke(() => _overlayBackgroundStack);
+        private set => SetAndRaise(OverlayBackgroundStackProperty, ref _overlayBackgroundStack, value);
+    }
+
     /// <summary>
     /// Gets or sets the data template used to display the overlay content of
     /// the control.

@@ -1,9 +1,9 @@
-using System;
-using System.Linq;
+using System.Diagnostics;
 using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
+using TheXDS.MCART.Types.Extensions;
 
 namespace TheXDS.Ganymede.Controls;
 
@@ -74,7 +74,22 @@ public partial class NavigationHost
         HandleNavigation(
             e.ViewModel,
             _dialogVisResolver,
-            v => OverlayContent = v,
+            v =>
+            {
+                if (OverlayBackgroundStack.LastOrDefault() is { DataContext: { } d } oldView && ReferenceEquals(d, v!.DataContext))
+                {
+                    OverlayBackgroundStack.RemoveAt(OverlayBackgroundStack.Count - 1);
+                    OverlayContent = oldView;
+                }
+                else
+                {
+                    if (OverlayContent is not null && v is not null)
+                    {
+                        OverlayBackgroundStack.Add(OverlayContent);
+                    }
+                    OverlayContent = v;
+                }
+            },
             DialogService as NavigatingDialogService,
             null,
             false);

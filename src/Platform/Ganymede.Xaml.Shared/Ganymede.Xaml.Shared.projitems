@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls/NavigationHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)controls\NavigationStack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Markup/DialogVc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Markup/CustomDialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Markup/NavDialogService.cs" />

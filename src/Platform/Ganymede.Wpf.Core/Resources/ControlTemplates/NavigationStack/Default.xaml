@@ -1,0 +1,36 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:gn="clr-namespace:TheXDS.Ganymede.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vc="clr-namespace:TheXDS.MCART.ValueConverters;assembly=MCART.Wpf.Common"
+    xmlns:mcart="http://schemas.thexds.local/mcart">
+    <Style TargetType="gn:NavigationStack">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="gn:NavigationStack">
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <ItemsControl
+                            IsEnabled="False"
+                            ItemsSource="{TemplateBinding BackgroundStack}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid ClipToBounds="True">
+                                        <Grid.Effect>
+                                            <BlurEffect Radius="10"/>
+                                        </Grid.Effect>
+                                    </Grid>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <ContentPresenter Content="{TemplateBinding ForegroundObject}">
+                            <ContentPresenter.Effect>
+                                <DropShadowEffect BlurRadius="20" Color="black" ShadowDepth="0"/>
+                            </ContentPresenter.Effect>
+                        </ContentPresenter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

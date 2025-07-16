@@ -1,4 +1,5 @@
-﻿using TheXDS.Ganymede.Component;
+﻿using System.Collections.ObjectModel;
+using TheXDS.Ganymede.Component;
 using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types.Base;
@@ -10,6 +11,7 @@ public partial class NavigationHost : Control
 {
     private static readonly DependencyPropertyKey ContentPropertyKey;
     private static readonly DependencyPropertyKey OverlayContentPropertyKey;
+    private static readonly DependencyPropertyKey OverlayBackgroundStackPropertyKey;
 
     /// <summary>
     /// Represents the <see cref="Content"/> dependency property.
@@ -36,10 +38,16 @@ public partial class NavigationHost : Control
     /// </summary>
     public static readonly DependencyProperty DialogServiceProperty;
 
+    /// <summary>
+    /// Represents the <see cref="OverlayBackgroundStack"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty OverlayBackgroundStackProperty;
+
     static NavigationHost()
     {
-        (ContentPropertyKey, ContentProperty) = NewDpRo<object?, NavigationHost>(nameof(Content));
-        (OverlayContentPropertyKey, OverlayContentProperty) = NewDpRo<object?, NavigationHost>(nameof(OverlayContent));
+        (OverlayBackgroundStackPropertyKey, OverlayBackgroundStackProperty) = NewDpRo<ObservableCollection<FrameworkElement>, NavigationHost>(nameof(OverlayBackgroundStack), []);
+        (ContentPropertyKey, ContentProperty) = NewDpRo<FrameworkElement?, NavigationHost>(nameof(Content));
+        (OverlayContentPropertyKey, OverlayContentProperty) = NewDpRo<FrameworkElement?, NavigationHost>(nameof(OverlayContent));
         DialogServiceProperty = NewDp<INavigatingDialogService, NavigationHost>(nameof(DialogService), changedValue: OnDialogServiceChanged);
         NavigatorProperty = NewDp<INavigationService, NavigationHost>(nameof(Navigator), changedValue: OnNavigatorChanged);
         VisualResolverProperty = NewDp<IVisualResolver<FrameworkElement>, NavigationHost>(nameof(VisualResolver), changedValue: OnVisualResolverChanged);
@@ -49,19 +57,29 @@ public partial class NavigationHost : Control
     /// <summary>
     /// Gets the current content of this control.
     /// </summary>
-    public object? Content
+    public FrameworkElement? Content
     {
-        get => UiThread.Invoke(() => GetValue(ContentProperty));
+        get => UiThread.Invoke(() => (FrameworkElement)GetValue(ContentProperty));
         private set => SetValue(ContentPropertyKey, value);
     }
 
     /// <summary>
     /// Gets the current overlay content of this control.
     /// </summary>
-    public object? OverlayContent
+    public FrameworkElement? OverlayContent
     {
-        get => UiThread.Invoke(() => GetValue(OverlayContentProperty));
+        get => UiThread.Invoke(() => (FrameworkElement)GetValue(OverlayContentProperty));
         private set => SetValue(OverlayContentPropertyKey, value);
+    }
+
+    /// <summary>
+    /// Gets a reference to the stack of views that have been sent to the
+    /// background.
+    /// </summary>
+    public ObservableCollection<FrameworkElement> OverlayBackgroundStack
+    {
+        get => UiThread.Invoke(() => (ObservableCollection<FrameworkElement>)GetValue(OverlayBackgroundStackProperty));
+        private set => SetValue(OverlayBackgroundStackPropertyKey, value);
     }
 
     /// <summary>

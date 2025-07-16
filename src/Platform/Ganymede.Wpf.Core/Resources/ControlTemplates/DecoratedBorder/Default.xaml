@@ -8,10 +8,5 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Background" Value="White"/>
-        <Setter Property="Effect">
-            <Setter.Value>
-                <DropShadowEffect BlurRadius="20" Color="black" ShadowDepth="0"/>
-            </Setter.Value>
-        </Setter>
     </Style>
 </ResourceDictionary>

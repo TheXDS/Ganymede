@@ -6,15 +6,15 @@
     xmlns:mcart="http://schemas.thexds.local/mcart">
     <vc:BooleanInverter x:Key="binv"/>
     <vc:NullToBooleanConverter x:Key="n2vc"/>
+    <vc:NotNullToBooleanConverter x:Key="nn2vc"/>
     <Style TargetType="gn:NavigationHost">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="gn:NavigationHost">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
+                        <mcart:BusyContainer IsBusy="{TemplateBinding OverlayContent, Converter={StaticResource nn2vc}}" BusyBackground="Black" BusyOpacity="0.5">
                             <mcart:BusyContainer
-                                IsEnabled="{TemplateBinding OverlayContent, Converter={StaticResource n2vc}}"
                                 IsBusy="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <ContentPresenter
                                     Margin="{TemplateBinding Padding}"
@@ -22,10 +22,12 @@
                                     DataContext="{Binding Navigator.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                     IsEnabled="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource binv}}"/>
                             </mcart:BusyContainer>
-                            <ContentPresenter
-                                Content="{TemplateBinding OverlayContent}"
-                                DataContext="{Binding DialogService.CurrentViewModel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                        </Grid>
+                            <mcart:BusyContainer.BusyContent>
+                                <gn:NavigationStack
+                                    BackgroundStack="{TemplateBinding OverlayBackgroundStack}"
+                                    ForegroundObject="{TemplateBinding OverlayContent}"/>
+                            </mcart:BusyContainer.BusyContent>
+                        </mcart:BusyContainer>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

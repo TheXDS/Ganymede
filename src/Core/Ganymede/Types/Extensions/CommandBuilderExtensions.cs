@@ -101,6 +101,12 @@ public static class CommandBuilderExtensions
         return cb.BuildResultCommand(false);
     }
 
+    public static ICommand BuildCloseCommand<TViewModel>(this CommandBuilder<TViewModel> cb) where TViewModel : IAwaitableDialogViewModel
+    {
+        return cb.BuildSimple(cb.ViewModelReference.Close);
+    }
+
+
     /// <summary>
     /// Builds a simple command that will set the dialog result to
     /// the provided value.

@@ -2,5 +2,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Ganymede.Wpf.Core;component/Resources/ControlTemplates/DecoratedBorder/Default.xaml"/>
         <ResourceDictionary Source="/Ganymede.Wpf.Core;component/Resources/ControlTemplates/NavigationHost/Default.xaml"/>
+        <ResourceDictionary Source="/Ganymede.Wpf.Core;component/Resources/ControlTemplates/NavigationStack/Default.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
