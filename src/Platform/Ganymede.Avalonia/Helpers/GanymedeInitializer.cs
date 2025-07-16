@@ -1,24 +1,11 @@
 ﻿using TheXDS.Ganymede.Resources.DialogTemplates;
-using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.ValueConverters;
 
 namespace TheXDS.Ganymede.Helpers;
 
-/// <summary>
-/// Initializes the Ganymede library.
-/// </summary>
-public static class GanymedeInitializer
+public static partial class GanymedeInitializer
 {
-    /// <summary>
-    /// Initializes the Ganymede library.
-    /// </summary>
-    public static void Initialize()
-    {
-        UiThread.SetProxy(new DispatcherUiThreadProxy());
-        InitializeDialogVisualConverter();
-    }
-
-    private static void InitializeDialogVisualConverter()
+    private static partial void InitializeDialogVisualConverter()
     {
         RegisterNumericTemplateBuilder<byte>();
         RegisterNumericTemplateBuilder<sbyte>();

@@ -1,7 +1,6 @@
 ﻿using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.Controls.Primitives;
 using TheXDS.Ganymede.Resources.DialogTemplates;
-using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.ValueConverters;
 
 namespace TheXDS.Ganymede.Helpers;
@@ -9,18 +8,9 @@ namespace TheXDS.Ganymede.Helpers;
 /// <summary>
 /// Initializes the Ganymede library.
 /// </summary>
-public static class GanymedeInitializer
+public static partial class GanymedeInitializer
 {
-    /// <summary>
-    /// Initializes the Ganymede library.
-    /// </summary>
-    public static void Initialize()
-    {
-        UiThread.SetProxy(new DispatcherUiThreadProxy());
-        InitializeDialogVisualConverters();
-    }
-
-    private static void InitializeDialogVisualConverters()
+    private static partial void InitializeDialogVisualConverter()
     {
         RegisterNumericTemplateBuilder<byte, UInt8TextBox>();
         RegisterNumericTemplateBuilder<sbyte, Int8TextBox>();

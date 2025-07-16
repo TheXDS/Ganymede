@@ -10,7 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Platform\Ganymede.Wpf\Ganymede.Wpf.csproj" />
+	  <ProjectReference Include="..\..\Platform\Wpf\Ganymede.Wpf\Ganymede.Wpf.csproj" />
 	</ItemGroup>
 
 </Project>

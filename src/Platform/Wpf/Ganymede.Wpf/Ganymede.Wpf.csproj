@@ -11,12 +11,17 @@
 		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0" />
 		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.18.0" />
 		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.18.0" />
-		<ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
-		<ProjectReference Include="..\Ganymede.Wpf.Core\Ganymede.Wpf.Core.csproj" />
-		<PackageReference Include="WPF-UI" Version="4.0.2" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Ganymede.Wpf.Core\Ganymede.Wpf.Core.csproj" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<Using Include="System.Windows" />
 		<Using Include="System.Windows.Controls" />
 	</ItemGroup>
+
+	<Import Project="..\..\Shared\Ganymede.TargetPlatform.Shared\Ganymede.TargetPlatform.Shared.projitems" Label="Shared" />
+
+	<Import Project="..\Ganymede.Wpf.Shared\Ganymede.Wpf.Shared.projitems" Label="Shared" />
 </Project>

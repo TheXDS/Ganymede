@@ -101,11 +101,23 @@ public static class CommandBuilderExtensions
         return cb.BuildResultCommand(false);
     }
 
+    /// <summary>
+    /// Builds a simple command that will close the dialog.
+    /// </summary>
+    /// <typeparam name="TViewModel">
+    /// Type of <see cref="IAwaitableDialogViewModel"/> to build the command
+    /// for.
+    /// </typeparam>
+    /// <param name="cb">
+    /// Command builder to use when creating the command.
+    /// </param>
+    /// <returns>
+    /// A new command that will close the dialog.
+    /// </returns>
     public static ICommand BuildCloseCommand<TViewModel>(this CommandBuilder<TViewModel> cb) where TViewModel : IAwaitableDialogViewModel
     {
         return cb.BuildSimple(cb.ViewModelReference.Close);
     }
-
 
     /// <summary>
     /// Builds a simple command that will set the dialog result to

@@ -15,7 +15,10 @@ public sealed partial class DialogVisualConverter
 
     private static IDialogTemplateBuilder? GetBuilder(DialogViewModel value)
     {
-        return Builders.Concat([_customBuilder]).FirstOrDefault(p => p.CanBuild(value));
+        return Builders.Concat([_customBuilder]).FirstOrDefault(p =>
+        {
+            return p.CanBuild(value);
+        });
     }
 
     static DialogVisualConverter()

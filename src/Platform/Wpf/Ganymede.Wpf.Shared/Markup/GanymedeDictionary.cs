@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Windows.Markup;
 using TheXDS.Ganymede.Helpers;
 
@@ -12,7 +12,7 @@ namespace TheXDS.Ganymede.Markup;
 [Localizability(LocalizationCategory.Ignore)]
 [Ambient]
 [UsableDuringInitialization(true)]
-public sealed class GanymedeDictionary : ResourceDictionary
+public sealed partial class GanymedeDictionary : ResourceDictionary
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GanymedeDictionary"/> class.
@@ -20,6 +20,11 @@ public sealed class GanymedeDictionary : ResourceDictionary
     public GanymedeDictionary()
     {
         GanymedeInitializer.Initialize();
-        Source = new Uri($"pack://application:,,,/{Assembly.GetExecutingAssembly().GetName().Name};component/Themes/Generic.xaml", UriKind.Absolute);
+        Source = GetSourceUri();
+    }
+
+    private static Uri GetSourceUri()
+    {
+        return new Uri($"pack://application:,,,/{Assembly.GetExecutingAssembly().GetName().Name};component/Themes/Generic.xaml", UriKind.Absolute);
     }
 }

@@ -11,12 +11,12 @@
 		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0" />
 		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.18.0" />
 		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.18.0" />
-		<ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
+		<ProjectReference Include="..\..\..\Core\Ganymede\Ganymede.csproj" />
 		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<Using Include="System.Windows" />
 		<Using Include="System.Windows.Controls" />
 	</ItemGroup>
-	<Import Project="..\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems" Label="Shared" />
+	<Import Project="..\..\Shared\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems" Label="Shared" />
 </Project>

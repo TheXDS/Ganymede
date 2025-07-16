@@ -29,5 +29,7 @@
     <ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
   </ItemGroup>
 
-  <Import Project="..\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems" Label="Shared" />
+  <Import Project="..\Shared\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\Shared\Ganymede.TargetPlatform.Shared\Ganymede.TargetPlatform.Shared.projitems" Label="Shared" />
 </Project>
