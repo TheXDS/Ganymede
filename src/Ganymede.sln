@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{26DA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DEACF37-863F-486A-9E5B-07D5F6DAFD20}"
 	ProjectSection(SolutionItems) = preProject
+		..\.github\FUNDING.yml = ..\.github\FUNDING.yml
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
 	EndProjectSection
@@ -54,6 +55,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{4B761973-3A72-4025-9D37-953C2D2FF5B0}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
+		..\.github\workflows\docfx.yml = ..\.github\workflows\docfx.yml
 		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
 	EndProjectSection
 EndProject
@@ -64,8 +66,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "getting-started", "getting-started", "{B1B48D81-BE55-446E-A81F-7F540DA5997D}"
 	ProjectSection(SolutionItems) = preProject
 		..\docs\articles\getting-started\example-hello-world-avalonia.md = ..\docs\articles\getting-started\example-hello-world-avalonia.md
-		..\docs\articles\getting-started\example-navigation.md = ..\docs\articles\getting-started\example-navigation.md
 		..\docs\articles\getting-started\example-hello-world-wpf.md = ..\docs\articles\getting-started\example-hello-world-wpf.md
+		..\docs\articles\getting-started\example-navigation.md = ..\docs\articles\getting-started\example-navigation.md
 		..\docs\articles\getting-started\index.md = ..\docs\articles\getting-started\index.md
 		..\docs\articles\getting-started\toc.yml = ..\docs\articles\getting-started\toc.yml
 	EndProjectSection

@@ -15,7 +15,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,6 +23,12 @@ jobs:
         uses: actions/configure-pages@v5
       - name: setup-docfx
         uses: clFaster/docfx-setup-action@v1
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build Ganymede
+        run: dotnet build $env:Solution_Name --configuration=$env:Configuration
       - name: build-docfx
         uses: clFaster/docfx-build-action@v1
         with:
