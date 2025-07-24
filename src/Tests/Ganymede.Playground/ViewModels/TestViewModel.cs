@@ -136,7 +136,7 @@ public class TestViewModel : ViewModel
     private async Task OnTestSelectDialog()
     {
         var options = Enumerable.Range(1, 5).Select(p => $"Option {p}").ToArray();
-        var result = await DialogService!.SelectOption(CommonDialogTemplates.Question with { Title = "Select an option", Text = "Please select an option from the list below:" }, options.Select(p => new NamedObject<string>(p, p)).ToArray());
+        var result = await DialogService!.SelectOption(CommonDialogTemplates.Question with { Title = "Select an option", Text = "Please select an option from the list below:" }, options.Select(p => new NamedObject<string>(name: p, p)).ToArray());
         if (result.Success)
         {
             await DialogService!.Message($"You selected: {result.Result}");
