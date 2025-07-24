@@ -9,9 +9,9 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART" Version="0.18.0" />
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.0" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.0" />
+		<PackageReference Include="TheXDS.MCART" Version="0.18.1-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.1-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.1-alpha.1" />
 	</ItemGroup>
 	
 	<ItemGroup>
