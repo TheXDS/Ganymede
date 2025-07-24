@@ -386,7 +386,7 @@ public static class DialogServiceExtensions
     /// </returns>
     public static Task<DialogResult<string?>> SelectOption<T>(this IDialogService svc, string? title, string message, params string[] options)
     {
-        return svc.SelectOption(title, message, options.Select(p => new NamedObject<string?>(p, p)).ToArray());
+        return svc.SelectOption(title, message, options.Select(p => new NamedObject<string?>(name: p, (string?)p)).ToArray());
     }
 
     /// <summary>
