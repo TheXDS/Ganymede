@@ -11,9 +11,9 @@
     <PackageReference Include="Avalonia.Desktop" Version="11.3.2" />
     <PackageReference Include="Avalonia.Diagnostics" Version="11.3.2" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.2" />
-    <PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="0.18.1-alpha.1" />
- 	<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.1-alpha.1" />
-	<PackageReference Include="TheXDS.MCART.UI" Version="0.18.1-alpha.1" />
+    <PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="0.18.1-alpha.2" />
+ 	<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.1-alpha.2" />
+	<PackageReference Include="TheXDS.MCART.UI" Version="0.18.1-alpha.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,10 +7,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.1-alpha.1" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.1-alpha.1" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.18.1-alpha.1" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.18.1-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.1-alpha.2" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="0.18.1-alpha.2" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="0.18.1-alpha.2" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="0.18.1-alpha.2" />
 		<PackageReference Include="WPF-UI" Version="4.0.3" />
 	</ItemGroup>
 	<ItemGroup>
