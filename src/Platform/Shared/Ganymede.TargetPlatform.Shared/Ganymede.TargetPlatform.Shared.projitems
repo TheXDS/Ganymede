@@ -13,7 +13,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Markup\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)helpers\GanymedeInitializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)markup\GanymedeDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GanymedeInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markup\GanymedeDictionary.cs" />
   </ItemGroup>
 </Project>

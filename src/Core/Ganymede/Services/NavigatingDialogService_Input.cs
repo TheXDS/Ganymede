@@ -19,7 +19,7 @@ public partial class NavigatingDialogService : NavigationService<IDialogViewMode
     /// <inheritdoc/>
     public Task<TResult> Show<TViewModel, TResult>(DialogTemplate template, NamedObject<TResult>[] values) where TViewModel : IAwaitableDialogViewModel<TResult>, new()
     {
-        NamedObject<Func<TViewModel, TResult>> GetResult(NamedObject<TResult> p) => new(_ => p.Value, p.Name);
+        NamedObject<Func<TViewModel, TResult>> GetResult(NamedObject<TResult> p) => new(p.Name, _ => p.Value);
         return Show(template, values.Select(GetResult).ToArray());
     }
 

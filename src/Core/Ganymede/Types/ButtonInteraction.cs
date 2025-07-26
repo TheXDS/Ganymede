@@ -73,7 +73,7 @@ public class ButtonInteraction(ICommand command, string text) : NotifyPropertyCh
     /// <param name="buttonInteraction">Object to be converted.</param>
     public static implicit operator NamedObject<ICommand>(ButtonInteraction buttonInteraction)
     {
-        return new NamedObject<ICommand>(buttonInteraction.Command, buttonInteraction.Text);
+        return new NamedObject<ICommand>(buttonInteraction.Text, buttonInteraction.Command);
     }
 
     /// <summary>
