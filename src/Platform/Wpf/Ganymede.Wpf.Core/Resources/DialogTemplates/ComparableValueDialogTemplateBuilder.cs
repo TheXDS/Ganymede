@@ -17,6 +17,6 @@ public abstract class ComparableValueDialogTemplateBuilder<TValue, TControl>
     /// <inheritdoc/>
     public override FrameworkElement Build(InputDialogViewModel<TValue> viewModel)
     {
-        return NewControl(GetValueProperty(), nameof(InputDialogViewModel<TValue>.Value));
+        return NewControl(GetValueProperty(), nameof(InputDialogViewModel<TValue>.Value), viewModel);
     }
 }

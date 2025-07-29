@@ -1,3 +1,4 @@
+using System.Numerics;
 using TheXDS.Ganymede.Controls.Primitives;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;
@@ -13,7 +14,7 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// Type of control to generate for both the minimum and maximum values.
 /// </typeparam>
 public class NumericRangeInputDialogTemplateBuilder<TValue, TControl> : ValueRangeDialogTemplateBuilder<TValue, TControl>
-    where TValue : unmanaged, IComparable<TValue>
+    where TValue : unmanaged, IComparable<TValue>, IAdditionOperators<TValue, TValue, TValue>, ISubtractionOperators<TValue, TValue, TValue>, IConvertible
     where TControl : NumericInputControl<TValue>, new()
 {
     /// <inheritdoc/>

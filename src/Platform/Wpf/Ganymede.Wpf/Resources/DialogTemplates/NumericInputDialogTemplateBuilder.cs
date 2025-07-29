@@ -1,3 +1,4 @@
+using System.Numerics;
 using TheXDS.Ganymede.Controls.Primitives;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;
@@ -9,7 +10,7 @@ namespace TheXDS.Ganymede.Resources.DialogTemplates;
 /// <typeparam name="TValue">Type of numeric value.</typeparam>
 /// <typeparam name="TControl">Type of control to bind to.</typeparam>
 public class NumericInputDialogTemplateBuilder<TValue, TControl> : ComparableValueDialogTemplateBuilder<TValue, TControl>
-    where TValue : unmanaged, IComparable<TValue>
+    where TValue : unmanaged, IComparable<TValue>, IAdditionOperators<TValue, TValue, TValue>, ISubtractionOperators<TValue, TValue, TValue>, IConvertible
     where TControl : NumericInputControl<TValue>, new()
 {
     /// <inheritdoc/>

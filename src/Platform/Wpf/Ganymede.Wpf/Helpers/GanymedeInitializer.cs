@@ -1,4 +1,5 @@
-﻿using TheXDS.Ganymede.Controls;
+﻿using System.Numerics;
+using TheXDS.Ganymede.Controls;
 using TheXDS.Ganymede.Controls.Primitives;
 using TheXDS.Ganymede.Resources.DialogTemplates;
 using TheXDS.Ganymede.ValueConverters;
@@ -25,7 +26,7 @@ public static partial class GanymedeInitializer
     }
 
     private static void RegisterNumericTemplateBuilder<TValue, TControl>()
-        where TValue : unmanaged, IComparable<TValue>
+        where TValue : unmanaged, IComparable<TValue>, IAdditionOperators<TValue, TValue, TValue>, ISubtractionOperators<TValue, TValue, TValue>, IConvertible
         where TControl : NumericInputControl<TValue>, new()
     {
         DialogVisualConverter.RegisterTemplateBuilder<NumericInputDialogTemplateBuilder<TValue, TControl>>();

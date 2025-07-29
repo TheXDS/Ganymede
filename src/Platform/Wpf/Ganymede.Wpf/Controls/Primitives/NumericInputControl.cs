@@ -1,6 +1,10 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Numerics;
+using System.Reflection;
 using System.Windows.Controls.Primitives;
+using TheXDS.MCART.Exceptions;
 using TheXDS.MCART.Math;
+using TheXDS.MCART.Types.Extensions;
 using static TheXDS.MCART.Helpers.DependencyObjectHelpers;
 using Exp = System.Linq.Expressions.Expression;
 
@@ -12,7 +16,7 @@ namespace TheXDS.Ganymede.Controls.Primitives;
 /// <typeparam name="T">
 /// Numeric type to implement the input control for.
 /// </typeparam>
-public abstract class NumericInputControl<T> : FormInputControl where T : unmanaged, IComparable<T>
+public abstract class NumericInputControl<T> : FormInputControl where T : unmanaged, IComparable<T>, IAdditionOperators<T, T, T>, ISubtractionOperators<T, T, T>, IConvertible
 {
     private delegate bool TryParseCallback(string input, out T value);
 
@@ -31,23 +35,33 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
 
         private static Func<T, T> GetAbsMethod()
         {
-            return typeof(Math).GetMethod("Abs", BindingFlags.Static | BindingFlags.Public, [typeof(T)]) is { } abs
+            return typeof(Math).GetMethod("Abs", BindingFlags.Static | BindingFlags.Public, [typeof(T)]) is { } abs && abs.GetParameters()[0].ParameterType == typeof(T)
                 ? (Func<T, T>)Delegate.CreateDelegate(typeof(Func<T, T>), abs)
                 : x => x;
         }
 
         private static Func<T, T, T> GetAddMethod()
         {
-            var p1 = Exp.Parameter(typeof(T));
-            var p2 = Exp.Parameter(typeof(T));
-            return Exp.Lambda<Func<T, T, T>>(Exp.Add(p1, p2), p1, p2).Compile();
+            return GetOperatorMethod(Exp.Add)
+                ?? ((a, b) => UncheckedNumericConvert(a.ToInt32(null) + b.ToInt32(null)));
+
         }
 
         private static Func<T, T, T> GetSubtractMethod()
         {
-            var p1 = Exp.Parameter(typeof(T));
-            var p2 = Exp.Parameter(typeof(T));
-            return Exp.Lambda<Func<T, T, T>>(Exp.Subtract(p1, p2), p1, p2).Compile();
+            return GetOperatorMethod(Exp.Subtract)
+                ?? ((a, b) => UncheckedNumericConvert(a.ToInt32(null) - b.ToInt32(null)));
+        }
+
+        private static Func<T, T, T>? GetOperatorMethod(Func<Exp, Exp, System.Linq.Expressions.BinaryExpression> op)
+        {
+            if (typeof(T).ImplementsOperator(op))
+            {
+                var p1 = Exp.Parameter(typeof(T));
+                var p2 = Exp.Parameter(typeof(T));
+                return Exp.Lambda<Func<T, T, T>>(op(p1, p2), p1, p2).Compile();
+            }
+            return null;
         }
 
         private static TryParseCallback GetTryParseMethod()
@@ -58,6 +72,14 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
         private static T GetNumber(string input)
         {
             return (T)typeof(T).GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, [typeof(string)])!.Invoke(null, [input])!;
+        }
+
+        private static T UncheckedNumericConvert<TSource>(TSource value)
+        {
+            var param = Exp.Parameter(typeof(TSource), nameof(value));
+            var body = Exp.Convert(param, typeof(T));
+            var lambda = Exp.Lambda(body, param).Compile();
+            return (T)lambda.DynamicInvoke(value)!;
         }
     }
 
@@ -195,7 +217,7 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
     {
         base.OnApplyTemplate();
         _tb = Template.FindName("PART_input", this) as TextBox;
-        if (_tb is not null) 
+        if (_tb is not null)
         {
             _tb.Text = Value.ToString();
             _tb.TextChanged += Tb_TextChanged;

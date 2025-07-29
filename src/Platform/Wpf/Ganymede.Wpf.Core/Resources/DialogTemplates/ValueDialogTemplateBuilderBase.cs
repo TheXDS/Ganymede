@@ -1,6 +1,8 @@
-﻿using System.Windows.Data;
+﻿using System.Numerics;
+using System.Windows.Data;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
+using TheXDS.MCART.Exceptions;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;
 
@@ -79,9 +81,13 @@ public abstract class ValueDialogTemplateBuilderBase<TViewModel, TValue, TContro
     /// <param name="valuePath">
     /// Value path to bind the control's value property to.
     /// </param>
+    /// <param name="viewModel">
+    /// Reference to the input ViewModel for which the input control is being
+    /// generated.
+    /// </param>
     /// <param name="uniqueConfig">Unique control configuration callback.</param>
     /// <returns></returns>
-    protected TControl NewControl(DependencyProperty valueProperty, string valuePath, Action<TControl>? uniqueConfig = null)
+    protected TControl NewControl(DependencyProperty valueProperty, string valuePath, IInputDialogViewModel<TValue> viewModel, Action<TControl>? uniqueConfig = null)
     {
         var control = new TControl();
         uniqueConfig?.Invoke(control);
@@ -89,8 +95,8 @@ public abstract class ValueDialogTemplateBuilderBase<TViewModel, TValue, TContro
         ConfigureControl(control);
         ConfigureValueBinding(binding);
         control.SetBinding(valueProperty, binding);
-        control.SetBinding(GetMinProperty(), new Binding(nameof(IInputDialogViewModel<TValue>.Minimum)));
-        control.SetBinding(GetMaxProperty(), new Binding(nameof(IInputDialogViewModel<TValue>.Maximum)));
+        if (viewModel.Minimum is not null) control.SetBinding(GetMinProperty(), new Binding(nameof(IInputDialogViewModel<TValue>.Minimum)));
+        if (viewModel.Maximum is not null) control.SetBinding(GetMaxProperty(), new Binding(nameof(IInputDialogViewModel<TValue>.Maximum)));
         return control;
     }
 }
