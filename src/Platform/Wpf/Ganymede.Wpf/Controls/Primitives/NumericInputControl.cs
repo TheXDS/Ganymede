@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Reflection;
 using System.Windows.Controls.Primitives;
-using TheXDS.MCART.Exceptions;
 using TheXDS.MCART.Math;
 using TheXDS.MCART.Types.Extensions;
 using static TheXDS.MCART.Helpers.DependencyObjectHelpers;
