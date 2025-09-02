@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\WizardTest\" />
+  </ItemGroup>
+
 </Project>

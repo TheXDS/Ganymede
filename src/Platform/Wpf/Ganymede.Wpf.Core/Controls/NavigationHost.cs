@@ -48,7 +48,7 @@ public partial class NavigationHost : Control
         (OverlayBackgroundStackPropertyKey, OverlayBackgroundStackProperty) = NewDpRo<ObservableCollection<FrameworkElement>, NavigationHost>(nameof(OverlayBackgroundStack), []);
         (ContentPropertyKey, ContentProperty) = NewDpRo<FrameworkElement?, NavigationHost>(nameof(Content));
         (OverlayContentPropertyKey, OverlayContentProperty) = NewDpRo<FrameworkElement?, NavigationHost>(nameof(OverlayContent));
-        DialogServiceProperty = NewDp<INavigatingDialogService, NavigationHost>(nameof(DialogService), changedValue: OnDialogServiceChanged);
+        DialogServiceProperty = NewDp<IDialogService, NavigationHost>(nameof(DialogService), changedValue: OnDialogServiceChanged);
         NavigatorProperty = NewDp<INavigationService, NavigationHost>(nameof(Navigator), changedValue: OnNavigatorChanged);
         VisualResolverProperty = NewDp<IVisualResolver<FrameworkElement>, NavigationHost>(nameof(VisualResolver), changedValue: OnVisualResolverChanged);
         DefaultStyleKeyProperty.OverrideMetadata(typeof(NavigationHost), new FrameworkPropertyMetadata(typeof(NavigationHost)));

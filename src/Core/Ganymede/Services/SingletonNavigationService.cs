@@ -80,7 +80,7 @@ public class SingletonNavigationService<T> : NotifyPropertyChanged, INavigationS
     /// <inheritdoc/>
     public override void Refresh()
     {
-        NavigationCompleted?.Invoke(this, new(CurrentViewModel));
+        NavigationCompleted?.Invoke(this, new(CurrentViewModel, true));
         Notify(nameof(CurrentViewModel));
         (CurrentViewModel as IViewModel_Internal)?.InvokeOnCreated();
     }

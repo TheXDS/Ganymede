@@ -18,9 +18,9 @@ public partial class NavigationHost
     /// Gets or sets a reference to the <see cref="INavigatingDialogService"/> to provide
     /// to the ViewModels navigated to on this host.
     /// </summary>
-    public INavigatingDialogService? DialogService
+    public IDialogService? DialogService
     {
-        get => UiThread.Invoke(() => (INavigatingDialogService?)GetValue(DialogServiceProperty));
+        get => UiThread.Invoke(() => (IDialogService?)GetValue(DialogServiceProperty));
         set => SetValue(DialogServiceProperty, value);
     }
 
@@ -76,14 +76,14 @@ public partial class NavigationHost
             _dialogVisResolver,
             v =>
             {
-                if (OverlayBackgroundStack.LastOrDefault() is { DataContext: { } d } oldView && ReferenceEquals(d, v!.DataContext))
+                if (OverlayBackgroundStack.LastOrDefault() is { DataContext: object d } oldView && ReferenceEquals(d, v?.DataContext))
                 {
                     OverlayBackgroundStack.RemoveAt(OverlayBackgroundStack.Count - 1);
                     OverlayContent = oldView;
                 }
                 else
                 {
-                    if (OverlayContent is not null && v is not null)
+                    if (OverlayContent is not null && v is not null && !e.IsReplacingView)
                     {
                         OverlayBackgroundStack.Add(OverlayContent);
                     }
@@ -91,7 +91,7 @@ public partial class NavigationHost
                 }
             },
             DialogService as NavigatingDialogService,
-            null,
+            DialogService,
             false);
     }
 

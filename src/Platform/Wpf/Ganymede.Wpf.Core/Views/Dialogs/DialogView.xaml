@@ -12,6 +12,7 @@
     xmlns:gn2="clr-namespace:TheXDS.Ganymede.Controls"
     mc:Ignorable="d" 
     UseLayoutRounding="True"
+    Padding="50"
     d:DataContext="{d:DesignInstance Type=vm:DialogViewModel}"
     d:DesignHeight="450" d:DesignWidth="600">
     <UserControl.Resources>
@@ -20,7 +21,6 @@
         <gn:DrawingColorToMediaBrushConverter x:Key="brc"/>
     </UserControl.Resources>
     <gn2:DecoratedBorder
-        Margin="50"
         VerticalAlignment="Center"
         HorizontalAlignment="Center"
         MinWidth="200">

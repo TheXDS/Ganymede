@@ -1,0 +1,19 @@
+﻿<UserControl
+    x:Class="Ganymede.Wpf.Playground.Wizards.WizardTest3View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:Ganymede.Wpf.Playground.Wizards"
+    xmlns:vm="clr-namespace:Ganymede.Playground.ViewModels;assembly=Ganymede.Playground"
+    d:DataContext="{d:DesignInstance {x:Type vm:WizardTest3ViewModel}}"
+    mc:Ignorable="d">
+    <StackPanel>
+        <TextBlock>
+            Name: <Run Text="{Binding State.Name, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
+        </TextBlock>
+        <TextBlock>
+            Description: <Run Text="{Binding State.Description, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
+        </TextBlock>
+    </StackPanel>
+</UserControl>

@@ -10,7 +10,7 @@ namespace TheXDS.Ganymede.ViewModels;
 /// </summary>
 public class DialogViewModel : ViewModel, IDialogViewModel
 {
-    private string _message = string.Empty;
+    private string? _message;
     private string? _icon;
     private Color? _iconBgColor;
 
@@ -59,7 +59,7 @@ public class DialogViewModel : ViewModel, IDialogViewModel
     /// <summary>
     /// Gets or sets a message to be displayed on the dialog.
     /// </summary>
-    public string Message
+    public string? Message
     {
         get => _message;
         set => Change(ref _message, value);

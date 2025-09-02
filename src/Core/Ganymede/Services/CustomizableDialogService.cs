@@ -2,6 +2,7 @@
 using TheXDS.Ganymede.Resources.Exceptions;
 using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Types;
+using static TheXDS.Ganymede.Services.IDialogService;
 
 namespace TheXDS.Ganymede.Services;
 
@@ -166,5 +167,5 @@ public class CustomizableDialogService : IDialogService
     Task IDialogService.Show(IAwaitableDialogViewModel dialogVm) => GetService(ShowOverride).Show(dialogVm);
     Task IDialogService.Warning(string message) => GetService(WarningOverride).Warning(message);
     Task IDialogService.Warning(string? title, string message) => GetService(WarningOverride).Warning(title, message);
-    Task<bool> IDialogService.Wizard<TState>(TState state, params Func<TState, IWizardViewModel<TState>>[] viewModels) => GetService(WizardOverride).Wizard(state, viewModels);
+    Task<bool> IDialogService.Wizard<TState>(DialogTemplate template, TState state, Step<TState> viewModels) => GetService(WizardOverride).Wizard(template, state, viewModels);
 }

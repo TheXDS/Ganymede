@@ -40,5 +40,5 @@ public interface IDialogViewModel : IViewModel
     /// <summary>
     /// Gets or sets a message to be displayed on the dialog.
     /// </summary>
-    string Message { get; set; }
+    string? Message { get; set; }
 }

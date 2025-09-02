@@ -30,7 +30,7 @@ public partial class NavigationHost : ContentControl
     /// <summary>
     /// Represents the <see cref="DialogService"/> Avalonia property.
     /// </summary>
-    public static readonly StyledProperty<INavigatingDialogService?> DialogServiceProperty;
+    public static readonly StyledProperty<IDialogService?> DialogServiceProperty;
 
     /// <summary>
     /// Represents the <see cref="Navigator"/> Avalonia property.
@@ -51,8 +51,8 @@ public partial class NavigationHost : ContentControl
             AvaloniaProperty.RegisterDirect<NavigationHost, ObservableCollection<StyledElement>>(nameof(OverlayBackgroundStack),
                 o => o.OverlayBackgroundStack);
         DialogServiceProperty =
-            AvaloniaProperty.Register<NavigationHost, INavigatingDialogService?>(nameof(DialogService));
-        DialogServiceProperty.OnChanged<NavigationHost, INavigatingDialogService?>(OnDialogServiceChanged);
+            AvaloniaProperty.Register<NavigationHost, IDialogService?>(nameof(DialogService));
+        DialogServiceProperty.OnChanged<NavigationHost, IDialogService?>(OnDialogServiceChanged);
         VisualResolverProperty =
             AvaloniaProperty.Register<NavigationHost, IVisualResolver<StyledElement>?>(nameof(VisualResolver));
         VisualResolverProperty.OnChanged<NavigationHost, IVisualResolver<StyledElement>?>(OnVisualResolverChanged);

@@ -138,4 +138,13 @@ public static class CommonDialogTemplates
         Icon = "📁",
         Color = Color.PaleGoldenrod
     };
+
+    /// <summary>
+    /// Gets a template for wizards.
+    /// </summary>
+    public static readonly DialogTemplate Wizard = new()
+    {
+        Icon = "\xD83E\xDE84",
+        Color = System.Drawing.Color.MediumPurple,
+    };
 }

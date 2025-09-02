@@ -1,0 +1,15 @@
+﻿<UserControl
+    x:Class="Ganymede.Wpf.Playground.Wizards.WizardTest1View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:Ganymede.Wpf.Playground.Wizards"
+    xmlns:vm="clr-namespace:Ganymede.Playground.ViewModels;assembly=Ganymede.Playground"
+    d:DataContext="{d:DesignInstance {x:Type vm:WizardTest1ViewModel}}"
+    mc:Ignorable="d">
+    <StackPanel>
+        <TextBox Width="200" Margin="5" Text="{Binding State.Name, UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox Margin="5" IsChecked="{Binding State.AskforDescription}">Ask for description</CheckBox>
+    </StackPanel>
+</UserControl>

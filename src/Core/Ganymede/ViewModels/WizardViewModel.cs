@@ -46,6 +46,19 @@ public abstract class WizardViewModel<T> : AwaitableDialogViewModel<WizardAction
     }
 
     /// <summary>
+    /// Adds an interaction used to complete the wizard.
+    /// </summary>
+    /// <param name="label">
+    /// Label to be displayed on the interaction. If ommited, defaults to
+    /// <see cref="St.Finish"/>.
+    /// </param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    protected void AddFinishInteraction(string? label = null)
+    {
+        AddWizardInteraction(WizardAction.Finish, label ?? St.Finish);
+    }
+
+    /// <summary>
     /// Adds an interaction used to exit from the wizard, cancelling it.
     /// </summary>
     /// <param name="label">

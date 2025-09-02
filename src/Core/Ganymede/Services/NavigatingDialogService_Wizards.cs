@@ -1,26 +1,26 @@
-﻿using TheXDS.Ganymede.ViewModels;
+﻿using TheXDS.Ganymede.Models;
+using static TheXDS.Ganymede.Services.IDialogService;
 
 namespace TheXDS.Ganymede.Services;
 
 public partial class NavigatingDialogService
 {
     /// <inheritdoc/>
-    public async Task<bool> Wizard<TState>(TState state, params Func<TState, IWizardViewModel<TState>>[] viewModels)
+    public async Task<bool> Wizard<TState>(DialogTemplate template, TState state, Step<TState> viewModels)
     {
         var i = 0;
-        while (i < viewModels.Length)
+        while (viewModels.Invoke(state, i) is { } vm)
         {
-            var vm = viewModels[i].Invoke(state);
             vm.State ??= state;
-            vm.Icon ??= "\xD83E\xDE84";
-            vm.IconBgColor ??= System.Drawing.Color.MediumPurple;
+            template.Configure(vm);
             vm.DialogService = this;
-            await Navigate(vm);
+            await NavigateAndReset(vm);
             switch (await vm.DialogAwaiter)
             {
-                case Models.WizardAction.Cancel: await NavigateAndReset(null); return false;
-                case Models.WizardAction.Back when i > 0: i--; break;
-                case Models.WizardAction.Next when i < viewModels.Length: i++; break;
+                case WizardAction.Cancel: await NavigateAndReset(null); return false;
+                case WizardAction.Finish: await NavigateAndReset(null); return true;
+                case WizardAction.Back when i > 0: i--; break;
+                case WizardAction.Next: i++; break;
             }
         }
         await NavigateAndReset(null);

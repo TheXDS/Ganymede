@@ -1,9 +1,13 @@
-﻿using TheXDS.Ganymede.Helpers;
+﻿using System;
+using System.Linq.Expressions;
+using System.Reflection.Emit;
+using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Resources;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.Types.Extensions;
+using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Attributes;
 using TheXDS.MCART.Types;
 
@@ -35,9 +39,10 @@ public class TestViewModel : ViewModel
             new ButtonInteraction(OnTestValueInput<bool>, "Test input (bool)"),
             (ButtonInteraction)OnTestDateTimeValueInput,
             (ButtonInteraction)OnTestQuestion,
-            new ButtonInteraction(cb.BuildBusyOperation(OnTestOperation), "Lengthy operation"),
-            new ButtonInteraction(cb.BuildBusyOperation(OnTestCancellableOperation), "Cancellable lengthy operation"),
+            new ButtonInteraction(cb.BuildBusyOperation(OnTestOperation), "Lengthy _operation"),
+            new ButtonInteraction(cb.BuildBusyOperation(OnTestCancellableOperation), "Cancellable lengthy _operation"),
             (ButtonInteraction)OnTestSelectDialog,
+            (ButtonInteraction)OnWizardTest,
         ]);
     }
 
@@ -114,10 +119,20 @@ public class TestViewModel : ViewModel
         {
             await Simmulate($"Fake processing {Guid.NewGuid()}...", 100, j * 2.5);
         }
-        await Simmulate("Fake operation completed.");
+        await Simmulate("Fake _operation completed.");
     }
 
-    private async Task OnTestCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress)
+    private Task OnTestCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress)
+    {
+        return OnTestCancellableOperation(ct, progress, false);
+    }
+
+    private Task OnTestThrowingCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress)
+    {
+        return OnTestCancellableOperation(ct, progress, true);
+    }
+
+    private static async Task OnTestCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress, bool reThrowCancel)
     {
         Task Simmulate(string text, int delay = 2000, double percent = double.NaN, CancellationToken? c = null)
         {
@@ -137,6 +152,7 @@ public class TestViewModel : ViewModel
         {
             await Simmulate("Cancelling fake operation...", c: CancellationToken.None);
             await Task.Delay(1000);
+            if (reThrowCancel) throw;
         }
     }
 
@@ -153,5 +169,59 @@ public class TestViewModel : ViewModel
         {
             await DialogService!.Message("Dialog was cancelled");
         }
+    }
+
+    [Name("Wizard test")]
+    private async Task OnWizardTest()
+    {
+        await DialogService!.Wizard<WizardState>(CommonDialogTemplates.Wizard with { Title = "Test wizard" }, (s, i) =>
+        {
+            return i switch
+            {
+                0 => CommonWizardSteps.SimpleTextStep<WizardState>("Welcome to this ViewModel wizard.\n\nThis is a test, and this text needs to be long to see if the next view is replacing or wrongfully overlaying this one."),
+                1 => new WizardTest1ViewModel(),
+                2 when s.AskforDescription => new WizardTest2ViewModel(),
+                2 when !s.AskforDescription => CommonWizardSteps.CancellableOperation<WizardState>(OnTestThrowingCancellableOperation),
+                3 when s.AskforDescription => CommonWizardSteps.CancellableOperation<WizardState>(OnTestThrowingCancellableOperation),
+                _ => new WizardTest3ViewModel(),
+            };
+        });
+    }
+}
+
+public class WizardState
+{
+    public string? Name { get; set; }
+    public bool AskforDescription { get; set; }
+    public string? Description { get; set; }
+}
+
+public class WizardTest1ViewModel : WizardViewModel<WizardState>
+{
+    public WizardTest1ViewModel()
+    {
+        AddBackInteraction();
+        AddNextInteraction();
+        AddCancelInteraction();
+        Message = "Enter a name";
+    }
+}
+
+public class WizardTest2ViewModel : WizardViewModel<WizardState>
+{
+    public WizardTest2ViewModel()
+    {
+        AddBackInteraction();
+        AddNextInteraction();
+        AddCancelInteraction();
+        Message = "Enter a description";
+    }
+}
+
+public class WizardTest3ViewModel : WizardViewModel<WizardState>
+{
+    public WizardTest3ViewModel()
+    {
+        AddFinishInteraction();
     }
 }

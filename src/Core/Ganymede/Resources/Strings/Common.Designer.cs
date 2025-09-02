@@ -97,6 +97,15 @@ namespace TheXDS.Ganymede.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finish.
+        /// </summary>
+        public static string Finish {
+            get {
+                return ResourceManager.GetString("Finish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is no resolvable View for this ViewModel..
         /// </summary>
         public static string GanymedeNavErrorFallback {

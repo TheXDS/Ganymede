@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <gn:NavigationHost
-        DialogService="{gn:WpfNavDialogService}"
+        DialogService="{gn:NavDialogService}"
         Navigator="{gn:NavService Home={x:Type vm:TestViewModel}}"
         VisualResolver="{gn:ConventionResolver}"/>
 </Window>

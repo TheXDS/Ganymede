@@ -116,12 +116,10 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
         _navStack.Clear();
         if (viewModel is { })
         {
-            await Navigate(viewModel);
+            if (await ShouldCancelNavigateAway()) return;
+            UiThread.Invoke(() => _navStack.Push(viewModel ?? throw new ArgumentNullException(nameof(viewModel))));
         }
-        else
-        {
-            Refresh();
-        }
+        Refresh(true);
     }
 
     /// <inheritdoc/>
@@ -137,7 +135,12 @@ public class NavigationService<T> : NotifyPropertyChanged, INavigationService<T>
     /// <inheritdoc/>
     public override void Refresh()
     {
-        NavigationCompleted?.Invoke(this, new(CurrentViewModel));
+        Refresh(false);
+    }
+
+    private void Refresh(bool isReplacingStack)
+    {
+        NavigationCompleted?.Invoke(this, new(CurrentViewModel, isReplacingStack));
         Notify(nameof(CurrentViewModel));
         _navStackInfo.NotifyChange();
         (CurrentViewModel as IViewModel_Internal)?.InvokeOnCreated();

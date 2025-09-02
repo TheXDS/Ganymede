@@ -7,25 +7,22 @@ namespace TheXDS.Ganymede.Services;
 /// <see cref="INavigationService"/> completes navigation and triggers the
 /// <see cref="INavigationService.NavigationCompleted"/> event.
 /// </summary>
-public class NavigationCompletedEventArgs : EventArgs
+/// <param name="viewModel">
+/// <see cref="IViewModel"/> that was navigated
+/// to.
+/// </param>
+/// <param name="isReplacingView"><see langword="true"/> to indicate that the view is being replaced and not overlaid on the stack.</param>
+public class NavigationCompletedEventArgs(IViewModel? viewModel, bool isReplacingView) : EventArgs
 {
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="NavigationCompletedEventArgs"/> class.
-    /// </summary>
-    /// <param name="viewModel">
-    /// <see cref="IViewModel"/> that was navigated
-    /// to.
-    /// </param>
-    public NavigationCompletedEventArgs(IViewModel? viewModel)
-    {
-        ViewModel = viewModel;
-    }
-
     /// <summary>
     /// Gets a reference to the 
     /// <see cref="IViewModel"/> that was navigated
     /// to.
     /// </summary>
-    public IViewModel? ViewModel { get; }
+    public IViewModel? ViewModel { get; } = viewModel;
+
+    /// <summary>
+    /// Gets a value that indicates if the navigation is replacing the stack with the current view.
+    /// </summary>
+    public bool IsReplacingView { get; } = isReplacingView;
 }

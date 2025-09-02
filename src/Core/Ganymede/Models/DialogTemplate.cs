@@ -54,10 +54,10 @@ public readonly record struct DialogTemplate
     /// <returns>The same instance as <paramref name="viewModel"/>.</returns>
     public TViewModel Configure<TViewModel>(TViewModel viewModel) where TViewModel: IDialogViewModel
     {
-        viewModel.Title = Title;
-        viewModel.Message = Text;
-        viewModel.Icon = Icon;
-        viewModel.IconBgColor = Color;
+        viewModel.Title ??= Title;
+        viewModel.Message ??= Text;
+        viewModel.Icon ??= Icon;
+        viewModel.IconBgColor ??= Color;
         return viewModel;
     }
 }

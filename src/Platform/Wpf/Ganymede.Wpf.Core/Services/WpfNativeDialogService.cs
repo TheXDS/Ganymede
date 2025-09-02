@@ -8,6 +8,7 @@ using TheXDS.MCART.Math;
 using TheXDS.MCART.Resources.Strings;
 using TheXDS.MCART.Types;
 using TheXDS.MCART.Types.Extensions;
+using static TheXDS.Ganymede.Services.IDialogService;
 using static TheXDS.MCART.Resources.Strings.Composition;
 using St = TheXDS.Ganymede.Resources.Strings.Common;
 
@@ -48,7 +49,7 @@ public class WpfNativeDialogService : IDialogService
 
     Task<bool> IDialogService.AskYn(string question)
     {
-        return ((IDialogService)this).AskYn(question, string.Empty);
+        return ((IDialogService)this).AskYn(string.Empty, question);
     }
 
     Task<bool> IDialogService.AskYn(string? title, string question)
@@ -58,7 +59,7 @@ public class WpfNativeDialogService : IDialogService
 
     Task<bool?> IDialogService.AskYnc(string question)
     {
-        return ((IDialogService)this).AskYnc(question, string.Empty);
+        return ((IDialogService)this).AskYnc(string.Empty, question);
     }
 
     Task<bool?> IDialogService.AskYnc(string? title, string question)
@@ -165,7 +166,7 @@ public class WpfNativeDialogService : IDialogService
 
     Task IDialogService.Message(string? title, string message)
     {
-        MessageBox.Show(message, title ?? string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(message, title ?? string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
         return Task.CompletedTask;
     }
 
@@ -211,7 +212,7 @@ public class WpfNativeDialogService : IDialogService
 
     Task<TResult> IDialogService.Show<TViewModel, TResult>(DialogTemplate template, NamedObject<TResult>[] values)
     {
-        NamedObject<Func<TViewModel, TResult>> GetResult(NamedObject<TResult> p) => new(_ => p.Value, p.Name);
+        NamedObject<Func<TViewModel, TResult>> GetResult(NamedObject<TResult> p) => new(p.Name, _ => p.Value);
         return ((IDialogService)this).Show(template, values.Select(GetResult).ToArray());
     }
 
@@ -224,6 +225,7 @@ public class WpfNativeDialogService : IDialogService
 
     async Task<TResult> IDialogService.Show<TResult>(IAwaitableDialogViewModel<TResult> dialogVm)
     {
+        dialogVm.DialogService ??= this;
         var window = CreateWindow(dialogVm);
         window.Show();
         try { return await dialogVm.DialogAwaiter; }
@@ -242,6 +244,7 @@ public class WpfNativeDialogService : IDialogService
 
     async Task IDialogService.Show(IAwaitableDialogViewModel dialogVm)
     {
+        dialogVm.DialogService ??= this;
         var window = CreateWindow(dialogVm);
         window.Show();
         try { await dialogVm.DialogAwaiter; }
@@ -259,9 +262,9 @@ public class WpfNativeDialogService : IDialogService
         return Task.CompletedTask;
     }
 
-    async Task<bool> IDialogService.Wizard<TState>(TState state, params Func<TState, IWizardViewModel<TState>>[] viewModels)
+    async Task<bool> IDialogService.Wizard<TState>(DialogTemplate template, TState state, Step<TState> viewModels)
     {
-        var dlg = new DialogView();
+        var dlg = new DialogView() { Padding = new Thickness(0) };
         var window = new Window()
         {
             SizeToContent = SizeToContent.WidthAndHeight,
@@ -269,21 +272,17 @@ public class WpfNativeDialogService : IDialogService
         };
         window.Show();
         var i = 0;
-        while (i < viewModels.Length)
+        while (viewModels.Invoke(state, i) is { } vm)
         {
-            var vm = viewModels[i].Invoke(state);
             vm.State ??= state;
-            vm.Icon ??= "\xD83E\xDE84";
-            vm.IconBgColor ??= System.Drawing.Color.MediumPurple;
-
+            template.Configure(vm);
             dlg.DataContext = vm;
             window.Content = dlg;
-
             switch (await vm.DialogAwaiter)
             {
                 case WizardAction.Cancel: window.Close(); return false;
                 case WizardAction.Back when i > 0: i--; break;
-                case WizardAction.Next when i < viewModels.Length: i++; break;
+                case WizardAction.Next: i++; break;
             }
         }
         window.Close();
@@ -294,7 +293,7 @@ public class WpfNativeDialogService : IDialogService
     {
         return new Window()
         {
-            Content = new DialogView() { DataContext = viewModel },
+            Content = new DialogView() { DataContext = viewModel, Padding = new Thickness(0) },
             SizeToContent = SizeToContent.WidthAndHeight,
             ResizeMode = ResizeMode.NoResize
         };
