@@ -1,5 +1,4 @@
-﻿using System;
-using TheXDS.Ganymede.Services;
+﻿using TheXDS.Ganymede.Services;
 
 namespace TheXDS.Ganymede.Markup;
 

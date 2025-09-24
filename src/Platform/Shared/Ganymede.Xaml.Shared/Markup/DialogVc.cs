@@ -1,5 +1,4 @@
-﻿using System;
-using TheXDS.Ganymede.ValueConverters;
+﻿using TheXDS.Ganymede.ValueConverters;
 
 namespace TheXDS.Ganymede.Markup;
 
