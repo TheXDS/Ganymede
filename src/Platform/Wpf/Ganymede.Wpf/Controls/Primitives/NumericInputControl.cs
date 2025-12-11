@@ -42,7 +42,6 @@ public abstract class NumericInputControl<T> : FormInputControl where T : unmana
         {
             return GetOperatorMethod(Exp.Add)
                 ?? ((a, b) => UncheckedNumericConvert(a.ToInt32(null) + b.ToInt32(null)));
-
         }
 
         private static Func<T, T, T> GetSubtractMethod()
