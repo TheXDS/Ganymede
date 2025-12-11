@@ -43,7 +43,7 @@ Ganymede can be built on any platform or CI environment supported by dotnet.
 
 ### Build Ganymede
 ```sh
-dotnet build ./src/Ganymede.sln
+dotnet build ./src/Ganymede.slnx
 ```
 The resulting binaries will be in the `./Build/bin` directory.
 
