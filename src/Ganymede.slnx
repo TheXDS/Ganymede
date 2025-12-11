@@ -1,0 +1,74 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="arm64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Core/">
+    <Project Path="Core/Ganymede/Ganymede.csproj" />
+  </Folder>
+  <Folder Name="/Platform/" />
+  <Folder Name="/Platform/Avalonia/">
+    <Project Path="Platform/Ganymede.Avalonia/Ganymede.Avalonia.csproj" />
+  </Folder>
+  <Folder Name="/Platform/Shared/">
+    <Project Path="Platform/Shared/Ganymede.TargetPlatform.Shared/Ganymede.TargetPlatform.Shared.shproj" />
+    <Project Path="Platform/Shared/Ganymede.Xaml.Shared/Ganymede.Xaml.Shared.shproj" />
+    <Project Path="Platform/Wpf/Ganymede.Wpf.Shared/Ganymede.Wpf.Shared.shproj" />
+  </Folder>
+  <Folder Name="/Platform/Wpf/">
+    <Project Path="Platform/Wpf/Ganymede.Wpf.Core/Ganymede.Wpf.Core.csproj" />
+    <Project Path="Platform/Wpf/Ganymede.Wpf/Ganymede.Wpf.csproj" />
+    <Project Path="Platform/Wpf/Ganymede.WpfUI/Ganymede.WpfUI.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="../.github/FUNDING.yml" />
+    <File Path="../LICENSE" />
+    <File Path="../README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Build/" />
+  <Folder Name="/Solution Items/Build/src/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+  </Folder>
+  <Folder Name="/Solution Items/Build/Targets/">
+    <File Path="../BuildTargets/BuildPaths.props" />
+    <File Path="../BuildTargets/Cleanup.targets" />
+    <File Path="../BuildTargets/CompileOptions.targets" />
+    <File Path="../BuildTargets/PackageInfo.props" />
+    <File Path="../BuildTargets/PackageVersion.props" />
+  </Folder>
+  <Folder Name="/Solution Items/CI/" />
+  <Folder Name="/Solution Items/CI/Github/">
+    <File Path="../.github/workflows/build.yml" />
+    <File Path="../.github/workflows/docfx.yml" />
+    <File Path="../.github/workflows/publish.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/docs/">
+    <File Path="../docs/docfx.json" />
+    <File Path="../docs/index.md" />
+    <File Path="../docs/toc.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/docs/api/">
+    <File Path="../docs/api/index.md" />
+  </Folder>
+  <Folder Name="/Solution Items/docs/articles/">
+    <File Path="../docs/articles/history.md" />
+    <File Path="../docs/articles/intro.md" />
+    <File Path="../docs/articles/toc.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/docs/getting-started/">
+    <File Path="../docs/articles/getting-started/example-hello-world-avalonia.md" />
+    <File Path="../docs/articles/getting-started/example-hello-world-wpf.md" />
+    <File Path="../docs/articles/getting-started/example-navigation.md" />
+    <File Path="../docs/articles/getting-started/index.md" />
+    <File Path="../docs/articles/getting-started/toc.yml" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Ganymede.Avalonia.Playground.Desktop/Ganymede.Avalonia.Playground.Desktop.csproj" />
+    <Project Path="Tests/Ganymede.Avalonia.Playground/Ganymede.Avalonia.Playground.csproj" />
+    <Project Path="Tests/Ganymede.Playground/Ganymede.Playground.csproj" />
+    <Project Path="Tests/Ganymede.Wpf.Playground/Ganymede.Wpf.Playground.csproj" />
+  </Folder>
+</Solution>

@@ -7,7 +7,7 @@ jobs:
   test-publish:
     runs-on: windows-latest
     env:
-      Solution_Name: src/Ganymede.sln
+      Solution_Name: src/Ganymede.slnx
       Configuration: Release
     steps:
     - name: Checkout
