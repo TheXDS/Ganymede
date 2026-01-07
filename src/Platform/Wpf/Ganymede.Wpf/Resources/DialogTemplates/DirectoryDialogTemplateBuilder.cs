@@ -15,7 +15,7 @@ public abstract class DirectoryDialogTemplateBuilder : IDialogTemplateBuilder<Di
     public FrameworkElement? Build(DirectoryDialogViewModel viewModel)
     {
         var txt = new DirectorySelectorTextBox();
-        txt.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { Mode = BindingMode.TwoWay });
+        txt.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
         return txt;
     }
 }

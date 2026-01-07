@@ -95,6 +95,7 @@ public class ButtonInteraction(ICommand command, string text) : NotifyPropertyCh
     {
         return new(action, action.NameOf());
     }
+
     /// <summary>
     /// Implicitly converts an <see cref="Action"/> delegate into a
     /// <see cref="ButtonInteraction"/>.

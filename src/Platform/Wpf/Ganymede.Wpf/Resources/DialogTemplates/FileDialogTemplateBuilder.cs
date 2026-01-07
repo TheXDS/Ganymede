@@ -18,7 +18,7 @@ public abstract class FileDialogTemplateBuilder<T> : IDialogTemplateBuilder<T> w
     public virtual FrameworkElement? Build(T viewModel)
     {
         var txt = new FileOpenSelectorTextBox();
-        txt.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { Mode = BindingMode.TwoWay });
+        txt.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
         txt.SetBinding(FileOpenSelectorTextBox.FileFiltersProperty, new Binding(nameof(viewModel.FileFilters)) { Mode = BindingMode.OneWay });
         return txt;
     }

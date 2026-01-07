@@ -36,8 +36,8 @@ public class TestViewModel : ViewModel
             new ButtonInteraction(OnTestValueInput<bool>, "Test input (bool)"),
             (ButtonInteraction)OnTestDateTimeValueInput,
             (ButtonInteraction)OnTestQuestion,
-            new ButtonInteraction(cb.BuildBusyOperation(OnTestOperation), "Lengthy _operation"),
-            new ButtonInteraction(cb.BuildBusyOperation(OnTestCancellableOperation), "Cancellable lengthy _operation"),
+            new ButtonInteraction(cb.BuildBusyOperation(OnTestOperation), "Lengthy operation"),
+            new ButtonInteraction(cb.BuildBusyOperation(OnTestCancellableOperation), "Cancellable lengthy operation"),
             (ButtonInteraction)OnTestSelectDialog,
             (ButtonInteraction)OnWizardTest,
         ]);
@@ -116,7 +116,7 @@ public class TestViewModel : ViewModel
         {
             await Simmulate($"Fake processing {Guid.NewGuid()}...", 100, j * 2.5);
         }
-        await Simmulate("Fake _operation completed.");
+        await Simmulate("Fake operation completed.");
     }
 
     private Task OnTestCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress)

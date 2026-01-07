@@ -7,11 +7,15 @@ namespace TheXDS.Ganymede.Helpers;
 /// </summary>
 public static partial class GanymedeInitializer
 {
+    private static bool _initialized = false;
+
     /// <summary>
     /// Initializes the Ganymede library.
     /// </summary>
     public static void Initialize()
     {
+        if (_initialized) return;
+        _initialized = true;
         UiThread.SetProxy(new DispatcherUiThreadProxy());
         InitializeDialogVisualConverter();
     }

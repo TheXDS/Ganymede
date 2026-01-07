@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.9" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.10" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.10" />
     <PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="0.18.1" />
  	<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.1" />
 	<PackageReference Include="TheXDS.MCART.UI" Version="0.18.1" />

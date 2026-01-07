@@ -16,7 +16,7 @@ public class FileMultiSelectDialogTemplateBuilder : IDialogTemplateBuilder<FileM
     public FrameworkElement? Build(FileMultiSelectDialogViewModel viewModel)
     {
         var txt = new FileOpenSelectorTextBox() { AllowMultiSelect = true };
-        txt.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { Mode = BindingMode.TwoWay, Converter = new StringArrayToStringConverter() });
+        txt.SetBinding(TextBox.TextProperty, new Binding(nameof(viewModel.Value)) { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, Converter = new StringArrayToStringConverter() });
         txt.SetBinding(FileOpenSelectorTextBox.FileFiltersProperty, new Binding(nameof(viewModel.FileFilters)) { Mode = BindingMode.OneWay });
         return txt;
     }
