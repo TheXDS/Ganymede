@@ -6,9 +6,6 @@ using TheXDS.Ganymede.ValueConverters;
 
 namespace TheXDS.Ganymede.Helpers;
 
-/// <summary>
-/// Initializes the Ganymede library.
-/// </summary>
 public static partial class GanymedeInitializer
 {
     private static partial void InitializeDialogVisualConverter()

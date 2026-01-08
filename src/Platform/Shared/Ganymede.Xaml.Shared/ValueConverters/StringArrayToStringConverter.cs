@@ -9,20 +9,30 @@ namespace TheXDS.Ganymede.ValueConverters;
 /// </summary>
 public class StringArrayToStringConverter : IValueConverter<string, string[]>
 {
-    private static string Separator(CultureInfo? culture)
+    private string GetSeparator(CultureInfo? culture)
     {
-        return (culture ?? CultureInfo.InvariantCulture).TextInfo.ListSeparator;
+        return Separator ?? (culture ?? CultureInfo.InvariantCulture).TextInfo.ListSeparator;
     }
+
+    /// <summary>
+    /// Gets or sets the separator string to use when splitting and joining
+    /// strings.
+    /// </summary>
+    /// <remarks>
+    /// If not specified, the current culture's list separator will be used or,
+    /// in its abscence, the invariant culture's list separator.
+    /// </remarks>
+    public string? Separator { get; set; }
 
     /// <inheritdoc/>
     public string[] Convert(string value, object? parameter, CultureInfo? culture)
     {
-        return value.Split(Separator(culture));
+        return value.Split(GetSeparator(culture));
     }
 
     /// <inheritdoc/>
     public string ConvertBack(string[] value, object? parameter, CultureInfo culture)
     {
-        return string.Join(Separator(culture), value);
+        return string.Join(GetSeparator(culture), value);
     }
 }
