@@ -1,6 +1,4 @@
-﻿using TheXDS.MCART.Types.Base;
-
-namespace TheXDS.Ganymede.ViewModels;
+﻿namespace TheXDS.Ganymede.ViewModels;
 
 /// <summary>
 /// Defines a <see cref="IDialogViewModel"/> for all dialogs that implement 

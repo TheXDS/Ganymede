@@ -1,6 +1,4 @@
-﻿using TheXDS.Ganymede.Models;
-
-namespace TheXDS.Ganymede.ViewModels;
+﻿namespace TheXDS.Ganymede.ViewModels;
 
 /// <summary>
 /// Implements a <see cref="DialogViewModel"/> for dialogs that lets a user

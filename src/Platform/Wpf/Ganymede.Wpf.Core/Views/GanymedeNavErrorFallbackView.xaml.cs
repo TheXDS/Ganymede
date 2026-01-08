@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace TheXDS.Ganymede.Views;
+﻿namespace TheXDS.Ganymede.Views;
 
 /// <summary>
 /// Business logic for GanymedeNavErrorFallbackView.xaml

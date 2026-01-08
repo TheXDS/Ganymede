@@ -4,7 +4,6 @@ using Avalonia.Data;
 using System.Collections.ObjectModel;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART.Types.Extensions;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;
 

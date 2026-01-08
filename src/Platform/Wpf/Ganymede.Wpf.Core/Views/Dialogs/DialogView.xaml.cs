@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace TheXDS.Ganymede.Views.Dialogs;
+﻿namespace TheXDS.Ganymede.Views.Dialogs;
 
 /// <summary>
 /// View that defines the layout for a dialog overlay in Ganymede.

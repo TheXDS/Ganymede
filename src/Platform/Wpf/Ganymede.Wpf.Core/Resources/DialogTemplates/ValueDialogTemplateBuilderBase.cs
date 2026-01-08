@@ -1,8 +1,6 @@
-﻿using System.Numerics;
-using System.Windows.Data;
+﻿using System.Windows.Data;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.ViewModels;
-using TheXDS.MCART.Exceptions;
 
 namespace TheXDS.Ganymede.Resources.DialogTemplates;
 
