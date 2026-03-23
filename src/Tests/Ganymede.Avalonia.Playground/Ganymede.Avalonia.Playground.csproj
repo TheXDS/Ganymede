@@ -11,15 +11,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.3.10" />
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.10" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.10" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.10" />
+		<PackageReference Include="Avalonia" Version="11.3.12" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.12" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.12" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.12" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Platform\Ganymede.Avalonia\Ganymede.Avalonia.csproj" />
-	  <ProjectReference Include="..\Ganymede.Playground\Ganymede.Playground.csproj" />
+		<ProjectReference Include="..\..\Platform\Ganymede.Avalonia\Ganymede.Avalonia.csproj" />
+		<ProjectReference Include="..\Ganymede.Playground\Ganymede.Playground.csproj" />
 	</ItemGroup>
 </Project>

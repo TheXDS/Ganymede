@@ -1,35 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <TrimMode>copyused</TrimMode>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TrimMode>copyused</TrimMode>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="11.3.10" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.10" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.10" />
-    <PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="0.18.1" />
- 	<PackageReference Include="TheXDS.MCART.Mvvm" Version="0.18.1" />
-	<PackageReference Include="TheXDS.MCART.UI" Version="0.18.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Desktop" Version="11.3.12" />
+		<PackageReference Include="Avalonia.Diagnostics" Version="11.3.12" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.12" />
+		<PackageReference Include="TheXDS.MCART.Avalonia.Common" Version="1.0.0-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="1.0.0-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="1.0.0-alpha.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <TrimmableAssembly Include="Avalonia.Themes.Fluent" />
-    <TrimmableAssembly Include="Avalonia.Themes.Default" />
-  </ItemGroup>
+	<ItemGroup>
+		<TrimmableAssembly Include="Avalonia.Themes.Fluent" />
+		<TrimmableAssembly Include="Avalonia.Themes.Default" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Ganymede\Ganymede.csproj" />
-  </ItemGroup>
+	<Import Project="..\Shared\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems" Label="Shared" />
 
-  <Import Project="..\Shared\Ganymede.Xaml.Shared\Ganymede.Xaml.Shared.projitems" Label="Shared" />
-
-  <Import Project="..\Shared\Ganymede.TargetPlatform.Shared\Ganymede.TargetPlatform.Shared.projitems" Label="Shared" />
+	<Import Project="..\Shared\Ganymede.TargetPlatform.Shared\Ganymede.TargetPlatform.Shared.projitems" Label="Shared" />
 </Project>
