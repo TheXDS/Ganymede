@@ -16,8 +16,14 @@ namespace TheXDS.Ganymede.Services;
 /// </typeparam>
 public class SingletonNavigationService<T> : NotifyPropertyChanged, INavigationService<T> where T : class, IViewModel
 {
+    private T? currentViewModel;
+
     /// <inheritdoc/>
-    public T? CurrentViewModel { get; set; }
+    public T? CurrentViewModel
+    {
+        get => currentViewModel;
+        set => Change(ref currentViewModel, value);
+    }
 
     /// <inheritdoc/>
     public T? HomePage
@@ -81,7 +87,6 @@ public class SingletonNavigationService<T> : NotifyPropertyChanged, INavigationS
     public override void Refresh()
     {
         NavigationCompleted?.Invoke(this, new(CurrentViewModel, true));
-        Notify(nameof(CurrentViewModel));
         (CurrentViewModel as IViewModel_Internal)?.InvokeOnCreated();
     }
 }

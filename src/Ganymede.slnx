@@ -65,7 +65,11 @@
     <File Path="../docs/articles/getting-started/index.md" />
     <File Path="../docs/articles/getting-started/toc.yml" />
   </Folder>
-  <Folder Name="/Tests/">
+  <Folder Name="/Tests/" />
+  <Folder Name="/Tests/Core/">
+    <Project Path="Tests/Core/Ganymede.Tests/Ganymede.Tests.csproj" Id="46fb756c-cfb4-4865-be4d-2d3cb5b84c14" />
+  </Folder>
+  <Folder Name="/Tests/Playground/">
     <Project Path="Tests/Ganymede.Avalonia.Playground.Desktop/Ganymede.Avalonia.Playground.Desktop.csproj" />
     <Project Path="Tests/Ganymede.Avalonia.Playground/Ganymede.Avalonia.Playground.csproj" />
     <Project Path="Tests/Ganymede.Playground/Ganymede.Playground.csproj" />

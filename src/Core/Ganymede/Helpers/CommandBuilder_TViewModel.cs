@@ -7,7 +7,7 @@ using TheXDS.MCART.Helpers;
 namespace TheXDS.Ganymede.Helpers;
 
 /// <summary>
-/// Class that simplifies the creation of several kinds of 
+/// Class that simplifies the creation of several kinds of
 /// <see cref="ICommand"/> objects to be used inside a <see cref="IViewModel"/>.
 /// </summary>
 /// <typeparam name="TViewModel">
@@ -319,7 +319,7 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     /// </returns>
     public ICommand BuildInvalid()
     {
-        return new SimpleCommand(() => throw new InvalidOperationException(), false);
+        return new SimpleCommand((Action)(() => throw new InvalidOperationException()), false);
     }
 
     private Task RunInOperationDialog(Func<IProgress<ProgressReport>, Task> action, string? title = null)
@@ -345,7 +345,7 @@ public class CommandBuilder<TViewModel>(TViewModel vm) where TViewModel : IViewM
     private async Task RunBusyOp(Task callback)
     {
         ViewModelReference.IsBusy = true;
-        try 
+        try
         {
             await callback;
         }

@@ -18,7 +18,7 @@ public interface IConfigurationRepository<T> where T : notnull
     /// this repository or <see langword="null"/> if the configuration could
     /// not be loaded after completing the task.
     /// </returns>
-    Task<T?> Load();
+    Task<T?> LoadAsync();
 
     /// <summary>
     /// Saves the specified configuration into this configuration repository.
@@ -27,5 +27,5 @@ public interface IConfigurationRepository<T> where T : notnull
     /// <returns>
     /// A task that can be used to await the async operation.
     /// </returns>
-    Task Save(T configuration);
+    Task SaveAsync(T configuration);
 }

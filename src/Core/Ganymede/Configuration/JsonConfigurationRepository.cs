@@ -29,7 +29,7 @@ public class JsonConfigurationRepository<T>(IConfigurationStore store, JsonSeria
     /// <param name="store">Configuration store to use.</param>
     public JsonConfigurationRepository(IConfigurationStore store) : this(store, GetDefaultSerializationOptions()) { }
 
-    async Task<T?> IConfigurationRepository<T>.Load()
+    async Task<T?> IConfigurationRepository<T>.LoadAsync()
     {
         if (store.CanOpenStream())
         {
@@ -39,7 +39,7 @@ public class JsonConfigurationRepository<T>(IConfigurationStore store, JsonSeria
         return default;
     }
 
-    Task IConfigurationRepository<T>.Save(T configuration)
+    Task IConfigurationRepository<T>.SaveAsync(T configuration)
     {
         using var fs = store.GetWriteStream();
         return JsonSerializer.SerializeAsync(fs, configuration, jsonOptions);
