@@ -35,6 +35,13 @@ public class UiThreadTests
     }
 
     [Test]
+    public void DefaultProxyIsNull_WhenNotExplicitlySet()
+    {
+        // Verify that by default, the proxy is null
+        Assert.That(_instanceField.GetValue(null), Is.Null);
+    }
+
+    [Test]
     public void Invoke_ActionWithProxy_InvokesProxy()
     {
         UiThread.SetProxy(_mockProxy.Object);
@@ -65,5 +72,34 @@ public class UiThreadTests
         UiThread.SetProxy(null);
         int result = UiThread.Invoke(_mockFunc);
         Assert.That(result, Is.EqualTo(_mockFunc.Invoke()));
+    }
+
+    [Test]
+    public void Invoke_ActionWithNullProxy_InvokesActionDirectly()
+    {
+        // Explicitly test the null case
+        UiThread.SetProxy(null);
+        bool actionInvoked = false;
+        UiThread.Invoke(() => actionInvoked = true);
+        Assert.That(actionInvoked, Is.True);
+    }
+
+    [Test]
+    public void InvokeFunc_FuncWithNullProxy_InvokesFuncDirectly()
+    {
+        // Explicitly test the null case
+        UiThread.SetProxy(null);
+        int result = UiThread.Invoke(() => 100);
+        Assert.That(result, Is.EqualTo(100));
+    }
+
+    [Test]
+    public void InvokeFunc_WithProxy_ReturnsCorrectValue()
+    {
+        UiThread.SetProxy(_mockProxy.Object);
+        var expected = 123;
+        _mockProxy.Setup(x => x.Invoke(It.IsAny<Func<int>>())).Returns(expected);
+        var result = UiThread.Invoke(() => 42); // This will be mocked
+        Assert.That(result, Is.EqualTo(expected));
     }
 }
