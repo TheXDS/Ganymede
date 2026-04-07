@@ -1,8 +1,8 @@
-using NUnit.Framework;
 using Moq;
 using TheXDS.Ganymede.Services;
-using TheXDS.Ganymede.Helpers;
 using System.Reflection;
+
+namespace TheXDS.Ganymede.Helpers;
 
 [TestFixture]
 public class UiThreadTests

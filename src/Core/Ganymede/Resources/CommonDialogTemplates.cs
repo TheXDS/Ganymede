@@ -145,6 +145,6 @@ public static class CommonDialogTemplates
     public static readonly DialogTemplate Wizard = new()
     {
         Icon = "\xD83E\xDE84",
-        Color = System.Drawing.Color.MediumPurple,
+        Color = Color.MediumPurple,
     };
 }
