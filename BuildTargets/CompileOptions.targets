@@ -2,7 +2,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup Condition="'$(MSBuildProjectExtension)'=='.csproj'">
 		<Configurations>Debug;Release</Configurations>
-		<RootNamespace>TheXDS.$(SolutionName)</RootNamespace>
+		<RootNamespace Condition="'$(SolutionName)' != '' and '$(SolutionName)' != '*Undefined*'">TheXDS.$(SolutionName)</RootNamespace>
+		<RootNamespace Condition="'$(SolutionName)' == '' or '$(SolutionName)' == '*Undefined*'">TheXDS.$(MSBuildProjectName)</RootNamespace>
 		<Deterministic>true</Deterministic>
 		<DocumentationFile>$(OutDir)$(AssemblyName).xml</DocumentationFile>
 		<Title>$(AssemblyTitle)</Title>
