@@ -4,7 +4,7 @@ using TheXDS.Ganymede.Types.Base;
 namespace TheXDS.Ganymede.Services;
 
 [TestFixture]
-public class SingletonNavigationServiceTests
+internal class SingletonNavigationServiceTests
 {
     private class TestService : SingletonNavigationService<ViewModel>
     {
