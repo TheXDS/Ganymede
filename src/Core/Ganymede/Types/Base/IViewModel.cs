@@ -15,6 +15,7 @@ public interface IViewModel : INotifyPropertyChanged
     /// ViewModel.
     /// </summary>
     IDialogService? DialogService { get; set; }
+
     /// <summary>
     /// Gets or sets the navigation service instance to be accessible to this
     /// ViewModel.

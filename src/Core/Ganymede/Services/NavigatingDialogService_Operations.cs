@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Types;
+using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.ViewModels;
 using St = TheXDS.Ganymede.Resources.Strings.Common;
 
@@ -8,14 +9,14 @@ namespace TheXDS.Ganymede.Services;
 
 public partial class NavigatingDialogService
 {
-    async Task<bool> IDialogService.RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation)
+    async Task<bool> IDialogService.RunOperation(string? title, Func<IProgress<ProgressReport>, CancellationToken, Task> operation)
     {
         CancellationTokenSource ct = new();
         ButtonInteraction cancel = new(ct.Cancel, St.Cancel) { IsPrimary = true };
         var (vm, progress) = CreateOperationVm(title);
         vm.Interactions.Add(cancel);
         await Navigate(vm);
-        var task = operation.Invoke(ct.Token, progress);
+        var task = operation.Invoke(progress, ct.Token);
         try { await task; }
         catch (Exception ex) { await ((IDialogService)this).Error(ex); }
         finally { await NavigateBack(); }
@@ -33,7 +34,7 @@ public partial class NavigatingDialogService
     }
 
     /// <inheritdoc/>
-    public async Task<DialogResult<T>> RunOperation<T>(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task<T>> operation)
+    public async Task<DialogResult<T>> RunOperation<T>(string? title, Func<IProgress<ProgressReport>, CancellationToken, Task<T>> operation)
     {
         CancellationTokenSource ct = new();
         ButtonInteraction cancel = new(ct.Cancel, St.Cancel) { IsPrimary = true };
@@ -42,7 +43,7 @@ public partial class NavigatingDialogService
         await Navigate(vm);
         try
         {
-            return new(true, await operation.Invoke(ct.Token, progress));
+            return new(true, await operation.Invoke(progress, ct.Token));
         }
         catch (Exception ex)
         {
@@ -68,23 +69,25 @@ public partial class NavigatingDialogService
 
     private (OperationDialogViewModel viewModel, IProgress<ProgressReport> progress) CreateOperationVm(string? title)
     {
-        var ivm = new OperationDialogViewModel
+        var operationDialogVm = new OperationDialogViewModel
         {
             Title = title,
             Message = string.Empty,
             Progress = double.NaN,
             Icon = "⚙",
             IconBgColor = Color.DarkGray,
-            DialogService = this
         };
+
+        if (operationDialogVm is IViewModel_Internal ivm) ivm.DialogService = this;
+
         void ReportProgress(ProgressReport p)
         {
-            ivm.Progress = p.Progress;
+            operationDialogVm.Progress = p.Progress;
             if (p.Status is not null)
             {
-                ivm.Message = p.Status;
+                operationDialogVm.Message = p.Status;
             }
         }
-        return (ivm, new Progress<ProgressReport>(ReportProgress));
+        return (operationDialogVm, new Progress<ProgressReport>(ReportProgress));
     }
 }

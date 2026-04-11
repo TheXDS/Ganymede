@@ -130,8 +130,7 @@ In our case, this is going to be a simple user control with bindings to ViewMode
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:AvaloniaApp1"
-    mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance Type=local:HelloViewModel}">
+    mc:Ignorable="d">
     <Design.DataContext>
 		<vm:HelloViewModel />
 	</Design.DataContext>

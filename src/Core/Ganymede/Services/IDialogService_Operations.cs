@@ -99,7 +99,7 @@ public partial interface IDialogService
     /// successfully, or <see langword="false"/> if it was cancelled by the
     /// user.
     /// </returns>
-    Task<bool> RunOperation(Action<CancellationToken, IProgress<ProgressReport>> operation) => RunOperation(null, operation);
+    Task<bool> RunOperation(Action<IProgress<ProgressReport>, CancellationToken> operation) => RunOperation(null, operation);
 
     /// <summary>
     /// Runs a long-running operation and displays a dialog that shows the
@@ -113,7 +113,7 @@ public partial interface IDialogService
     /// successfully, or <see langword="false"/> if it was cancelled by the
     /// user.
     /// </returns>
-    Task<bool> RunOperation(string? title, Action<CancellationToken, IProgress<ProgressReport>> operation) => RunOperation(title, (ct, p) => Task.Run(() => operation(ct, p), ct));
+    Task<bool> RunOperation(string? title, Action<IProgress<ProgressReport>, CancellationToken> operation) => RunOperation(title, (p, ct) => Task.Run(() => operation(p, ct), ct));
 
     /// <summary>
     /// Runs a long-running operation and displays a dialog that shows the
@@ -126,7 +126,7 @@ public partial interface IDialogService
     /// successfully, or <see langword="false"/> if it was cancelled by the
     /// user.
     /// </returns>
-    Task<bool> RunOperation(Func<CancellationToken, IProgress<ProgressReport>, Task> operation) => RunOperation(null, operation);
+    Task<bool> RunOperation(Func<IProgress<ProgressReport>, CancellationToken, Task> operation) => RunOperation(null, operation);
 
     /// <summary>
     /// Runs a long-running operation and displays a dialog that shows the
@@ -140,7 +140,7 @@ public partial interface IDialogService
     /// successfully, or <see langword="false"/> if it was cancelled by the
     /// user.
     /// </returns>
-    Task<bool> RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation);
+    Task<bool> RunOperation(string? title, Func<IProgress<ProgressReport>, CancellationToken, Task> operation);
 
     /// <summary>
     /// Runs a long-running operation and displays a dialog that shows the
@@ -159,7 +159,7 @@ public partial interface IDialogService
     /// <see langword="default"/> for the <typeparamref name="T"/> type
     /// respectively.
     /// </returns>
-    Task<DialogResult<T>> RunOperation<T>(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task<T>> operation);
+    Task<DialogResult<T>> RunOperation<T>(string? title, Func<IProgress<ProgressReport>, CancellationToken, Task<T>> operation);
 
     /// <summary>
     /// Runs a long-running operation and displays a dialog that shows the
@@ -177,7 +177,7 @@ public partial interface IDialogService
     /// <see langword="default"/> for the <typeparamref name="T"/> type
     /// respectively.
     /// </returns>
-    Task<DialogResult<T>> RunOperation<T>(Func<CancellationToken, IProgress<ProgressReport>, Task<T>> operation) => RunOperation(null, operation);
+    Task<DialogResult<T>> RunOperation<T>(Func<IProgress<ProgressReport>, CancellationToken, Task<T>> operation) => RunOperation(null, operation);
 
     /// <summary>
     /// Runs a long-running operation and displays a dialog that shows the
@@ -190,7 +190,7 @@ public partial interface IDialogService
     /// successfully, or <see langword="false"/> if it was cancelled by the
     /// user.
     /// </returns>
-    Task<DialogResult<T>> RunOperation<T>(Func<CancellationToken, IProgress<ProgressReport>, T> operation) => RunOperation(null, operation);
+    Task<DialogResult<T>> RunOperation<T>(Func<IProgress<ProgressReport>, CancellationToken, T> operation) => RunOperation(null, operation);
 
     /// <summary>
     /// Runs a long-running operation and displays a dialog that shows the
@@ -204,5 +204,5 @@ public partial interface IDialogService
     /// successfully, or <see langword="false"/> if it was cancelled by the
     /// user.
     /// </returns>
-    Task<DialogResult<T>> RunOperation<T>(string? title, Func<CancellationToken, IProgress<ProgressReport>, T> operation) => RunOperation(title, (ct, p) => Task.Run(() => operation(ct, p), ct));
+    Task<DialogResult<T>> RunOperation<T>(string? title, Func<IProgress<ProgressReport>, CancellationToken, T> operation) => RunOperation(title, (p, ct) => Task.Run(() => operation(p, ct), ct));
 }

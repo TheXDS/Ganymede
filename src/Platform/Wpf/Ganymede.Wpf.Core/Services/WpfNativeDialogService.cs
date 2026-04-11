@@ -180,22 +180,22 @@ public class WpfNativeDialogService : IDialogService
         return ProgressDialog.Run(dlg => operation(new ProgressReportAdapter(dlg)));
     }
 
-    Task<bool> IDialogService.RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation)
+    Task<bool> IDialogService.RunOperation(string? title, Func<IProgress<ProgressReport>, CancellationToken, Task> operation)
     {
         return ProgressDialog.Run(new ProgressDialogProperties { CancelButton = true }, async dlg =>
         {
             var adapter = new ProgressReportAdapter(dlg);
-            await operation(adapter.CancellationToken, adapter);
+            await operation(adapter, adapter.CancellationToken);
             return !adapter.CancellationToken.IsCancellationRequested;
         });
     }
 
-    Task<DialogResult<T>> IDialogService.RunOperation<T>(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task<T>> operation)
+    Task<DialogResult<T>> IDialogService.RunOperation<T>(string? title, Func<IProgress<ProgressReport>, CancellationToken, Task<T>> operation)
     {
         return ProgressDialog.Run<DialogResult<T>>(new ProgressDialogProperties { CancelButton = true }, async dlg =>
         {
             var adapter = new ProgressReportAdapter(dlg);
-            var result = await operation(adapter.CancellationToken, adapter);
+            var result = await operation(adapter, adapter.CancellationToken);
             return new(!adapter.CancellationToken.IsCancellationRequested, result);
         });
     }

@@ -59,6 +59,12 @@ public abstract class ViewModel : ViewModelBase, IViewModel, IViewModel_Internal
         return Task.CompletedTask;
     }
 
+    bool IViewModel.IsBusy
+    {
+        get => IsBusy;
+        set => IsBusy = value;
+    }
+
     async Task IViewModel_Internal.InvokeOnCreated()
     {
         if (IsInitialized || DialogService is null || NavigationService is null) return;
@@ -66,11 +72,5 @@ public abstract class ViewModel : ViewModelBase, IViewModel, IViewModel_Internal
         await OnCreated();
         IsInitialized = true;
         IsBusy = false;
-    }
-
-    bool IViewModel.IsBusy
-    {
-        get => IsBusy;
-        set => IsBusy = value;
     }
 }

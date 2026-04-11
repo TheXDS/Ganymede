@@ -5,12 +5,12 @@ namespace TheXDS.Ganymede.ViewModels;
 
 internal sealed class CancellableOperationWizardViewModel<TState> : OperationDialogViewModel, IWizardViewModel<TState>
 {
-    private readonly Func<CancellationToken, IProgress<ProgressReport>, Task> _operation;
+    private readonly Func<IProgress<ProgressReport>, CancellationToken, Task> _operation;
     private readonly CancellationTokenSource _token = new();
     private TState _state = default!;
     private TaskCompletionSource<WizardAction> awaiter = new();
 
-    public CancellableOperationWizardViewModel(Func<CancellationToken, IProgress<ProgressReport>, Task> operation)
+    public CancellableOperationWizardViewModel(Func<IProgress<ProgressReport>, CancellationToken, Task> operation)
     {
         Interactions.Add(new ButtonInteraction(_token.Cancel, "Cancel") { IsPrimary = true });
         _operation = operation;
@@ -44,7 +44,7 @@ internal sealed class CancellableOperationWizardViewModel<TState> : OperationDia
         try
         {
             IsBusy = false;
-            await _operation.Invoke(_token.Token, new Progress<ProgressReport>(ReportProgress));
+            await _operation.Invoke(new Progress<ProgressReport>(ReportProgress), _token.Token);
             Close(WizardAction.Next);
         }
         catch (TaskCanceledException)

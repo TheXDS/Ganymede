@@ -35,7 +35,7 @@ public static class CommonWizardSteps
     /// A new <see cref="IWizardViewModel{TState}"/> that can be added to a wizard invocation.
     /// </returns>
     /// <seealso cref="IDialogService.Wizard{TState}(DialogTemplate, TState, IDialogService.Step{TState})"/>
-    public static IWizardViewModel<TState> CancellableOperation<TState>(Func<CancellationToken, IProgress<ProgressReport>, Task> operation)
+    public static IWizardViewModel<TState> CancellableOperation<TState>(Func<IProgress<ProgressReport>, CancellationToken, Task> operation)
     {
         return new CancellableOperationWizardViewModel<TState>(operation);
     }

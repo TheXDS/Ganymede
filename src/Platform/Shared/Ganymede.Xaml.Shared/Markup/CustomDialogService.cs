@@ -94,7 +94,7 @@ public sealed partial class CustomDialogService
 
     /// <summary>
     /// Defines the implementation override for the
-    /// <see cref="IDialogService.RunOperation(Action{CancellationToken, IProgress{ProgressReport}})"/>
+    /// <see cref="IDialogService.RunOperation(Action{IProgress{ProgressReport}, CancellationToken})"/>
     /// method and its overloads.
     /// </summary>
     public object? RunOperationOverride { get; set; }

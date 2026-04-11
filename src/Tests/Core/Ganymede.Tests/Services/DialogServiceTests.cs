@@ -81,7 +81,7 @@ internal class DialogServiceTests
     public async Task RunOperation_Bool_Action_With_Valid_Operation_Runs_Successfully()
     {
         // Arrange
-        var operation = new Action<CancellationToken, IProgress<ProgressReport>>((ct, p) => { });
+        var operation = new Action<IProgress<ProgressReport>, CancellationToken>((p, ct) => { });
 
         // Act & Assert - Test that the default implementation doesn't throw
         Assert.DoesNotThrowAsync(async () => await _mockService.Object.RunOperation(operation));
@@ -92,7 +92,7 @@ internal class DialogServiceTests
     {
         // Arrange
         var title = "Test Title";
-        var operation = new Action<CancellationToken, IProgress<ProgressReport>>((ct, p) => { });
+        var operation = new Action<IProgress<ProgressReport>, CancellationToken>((p, ct) => { });
 
         // Act & Assert - Test that the default implementation doesn't throw
         Assert.DoesNotThrowAsync(async () => await _mockService.Object.RunOperation(title, operation));
@@ -102,7 +102,7 @@ internal class DialogServiceTests
     public async Task RunOperation_Bool_Func_With_Valid_Operation_Runs_Successfully()
     {
         // Arrange
-        var operation = new Func<CancellationToken, IProgress<ProgressReport>, Task>(async (ct, p) => await Task.Delay(1));
+        var operation = new Func<IProgress<ProgressReport>, CancellationToken, Task>(async (p, ct) => await Task.Delay(1, CancellationToken.None));
 
         // Act & Assert - Test that the default implementation doesn't throw
         Assert.DoesNotThrowAsync(async () => await _mockService.Object.RunOperation(operation));
@@ -113,7 +113,7 @@ internal class DialogServiceTests
     {
         // Arrange
         var title = "Test Title";
-        var operation = new Func<CancellationToken, IProgress<ProgressReport>, Task>(async (ct, p) => await Task.Delay(1));
+        var operation = new Func<IProgress<ProgressReport>, CancellationToken, Task>(async (p, ct) => await Task.Delay(1, CancellationToken.None));
 
         // Act & Assert - Test that the default implementation doesn't throw
         Assert.DoesNotThrowAsync(async () => await _mockService.Object.RunOperation(title, operation));
@@ -123,7 +123,7 @@ internal class DialogServiceTests
     public async Task RunOperation_T_Bool_Func_With_Valid_Operation_Runs_Successfully()
     {
         // Arrange
-        var operation = new Func<CancellationToken, IProgress<ProgressReport>, Task<string>>(async (ct, p) => await Task.FromResult("test"));
+        var operation = new Func<IProgress<ProgressReport>, CancellationToken, Task<string>>(async (p, ct) => await Task.FromResult("test"));
 
         // Act & Assert - Test that the default implementation doesn't throw
         Assert.DoesNotThrowAsync(async () => await _mockService.Object.RunOperation(operation));
@@ -134,7 +134,7 @@ internal class DialogServiceTests
     {
         // Arrange
         var title = "Test Title";
-        var operation = new Func<CancellationToken, IProgress<ProgressReport>, Task<string>>(async (ct, p) => await Task.FromResult("test"));
+        var operation = new Func<IProgress<ProgressReport>, CancellationToken, Task<string>>(async (p, ct) => await Task.FromResult("test"));
 
         // Act & Assert - Test that the default implementation doesn't throw
         Assert.DoesNotThrowAsync(async () => await _mockService.Object.RunOperation(title, operation));

@@ -1,18 +1,23 @@
-﻿using TheXDS.Ganymede.Helpers;
+﻿using Ganymede.Playground.ViewModels.WizardTest;
+using TheXDS.Ganymede.Helpers;
 using TheXDS.Ganymede.Models;
 using TheXDS.Ganymede.Resources;
+using TheXDS.Ganymede.Services;
 using TheXDS.Ganymede.Types;
 using TheXDS.Ganymede.Types.Base;
 using TheXDS.Ganymede.Types.Extensions;
-using TheXDS.Ganymede.ViewModels;
 using TheXDS.MCART.Attributes;
+using TheXDS.MCART.Helpers;
 using TheXDS.MCART.Types;
+using TheXDS.MCART.Types.Extensions;
 
 namespace Ganymede.Playground.ViewModels;
 
 public class TestViewModel : ViewModel
 {
     public List<ButtonInteraction> DemoInteractions { get; } = [];
+
+    public IEnumerable<NamedObject<IDialogService>>? DialogServices { get; private set; }
 
     public TestViewModel()
     {
@@ -41,6 +46,20 @@ public class TestViewModel : ViewModel
             (ButtonInteraction)OnTestSelectDialog,
             (ButtonInteraction)OnWizardTest,
         ]);
+    }
+
+    protected override Task OnCreated()
+    {
+        /* NavigatingDialogService gets set by default, and we do not want to
+         * override it. CustomizableDialogService is also a special case, as it
+         * is meant to be used as a wrapper for other dialog services, so we
+         * exclude it from the list as well.
+         */
+        DialogServices = ReflectionHelpers.GetTypes<IDialogService>(true)
+            .ExceptFor(typeof(NavigatingDialogService), typeof(CustomizableDialogService))
+            .Select(p => new NamedObject<IDialogService>(p.New<IDialogService>()))
+            .Prepend(new NamedObject<IDialogService>(DialogService!));
+        return base.OnCreated();
     }
 
     [Name("Nested dialog demo")]
@@ -119,17 +138,17 @@ public class TestViewModel : ViewModel
         await Simmulate("Fake operation completed.");
     }
 
-    private Task OnTestCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress)
+    private Task OnTestCancellableOperation(IProgress<ProgressReport> progress, CancellationToken ct)
     {
-        return OnTestCancellableOperation(ct, progress, false);
+        return OnTestCancellableOperation(progress, false, ct);
     }
 
-    private Task OnTestThrowingCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress)
+    private Task OnTestThrowingCancellableOperation(IProgress<ProgressReport> progress, CancellationToken ct)
     {
-        return OnTestCancellableOperation(ct, progress, true);
+        return OnTestCancellableOperation(progress, true, ct);
     }
 
-    private static async Task OnTestCancellableOperation(CancellationToken ct, IProgress<ProgressReport> progress, bool reThrowCancel)
+    private static async Task OnTestCancellableOperation(IProgress<ProgressReport> progress, bool reThrowCancel, CancellationToken ct)
     {
         Task Simmulate(string text, int delay = 2000, double percent = double.NaN, CancellationToken? c = null)
         {
@@ -148,7 +167,7 @@ public class TestViewModel : ViewModel
         catch (TaskCanceledException)
         {
             await Simmulate("Cancelling fake operation...", c: CancellationToken.None);
-            await Task.Delay(1000);
+            await Task.Delay(1000, CancellationToken.None);
             if (reThrowCancel) throw;
         }
     }
@@ -183,42 +202,5 @@ public class TestViewModel : ViewModel
                 _ => new WizardTest3ViewModel(),
             };
         });
-    }
-}
-
-public class WizardState
-{
-    public string? Name { get; set; }
-    public bool AskforDescription { get; set; }
-    public string? Description { get; set; }
-}
-
-public class WizardTest1ViewModel : WizardViewModel<WizardState>
-{
-    public WizardTest1ViewModel()
-    {
-        AddBackInteraction();
-        AddNextInteraction();
-        AddCancelInteraction();
-        Message = "Enter a name";
-    }
-}
-
-public class WizardTest2ViewModel : WizardViewModel<WizardState>
-{
-    public WizardTest2ViewModel()
-    {
-        AddBackInteraction();
-        AddNextInteraction();
-        AddCancelInteraction();
-        Message = "Enter a description";
-    }
-}
-
-public class WizardTest3ViewModel : WizardViewModel<WizardState>
-{
-    public WizardTest3ViewModel()
-    {
-        AddFinishInteraction();
     }
 }

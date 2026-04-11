@@ -72,7 +72,7 @@ public class CustomizableDialogService : IDialogService
     /// method and its overloads.
     /// </summary>
     public IDialogService? GetFileSavePathOverride { get; set; }
-   
+
     /// <summary>
     /// Defines the implementation override for the
     /// <see cref="IDialogService.GetInputRange{T}(DialogTemplate, T?, T?, T, T)"/>
@@ -103,7 +103,7 @@ public class CustomizableDialogService : IDialogService
 
     /// <summary>
     /// Defines the implementation override for the
-    /// <see cref="IDialogService.RunOperation(Action{CancellationToken, IProgress{ProgressReport}})"/>
+    /// <see cref="IDialogService.RunOperation(Action{IProgress{ProgressReport}, CancellationToken})"/>
     /// method and its overloads.
     /// </summary>
     public IDialogService? RunOperationOverride { get; set; }
@@ -155,8 +155,8 @@ public class CustomizableDialogService : IDialogService
     Task IDialogService.Message(string? title, string message) => GetService(MessageOverride).Message(title, message);
     Task IDialogService.RunOperation(string? title, Func<IProgress<ProgressReport>, Task> operation) => GetService(RunOperationOverride).RunOperation(title, operation);
     Task<T> IDialogService.RunOperation<T>(string? title, Func<IProgress<ProgressReport>, Task<T>> operation) => GetService(RunOperationOverride).RunOperation(title, operation);
-    Task<bool> IDialogService.RunOperation(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task> operation) => GetService(RunOperationOverride).RunOperation(title, operation);
-    Task<DialogResult<T>> IDialogService.RunOperation<T>(string? title, Func<CancellationToken, IProgress<ProgressReport>, Task<T>> operation) => GetService(RunOperationOverride).RunOperation(title, operation);
+    Task<bool> IDialogService.RunOperation(string? title, Func<IProgress<ProgressReport>, CancellationToken, Task> operation) => GetService(RunOperationOverride).RunOperation(title, operation);
+    Task<DialogResult<T>> IDialogService.RunOperation<T>(string? title, Func<IProgress<ProgressReport>, CancellationToken, Task<T>> operation) => GetService(RunOperationOverride).RunOperation(title, operation);
     Task<DialogResult<T>> IDialogService.SelectOption<T>(DialogTemplate template, params NamedObject<T>[] options) => GetService(SelectOptionOverride).SelectOption(template, options);
     Task<TResult> IDialogService.Show<TResult>(DialogTemplate template, NamedObject<TResult>[] values) => GetService(ShowOverride).Show(template, values);
     Task<TResult> IDialogService.Show<TViewModel, TResult>(DialogTemplate template, NamedObject<TResult>[] values) => GetService(ShowOverride).Show<TViewModel, TResult>(template, values);
