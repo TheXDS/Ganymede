@@ -5,7 +5,6 @@ namespace TheXDS.Ganymede.Component;
 
 internal class ConventionVisualResolverTests
 {
-
     [Test]
     public void Resolve_returns_view_based_on_naming_convention()
     {

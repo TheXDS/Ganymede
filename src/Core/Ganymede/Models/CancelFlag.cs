@@ -19,7 +19,6 @@ public class CancelFlag(bool isCancelled = false) : IEquatable<CancelFlag>
     /// </summary>
     public void Cancel() => IsCancelled = true;
 
-
     bool IEquatable<CancelFlag>.Equals(CancelFlag? other)
     {
         return IsCancelled == other?.IsCancelled;
@@ -29,5 +28,11 @@ public class CancelFlag(bool isCancelled = false) : IEquatable<CancelFlag>
     public override int GetHashCode()
     {
         return IsCancelled.GetHashCode();
+    }
+
+    /// <inheritdoc/>
+    public override bool Equals(object? obj)
+    {
+        return ((IEquatable<CancelFlag>)this).Equals(obj as CancelFlag);
     }
 }

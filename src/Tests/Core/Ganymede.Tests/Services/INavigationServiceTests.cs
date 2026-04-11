@@ -20,7 +20,6 @@ internal class INavigationServiceTests
     {
         Assert.DoesNotThrowAsync(_mockService.Object.Navigate<TestViewModelMock>);
         _mockService.Verify(p => p.Navigate(It.IsAny<TestViewModelMock>()), Times.Once);
-
     }
 
     [Test]
