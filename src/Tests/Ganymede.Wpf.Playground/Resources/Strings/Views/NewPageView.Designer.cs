@@ -61,6 +61,24 @@ namespace Ganymede.Wpf.Playground.Resources.Strings.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow navigation back.
+        /// </summary>
+        public static string AllowBack {
+            get {
+                return ResourceManager.GetString("AllowBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow navigating to new page.
+        /// </summary>
+        public static string AllowForward {
+            get {
+                return ResourceManager.GetString("AllowForward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go Back.
         /// </summary>
         public static string GoBack {
@@ -75,6 +93,24 @@ namespace Ganymede.Wpf.Playground.Resources.Strings.Views {
         public static string GoFwd {
             get {
                 return ResourceManager.GetString("GoFwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigation stack is currently {0} levels deep..
+        /// </summary>
+        public static string NavStackCount {
+            get {
+                return ResourceManager.GetString("NavStackCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigation back has been cancelled (Like, in a case of unsaved changes).
+        /// </summary>
+        public static string NoNavBack {
+            get {
+                return ResourceManager.GetString("NoNavBack", resourceCulture);
             }
         }
         

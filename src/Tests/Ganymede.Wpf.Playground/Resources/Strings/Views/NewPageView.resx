@@ -117,11 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllowBack" xml:space="preserve">
+    <value>Allow navigation back</value>
+  </data>
+  <data name="AllowForward" xml:space="preserve">
+    <value>Allow navigating to new page</value>
+  </data>
   <data name="GoBack" xml:space="preserve">
     <value>Go Back</value>
   </data>
   <data name="GoFwd" xml:space="preserve">
     <value>Spawn new page forward</value>
+  </data>
+  <data name="NavStackCount" xml:space="preserve">
+    <value>Navigation stack is currently {0} levels deep.</value>
+  </data>
+  <data name="NoNavBack" xml:space="preserve">
+    <value>Navigation back has been cancelled (Like, in a case of unsaved changes)</value>
   </data>
   <data name="PageText" xml:space="preserve">
     <value>This is generation {0}.</value>
