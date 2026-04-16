@@ -19,7 +19,7 @@ public readonly record struct ProgressReport(double Progress, string? Status = n
     /// status.
     /// </summary>
     public ProgressReport() : this(double.NaN, string.Empty) { }
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ProgressReport"/> class,
     /// indicating that the operation has indeterminate progress and changing
@@ -41,7 +41,7 @@ public readonly record struct ProgressReport(double Progress, string? Status = n
     /// description.
     /// </returns>
     public static implicit operator ProgressReport(double progress) => new(progress);
-    
+
     /// <summary>
     /// Implicitly converts a <see cref="string"/> into a
     /// <see cref="ProgressReport"/>.
@@ -55,4 +55,20 @@ public readonly record struct ProgressReport(double Progress, string? Status = n
     /// status description to the specified value.
     /// </returns>
     public static implicit operator ProgressReport(string status) => new(status);
+
+    /// <summary>
+    /// Converts a ProgressReport instance to a double representing the current progress value.
+    /// </summary>
+    /// <remarks>This operator enables implicit conversion of a ProgressReport object to its underlying
+    /// progress value as a double. This can simplify code when only the progress value is needed.</remarks>
+    /// <param name="progressReport">The ProgressReport instance to convert.</param>
+    public static implicit operator double(ProgressReport progressReport) => progressReport.Progress;
+
+    /// <summary>
+    /// Converts a ProgressReport instance to its status string representation.
+    /// </summary>
+    /// <remarks>This operator enables implicit conversion of a ProgressReport object to a string, returning
+    /// the value of its Status property.</remarks>
+    /// <param name="progressReport">The ProgressReport instance to convert.</param>
+    public static implicit operator string?(ProgressReport progressReport) => progressReport.Status;
 }

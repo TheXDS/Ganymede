@@ -115,4 +115,44 @@ public class ProgressReportTests
             Assert.That(progressReport.Status, Is.EqualTo("Indeterminate"));
         }
     }
+
+    [Test]
+    public void ProgressReport_ImplicitOperator_Double_ConvertsCorrectly()
+    {
+        var progressReport = new ProgressReport(75.0, "Processing");
+        double result = progressReport;
+        Assert.That(result, Is.EqualTo(75.0));
+    }
+
+    [Test]
+    public void ProgressReport_ImplicitOperator_String_ConvertsCorrectly()
+    {
+        var progressReport = new ProgressReport(50.0, "Processing");
+        string? result = progressReport;
+        Assert.That(result, Is.EqualTo("Processing"));
+    }
+
+    [Test]
+    public void ProgressReport_ImplicitOperator_String_NullStatus_ConvertsCorrectly()
+    {
+        var progressReport = new ProgressReport(50.0, null);
+        string? result = progressReport;
+        Assert.That(result, Is.Null);
+    }
+
+    [Test]
+    public void ProgressReport_ImplicitOperator_String_EmptyStatus_ConvertsCorrectly()
+    {
+        var progressReport = new ProgressReport(50.0, string.Empty);
+        string? result = progressReport;
+        Assert.That(result, Is.EqualTo(string.Empty));
+    }
+
+    [Test]
+    public void ProgressReport_ImplicitOperator_Double_IndeterminateProgress_ConvertsCorrectly()
+    {
+        var progressReport = new ProgressReport(double.NaN, "Processing");
+        double result = progressReport;
+        Assert.That(double.IsNaN(result), Is.True);
+    }
 }
