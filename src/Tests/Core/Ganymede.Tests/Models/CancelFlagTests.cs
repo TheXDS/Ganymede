@@ -62,4 +62,16 @@ public class CancelFlagTests
         Assert.That(flag1.GetHashCode(), Is.EqualTo(flag2.GetHashCode()));
         Assert.That(flag1.GetHashCode(), Is.Not.EqualTo(flag3.GetHashCode()));
     }
+
+    [Test]
+    public void CancelFlag_Implements_Equals()
+    {
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(new CancelFlag(true).Equals(new CancelFlag(true)), Is.True);
+            Assert.That(new CancelFlag(true).Equals(new CancelFlag(false)), Is.False);
+            Assert.That(new CancelFlag(true).Equals(null), Is.False);
+        }
+
+    }
 }

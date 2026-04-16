@@ -39,11 +39,44 @@ public class CommandBuilderTests
         var builder = CommandBuilder.For(vm);
         bool executed = false;
         ICommand command = builder.BuildSimple(() => executed = true);
-
         Assert.That(command.CanExecute(null), Is.True);
-
         command.Execute(null);
+        Assert.That(executed, Is.True);
+    }
 
+    [Test]
+    public void BuildSimple_Action_T_ExecutesAction()
+    {
+        var vm = new TestViewModel();
+        var builder = CommandBuilder.For(vm);
+        bool executed = false;
+        ICommand command = builder.BuildSimple(_ => executed = true);
+        Assert.That(command.CanExecute(null), Is.True);
+        command.Execute(null);
+        Assert.That(executed, Is.True);
+    }
+
+    [Test]
+    public void BuildSimple_Func_Task_ExecutesAction()
+    {
+        var vm = new TestViewModel();
+        var builder = CommandBuilder.For(vm);
+        bool executed = false;
+        ICommand command = builder.BuildSimple(() => { executed = true; return Task.CompletedTask; });
+        Assert.That(command.CanExecute(null), Is.True);
+        command.Execute(null);
+        Assert.That(executed, Is.True);
+    }
+
+    [Test]
+    public void BuildSimple_Func_T_Task_ExecutesAction()
+    {
+        var vm = new TestViewModel();
+        var builder = CommandBuilder.For(vm);
+        bool executed = false;
+        ICommand command = builder.BuildSimple(_ => { executed = true; return Task.CompletedTask; });
+        Assert.That(command.CanExecute(null), Is.True);
+        command.Execute(null);
         Assert.That(executed, Is.True);
     }
 
@@ -129,8 +162,20 @@ public class CommandBuilderTests
             Assert.That(builder.BuildObserving(_ => { }), Is.Not.Null);
             Assert.That(builder.BuildObserving(_ => Task.CompletedTask), Is.Not.Null);
             Assert.That(builder.BuildObserving((IProgress<ProgressReport> _) => Task.CompletedTask), Is.Not.Null);
-            Assert.That(builder.BuildObserving((ct, wh) => Task.CompletedTask), Is.Not.Null);
+            Assert.That(builder.BuildObserving((IProgress<ProgressReport> _) => { }), Is.Not.Null);
+            Assert.That(builder.BuildObserving((p, ct) => Task.CompletedTask), Is.Not.Null);
+            Assert.That(builder.BuildObserving((p, ct) => { }), Is.Not.Null);
         }
+    }
+
+    [Test]
+    public void BuildObserving_ActionWithProgressReport_ReturnsBuilder()
+    {
+        var vm = new TestViewModel();
+        var builder = CommandBuilder.For(vm);
+        var commandBuilder = builder.BuildObserving((IProgress<ProgressReport> _) => Task.CompletedTask);
+        Assert.That(commandBuilder, Is.Not.Null);
+        Assert.That(builder.BuildObserving((IProgress<ProgressReport> _) => Task.CompletedTask), Is.Not.Null);
     }
 
     private static async Task WaitUntil(Func<bool> condition, TimeSpan timeout)
