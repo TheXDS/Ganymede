@@ -1,7 +1,4 @@
-using NUnit.Framework;
-using TheXDS.Ganymede.Models;
-
-namespace TheXDS.Ganymede.Tests.Models;
+namespace TheXDS.Ganymede.Models;
 
 [TestFixture]
 public class CancelFlagTests
@@ -39,7 +36,7 @@ public class CancelFlagTests
         cancelFlag.Cancel();
         Assert.That(cancelFlag.IsCancelled, Is.True);
 
-        cancelFlag.Cancel(); // Calling again should still be true
+        cancelFlag.Cancel();
         Assert.That(cancelFlag.IsCancelled, Is.True);
     }
 

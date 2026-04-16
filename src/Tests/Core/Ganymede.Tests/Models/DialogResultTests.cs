@@ -1,6 +1,4 @@
-using TheXDS.Ganymede.Models;
-
-namespace TheXDS.Ganymede.Tests.Models;
+namespace TheXDS.Ganymede.Models;
 
 [TestFixture]
 public class DialogResultTests

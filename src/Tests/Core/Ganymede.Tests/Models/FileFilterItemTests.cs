@@ -1,7 +1,4 @@
-using NUnit.Framework;
-using TheXDS.Ganymede.Models;
-
-namespace TheXDS.Ganymede.Tests.Models;
+namespace TheXDS.Ganymede.Models;
 
 [TestFixture]
 public class FileFilterItemTests
@@ -9,11 +6,11 @@ public class FileFilterItemTests
     [Test]
     public void FileFilterItem_DefaultConstructor_HasCorrectValues()
     {
-        var fileFilter = new FileFilterItem("Test", new[] { "*.txt" });
+        var fileFilter = new FileFilterItem("Test", ["*.txt"]);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(fileFilter.Name, Is.EqualTo("Test"));
-            Assert.That(fileFilter.Extensions, Is.EqualTo(new[] { "*.txt" }));
+            Assert.That(fileFilter.Extensions, Is.EqualTo(["*.txt"]));
         }
     }
 
@@ -24,7 +21,7 @@ public class FileFilterItemTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(allFiles.Name, Is.EqualTo("All files"));
-            Assert.That(allFiles.Extensions, Is.EqualTo(new[] { "*.*" }));
+            Assert.That(allFiles.Extensions, Is.EqualTo(["*.*"]));
         }
     }
 
@@ -35,7 +32,7 @@ public class FileFilterItemTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(filter.Name, Is.EqualTo("TXT file"));
-            Assert.That(filter.Extensions, Is.EqualTo(new[] { "*.txt" }));
+            Assert.That(filter.Extensions, Is.EqualTo(["*.txt"]));
         }
     }
 
@@ -46,7 +43,7 @@ public class FileFilterItemTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(filter.Name, Is.EqualTo("PDF file"));
-            Assert.That(filter.Extensions, Is.EqualTo(new[] { "*.pdf" }));
+            Assert.That(filter.Extensions, Is.EqualTo(["*.pdf"]));
         }
     }
 
@@ -57,18 +54,18 @@ public class FileFilterItemTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(filter.Name, Is.EqualTo("Test"));
-            Assert.That(filter.Extensions, Is.EqualTo(new[] { "*.txt" }));
+            Assert.That(filter.Extensions, Is.EqualTo(["*.txt"]));
         }
     }
 
     [Test]
     public void FileFilterItem_ConstructorWithMultipleExtensions_CreatesCorrectArray()
     {
-        var filter = new FileFilterItem("Test", new[] { "*.txt", "*.rtf" });
+        var filter = new FileFilterItem("Test", ["*.txt", "*.rtf"]);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(filter.Name, Is.EqualTo("Test"));
-            Assert.That(filter.Extensions, Is.EqualTo(new[] { "*.txt", "*.rtf" }));
+            Assert.That(filter.Extensions, Is.EqualTo(["*.txt", "*.rtf"]));
         }
     }
 
@@ -79,7 +76,7 @@ public class FileFilterItemTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(filter.Name, Is.EqualTo("JPG file"));
-            Assert.That(filter.Extensions, Is.EqualTo(new[] { "*.JPG" }));
+            Assert.That(filter.Extensions, Is.EqualTo(["*.JPG"]));
         }
     }
 }

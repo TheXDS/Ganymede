@@ -1,7 +1,4 @@
-using NUnit.Framework;
-using TheXDS.Ganymede.Models;
-
-namespace TheXDS.Ganymede.Tests.Models;
+namespace TheXDS.Ganymede.Models;
 
 [TestFixture]
 public class ProgressReportTests
@@ -46,7 +43,7 @@ public class ProgressReportTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(progressReport.Progress, Is.EqualTo(75.0));
-            Assert.That(progressReport.Status, Is.EqualTo(null));
+            Assert.That(progressReport.Status, Is.Null);
         }
     }
 
@@ -89,7 +86,7 @@ public class ProgressReportTests
         var progressReport = new ProgressReport(0.0, "Starting");
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(progressReport.Progress, Is.EqualTo(0.0));
+            Assert.That(progressReport.Progress, Is.Zero);
             Assert.That(progressReport.Status, Is.EqualTo("Starting"));
         }
     }

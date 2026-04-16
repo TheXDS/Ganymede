@@ -1,6 +1,5 @@
 using Moq;
 using TheXDS.Ganymede.Component;
-using TheXDS.Ganymede.Types.Base;
 
 namespace TheXDS.Ganymede.Services;
 
