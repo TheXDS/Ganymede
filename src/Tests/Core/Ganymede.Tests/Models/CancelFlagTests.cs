@@ -68,10 +68,18 @@ public class CancelFlagTests
     {
         using (Assert.EnterMultipleScope())
         {
+#pragma warning disable NUnit2010
             Assert.That(new CancelFlag(true).Equals(new CancelFlag(true)), Is.True);
             Assert.That(new CancelFlag(true).Equals(new CancelFlag(false)), Is.False);
-            Assert.That(new CancelFlag(true).Equals(null), Is.False);
-        }
+            Assert.That(new CancelFlag(false).Equals(new CancelFlag(false)), Is.True);
+            Assert.That(new CancelFlag(false).Equals(new CancelFlag(true)), Is.False);
+            Assert.That(new CancelFlag(true).Equals((CancelFlag?)null), Is.False);
 
+            Assert.That(new CancelFlag(true).Equals((object?)new CancelFlag(true)), Is.True);
+            Assert.That(new CancelFlag(true).Equals((object?)null), Is.False);
+            Assert.That(new CancelFlag(true).Equals("Test"), Is.False);
+            Assert.That(new CancelFlag(true).Equals(1), Is.False);
+#pragma warning restore NUnit2010
+        }
     }
 }

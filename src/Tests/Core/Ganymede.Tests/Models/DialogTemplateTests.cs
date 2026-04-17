@@ -1,4 +1,7 @@
 using System.Drawing;
+using Moq;
+using TheXDS.Ganymede.Types.Base;
+using TheXDS.Ganymede.ViewModels;
 
 namespace TheXDS.Ganymede.Models;
 
@@ -95,6 +98,28 @@ public class DialogTemplateTests
             Assert.That(dialogTemplate.Text, Is.EqualTo("Template Message"));
             Assert.That(dialogTemplate.Icon, Is.EqualTo("TemplateIcon"));
             Assert.That(dialogTemplate.Color, Is.EqualTo(Color.Red));
+        }
+    }
+
+    [Test]
+    public void Configure_configures_ViewModel()
+    {
+        Mock<IDialogViewModel> viewModelMock = new();
+        viewModelMock.SetupAllProperties();
+        var dialogTemplate = new DialogTemplate
+        {
+            Title = "Template Title",
+            Text = "Template Message",
+            Icon = "TemplateIcon",
+            Color = Color.Red
+        };
+        Assert.That(dialogTemplate.Configure(viewModelMock.Object), Is.SameAs(viewModelMock.Object));
+        using (Assert.EnterMultipleScope())
+        {
+            viewModelMock.VerifySet(vm => vm.Title = "Template Title", Times.Once);
+            viewModelMock.VerifySet(vm => vm.Message = "Template Message", Times.Once);
+            viewModelMock.VerifySet(vm => vm.Icon = "TemplateIcon", Times.Once);
+            viewModelMock.VerifySet(vm => vm.IconBgColor = Color.Red, Times.Once);
         }
     }
 }
