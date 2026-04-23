@@ -17,4 +17,17 @@ public class TextInputDialogViewModel : OkCancelValueDialogViewModel<string?>
         get => _maxLength ?? int.MaxValue;
         set => Change(ref _maxLength, value);
     }
+
+    /// <inheritdoc/>
+    public override string? Value
+    {
+        get => base.Value;
+        set
+        {
+            if ((value?.Length ?? 0) <= (MaxLength ?? int.MaxValue))
+            {
+                base.Value = value;
+            }
+        }
+    }
 }

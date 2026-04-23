@@ -11,7 +11,7 @@ public abstract class OkCancelValueDialogViewModel<T> : OkCancelDialogViewModel<
     private T _value = default!;
 
     /// <inheritdoc/>
-    public T Value
+    public virtual T Value
     {
         get => _value;
         set => Change(ref _value, value);
