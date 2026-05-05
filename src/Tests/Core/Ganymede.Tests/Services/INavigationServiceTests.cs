@@ -17,7 +17,7 @@ internal class INavigationServiceTests
     [Test]
     public async Task Navigate_TViewModel_With_Valid_Type_Navigates_To_New_Instance()
     {
-        Assert.DoesNotThrowAsync(_mockService.Object.Navigate<TestViewModelMock>);
+        Assert.DoesNotThrowAsync((Func<Task>)(() => _mockService.Object.Navigate<TestViewModelMock>()));
         _mockService.Verify(p => p.Navigate(It.IsAny<TestViewModelMock>()), Times.Once);
     }
 
@@ -25,14 +25,14 @@ internal class INavigationServiceTests
     public async Task Navigate_TViewModel_TState_With_Valid_Type_And_State_Navigates_To_New_Instance_With_State()
     {
         var state = "TestState";
-        Assert.DoesNotThrowAsync(async () => await _mockService.Object.Navigate<TestStatefulViewModel, string>(state));
+        Assert.DoesNotThrowAsync((Func<Task>)(() => _mockService.Object.Navigate<TestStatefulViewModel, string>(state)));
         _mockService.Verify(p => p.Navigate(It.Is<TestStatefulViewModel>(q => q.State == state)), Times.Once);
     }
 
     [Test]
     public async Task NavigateAndReset_TViewModel_With_Valid_Type_Navigates_To_New_Instance()
     {
-        Assert.DoesNotThrowAsync(_mockService.Object.NavigateAndReset<TestViewModelMock>);
+        Assert.DoesNotThrowAsync((Func<Task>)(() => _mockService.Object.NavigateAndReset<TestViewModelMock>()));
         _mockService.Verify(p => p.NavigateAndReset(It.IsAny<TestViewModelMock>()), Times.Once);
     }
 
@@ -40,14 +40,14 @@ internal class INavigationServiceTests
     public async Task NavigateAndReset_TViewModel_TState_With_Valid_Type_And_State_Navigates_To_New_Instance_With_State()
     {
         var state = "TestState";
-        Assert.DoesNotThrowAsync(async () => await _mockService.Object.NavigateAndReset<TestStatefulViewModel, string>(state));
+        Assert.DoesNotThrowAsync((Func<Task>)(() => _mockService.Object.NavigateAndReset<TestStatefulViewModel, string>(state)));
         _mockService.Verify(p => p.NavigateAndReset(It.Is<TestStatefulViewModel>(q => q.State == state)), Times.Once);
     }
 
     [Test]
     public async Task Reset_Calls_NavigateAndReset_With_Null()
     {
-        Assert.DoesNotThrowAsync(_mockService.Object.Reset);
+        Assert.DoesNotThrowAsync((Func<Task>)(() => _mockService.Object.Reset()));
         _mockService.Verify(p => p.NavigateAndReset(null), Times.Once);
     }
 }

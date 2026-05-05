@@ -17,8 +17,8 @@ public class ComboSelectionDialogTemplateBuilder : IDialogTemplateBuilder
 {
     StyledElement? IDialogTemplateBuilder.Build(IDialogViewModel viewModel) => new ComboBox()
     {
-        DisplayMemberBinding = new Binding(nameof(INameable.Name), BindingMode.OneWay),
-        [!ItemsControl.ItemsSourceProperty] = new Binding(nameof(SelectionDialogViewModel<object>.Options), BindingMode.OneWay),
+        DisplayMemberBinding = new Binding(nameof(INameable.Name)) { Mode = BindingMode.OneWay },
+        [!ItemsControl.ItemsSourceProperty] = new Binding(nameof(SelectionDialogViewModel<object>.Options)) { Mode = BindingMode.OneWay },
         [!SelectingItemsControl.SelectedItemProperty] = new Binding(nameof(SelectionDialogViewModel<object>.Value))
     };
 

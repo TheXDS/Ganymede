@@ -86,7 +86,7 @@ public class CommandBuilderTests
         var vm = new TestViewModel();
         var builder = CommandBuilder.For(vm);
         ICommand command = builder.BuildInvalid();
-        Assert.That(() => command.Execute(null), Throws.TypeOf<InvalidOperationException>());
+        Assert.That((Action)(() => command.Execute(null)), Throws.TypeOf<InvalidOperationException>());
     }
 
     [Test]

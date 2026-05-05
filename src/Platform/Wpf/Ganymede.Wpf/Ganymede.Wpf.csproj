@@ -7,10 +7,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="TheXDS.MCART.Mvvm" Version="1.0.0-alpha.1" />
-		<PackageReference Include="TheXDS.MCART.UI" Version="1.0.0-alpha.1" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="1.0.0-alpha.1" />
-		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="1.0.0-alpha.1" />
+		<PackageReference Include="TheXDS.MCART.Mvvm" Version="1.0.0-alpha.3" />
+		<PackageReference Include="TheXDS.MCART.UI" Version="1.0.0-alpha.3" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Common" Version="1.0.0-alpha.3" />
+		<PackageReference Include="TheXDS.MCART.Wpf.Controls" Version="1.0.0-alpha.3" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Ganymede.Wpf.Core\Ganymede.Wpf.Core.csproj" />

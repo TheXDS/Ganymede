@@ -81,7 +81,7 @@ internal class JsonConfigurationRepositoryTests
     {
         storeMock.Setup(p => p.GetWriteStream()).Throws(new IOException("Test exception"));
         var config = new TestConfig { Name = "Test", Value = 1 };
-        await Assert.ThatAsync(() => repository.SaveAsync(config), Throws.InstanceOf<IOException>());
+        await Assert.ThatAsync((Func<Task>)(() => repository.SaveAsync(config)), Throws.InstanceOf<IOException>());
     }
 
     [Test]

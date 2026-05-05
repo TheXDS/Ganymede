@@ -226,7 +226,7 @@ internal class CustomizableDialogServiceTests
     [Test]
     public void When_No_Override_And_No_Default_Implementation_Then_UndefinedBehaviorException_Is_Thrown()
     {
-        Assert.That(async () => await ((IDialogService)service).AskYn("Test question"), Throws.TypeOf<UndefinedBehaviorException>());
+        Assert.That((Func<Task<bool>>)(() => ((IDialogService)service).AskYn("Test question")), Throws.TypeOf<UndefinedBehaviorException>());
     }
 
     [Test]

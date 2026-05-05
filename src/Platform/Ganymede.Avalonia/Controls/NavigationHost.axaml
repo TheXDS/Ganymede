@@ -4,7 +4,7 @@
   xmlns:mcart="http://schemas.thexds.local/mcart"
   xmlns:controls="using:TheXDS.Ganymede.Controls">
   <Design.PreviewWith>
-    <StackPanel Width="400" Spacing="10">      
+    <StackPanel Width="400" Spacing="10">
         <StackPanel Background="{DynamicResource SystemRegionBrush}">
         <TextBlock Text="Templated Control1" />
           <controls:NavigationHost />
@@ -19,7 +19,7 @@
           <Panel.Resources>
             <mcart:NullToBooleanConverter x:Key="N2Bc"/>
             <mcart:BooleanInverter x:Key="BoolInv"/>
-          </Panel.Resources>          
+          </Panel.Resources>
           <controls:BusyContainer
             IsBusy="{Binding Navigator.CurrentViewModel.IsBusy, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
             IsEnabled="{TemplateBinding OverlayContent, Converter={StaticResource N2Bc}}">

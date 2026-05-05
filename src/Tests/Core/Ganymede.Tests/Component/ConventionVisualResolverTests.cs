@@ -27,6 +27,6 @@ internal class ConventionVisualResolverTests
     public void Resolve_throws_on_null_viewmodel()
     {
         var resolver = new ConventionVisualResolver<object>();
-        Assert.That(() => resolver.Resolve(null!), Throws.ArgumentNullException);
+        Assert.That((Func<object?>)(() => resolver.Resolve(null!)), Throws.ArgumentNullException);
     }
 }
